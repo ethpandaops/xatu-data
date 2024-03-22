@@ -21,9 +21,11 @@ generate_schema() {
         schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
         
         echo "### $table_name"
+        echo ""
         echo "> $table_description"
-        echo "| Column Name | Column Type | Comment |"
-        echo "|-------------|-------------|---------|"
+        echo ""
+        echo "| Column | Type | Description |"
+        echo "|--------|------|-------------|"
         
         echo "$schema" | while IFS=$'\t' read -r name type comment; do
             if [[ ! " $excluded_columns " =~ " $name " ]]; then
