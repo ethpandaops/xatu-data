@@ -12,11 +12,14 @@
 xyz
 
 
+
 ## Schema
 ### beacon_api_eth_v1_events_head
+
 > This is table1
-| Column Name | Column Type | Comment |
-|-------------|-------------|---------|
+
+| Column | Type | Description |
+|--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
 | slot | UInt32 | Slot number in the beacon API event stream payload |
 | slot_start_date_time | DateTime | The wall clock time when the slot started |
@@ -51,9 +54,11 @@ xyz
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_block
+
 > This is table1
-| Column Name | Column Type | Comment |
-|-------------|-------------|---------|
+
+| Column | Type | Description |
+|--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
 | slot | UInt32 | Slot number in the beacon API event stream payload |
 | slot_start_date_time | DateTime | The wall clock time when the slot started |
