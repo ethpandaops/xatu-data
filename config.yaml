@@ -1,75 +1,157 @@
 tables:
-  - name: beacon_api_eth_v1_events_head
-    excluded_columns:
-      - meta_client_id
-    description: This is table1
-  - name: beacon_api_eth_v1_events_block
-    excluded_columns:
-      - meta_client_id
-    description: This is table1
-
   - name: beacon_api_eth_v1_beacon_committee
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_attestation
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_blob_sidecar
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_block
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_chain_reorg
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_contribution_and_proof
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_head
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_events_voluntary_exit
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v1_validator_attestation_data
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_eth_v2_beacon_block
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: beacon_api_slot
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI
   - name: mempool_transaction
     excluded_columns: []
     description: TODO
+    start_date: "2023-01-01 00:00:00"
+    interval: hourly
+    lag: 1h
+    networks:
+      - mainnet
+      - holesky
+      - sepolia
     tags:
       - BeaconAPI

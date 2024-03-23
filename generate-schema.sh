@@ -14,16 +14,26 @@ generate_schema() {
     echo "## Schema"
     yq e '.tables[]' "$config_file" -o=json | jq -c '.' | while read -r table_config; do
         table_name=$(echo "$table_config" | jq -r '.name')
-        table_description=$(echo "$table_config" | jq -r '.description')
-        
+        table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
+
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
         
         schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
-        
+
+        networks=$(echo "$table_config" | jq -r '.networks[]')
+
         echo "### $table_name"
         echo ""
         echo "> $table_description"
         echo ""
+
+        # New block to format and print networks as badges
+        if [ ! -z "$networks" ]; then
+            for network in $networks; do
+                echo "{{< badge >}} $network {{< /badge >}}"
+            done
+        fi
+
         echo "| Column | Type | Description |"
         echo "|--------|------|-------------|"
         
