@@ -40,7 +40,7 @@ generate_schema() {
         
         echo "$schema" | while IFS=$'\t' read -r name type comment; do
             if [[ ! " $excluded_columns " =~ " $name " ]]; then
-                echo "| **$name** | {{< badge >}} $type {{< /badge >}} | *$comment* |"
+                echo "| **$name** | \`$type\` | *$comment* |"
             fi
         done
         
