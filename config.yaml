@@ -12,19 +12,9 @@ tables:
     tags:
       - BeaconAPI
     quirks: >-
-      - name: "beacon_api_eth_v1_beacon_committee"
-        quirks:
-          - name: "beacon_api_eth_v1_beacon_committee"
-            description: "TODO"
-            start_date: "2023-01-01 00:00:00"
-            interval: hourly
-            lag: 1h
-            networks:
-              - mainnet
-              - holesky
-              - sepolia
-            tags:
-              - BeaconAPI
+      This data has some **weird** stuff [happening](https://example.com).
+
+      Check out something something.
   - name: beacon_api_eth_v1_events_attestation
     excluded_columns: []
     description: TODO

@@ -33,11 +33,12 @@ generate_schema() {
         fi
         echo ""
         echo "{{< /keywordList >}}"
+        echo ""
+        echo "{{< lead >}} $table_description {{< /lead >}}"
+        echo ""
         if [ ! -z "$quirk" ]; then
             echo "{{<alert >}} $quirk {{< /alert >}}"
         fi
-        echo ""
-        echo "{{< lead >}} $table_description {{< /lead >}}"
         echo ""
         echo "| Column | Type | Description |"
         echo "|--------|------|-------------|"
