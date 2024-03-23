@@ -23,24 +23,24 @@ generate_schema() {
         networks=$(echo "$table_config" | jq -r '.networks[]')
 
         echo "### $table_name"
-
+        echo ""
+        echo "{{< keywordList >}}"
         if [ ! -z "$networks" ]; then
             for network in $networks; do
-                echo -n "{{< badge >}} $network {{< /badge >}} "
+                echo -n "{{< keyword >}} $network {{< /keyword >}}"
             done
         fi
-
         echo ""
+        echo "{{< /keywordList >}}"
         echo ""
-        echo "> $table_description"
+        echo "{{< lead >}} $table_description {{< /lead >}}"
         echo ""
-
         echo "| Column | Type | Description |"
         echo "|--------|------|-------------|"
         
         echo "$schema" | while IFS=$'\t' read -r name type comment; do
             if [[ ! " $excluded_columns " =~ " $name " ]]; then
-                echo "| $name | $type | $comment |"
+                echo "| **$name** | \`\`\`sql $type \`\`\` | *$comment* |"
             fi
         done
         
