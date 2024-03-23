@@ -14,6 +14,7 @@ generate_schema() {
     echo "## Schema"
     yq e '.tables[]' "$config_file" -o=json | jq -c '.' | while read -r table_config; do
         table_name=$(echo "$table_config" | jq -r '.name')
+        quirk=$(echo "$table_config" | jq -r '.quirks')
         table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
 
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
@@ -32,6 +33,9 @@ generate_schema() {
         fi
         echo ""
         echo "{{< /keywordList >}}"
+        if [ ! -z "$quirk" ]; then
+            echo "{{<alert >}} $quirk {{< /alert >}}"
+        fi
         echo ""
         echo "{{< lead >}} $table_description {{< /lead >}}"
         echo ""

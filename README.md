@@ -21,15 +21,25 @@
 {{< badge >}} 🌍 Public{{< /badge >}}
 
 
-
-
-
 ## Schema
 ### beacon_api_eth_v1_beacon_committee
 
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} - name: "beacon_api_eth_v1_beacon_committee"
+  quirks:
+    - name: "beacon_api_eth_v1_beacon_committee"
+      description: "TODO"
+      start_date: "2023-01-01 00:00:00"
+      interval: hourly
+      lag: 1h
+      networks:
+        - mainnet
+        - holesky
+        - sepolia
+      tags:
+        - BeaconAPI {{< /alert >}}
 
 {{< lead >}} Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -70,6 +80,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -120,6 +131,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -163,6 +175,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "block" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -204,6 +217,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -249,6 +263,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -295,6 +310,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -334,6 +350,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "head" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -378,6 +395,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -416,6 +434,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -465,6 +484,7 @@
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node. {{< /lead >}}
@@ -563,6 +583,7 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Aggregated beacon API slot data. Each row represents a slot from each sentry client attached to a beacon node. {{< /lead >}}
 
@@ -588,6 +609,7 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 {{< keywordList >}}
 {{< keyword >}} mainnet {{< /keyword >}}{{< keyword >}} holesky {{< /keyword >}}{{< keyword >}} sepolia {{< /keyword >}}
 {{< /keywordList >}}
+{{<alert >}} null {{< /alert >}}
 
 {{< lead >}} Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report. {{< /lead >}}
 
@@ -631,6 +653,3 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 | **meta_execution_fork_id_next** | `LowCardinality(String)` | *The fork ID of the next planned Ethereum network upgrade* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-## Credits
-
-John Smith
