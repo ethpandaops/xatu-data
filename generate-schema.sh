@@ -23,16 +23,17 @@ generate_schema() {
         networks=$(echo "$table_config" | jq -r '.networks[]')
 
         echo "### $table_name"
+
+        if [ ! -z "$networks" ]; then
+            for network in $networks; do
+                echo -n "{{< badge >}} $network {{< /badge >}} "
+            done
+        fi
+
+        echo ""
         echo ""
         echo "> $table_description"
         echo ""
-
-        # New block to format and print networks as badges
-        if [ ! -z "$networks" ]; then
-            for network in $networks; do
-                echo "{{< badge >}} $network {{< /badge >}}"
-            done
-        fi
 
         echo "| Column | Type | Description |"
         echo "|--------|------|-------------|"

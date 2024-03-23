@@ -21,16 +21,12 @@
 {{< badge >}} 🌍 Public{{< /badge >}}
 
 
-
-
 ## Schema
 ### beacon_api_eth_v1_beacon_committee
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > 
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) |  |
@@ -64,12 +60,10 @@
 | meta_labels | Map(String, String) |  |
 
 ### beacon_api_eth_v1_events_attestation
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -113,12 +107,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_blob_sidecar
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > 
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -155,12 +147,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_block
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -195,12 +185,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_chain_reorg
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -239,12 +227,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_contribution_and_proof
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -284,12 +270,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_finalized_checkpoint
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -322,12 +306,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_head
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -365,12 +347,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_events_voluntary_exit
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -402,12 +382,10 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v1_validator_attestation_data
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > 
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry received the event from a beacon node |
@@ -450,13 +428,11 @@
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_eth_v2_beacon_block
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | When the sentry fetched the beacon block from a beacon node |
@@ -547,12 +523,10 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 | meta_labels | Map(String, String) | Labels associated with the event |
 
 ### beacon_api_slot
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Aggregated beacon API slot data. Each row represents a slot from each sentry client attached to a beacon node.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | slot | UInt32 | Slot number |
@@ -571,12 +545,10 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 | attestations | AggregateFunction(sum, UInt32) | The number of attestations seen in the slot |
 
 ### mempool_transaction
+{{< badge >}} mainnet {{< /badge >}} {{< badge >}} holesky {{< /badge >}} {{< badge >}} sepolia {{< /badge >}} 
 
 > Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 
-{{< badge >}} mainnet {{< /badge >}}
-{{< badge >}} holesky {{< /badge >}}
-{{< badge >}} sepolia {{< /badge >}}
 | Column | Type | Description |
 |--------|------|-------------|
 | event_date_time | DateTime64(3) | The time when the sentry saw the transaction in the mempool |
