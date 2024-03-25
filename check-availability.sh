@@ -33,6 +33,18 @@ if ! [[ "$START_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] || ! [[ "$END_DATE" =~ 
     usage
 fi
 
+echo "You are about to insert data into the ClickHouse cluster that the 'clickhouse client' will connect to."
+echo "You can edit the following CLICKHOUSE_ environment variables to change to a different cluster:"
+echo "CLICKHOUSE_HOST, CLICKHOUSE_PORT, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD"
+read -p "Do you want to proceed? (y/n): " proceed
+
+if [[ "$proceed" != "y" ]]; then
+    echo "Operation cancelled by the user."
+    exit 1
+fi
+
+
+
 # Path to config file
 CONFIG_FILE="./config.yaml"
 
@@ -43,7 +55,7 @@ if ! command -v yq &> /dev/null; then
 fi
 
 # Read table configuration from config.yaml
-INTERVAL=$(yq e ".tables[] | select(.name == \"$TABLE\").interval" "$CONFIG_FILE")
+HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
 
 # Check if running on macOS and use gdate if available
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -70,7 +82,7 @@ while [[ "$CURRENT_DATE" != $(date -d "$END_DATE + 1 day" '+%Y-%m-%d') ]]; do
     MONTH=$(date -d "$CURRENT_DATE" '+%-m')
     DAY=$(date -d "$CURRENT_DATE" '+%-d')
 
-    if [[ "$INTERVAL" == "hourly" ]]; then
+    if [[ "$HOURLY_PARTITIONING" == "true" ]]; then
         for HOUR in {0..23}; do
             URL="$BASE_URL/$YEAR/$MONTH/$DAY/$HOUR.parquet"
             # Fire a HTTP HEAD request to check availability for each hour
@@ -99,4 +111,3 @@ while [[ "$CURRENT_DATE" != $(date -d "$END_DATE + 1 day" '+%Y-%m-%d') ]]; do
 done
 
 log "Summary: $available_days available, $unavailable_days not available from $START_DATE to $END_DATE for $DATABASE.$TABLE on $NETWORK"
-

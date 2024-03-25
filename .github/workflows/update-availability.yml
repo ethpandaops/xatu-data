@@ -1,0 +1,33 @@
+name: update availability
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+    
+jobs:
+  update-availability:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+      - name: Run update-availability script
+        run: |
+          chmod +x ./update-availability.sh
+          ./update-availability.sh
+      - name: Run update-availability script
+        run: |
+          chmod +x ./generate-schema.sh
+          ./generate-schema.sh
+      - name: Commit changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git add -A
+          git commit -m "Update data availability" || echo "No changes to commit"
+          git push

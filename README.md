@@ -58,7 +58,15 @@ EOF
 You might want to download data from multiple tables and query the data. You can use our docker compose setup to run ClickHouse locally and have the schema migrations already applied for ease of use.
 
 1. Run xatu [clickhouse docker compose](https://github.com/ethpandaops/xatu?tab=readme-ov-file#locally-via-docker-compose) to stand up a local ClickHouse cluster with the xatu [migrations](https://github.com/ethpandaops/xatu/tree/master/deploy/migrations/clickhouse) automatically applied.
-2. Import the data you want using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+2. To import data you have 2 options:
+  - Use the [import-clickhouse.sh](https://github.com/ethpandaops/xatu-data/blob/master/import-clickhouse.sh) script. 
+
+```bash
+./import-clickhouse.sh mainnet default beacon_api_eth_v1_events_block 2024-03-20
+
+```
+
+  - Import the data you want directly using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
 
 ```bash
 clickhouse-client --query="$(<< 'EOF'
