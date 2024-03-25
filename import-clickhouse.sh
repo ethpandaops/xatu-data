@@ -3,6 +3,7 @@
 # Import dep scripts
 source ./scripts/clickhouse.sh
 source ./scripts/log.sh
+source ./scripts/date.sh
 
 set -e
 
@@ -66,18 +67,6 @@ fi
 
 # Read table configuration from config.yaml
 HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
-
-# Check if running on macOS and use gdate if available
-if [[ "$(uname)" == "Darwin" ]]; then
-    if command -v gdate &> /dev/null; then
-        date() {
-            gdate "$@"
-        }
-    else
-        log "GNU date (gdate) is not installed. Please install it using 'brew install coreutils' to ensure compatibility."
-        exit 1
-    fi
-fi
 
 # Loop through each day from START_DATE to END_DATE
 CURRENT_DATE="$START_DATE"

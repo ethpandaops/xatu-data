@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ./scripts/date.sh
+
 # Configuration
 clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
 hugo=${HUGO:-false}

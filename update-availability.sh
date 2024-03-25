@@ -2,6 +2,7 @@
 
 # Import dep scripts
 source ./scripts/log.sh
+source ./scripts/date.sh
 
 set -e
 
@@ -12,18 +13,6 @@ CONFIG_FILE="./config.yaml"
 if ! command -v yq &> /dev/null; then
     log "Required command 'yq' is not installed. Please install it to proceed."
     exit 1
-fi
-
-# Check if running on macOS and use gdate if available
-if [[ "$(uname)" == "Darwin" ]]; then
-    if command -v gdate &> /dev/null; then
-        date() {
-            gdate "$@"
-        }
-    else
-        log "GNU date (gdate) is not installed. Please install it using 'brew install coreutils' to ensure compatibility."
-        exit 1
-    fi
 fi
 
 # Read tables from config.yaml
@@ -73,7 +62,7 @@ for TABLE in $TABLES; do
         if [ -n "$FROM_DATE" ] && [ -n "$TO_DATE" ]; then
             log "Data exists in $DATABASE.$TABLE on $NETWORK from $FROM_DATE to $TO_DATE"
             # Swap FROM and TO dates so they're more human readable
-            
+
             FROM_CMD="yq e \".tables |= map(select(.name == \\\"$TABLE\\\").networks.$NETWORK.to = \\\"$FROM_DATE\\\")\" -i \"$CONFIG_FILE\""
             TO_CMD="yq e \".tables |= map(select(.name == \\\"$TABLE\\\").networks.$NETWORK.from = \\\"$TO_DATE\\\")\" -i \"$CONFIG_FILE\""
             eval $FROM_CMD

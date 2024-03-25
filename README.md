@@ -99,16 +99,15 @@ EOF
 
 <!-- schema_start -->
 ### beacon_api_eth_v1_beacon_committee
-Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
+
 > Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
 
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 03:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-25` to `2024-03-23`
+- **holesky**: `2023-12-25` to `2024-03-23`
+- **sepolia**: `2023-12-24` to `2024-03-23`
 
 #### Example
 
@@ -121,35 +120,35 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK
 #### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
-| **slot** | `UInt32` | *Slot number in the beacon API committee payload* |
-| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **committee_index** | `LowCardinality(String)` | *The committee index in the beacon API committee payload* |
-| **validators** | `Array(UInt32)` | *The validator indices in the beacon API committee payload* |
-| **epoch** | `UInt32` | *The epoch number in the beacon API committee payload* |
-| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version that generated the event* |
-| **meta_consensus_version_major** | `LowCardinality(String)` | *Ethereum consensus client major version that generated the event* |
-| **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
-| **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
-| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **slot** | `UInt32` | ** |
+| **slot_start_date_time** | `DateTime` | ** |
+| **committee_index** | `LowCardinality(String)` | ** |
+| **validators** | `Array(UInt32)` | ** |
+| **epoch** | `UInt32` | ** |
+| **epoch_start_date_time** | `DateTime` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_consensus_version** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_major** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | ** |
+| **meta_consensus_implementation** | `LowCardinality(String)` | ** |
+| **meta_labels** | `Map(String, String)` | ** |
 
 ### beacon_api_eth_v1_events_attestation
 Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -157,10 +156,9 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-06-01 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-09-18 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-08-31 12:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-08-31 12:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2024-02-20` to `2024-03-23`
+- **holesky**: `2024-02-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -214,15 +212,14 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_blob_sidecar
-Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+
 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2024-03-13 13:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2024-02-07 11:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2024-01-30 22:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2024-01-17 06:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -274,10 +271,9 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-03-01 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 00:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -327,10 +323,9 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-03-01 02:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2024-02-05 02:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-30 10:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 04:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -384,10 +379,9 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-31 04:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 04:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 04:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 04:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -442,10 +436,9 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-31 23:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 03:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -493,10 +486,9 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-30 19:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-05 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-05 00:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-05 00:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -549,7 +541,7 @@ Contains beacon API eventstream "voluntary exit" data from each sentry client at
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2020-12-01 12:00:00` to `2021-01-08 07:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
 
 #### Example
 
@@ -591,15 +583,14 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_validator_attestation_data
-Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node.
+
 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-31 04:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 02:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 02:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 02:00:00` to `2024-03-16 01:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -653,15 +644,13 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 
 ### beacon_api_eth_v2_beacon_block
 Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
-Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2020-12-01 12:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **holesky**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **sepolia**: `2023-12-24 03:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 03:00:00` to `2024-03-18 00:00:00`
+- **mainnet**: `2023-12-26` to `2024-03-23`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-12-20` to `2024-03-23`
 
 #### Example
 
@@ -720,46 +709,6 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
-| **event_date_time** | `DateTime64(3)` | *When the sentry fetched the beacon block from a beacon node* |
-| **slot** | `UInt32` | *The slot number from beacon block payload* |
-| **slot_start_date_time** | `DateTime` | *The wall clock time when the reorg slot started* |
-| **epoch** | `UInt32` | *The epoch number from beacon block payload* |
-| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **block_root** | `FixedString(66)` | *The root hash of the beacon block* |
-| **parent_root** | `FixedString(66)` | *The root hash of the parent beacon block* |
-| **state_root** | `FixedString(66)` | *The root hash of the beacon state at this block* |
-| **proposer_index** | `UInt32` | *The index of the validator that proposed the beacon block* |
-| **eth1_data_block_hash** | `FixedString(66)` | *The block hash of the associated execution block* |
-| **eth1_data_deposit_root** | `FixedString(66)` | *The root of the deposit tree in the associated execution block* |
-| **execution_payload_block_hash** | `FixedString(66)` | *The block hash of the execution payload* |
-| **execution_payload_block_number** | `UInt32` | *The block number of the execution payload* |
-| **execution_payload_fee_recipient** | `String` | *The recipient of the fee for this execution payload* |
-| **execution_payload_state_root** | `FixedString(66)` | *The state root of the execution payload* |
-| **execution_payload_parent_hash** | `FixedString(66)` | *The parent hash of the execution payload* |
-| **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
-| **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version that generated the event* |
-| **meta_consensus_version_major** | `LowCardinality(String)` | *Ethereum consensus client major version that generated the event* |
-| **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
-| **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
-| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### mempool_transaction
 Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
@@ -770,7 +719,6 @@ Data is available **daily** on the following networks;
 - **mainnet**: `2023-03-03 03:00:00` to `NOW() - INTERVAL '1 DAY'`
 - **holesky**: `2023-12-24 02:00:00` to `NOW() - INTERVAL '1 DAY'`
 - **sepolia**: `2023-12-24 02:00:00` to `NOW() - INTERVAL '1 DAY'`
-- **goerli**: `2023-12-24 02:00:00` to `2024-03-18 00:00:00`
 
 #### Example
 
