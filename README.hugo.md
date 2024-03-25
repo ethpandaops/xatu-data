@@ -1,4 +1,4 @@
-{{< alert icon="info" >}}
+{{< alert icon="circle-info" >}}
 This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events.
 {{< /alert >}}
 
