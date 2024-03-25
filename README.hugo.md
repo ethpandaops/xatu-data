@@ -1,6 +1,6 @@
-# Xatu data
-
-The dataset contains a wealth of information about the Ethereum network, including detailed data on beacon chain events, mempool activity, and canonical chain events.
+{{< alert icon="info" >}}
+This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events.
+{{< /alert >}}
 
 ## Table of contents
 
@@ -52,13 +52,18 @@ We aim to empower researchers, developers, and enthusiasts to explore the Ethere
 
 In-house we're using it for monitoring, analysis and incident response. Notably it was used for the [Big Blocks Test](https://notes.ethereum.org/@samcm/big-blocks) on Goerli/Mainnet in 2023 to help decide the EIP4844 blob parameters. It has also been the first port of call for analysing how Dencun performed through the fork lifecycle of [Devnets](https://notes.ethereum.org/@ethpandaops/dencun-devnet-10-analysis) -> [Testnets](https://notes.ethereum.org/@ethpandaops/goerli-sf-0-analysis) -> [Mainnet](../dencun-fork-analysis).
 
+{{< github repo="ethpandaops/xatu" >}}
+
 ## What's in the dataset?
 
 [Xatu](https://github.com/ethpandaops/Xatu) has it's fingers in a lot of pies so we categorize the data into a few different types.
 
 ### Beacon API Events
 
-> Last 31 days published
+{{< alert icon="check" >}}
+
+Last 31 days published
+{{< /alert >}}
 
 Events that are derived from the [Beacon API Event Stream](https://ethereum.github.io/beacon-APIs/#/Events/eventstream) via Xatu Sentry from all consensus clients in multiple regions and networks. All events are annotated with additional data to help with analysis. For example, the `attestation` events have information about _when_ the attestation was seen, and even the `validator_index` of the attestation. **Mainnet data exists from June 2023.**
 
@@ -70,7 +75,9 @@ Events that are derived from the [Beacon API Event Stream](https://ethereum.gith
 
 ### Mempool Events
 
-> Publishing soon <sup>tm</sup>
+{{< alert icon="fire" >}}
+Publishing soon <sup>tm</sup>
+{{< /alert >}}
 
 Events that are derived from Xatu Mimicry which connects to the execution p2p network. We'll be publishing these events in the next few days. **Mainnet data exists from March 2023.**
 
@@ -78,7 +85,9 @@ Events that are derived from Xatu Mimicry which connects to the execution p2p ne
 
 ### Canonical Events
 
-> Publishing soon <sup>tm</sup>
+{{< alert icon="fire" >}}
+Publishing soon <sup>tm</sup>
+{{< /alert >}}
 
 We also derive events from the finalized chain which we call `canonical` events. **Mainnet data exists from Beacon Chain genesis in December 2020.**
 
@@ -128,9 +137,8 @@ FROM
 
 ### beacon_api_eth_v1_beacon_committee
 
-Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
-
-> Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
+{{< lead >}} Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node. {{< /lead >}}
+{{<alert >}} Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch. {{< /alert >}}
 
 #### Availability
 
@@ -177,7 +185,7 @@ Data is available **hourly** on the following networks;
 
 ### beacon_api_eth_v1_events_attestation
 
-Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -234,7 +242,7 @@ Data is available **hourly** on the following networks;
 
 ### beacon_api_eth_v1_events_blob_sidecar
 
-Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -284,7 +292,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_block
 
-Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "block" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -332,7 +340,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_chain_reorg
 
-Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -384,7 +392,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_contribution_and_proof
 
-Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -437,7 +445,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_finalized_checkpoint
 
-Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -483,7 +491,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_head
 
-Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "head" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -534,7 +542,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_events_voluntary_exit
 
-Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -576,7 +584,7 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v1_validator_attestation_data
 
-Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -632,8 +640,8 @@ Data is available **daily** on the following networks;
 
 ### beacon_api_eth_v2_beacon_block
 
-Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
-Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 
@@ -737,7 +745,7 @@ Data is available **daily** on the following networks;
 
 ### mempool_transaction
 
-Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
+{{< lead >}} Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report. {{< /lead >}}
 
 #### Availability
 

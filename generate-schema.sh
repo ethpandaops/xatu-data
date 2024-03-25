@@ -1,46 +1,52 @@
 #!/bin/bash
 
 # Configuration
-config_file="config.yaml"
-clickhouse_host="http://localhost:8123"
-readme_file="README.md"
+clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
+hugo=${HUGO:-false}
+config_file=${CONFIG:-config.yaml}
+readme_file=${README:-README.md}
 
 # Temporary files
 temp_schema_file=$(mktemp)
-temp_readme=$(mktemp)
+temp_toc_readme=$(mktemp)
+temp_schema_readme=$(mktemp)
 
 # Generate the schema markdown
 generate_schema() {
-    echo "## Schema"
     yq e '.tables[]' "$config_file" -o=json | jq -c '.' | while read -r table_config; do
         table_name=$(echo "$table_config" | jq -r '.name')
-        quirk=$(echo "$table_config" | jq -r '.quirks')
+        quirks=$(echo "$table_config" | jq -r '.quirks')
+        interval=$(echo "$table_config" | jq -r '.interval')
         table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
 
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
         
         schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
 
-        networks=$(echo "$table_config" | jq -r '.networks[]')
-
         echo "### $table_name"
-        echo ""
-        echo "{{< keywordList >}}"
-        if [ ! -z "$networks" ]; then
-            for network in $networks; do
-                echo -n "{{< keyword >}} $network {{< /keyword >}}"
-            done
+        # check if hugo is set
+        if [ "$hugo" = true ]; then
+            echo "{{< lead >}} $table_description {{< /lead >}}"
+        else
+            echo "$table_description"
+        fi
+
+        if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
+            if [ "$hugo" = true ]; then
+                echo "{{<alert >}} $quirks {{< /alert >}}"
+            else
+                echo "> $quirks"
+            fi
         fi
         echo ""
-        echo "{{< /keywordList >}}"
+        echo "#### Availability"
+        echo "Data is available **$interval** on the following networks;"
+        echo "$table_config" | jq -r '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' | while read -r network_info; do
+            echo "- $network_info"
+        done
         echo ""
-        echo "{{< lead >}} $table_description {{< /lead >}}"
-        echo ""
-        if [ ! -z "$quirk" ]; then
-            echo "{{<alert >}} $quirk {{< /alert >}}"
-        fi
-        echo ""
-        echo "| Column | Type | Description |"
+        echo "#### Columns"
+        echo "| Name | Type | Description |"
         echo "|--------|------|-------------|"
         
         echo "$schema" | while IFS=$'\t' read -r name type comment; do
@@ -53,40 +59,39 @@ generate_schema() {
     done
 }
 
-# Generate schema markdown
+# Generate schema markdown and store it in a temporary file
 generate_schema > "$temp_schema_file"
 
-# Rebuild the README to properly place the ToC and Schema
+# Generate the updated Tables TOC
+schema_toc=$(yq e '.tables[]' "$config_file" -o=json | jq -r '.name' | while read -r table_name; do
+    echo "  - [$table_name](#${table_name// /-})"
+done)
+
+# update ToC
 {
-    # Preserve content before the existing ToC
-    awk '/## Table of contents/{exit}1' "$readme_file"
+    awk '/<!-- table_toc_start -->/{exit}1' "$readme_file"
     
-    # Generate the updated ToC
-    echo "## Table of contents"
-    echo "- [How to use](#how-to-use)"
-    echo "- [Schema](#schema)"
-    yq e '.tables[]' "$config_file" -o=json | jq -r '.name' | while read -r table_name; do
-        echo "  - [$table_name](#${table_name// /-})"
-    done
-    echo "- [Credits](#credits)"
-    echo
+    echo "- [Tables](#tables)<!-- table_toc_start -->"
+    echo "$schema_toc"
+    echo "<!-- table_toc_end -->"
 
-    # Preserve the "How to use" section or any content up to "## Schema"
-    awk '/## How to use/,/## Schema/{if(!/## Schema/)print}' "$readme_file"
-    echo
+    awk '/<!-- table_toc_end -->/{flag=1}flag' "$readme_file" | tail -n +2
+} > "$temp_toc_readme"
 
-    # Insert the Schema Section
+# update schema
+{
+    awk '/<!-- table_start -->/{exit}1' "$temp_toc_readme"
+    
+    echo "<!-- table_start -->"
     cat "$temp_schema_file"
-
-    # Preserve content after "## Schema"
-    awk '/## Schema/{flag=1;next}/##/{flag=0}flag' "$readme_file" | tail -n +2
+    echo "<!-- table_end -->"
     
-    # Ensure "Credits" and any content afterwards are preserved
-    awk '/## Credits/{flag=1}flag' "$readme_file"
-} > "$temp_readme"
+    awk '/<!-- table_end -->/{flag=1}flag' "$temp_toc_readme" | tail -n +2
+} > "$temp_schema_readme"
 
 # Replace the original README with the new content
-mv "$temp_readme" "$readme_file"
+mv "$temp_schema_readme" "$readme_file"
 
 # Cleanup
 rm "$temp_schema_file"
+rm "$temp_toc_readme"

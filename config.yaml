@@ -1,161 +1,190 @@
 tables:
   - name: beacon_api_eth_v1_beacon_committee
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
     interval: hourly
-    lag: 1h
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 03:00:00"
+        to: "2024-03-18 00:00:00"
     quirks: >-
-      This data has some **weird** stuff [happening](https://example.com).
-
-      Check out something something.
+      Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
   - name: beacon_api_eth_v1_events_attestation
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
     interval: hourly
-    lag: 1h
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-06-01 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-09-18 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-08-31 12:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-08-31 12:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_blob_sidecar
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2024-03-13 13:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2024-02-07 11:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2024-01-30 22:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2024-01-17 06:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_block
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-03-01 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 00:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_chain_reorg
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-03-01 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2024-02-05 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-30 10:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 04:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_contribution_and_proof
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-08-31 04:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 04:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 04:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 04:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-08-31 23:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 03:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_head
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-08-30 19:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-05 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-05 00:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-05 00:00:00"
+        to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_voluntary_exit
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2020-12-01 12:00:00"
+        to: "2021-01-08 07:00:00"
   - name: beacon_api_eth_v1_validator_attestation_data
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2023-08-31 04:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 02:00:00"
+        to: "2024-03-16 01:00:00"
   - name: beacon_api_eth_v2_beacon_block
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
-  - name: beacon_api_slot
-    excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
-    networks:
-      - mainnet
-      - holesky
-      - sepolia
-    tags:
-      - BeaconAPI
+      mainnet:
+        from: "2020-12-01 12:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 03:00:00"
+        to: "2024-03-18 00:00:00"
   - name: mempool_transaction
     excluded_columns: []
-    description: TODO
-    start_date: "2023-01-01 00:00:00"
-    interval: hourly
-    lag: 1h
+    interval: daily
     networks:
-      - mainnet
-      - holesky
-      - sepolia
+      mainnet:
+        from: "2023-03-03 03:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      holesky:
+        from: "2023-12-24 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      sepolia:
+        from: "2023-12-24 02:00:00"
+        to: "NOW() - INTERVAL '1 DAY'"
+      goerli:
+        from: "2023-12-24 02:00:00"
+        to: "2024-03-18 00:00:00"
     tags:
-      - BeaconAPI
+      - Execution layer
+      - Transaction
+      - Mempool
