@@ -11,6 +11,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 ## Table of contents
 
+<div class="bg-neutral-500/10 rounded-xl py-4 px-2 text-base sm:text-lg md:text-xl">
+
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
 - [Schema](#schema)<!-- schema_toc_start -->
@@ -30,6 +32,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Issues](#issues)
 - [License](#license)
 - [Maintainers](#maintainers)
+
+</div>
 
 ## Working with the data
 
@@ -865,6 +869,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 
 ## Issues
 
+1
 {{< github repo="ethpandaops/xatu-data" >}}
 
 ## License
