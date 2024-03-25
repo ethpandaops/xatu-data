@@ -1,6 +1,8 @@
 {{< alert icon="circle-info" >}}
-This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events. Read more in our [announcement post](https://ethpandaops.io/posts/open-source-xatu-data/).
+This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events. Read more in our [announcement post]({{< ref "/posts/open-source-xatu-data" >}} "Announcement post").
 {{< /alert >}}
+
+{{< article link="/posts/open-source-xatu-data" >}}
 
 ## Table of contents
 
