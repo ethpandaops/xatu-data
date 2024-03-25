@@ -1,7 +1,7 @@
 tables:
   - name: beacon_api_eth_v1_beacon_committee
     excluded_columns: []
-    interval: hourly
+    hourly_partitioning: true
     networks:
       mainnet:
         from: "2023-12-24 03:00:00"
@@ -19,7 +19,7 @@ tables:
       Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
   - name: beacon_api_eth_v1_events_attestation
     excluded_columns: []
-    interval: hourly
+    hourly_partitioning: true
     networks:
       mainnet:
         from: "2023-06-01 00:00:00"
@@ -35,7 +35,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_blob_sidecar
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2024-03-13 13:00:00"
@@ -51,7 +51,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_block
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-03-01 00:00:00"
@@ -67,7 +67,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_chain_reorg
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-03-01 02:00:00"
@@ -83,7 +83,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_contribution_and_proof
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-08-31 04:00:00"
@@ -99,7 +99,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-08-31 23:00:00"
@@ -115,7 +115,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_head
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-08-30 19:00:00"
@@ -131,14 +131,14 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: beacon_api_eth_v1_events_voluntary_exit
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2020-12-01 12:00:00"
         to: "2021-01-08 07:00:00"
   - name: beacon_api_eth_v1_validator_attestation_data
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-08-31 04:00:00"
@@ -154,7 +154,7 @@ tables:
         to: "2024-03-16 01:00:00"
   - name: beacon_api_eth_v2_beacon_block
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2020-12-01 12:00:00"
@@ -170,7 +170,7 @@ tables:
         to: "2024-03-18 00:00:00"
   - name: mempool_transaction
     excluded_columns: []
-    interval: daily
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-03-03 03:00:00"
