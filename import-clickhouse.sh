@@ -65,6 +65,26 @@ if ! command -v yq &> /dev/null; then
     exit 1
 fi
 
+
+echo "We will use the following configuration:"
+echo "----"
+echo "Network: $NETWORK"
+echo "Database: $DATABASE"
+echo "Table: $TABLE"
+echo "Start Date: $START_DATE"
+echo "End Date: $END_DATE"
+echo "----"
+echo "You are about to insert data into the ClickHouse cluster that the 'clickhouse client' will connect to."
+echo "You can edit the following CLICKHOUSE_ environment variables to change to a different cluster:"
+echo "CLICKHOUSE_HOST, CLICKHOUSE_PORT, CLICKHOUSE_USER, CLICKHOUSE_PASSWORD"
+read -p "Do you want to proceed? (y/n): " proceed
+
+if [[ "$proceed" != "y" ]]; then
+    echo "Operation cancelled by the user."
+    exit 1
+fi
+
+
 # Read table configuration from config.yaml
 HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
 

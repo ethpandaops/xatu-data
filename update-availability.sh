@@ -15,6 +15,8 @@ if ! command -v yq &> /dev/null; then
     exit 1
 fi
 
+
+
 # Read tables from config.yaml
 TABLES=$(yq e '.tables[].name' "$CONFIG_FILE")
 
