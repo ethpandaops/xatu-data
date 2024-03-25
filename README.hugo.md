@@ -1,6 +1,6 @@
-# Xatu data
-
+{{< alert icon="circle-info" >}}
 This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events. Read more in our [announcement post](https://ethpandaops.io/posts/open-source-xatu-data/).
+{{< /alert >}}
 
 ## Table of contents
 
@@ -58,6 +58,7 @@ EOF
 You might want to download data from multiple tables and query the data. You can use our docker compose setup to run ClickHouse locally and have the schema migrations already applied for ease of use.
 
 1. Run xatu [clickhouse docker compose](https://github.com/ethpandaops/xatu?tab=readme-ov-file#locally-via-docker-compose) to stand up a local ClickHouse cluster with the xatu [migrations](https://github.com/ethpandaops/xatu/tree/master/deploy/migrations/clickhouse) automatically applied.
+   {{< github repo="ethpandaops/xatu" >}}
 2. Import the data you want using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
 
 ```bash
@@ -91,8 +92,8 @@ EOF
 
 <!-- schema_start -->
 ### beacon_api_eth_v1_beacon_committee
-Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
-> Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
+{{< lead >}} Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node. {{< /lead >}}
+{{<alert >}} Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch. {{< /alert >}}
 
 #### Availability
 Data is available **hourly** on the following networks;
@@ -144,7 +145,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_attestation
-Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **hourly** on the following networks;
@@ -206,7 +207,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_blob_sidecar
-Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -261,7 +262,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_block
-Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "block" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -314,7 +315,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_chain_reorg
-Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -371,7 +372,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_contribution_and_proof
-Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -429,7 +430,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_finalized_checkpoint
-Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -480,7 +481,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_head
-Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "head" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -536,7 +537,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_events_voluntary_exit
-Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -583,7 +584,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v1_validator_attestation_data
-Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API /eth/v1/validator/attestation_data data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -644,8 +645,8 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### beacon_api_eth_v2_beacon_block
-Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
-Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+{{< lead >}} Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
@@ -754,7 +755,7 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ### mempool_transaction
-Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
+{{< lead >}} Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report. {{< /lead >}}
 
 #### Availability
 Data is available **daily** on the following networks;
