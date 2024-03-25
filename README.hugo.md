@@ -27,6 +27,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
   - [beacon_api_eth_v2_beacon_block](#beacon_api_eth_v2_beacon_block)
   - [mempool_transaction](#mempool_transaction)
   <!-- schema_toc_end -->
+- [Issues](#issues)
 - [License](#license)
 - [Maintainers](#maintainers)
 
@@ -861,6 +862,10 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels**                                    | `Map(String, String)`       | _Labels associated with the event_                                                                           |
 
 <!-- schema_end -->
+
+## Issues
+
+{{< github repo="ethpandaops/xatu-data" >}}
 
 ## License
 
