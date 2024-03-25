@@ -16,18 +16,18 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
 - [Schema](#schema)<!-- schema_toc_start -->
-  - [beacon_api_eth_v1_beacon_committee](#beacon_api_eth_v1_beacon_committee)
-  - [beacon_api_eth_v1_events_attestation](#beacon_api_eth_v1_events_attestation)
-  - [beacon_api_eth_v1_events_blob_sidecar](#beacon_api_eth_v1_events_blob_sidecar)
-  - [beacon_api_eth_v1_events_block](#beacon_api_eth_v1_events_block)
-  - [beacon_api_eth_v1_events_chain_reorg](#beacon_api_eth_v1_events_chain_reorg)
-  - [beacon_api_eth_v1_events_contribution_and_proof](#beacon_api_eth_v1_events_contribution_and_proof)
-  - [beacon_api_eth_v1_events_finalized_checkpoint](#beacon_api_eth_v1_events_finalized_checkpoint)
-  - [beacon_api_eth_v1_events_head](#beacon_api_eth_v1_events_head)
-  - [beacon_api_eth_v1_events_voluntary_exit](#beacon_api_eth_v1_events_voluntary_exit)
-  - [beacon_api_eth_v1_validator_attestation_data](#beacon_api_eth_v1_validator_attestation_data)
-  - [beacon_api_eth_v2_beacon_block](#beacon_api_eth_v2_beacon_block)
-  - [mempool_transaction](#mempool_transaction)
+  - [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)
+  - [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
+  - [`beacon_api_eth_v1_events_blob_sidecar`](#beacon_api_eth_v1_events_blob_sidecar)
+  - [`beacon_api_eth_v1_events_block`](#beacon_api_eth_v1_events_block)
+  - [`beacon_api_eth_v1_events_chain_reorg`](#beacon_api_eth_v1_events_chain_reorg)
+  - [`beacon_api_eth_v1_events_contribution_and_proof`](#beacon_api_eth_v1_events_contribution_and_proof)
+  - [`beacon_api_eth_v1_events_finalized_checkpoint`](#beacon_api_eth_v1_events_finalized_checkpoint)
+  - [`beacon_api_eth_v1_events_head`](#beacon_api_eth_v1_events_head)
+  - [`beacon_api_eth_v1_events_voluntary_exit`](#beacon_api_eth_v1_events_voluntary_exit)
+  - [`beacon_api_eth_v1_validator_attestation_data`](#beacon_api_eth_v1_validator_attestation_data)
+  - [`beacon_api_eth_v2_beacon_block`](#beacon_api_eth_v2_beacon_block)
+  - [`mempool_transaction`](#mempool_transaction)
   <!-- schema_toc_end -->
 - [Issues](#issues)
 - [License](#license)
@@ -869,7 +869,6 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 
 ## Issues
 
-1
 {{< github repo="ethpandaops/xatu-data" >}}
 
 ## License
