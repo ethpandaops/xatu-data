@@ -2,24 +2,28 @@
 
 This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events. Read more in our [announcement post](https://ethpandaops.io/posts/open-source-xatu-data/).
 
+<p xmlns:cc="http://creativecommons.org/ns#" >Xatu data is licensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-NC 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a></p>
+
 ## Table of contents
 
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
 - [Schema](#schema)<!-- schema_toc_start -->
-  - [beacon_api_eth_v1_beacon_committee](#beacon_api_eth_v1_beacon_committee)
-  - [beacon_api_eth_v1_events_attestation](#beacon_api_eth_v1_events_attestation)
-  - [beacon_api_eth_v1_events_blob_sidecar](#beacon_api_eth_v1_events_blob_sidecar)
-  - [beacon_api_eth_v1_events_block](#beacon_api_eth_v1_events_block)
-  - [beacon_api_eth_v1_events_chain_reorg](#beacon_api_eth_v1_events_chain_reorg)
-  - [beacon_api_eth_v1_events_contribution_and_proof](#beacon_api_eth_v1_events_contribution_and_proof)
-  - [beacon_api_eth_v1_events_finalized_checkpoint](#beacon_api_eth_v1_events_finalized_checkpoint)
-  - [beacon_api_eth_v1_events_head](#beacon_api_eth_v1_events_head)
-  - [beacon_api_eth_v1_events_voluntary_exit](#beacon_api_eth_v1_events_voluntary_exit)
-  - [beacon_api_eth_v1_validator_attestation_data](#beacon_api_eth_v1_validator_attestation_data)
-  - [beacon_api_eth_v2_beacon_block](#beacon_api_eth_v2_beacon_block)
-  - [mempool_transaction](#mempool_transaction)
+  - [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)
+  - [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
+  - [`beacon_api_eth_v1_events_blob_sidecar`](#beacon_api_eth_v1_events_blob_sidecar)
+  - [`beacon_api_eth_v1_events_block`](#beacon_api_eth_v1_events_block)
+  - [`beacon_api_eth_v1_events_chain_reorg`](#beacon_api_eth_v1_events_chain_reorg)
+  - [`beacon_api_eth_v1_events_contribution_and_proof`](#beacon_api_eth_v1_events_contribution_and_proof)
+  - [`beacon_api_eth_v1_events_finalized_checkpoint`](#beacon_api_eth_v1_events_finalized_checkpoint)
+  - [`beacon_api_eth_v1_events_head`](#beacon_api_eth_v1_events_head)
+  - [`beacon_api_eth_v1_events_voluntary_exit`](#beacon_api_eth_v1_events_voluntary_exit)
+  - [`beacon_api_eth_v1_validator_attestation_data`](#beacon_api_eth_v1_validator_attestation_data)
+  - [`beacon_api_eth_v2_beacon_block`](#beacon_api_eth_v2_beacon_block)
+  - [`mempool_transaction`](#mempool_transaction)
 <!-- schema_toc_end -->
+- [License](#license)
+- [Maintainers](#maintainers)
 
 ## Working with the data
 
@@ -57,6 +61,7 @@ EOF
 
 You might want to download data from multiple tables and query the data. You can use our docker compose setup to run ClickHouse locally and have the schema migrations already applied for ease of use.
 
+<<<<<<< HEAD
 1. Run xatu [clickhouse docker compose](https://github.com/ethpandaops/xatu?tab=readme-ov-file#locally-via-docker-compose) to stand up a local ClickHouse cluster with the xatu [migrations](https://github.com/ethpandaops/xatu/tree/master/deploy/migrations/clickhouse) automatically applied.
 2. To import data you have 2 options:
   - Use the [import-clickhouse.sh](https://github.com/ethpandaops/xatu-data/blob/master/import-clickhouse.sh) script. 
@@ -67,6 +72,10 @@ You might want to download data from multiple tables and query the data. You can
 ```
 
   - Import the data you want directly using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+=======
+1. Run xatu [local clickhouse](https://github.com/ethpandaops/xatu?tab=readme-ov-file#local-clickhouse) to stand up a local ClickHouse cluster with the xatu [migrations](https://github.com/ethpandaops/xatu/tree/master/deploy/migrations/clickhouse) automatically applied.
+2. Import the data you want using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+>>>>>>> master
 
 ```bash
 clickhouse-client --query="$(<< 'EOF'
@@ -770,3 +779,14 @@ clickhouse local -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 <!-- schema_end -->
+
+## License
+
+- Code: [MIT](./LICENSE)
+- Data: [CC BY-NC](https://creativecommons.org/licenses/by-nc/4.0/deed.en)
+
+## Maintainers
+
+Sam - [@samcmau](https://twitter.com/samcmau)
+
+Andrew - [@savid](https://twitter.com/Savid)

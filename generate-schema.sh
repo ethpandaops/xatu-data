@@ -85,7 +85,7 @@ generate_schema > "$temp_schema_file"
 
 # Generate the updated Schema TOC
 schema_toc=$(yq e '.tables[]' "$config_file" -o=json | jq -r '.name' | while read -r table_name; do
-    echo "  - [$table_name](#${table_name// /-})"
+    echo "  - [\`$table_name\`](#${table_name// /-})"
 done)
 
 # update ToC
