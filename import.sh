@@ -58,7 +58,6 @@ fi
 # Path to config file
 CONFIG_FILE="./config.yaml"
 
-
 # Ensure yq is installed
 if ! command -v yq &> /dev/null; then
     log "Required command 'yq' is not installed. Please install it to proceed."
@@ -66,7 +65,7 @@ if ! command -v yq &> /dev/null; then
 fi
 
 # Read table configuration from config.yaml
-INTERVAL=$(yq e ".tables[] | select(.name == \"$TABLE\").interval" "$CONFIG_FILE")
+HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
 
 # Check if running on macOS and use gdate if available
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -86,13 +85,13 @@ while [[ "$CURRENT_DATE" != $(date -d "$END_DATE + 1 day" '+%Y-%m-%d') ]]; do
     # Log start of process for CURRENT_DATE
     log "Starting to import $CURRENT_DATE for $DATABASE.$TABLE on $NETWORK."
 
-    # Define base URL for data and adjust based on interval
+    # Define base URL for data and adjust based on partitioning
     BASE_URL="https://data.ethpandaops.io/xatu/$NETWORK/databases/$DATABASE/$TABLE"
     YEAR=$(date -d "$CURRENT_DATE" '+%Y')
     MONTH=$(date -d "$CURRENT_DATE" '+%-m')
     DAY=$(date -d "$CURRENT_DATE" '+%-d')
     URL="$BASE_URL/$YEAR/$MONTH/$DAY"
-    URL+=$([[ "$INTERVAL" == "hourly" ]] && echo "/{0..23}" || echo "")
+    URL+=$([[ "$HOURLY_PARTITIONING" == "true" ]] && echo "/{0..23}" || echo "")
     URL+=".parquet"
 
     # Construct and execute the INSERT query
