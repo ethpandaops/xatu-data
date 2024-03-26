@@ -10,4 +10,4 @@ jobs:
     steps:
       - name: Trigger deploy hook
         run: |
-          curl -X POST -H "${{ secrets.HOMEPAGE_HOOK_URL }}"
+          curl -X POST "${{ secrets.HOMEPAGE_HOOK_URL }}"
