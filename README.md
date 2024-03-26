@@ -113,9 +113,9 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-12-25` to `2024-03-23`
-- **holesky**: `2023-12-25` to `2024-03-23`
-- **sepolia**: `2023-12-24` to `2024-03-23`
+- **mainnet**: `2023-12-25` to `2024-03-24`
+- **holesky**: `2023-12-25` to `2024-03-24`
+- **sepolia**: `2023-12-24` to `2024-03-24`
 
 #### Example
 
@@ -166,9 +166,9 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-12-25` to `2024-03-23`
-- **holesky**: `2024-02-20` to `2024-03-23`
-- **sepolia**: `2023-12-20` to `2024-03-23`
+- **mainnet**: `2023-12-25` to `2024-03-24`
+- **holesky**: `2023-12-20` to `2024-03-23`
+- **sepolia**: `2023-09-01` to `2024-03-23`
 
 #### Example
 
@@ -229,9 +229,9 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
-- **holesky**: `2023-03-26` to `2024-03-23`
-- **sepolia**: `2023-03-26` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -285,9 +285,9 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
-- **holesky**: `2023-03-26` to `2024-03-23`
-- **sepolia**: `2023-04-17` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -339,9 +339,9 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2024-01-02` to `2024-03-23`
-- **holesky**: `2023-03-26` to `2024-03-23`
-- **sepolia**: `2023-03-26` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -397,9 +397,9 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
-- **holesky**: `2024-01-18` to `2024-03-23`
-- **sepolia**: `2023-03-26` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -456,9 +456,9 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
-- **holesky**: `2023-03-26` to `2024-03-23`
-- **sepolia**: `2023-03-26` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -508,9 +508,9 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
-- **holesky**: `2023-03-26` to `2024-03-23`
-- **sepolia**: `2023-03-26` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -565,7 +565,7 @@ Contains beacon API eventstream "voluntary exit" data from each sentry client at
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
 
 #### Example
 
@@ -614,9 +614,9 @@ Contains beacon API /eth/v1/validator/attestation_data data from each sentry cli
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-05-29` to `2024-03-23`
-- **holesky**: `2023-10-06` to `2024-03-23`
-- **sepolia**: `2023-04-19` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
@@ -676,9 +676,9 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-10-18` to `2024-03-22`
-- **holesky**: `2024-01-18` to `2024-03-23`
-- **sepolia**: `2023-08-09` to `2024-03-23`
+- **mainnet**: `2023-04-10` to `2024-03-24`
+- **holesky**: `2023-03-26` to `2024-03-24`
+- **sepolia**: `2023-03-26` to `2024-03-24`
 
 #### Example
 
