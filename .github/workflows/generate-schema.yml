@@ -2,7 +2,7 @@ name: Generate schema
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 6,18 * * *"
   workflow_dispatch:
 
 jobs:
