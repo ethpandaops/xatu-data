@@ -1,0 +1,13 @@
+name: Trigger homepage deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy hook
+        run: |
+          curl -X POST -H "${{ secrets.HOMEPAGE_HOOK_URL }}"
