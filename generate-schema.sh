@@ -27,13 +27,13 @@ generate_schema() {
         if [ "$hourly_partitioning" = true ]; then
             interval="hourly"
             formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/default/${table_name}/YYYY/MM/DD/HH.parquet"
-            example_url="https://data.ethpandaops.io/xatu/NETWORK/databases/default/${table_name}/${example_date}/00.parquet"
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/default/${table_name}/${example_date}/00.parquet"
         fi
         table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
 
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
         
-        schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
+        schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = 'beacon_api_eth_v2_beacon_block' FORMAT TabSeparated")
 
         echo "### $table_name"
         # check if hugo is set
