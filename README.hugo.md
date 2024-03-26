@@ -14,7 +14,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 <div class="bg-neutral-500/10 rounded-xl py-4 px-2 text-base sm:text-lg md:text-xl">
 
 - [Working with the data](#working-with-the-data)
-  - [Setup clickhouse locally to import and query the data](#setup-clickhouse cliently-to-import-and-query-the-data)
+  - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
 - [Schema](#schema)<!-- schema_toc_start -->
   - [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)
   - [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
@@ -37,7 +37,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 ## Working with the data
 
-Data is stored in the [Apache Parquet](https://parquet.apache.org) format and can be consumed using a variety of tools. Here's some examples of how to query the data using [clickhouse client](https://clickhouse.com/docs/en/install);
+Data is stored in the [Apache Parquet](https://parquet.apache.org) format and can be consumed using a variety of tools. Here's some examples of how to query the data using [ClickHouse client](https://clickhouse.com/docs/en/install);
 
 ```bash
 # Query the first 10 rows of the beacon_api_eth_v1_events_block table for 2024-03-20
@@ -73,10 +73,17 @@ You might want to download data from multiple tables and query the data. You can
 
 1. Run xatu [local clickhouse](https://github.com/ethpandaops/xatu?tab=readme-ov-file#local-clickhouse) to stand up a local ClickHouse cluster with the xatu [migrations](https://github.com/ethpandaops/xatu/tree/master/deploy/migrations/clickhouse) automatically applied.
    {{< github repo="ethpandaops/xatu" >}}
-2. Import the data you want using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+2. To import data you have 2 options:
 
+  - Use the [import-clickhouse.sh](https://github.com/ethpandaops/xatu-data/blob/master/import-clickhouse.sh) script. 
 ```bash
-clickhouse-client --query="$(<< 'EOF'
+```bash
+./import-clickhouse.sh mainnet default beacon_api_eth_v1_events_block 2024-03-20
+```
+
+  -  Import the data you want directly using the [`clickhouse client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+```bash
+clickhouse client --query="$(<< 'EOF'
 
 INSERT INTO
   default.beacon_api_eth_v1_events_block
@@ -87,10 +94,10 @@ EOF
 )"
 ```
 
-3. Query the data using the [`clickhouse-client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
+3. Query the data using the [`clickhouse client`](https://clickhouse.com/docs/en/interfaces/cli) CLI tool.
 
 ```bash
-clickhouse-client --query="$(<< 'EOF'
+clickhouse client --query="$(<< 'EOF'
 
 SELECT
   *
@@ -121,7 +128,7 @@ Data is available **hourly** on the following networks;
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/2024/3/19/00.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/3/19/00.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -172,7 +179,7 @@ Data is available **hourly** on the following networks;
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/2024/3/19/00.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/3/19/00.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
