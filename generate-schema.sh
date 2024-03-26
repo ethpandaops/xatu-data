@@ -67,7 +67,7 @@ generate_schema() {
         echo "> $formated_url"
         echo ""
         echo "\`\`\`bash"
-        echo "clickhouse local -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
+        echo "clickhouse client -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
         echo "\`\`\`"
         echo ""
         echo "#### Columns"
