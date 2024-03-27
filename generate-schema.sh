@@ -33,7 +33,7 @@ generate_schema() {
 
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
         
-        schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = 'beacon_api_eth_v2_beacon_block' FORMAT TabSeparated")
+        schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
 
         echo "### $table_name"
         # check if hugo is set
