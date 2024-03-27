@@ -5,7 +5,7 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "2023-12-25"
+        from: "2023-09-05"
         to: "2024-03-24"
       holesky:
         from: "2023-12-25"
@@ -39,10 +39,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_block
     database: default
     excluded_columns: []
@@ -53,10 +53,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
@@ -67,10 +67,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
     excluded_columns: []
@@ -81,10 +81,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
@@ -95,10 +95,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_head
     database: default
     excluded_columns: []
@@ -109,10 +109,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
@@ -131,10 +131,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v2_beacon_block
     database: default
     excluded_columns: []
@@ -145,10 +145,10 @@ tables:
         to: "2024-03-24"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: mempool_transaction
     database: default
     excluded_columns: []
