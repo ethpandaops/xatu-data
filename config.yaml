@@ -6,13 +6,13 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-12-25"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-12-24"
-        to: "2024-03-24"
+        to: "2024-03-25"
     quirks: >-
       Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
   - name: beacon_api_eth_v1_events_attestation
@@ -22,13 +22,13 @@ tables:
     networks:
       mainnet:
         from: "2023-12-25"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-09-29"
-        to: "2024-03-24"
+        to: "2024-03-25"
       sepolia:
         from: "2023-09-01"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_events_blob_sidecar
     database: default
     excluded_columns: []
@@ -36,13 +36,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_block
     database: default
     excluded_columns: []
@@ -50,13 +50,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
@@ -64,13 +64,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
     excluded_columns: []
@@ -78,13 +78,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
@@ -92,13 +92,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_head
     database: default
     excluded_columns: []
@@ -106,13 +106,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
@@ -120,7 +120,7 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
   - name: beacon_api_eth_v1_validator_attestation_data
     database: default
     excluded_columns: []
@@ -128,13 +128,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: beacon_api_eth_v2_beacon_block
     database: default
     excluded_columns: []
@@ -142,13 +142,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-03-24"
+        to: "2024-03-25"
       holesky:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
       sepolia:
         from: "2023-03-26"
-        to: "2024-03-25"
+        to: "2024-03-26"
   - name: mempool_transaction
     database: default
     excluded_columns: []
