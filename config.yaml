@@ -35,13 +35,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2024-01-01"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v1_events_block
     database: default
@@ -49,13 +49,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-04-13"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
@@ -63,13 +63,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-04-13"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
@@ -77,13 +77,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-08-31"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
@@ -105,13 +105,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-08-30"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
@@ -119,7 +119,7 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2024-01-01"
         to: "2024-03-25"
   - name: beacon_api_eth_v1_validator_attestation_data
     database: default
@@ -127,13 +127,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-08-31"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: beacon_api_eth_v2_beacon_block
     database: default
@@ -141,13 +141,13 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-04-10"
+        from: "2023-11-14"
         to: "2024-03-25"
       holesky:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
       sepolia:
-        from: "2023-03-26"
+        from: "2024-01-01"
         to: "2024-03-26"
   - name: mempool_transaction
     database: default
