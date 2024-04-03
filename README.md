@@ -113,16 +113,16 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-09-05` to `2024-03-25`
-- **holesky**: `2023-12-25` to `2024-03-25`
-- **sepolia**: `2023-12-24` to `2024-03-25`
+- **mainnet**: `2023-09-05` to `2024-03-31`
+- **holesky**: `2023-12-25` to `2024-03-31`
+- **sepolia**: `2023-12-24` to `2024-03-31`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/3/21/00.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/3/27/00.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -166,16 +166,16 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 #### Availability
 Data is available **hourly** on the following networks;
 
-- **mainnet**: `2023-12-25` to `2024-03-25`
-- **holesky**: `2023-09-29` to `2024-03-25`
-- **sepolia**: `2023-09-01` to `2024-03-25`
+- **mainnet**: `2023-06-05` to `2024-03-31`
+- **holesky**: `2023-09-29` to `2024-03-31`
+- **sepolia**: `2023-09-01` to `2024-03-31`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/3/21/00.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/3/27/00.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -229,16 +229,16 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2024-01-01` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2024-03-13` to `2024-03-31`
+- **holesky**: `2024-02-07` to `2024-04-01`
+- **sepolia**: `2024-01-30` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_blob_sidecar/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -285,16 +285,16 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-13` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-04-13` to `2024-03-31`
+- **holesky**: `2023-12-24` to `2024-04-01`
+- **sepolia**: `2023-12-24` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_block/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -339,16 +339,16 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-13` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-04-13` to `2024-03-31`
+- **holesky**: `2024-02-05` to `2024-04-01`
+- **sepolia**: `2024-03-31` to `2024-03-31`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_chain_reorg/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -397,16 +397,16 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-31` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-08-31` to `2024-03-31`
+- **holesky**: `2023-12-24` to `2024-04-01`
+- **sepolia**: `2023-12-24` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_contribution_and_proof/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -456,16 +456,16 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-04-10` to `2024-03-25`
-- **holesky**: `2023-03-26` to `2024-03-26`
-- **sepolia**: `2023-03-26` to `2024-03-26`
+- **mainnet**: `2023-04-10` to `2024-03-31`
+- **holesky**: `2023-03-26` to `2024-04-01`
+- **sepolia**: `2023-03-26` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -508,16 +508,16 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-30` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-08-30` to `2024-03-31`
+- **holesky**: `2023-12-05` to `2024-04-01`
+- **sepolia**: `2023-12-05` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_head/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -572,7 +572,7 @@ Data is available **daily** on the following networks;
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_voluntary_exit/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -614,16 +614,16 @@ Contains beacon API /eth/v1/validator/attestation_data data from each sentry cli
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-08-31` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-08-31` to `2024-03-31`
+- **holesky**: `2023-12-24` to `2024-04-01`
+- **sepolia**: `2023-12-24` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_validator_attestation_data/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -676,16 +676,16 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 #### Availability
 Data is available **daily** on the following networks;
 
-- **mainnet**: `2023-11-14` to `2024-03-25`
-- **holesky**: `2024-01-01` to `2024-03-26`
-- **sepolia**: `2024-01-01` to `2024-03-26`
+- **mainnet**: `2023-11-14` to `2024-03-31`
+- **holesky**: `2023-12-24` to `2024-04-01`
+- **sepolia**: `2023-12-24` to `2024-04-01`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v2_beacon_block/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -755,7 +755,7 @@ Data is available **daily** on the following networks;
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mempool_transaction/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/3/21.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/3/27.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
