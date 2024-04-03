@@ -31,7 +31,7 @@ Data is stored in the [Apache Parquet](https://parquet.apache.org) format and ca
 
 ```bash
 # Query the first 10 rows of the beacon_api_eth_v1_events_block table for 2024-03-20
-clickhouse client ---query="$(<< 'EOF'
+clickhouse client --query="$(<< 'EOF'
 
 SELECT
   *
