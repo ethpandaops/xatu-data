@@ -67,7 +67,7 @@ jobs:
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
           git add -A
-          git commit -m "Update schema" || echo "No changes to commit" && exit 0
+          git commit -m "Update schema" || echo "No changes to commit"
           git push
       - name: Trigger deploy hook
         run: |
