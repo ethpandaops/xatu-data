@@ -6,7 +6,7 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-03-31"
+        to: "2024-04-01"
       holesky:
         from: "2023-12-25"
         to: "2024-03-31"
@@ -22,7 +22,7 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2024-03-31"
+        to: "2024-04-01"
       holesky:
         from: "2023-09-29"
         to: "2024-03-31"
