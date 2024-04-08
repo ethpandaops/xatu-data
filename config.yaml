@@ -2,6 +2,7 @@ tables:
   - name: beacon_api_eth_v1_beacon_committee
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: true
     networks:
       mainnet:
@@ -21,6 +22,7 @@ tables:
     database: default
     excluded_columns: []
     hourly_partitioning: true
+    date_partition_column: slot_start_date_time
     networks:
       mainnet:
         from: "2023-06-05"
@@ -36,6 +38,7 @@ tables:
   - name: beacon_api_eth_v1_events_blob_sidecar
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -52,6 +55,7 @@ tables:
   - name: beacon_api_eth_v1_events_block
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -68,6 +72,7 @@ tables:
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -84,6 +89,7 @@ tables:
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
     excluded_columns: []
+    date_partition_column: contribution_slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -100,6 +106,7 @@ tables:
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
+    date_partition_column: epoch_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -116,6 +123,7 @@ tables:
   - name: beacon_api_eth_v1_events_head
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -132,6 +140,7 @@ tables:
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
+    date_partition_column: epoch_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -148,6 +157,7 @@ tables:
   - name: beacon_api_eth_v1_validator_attestation_data
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -164,6 +174,7 @@ tables:
   - name: beacon_api_eth_v2_beacon_block
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -180,7 +191,8 @@ tables:
   - name: mempool_transaction
     database: default
     excluded_columns: []
-    hourly_partitioning: true
+    date_partition_column: event_date_time
+    hourly_partitioning: false
     networks:
       mainnet:
         from: Coming soon!
@@ -199,6 +211,7 @@ tables:
     database: default
     excluded_columns: []
     hourly_partitioning: false
+    date_partition_column: slot_start_date_time
     networks:
       mainnet:
         from: Coming soon!
@@ -214,6 +227,25 @@ tables:
   - name: canonical_beacon_block
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: false
+    networks:
+      mainnet:
+        from: Coming soon!
+        to: Coming soon!
+      holesky:
+        from: Coming soon!
+        to: Coming soon!
+      sepolia:
+        from: Coming soon!
+        to: Coming soon!
+    tags:
+      - Consensus layer
+      - Finalized
+  - name: canonical_beacon_block_attester_slashing
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -231,6 +263,7 @@ tables:
   - name: canonical_beacon_block_proposer_slashing
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -247,6 +280,7 @@ tables:
       - Finalized
   - name: canonical_beacon_block_bls_to_execution_change
     database: default
+    date_partition_column: slot_start_date_time
     excluded_columns: []
     hourly_partitioning: false
     networks:
@@ -265,6 +299,7 @@ tables:
   - name: canonical_beacon_block_execution_transaction
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -282,6 +317,7 @@ tables:
   - name: canonical_beacon_block_voluntary_exit
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -299,6 +335,7 @@ tables:
   - name: canonical_beacon_block_deposit
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -316,6 +353,7 @@ tables:
   - name: canonical_beacon_block_withdrawal
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -333,6 +371,7 @@ tables:
   - name: canonical_beacon_blob_sidecar
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -350,6 +389,7 @@ tables:
   - name: canonical_beacon_proposer_duty
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
@@ -367,6 +407,7 @@ tables:
   - name: canonical_beacon_elaborated_attestation
     database: default
     excluded_columns: []
+    date_partition_column: slot_start_date_time
     hourly_partitioning: true
     networks:
       mainnet:

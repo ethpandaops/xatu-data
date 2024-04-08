@@ -19,6 +19,7 @@ generate_schema() {
         table_name=$(echo "$table_config" | jq -r '.name')
         quirks=$(echo "$table_config" | jq -r '.quirks')
         hourly_partitioning=$(echo "$table_config" | jq -r '.hourly_partitioning')
+        date_partition_column=$(echo "$table_config" | jq -r '.date_partition_column')
         interval="daily"
         # get today's date - 1 week as 2024/3/20
         example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
@@ -56,7 +57,7 @@ generate_schema() {
         fi
         echo ""
         echo "#### Availability"
-        echo "Data is available **$interval** on the following networks;"
+        echo "Data is partitioned **$interval** on **$date_partition_column** for the following networks:"
         echo ""
         echo "$table_config" | jq -r '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' | while read -r network_info; do
             echo "- $network_info"
