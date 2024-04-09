@@ -147,8 +147,8 @@ tables:
         from: "2024-01-01"
         to: "2024-03-25"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-10-02"
+        to: "2023-10-04"
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -195,14 +195,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-07-22"
+        to: "2023-09-02"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-01-08"
+        to: "2024-04-06"
       sepolia:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-01-08"
+        to: "2024-04-06"
     tags:
       - Execution layer
       - Transaction
