@@ -214,14 +214,14 @@ tables:
     date_partition_column: slot_start_date_time
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-04-03"
+        to: "2024-04-04"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-04-03"
+        to: "2024-04-04"
       sepolia:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-04-03"
+        to: "2024-04-04"
     tags:
       - Consensus layer
   - name: canonical_beacon_block
@@ -234,8 +234,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-09-28"
+        to: "2024-04-08"
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -375,11 +375,11 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-03-13"
+        to: "2024-04-08"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-02-07"
+        to: "2024-04-08"
       sepolia:
         from: "2024-01-30"
         to: "2024-04-08"
@@ -411,8 +411,8 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-05-04"
+        to: "2023-05-08"
       holesky:
         from: Coming soon!
         to: Coming soon!
