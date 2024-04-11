@@ -8,6 +8,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
+  - [Jupyter Notebooks](#jupyter-notebooks)
 - [Schema](#schema)<!-- schema_toc_start -->
   - [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)
   - [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
@@ -110,6 +111,10 @@ LIMIT 10
 EOF
 )"
 ```
+
+### Jupyter Notebooks
+
+[Example notebook](./examples/jupyter-notebooks.ipynb)
 
 ## Schema
 
