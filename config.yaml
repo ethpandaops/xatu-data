@@ -234,8 +234,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       holesky:
-        from: "2023-09-28"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -291,8 +291,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       sepolia:
-        from: "2024-04-08"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
     tags:
       - Consensus layer
       - Finalized
@@ -327,8 +327,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       sepolia:
-        from: "2024-03-28"
-        to: "2024-03-28"
+        from: Coming soon!
+        to: Coming soon!
     tags:
       - Consensus layer
       - Finalized
@@ -363,8 +363,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       sepolia:
-        from: "2023-02-28"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
     tags:
       - Consensus layer
       - Finalized
@@ -375,14 +375,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2024-03-13"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
       holesky:
-        from: "2024-02-07"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
       sepolia:
-        from: "2024-01-30"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
     tags:
       - Consensus layer
       - Finalized
@@ -411,14 +411,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2023-05-04"
-        to: "2023-05-08"
+        from: Coming soon!
+        to: Coming soon!
       holesky:
         from: Coming soon!
         to: Coming soon!
       sepolia:
-        from: "2023-04-06"
-        to: "2024-04-08"
+        from: Coming soon!
+        to: Coming soon!
     tags:
       - Consensus layer
       - Finalized
