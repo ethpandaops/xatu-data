@@ -408,7 +408,7 @@ tables:
     database: default
     excluded_columns: []
     date_partition_column: slot_start_date_time
-    hourly_partitioning: true
+    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-05-04"
