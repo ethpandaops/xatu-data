@@ -267,11 +267,11 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-04-03"
+        to: "2023-04-03"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-03-26"
+        to: "2024-03-26"
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -306,8 +306,8 @@ tables:
         from: Coming soon!
         to: Coming soon!
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-09-28"
+        to: "2024-04-10"
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -321,14 +321,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-04-02"
+        to: "2024-04-10"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-02-11"
+        to: "2024-04-10"
       sepolia:
-        from: "2023-03-01"
-        to: "2023-03-01"
+        from: "2024-03-28"
+        to: "2024-03-28"
     tags:
       - Consensus layer
       - Finalized
@@ -357,14 +357,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-04-12"
+        to: "2024-04-10"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-09-29"
+        to: "2024-04-10"
       sepolia:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-02-28"
+        to: "2024-04-10"
     tags:
       - Consensus layer
       - Finalized
@@ -411,14 +411,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-05-03"
+        to: "2024-04-10"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-09-28"
+        to: "2024-04-10"
       sepolia:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2023-04-05"
+        to: "2024-04-10"
     tags:
       - Consensus layer
       - Finalized
