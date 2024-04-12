@@ -375,14 +375,14 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-03-13"
+        to: "2024-04-10"
       holesky:
-        from: Coming soon!
-        to: Coming soon!
+        from: "2024-02-07"
+        to: "2024-04-10"
       sepolia:
         from: "2024-01-30"
-        to: "2024-04-09"
+        to: "2024-04-10"
     tags:
       - Consensus layer
       - Finalized
