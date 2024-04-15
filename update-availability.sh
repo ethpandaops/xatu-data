@@ -34,8 +34,8 @@ for TABLE in $TABLES; do
         TO_DATE=""
         log "Checking availability for $DATABASE.$TABLE on $NETWORK"
         while : ; do
-            # If the date is before December 2022, break the loop
-            if [[ "$CURRENT_DATE" < "2022-12-01" ]]; then
+            # If the date is before 2020, break the loop
+            if [[ "$CURRENT_DATE" < "2020-01-01" ]]; then
                 log "❌❌❌ Data not available for $DATABASE.$TABLE on $NETWORK"
                 break
             fi
