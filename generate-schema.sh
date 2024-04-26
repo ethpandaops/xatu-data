@@ -28,7 +28,7 @@ generate_schema() {
         if [ "$hourly_partitioning" = true ]; then
             interval="hourly"
             formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/default/${table_name}/YYYY/MM/DD/HH.parquet"
-            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/default/${table_name}/${example_date}/00.parquet"
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/default/${table_name}/${example_date}/0.parquet"
         fi
         table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
 
