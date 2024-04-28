@@ -184,8 +184,8 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-06-05` to `2024-04-26`
-- **holesky**: `2023-09-29` to `2024-04-25`
-- **sepolia**: `2023-09-01` to `2024-04-25`
+- **holesky**: `2023-09-29` to `2024-04-26`
+- **sepolia**: `2023-09-01` to `2024-04-26`
 
 #### Example
 
@@ -246,9 +246,9 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-04-25`
-- **holesky**: `2024-02-07` to `2024-04-25`
-- **sepolia**: `2024-01-30` to `2024-04-25`
+- **mainnet**: `2024-03-13` to `2024-04-26`
+- **holesky**: `2024-02-07` to `2024-04-26`
+- **sepolia**: `2024-01-30` to `2024-04-26`
 
 #### Example
 
@@ -302,9 +302,9 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-02-28` to `2024-04-25`
-- **holesky**: `2023-12-24` to `2024-04-25`
-- **sepolia**: `2023-12-24` to `2024-04-25`
+- **mainnet**: `2023-02-28` to `2024-04-26`
+- **holesky**: `2023-12-24` to `2024-04-26`
+- **sepolia**: `2023-12-24` to `2024-04-26`
 
 #### Example
 
@@ -356,8 +356,8 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-04-25`
-- **holesky**: `2024-02-05` to `2024-04-25`
+- **mainnet**: `2023-03-01` to `2024-04-26`
+- **holesky**: `2024-02-05` to `2024-04-26`
 - **sepolia**: `2024-04-25` to `2024-04-25`
 
 #### Example
@@ -414,9 +414,9 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 #### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-04-25`
-- **holesky**: `2023-12-24` to `2024-04-25`
-- **sepolia**: `2023-12-24` to `2024-04-25`
+- **mainnet**: `2023-08-31` to `2024-04-26`
+- **holesky**: `2023-12-24` to `2024-04-26`
+- **sepolia**: `2023-12-24` to `2024-04-26`
 
 #### Example
 
@@ -473,9 +473,9 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 #### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-10` to `2024-04-25`
-- **holesky**: `2023-03-26` to `2024-04-25`
-- **sepolia**: `2023-03-26` to `2024-04-25`
+- **mainnet**: `2023-04-10` to `2024-04-26`
+- **holesky**: `2023-03-26` to `2024-04-26`
+- **sepolia**: `2023-03-26` to `2024-04-26`
 
 #### Example
 
@@ -525,9 +525,9 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-30` to `2024-04-25`
-- **holesky**: `2023-12-05` to `2024-04-25`
-- **sepolia**: `2023-12-05` to `2024-04-25`
+- **mainnet**: `2023-08-30` to `2024-04-26`
+- **holesky**: `2023-12-05` to `2024-04-26`
+- **sepolia**: `2023-12-05` to `2024-04-26`
 
 #### Example
 
@@ -633,9 +633,9 @@ Contains beacon API /eth/v1/validator/attestation_data data from each sentry cli
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-04-25`
-- **holesky**: `2023-12-24` to `2024-04-25`
-- **sepolia**: `2023-12-24` to `2024-04-25`
+- **mainnet**: `2023-08-31` to `2024-04-26`
+- **holesky**: `2023-12-24` to `2024-04-26`
+- **sepolia**: `2023-12-24` to `2024-04-26`
 
 #### Example
 
@@ -695,9 +695,9 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-11-14` to `2024-04-24`
-- **holesky**: `2023-12-24` to `2024-04-24`
-- **sepolia**: `2023-12-24` to `2024-04-24`
+- **mainnet**: `2023-11-14` to `2024-04-25`
+- **holesky**: `2023-12-24` to `2024-04-25`
+- **sepolia**: `2023-12-24` to `2024-04-25`
 
 #### Example
 
@@ -826,9 +826,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-03` to `2024-04-24`
-- **holesky**: `2024-04-03` to `2024-04-24`
-- **sepolia**: `2024-04-03` to `2024-04-24`
+- **mainnet**: `2024-04-03` to `2024-04-25`
+- **holesky**: `2024-04-03` to `2024-04-25`
+- **sepolia**: `2024-04-03` to `2024-04-25`
 
 #### Example
 
@@ -1150,7 +1150,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2022-09-15` to `2024-04-26`
-- **holesky**: `2023-09-28` to `2024-04-25`
+- **holesky**: `2023-09-28` to `2024-04-26`
 - **sepolia**: `2022-07-06` to `2024-04-26`
 
 #### Example
@@ -1222,8 +1222,8 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-02` to `2024-04-25`
-- **holesky**: `2024-02-11` to `2024-04-25`
+- **mainnet**: `2023-04-02` to `2024-04-26`
+- **holesky**: `2024-02-11` to `2024-04-26`
 - **sepolia**: `2024-03-28` to `2024-03-28`
 
 #### Example
@@ -1340,9 +1340,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-04-25`
-- **holesky**: `2023-09-29` to `2024-04-25`
-- **sepolia**: `2023-02-28` to `2024-04-25`
+- **mainnet**: `2023-04-12` to `2024-04-26`
+- **holesky**: `2023-09-29` to `2024-04-26`
+- **sepolia**: `2023-02-28` to `2024-04-26`
 
 #### Example
 
@@ -1461,7 +1461,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-04-25`
+- **mainnet**: `2020-12-01` to `2024-04-26`
 - **holesky**: `2023-09-28` to `2024-04-26`
 - **sepolia**: `2022-06-20` to `2024-04-26`
 
@@ -1516,9 +1516,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-05-03` to `2024-04-25`
-- **holesky**: `2023-09-28` to `2024-04-25`
-- **sepolia**: `2023-04-05` to `2024-04-25`
+- **mainnet**: `2023-05-03` to `2024-04-26`
+- **holesky**: `2023-09-28` to `2024-04-26`
+- **sepolia**: `2023-04-05` to `2024-04-26`
 
 #### Example
 
