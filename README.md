@@ -130,16 +130,16 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 #### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-09-05` to `2024-04-28`
-- **holesky**: `2023-12-25` to `2024-04-28`
-- **sepolia**: `2023-12-24` to `2024-04-28`
+- **mainnet**: `2023-09-05` to `2024-04-29`
+- **holesky**: `2023-12-25` to `2024-04-29`
+- **sepolia**: `2023-12-24` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/4/23/0.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/4/24/0.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -183,7 +183,7 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 #### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-06-05` to `2024-04-28`
+- **mainnet**: `2023-06-05` to `2024-04-29`
 - **holesky**: `2023-09-29` to `2024-04-28`
 - **sepolia**: `2023-09-01` to `2024-04-28`
 
@@ -192,7 +192,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/4/23/0.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/4/24/0.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -255,7 +255,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_blob_sidecar/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -311,7 +311,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_block/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -365,7 +365,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_chain_reorg/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -423,7 +423,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_contribution_and_proof/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -482,7 +482,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -534,7 +534,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_head/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -591,7 +591,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_voluntary_exit/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -642,7 +642,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_validator_attestation_data/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -704,7 +704,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v2_beacon_block/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -765,16 +765,16 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 #### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-07-22` to `2024-04-28`
-- **holesky**: `2024-01-08` to `2024-04-28`
-- **sepolia**: `2024-01-08` to `2024-04-28`
+- **mainnet**: `2023-07-22` to `2024-04-29`
+- **holesky**: `2024-01-08` to `2024-04-29`
+- **sepolia**: `2024-01-08` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mempool_transaction/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -820,7 +820,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### beacon_api_eth_v1_proposer_duty
 
-
+Contains a proposer duty from a beacon block.
 
 
 #### Availability
@@ -835,7 +835,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_proposer_duty/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -875,22 +875,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block
 
-
+Contains beacon block from a beacon node.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-04-28`
-- **holesky**: `2023-09-28` to `2024-04-28`
-- **sepolia**: `2022-06-20` to `2024-04-28`
+- **mainnet**: `2020-12-01` to `2024-04-29`
+- **holesky**: `2023-09-28` to `2024-04-29`
+- **sepolia**: `2022-06-20` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -944,7 +944,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_attester_slashing
 
-
+Contains attester slashing from a beacon block.
 
 
 #### Availability
@@ -959,7 +959,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_attester_slashing/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1017,7 +1017,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_proposer_slashing
 
-
+Contains proposer slashing from a beacon block.
 
 
 #### Availability
@@ -1032,7 +1032,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_proposer_slashing/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1084,13 +1084,13 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_bls_to_execution_change
 
-
+Contains bls to execution change from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-04-28`
+- **mainnet**: `2023-04-12` to `2024-04-29`
 - **holesky**: `2024-04-26` to `2024-04-26`
 - **sepolia**: `2024-04-08` to `2024-04-08`
 
@@ -1099,7 +1099,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_bls_to_execution_change/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1143,22 +1143,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_execution_transaction
 
-
+Contains execution transaction from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-15` to `2024-04-28`
-- **holesky**: `2023-09-28` to `2024-04-28`
-- **sepolia**: `2022-07-06` to `2024-04-28`
+- **mainnet**: `2022-09-15` to `2024-04-29`
+- **holesky**: `2023-09-28` to `2024-04-29`
+- **sepolia**: `2022-07-06` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_transaction/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1216,7 +1216,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_voluntary_exit
 
-
+Contains a voluntary exit from a beacon block.
 
 
 #### Availability
@@ -1231,7 +1231,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_voluntary_exit/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1274,14 +1274,14 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_deposit
 
-
+Contains a deposit from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-04-28`
-- **holesky**: `2023-09-29` to `2024-04-28`
+- **mainnet**: `2020-12-01` to `2024-04-29`
+- **holesky**: `2023-09-29` to `2024-04-29`
 - **sepolia**: `2022-07-01` to `2022-07-01`
 
 #### Example
@@ -1289,7 +1289,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_deposit/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1334,22 +1334,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_block_withdrawal
 
-
+Contains a withdrawal from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-04-28`
+- **mainnet**: `2023-04-12` to `2024-04-29`
 - **holesky**: `2023-09-29` to `2024-04-28`
-- **sepolia**: `2023-02-28` to `2024-04-28`
+- **sepolia**: `2023-02-28` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_withdrawal/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1393,22 +1393,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_blob_sidecar
 
-
+Contains a blob sidecar from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-04-28`
-- **holesky**: `2024-02-07` to `2024-04-28`
-- **sepolia**: `2024-01-30` to `2024-04-28`
+- **mainnet**: `2024-03-13` to `2024-04-29`
+- **holesky**: `2024-02-07` to `2024-04-29`
+- **sepolia**: `2024-01-30` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_blob_sidecar/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1455,22 +1455,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_proposer_duty
 
-
+Contains a proposer duty from a beacon block.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-04-28`
-- **holesky**: `2023-09-28` to `2024-04-28`
-- **sepolia**: `2022-06-20` to `2024-04-28`
+- **mainnet**: `2020-12-01` to `2024-04-29`
+- **holesky**: `2023-09-28` to `2024-04-29`
+- **sepolia**: `2022-06-20` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_proposer_duty/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
@@ -1510,22 +1510,22 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 
 ### canonical_beacon_elaborated_attestation
 
-
+Contains elaborated attestations from beacon blocks.
 
 
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-05-03` to `2024-04-28`
-- **holesky**: `2023-09-28` to `2024-04-28`
-- **sepolia**: `2023-04-05` to `2024-04-28`
+- **mainnet**: `2023-05-03` to `2024-04-29`
+- **holesky**: `2023-09-28` to `2024-04-29`
+- **sepolia**: `2023-04-05` to `2024-04-29`
 
 #### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_elaborated_attestation/YYYY/MM/DD.parquet
 
 ```bash
-clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/4/23.parquet', 'Parquet') LIMIT 10"
+clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/4/24.parquet', 'Parquet') LIMIT 10"
 ```
 
 #### Columns
