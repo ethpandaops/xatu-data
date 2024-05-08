@@ -136,9 +136,9 @@ EOF
 #### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-09-05` to `2024-05-05`
-- **holesky**: `2023-12-25` to `2024-05-05`
-- **sepolia**: `2023-12-24` to `2024-05-05`
+- **mainnet**: `2023-09-05` to `2024-05-06`
+- **holesky**: `2023-12-25` to `2024-05-06`
+- **sepolia**: `2023-12-24` to `2024-05-06`
 
 #### Example
 
@@ -189,9 +189,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-06-05` to `2024-05-05`
-- **holesky**: `2023-09-29` to `2024-05-05`
-- **sepolia**: `2023-09-01` to `2024-05-05`
+- **mainnet**: `2023-06-05` to `2024-05-06`
+- **holesky**: `2023-09-29` to `2024-05-06`
+- **sepolia**: `2023-09-01` to `2024-05-06`
 
 #### Example
 
@@ -250,9 +250,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-05-05`
-- **holesky**: `2024-02-07` to `2024-05-05`
-- **sepolia**: `2024-01-30` to `2024-05-05`
+- **mainnet**: `2024-03-13` to `2024-05-06`
+- **holesky**: `2024-02-07` to `2024-05-06`
+- **sepolia**: `2024-01-30` to `2024-05-06`
 
 #### Example
 
@@ -306,9 +306,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-02-28` to `2024-05-05`
-- **holesky**: `2023-12-24` to `2024-05-05`
-- **sepolia**: `2023-12-24` to `2024-05-05`
+- **mainnet**: `2023-02-28` to `2024-05-06`
+- **holesky**: `2023-12-24` to `2024-05-06`
+- **sepolia**: `2023-12-24` to `2024-05-06`
 
 #### Example
 
@@ -360,8 +360,8 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-05-05`
-- **holesky**: `2024-02-05` to `2024-05-05`
+- **mainnet**: `2023-03-01` to `2024-05-06`
+- **holesky**: `2024-02-05` to `2024-05-06`
 - **sepolia**: `2024-05-03` to `2024-05-03`
 
 #### Example
@@ -418,9 +418,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-05-05`
-- **holesky**: `2023-12-24` to `2024-05-05`
-- **sepolia**: `2023-12-24` to `2024-05-05`
+- **mainnet**: `2023-08-31` to `2024-05-06`
+- **holesky**: `2023-12-24` to `2024-05-06`
+- **sepolia**: `2023-12-24` to `2024-05-06`
 
 #### Example
 
@@ -477,9 +477,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-10` to `2024-05-05`
-- **holesky**: `2023-03-26` to `2024-05-05`
-- **sepolia**: `2023-03-26` to `2024-05-05`
+- **mainnet**: `2023-04-10` to `2024-05-06`
+- **holesky**: `2023-03-26` to `2024-05-06`
+- **sepolia**: `2023-03-26` to `2024-05-06`
 
 #### Example
 
@@ -529,9 +529,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-30` to `2024-05-05`
-- **holesky**: `2023-12-05` to `2024-05-05`
-- **sepolia**: `2023-12-05` to `2024-05-05`
+- **mainnet**: `2023-08-30` to `2024-05-06`
+- **holesky**: `2023-12-05` to `2024-05-06`
+- **sepolia**: `2023-12-05` to `2024-05-06`
 
 #### Example
 
@@ -637,9 +637,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-05-05`
-- **holesky**: `2023-12-24` to `2024-05-05`
-- **sepolia**: `2023-12-24` to `2024-05-05`
+- **mainnet**: `2023-08-31` to `2024-05-06`
+- **holesky**: `2023-12-24` to `2024-05-06`
+- **sepolia**: `2023-12-24` to `2024-05-06`
 
 #### Example
 
@@ -699,9 +699,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-11-14` to `2024-05-04`
-- **holesky**: `2023-12-24` to `2024-05-04`
-- **sepolia**: `2023-12-24` to `2024-05-04`
+- **mainnet**: `2023-11-14` to `2024-05-05`
+- **holesky**: `2023-12-24` to `2024-05-05`
+- **sepolia**: `2023-12-24` to `2024-05-05`
 
 #### Example
 
@@ -767,9 +767,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-07-22` to `2024-05-05`
-- **holesky**: `2024-01-08` to `2024-05-05`
-- **sepolia**: `2024-01-08` to `2024-05-05`
+- **mainnet**: `2023-07-22` to `2024-05-06`
+- **holesky**: `2024-01-08` to `2024-05-06`
+- **sepolia**: `2024-01-08` to `2024-05-06`
 
 #### Example
 
@@ -828,9 +828,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-03` to `2024-05-04`
-- **holesky**: `2024-04-03` to `2024-05-04`
-- **sepolia**: `2024-04-03` to `2024-05-04`
+- **mainnet**: `2024-04-03` to `2024-05-05`
+- **holesky**: `2024-04-03` to `2024-05-05`
+- **sepolia**: `2024-04-03` to `2024-05-05`
 
 #### Example
 
@@ -881,9 +881,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-05-05`
-- **holesky**: `2023-09-28` to `2024-05-05`
-- **sepolia**: `2022-06-20` to `2024-05-05`
+- **mainnet**: `2020-12-01` to `2024-05-06`
+- **holesky**: `2023-09-28` to `2024-05-06`
+- **sepolia**: `2022-06-20` to `2024-05-06`
 
 #### Example
 
@@ -949,7 +949,7 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-04-11` to `2024-04-11`
-- **holesky**: `2024-05-01` to `2024-05-05`
+- **holesky**: `2024-05-01` to `2024-05-06`
 - **sepolia**: `Coming soon!` to `Coming soon!`
 
 #### Example
@@ -1084,8 +1084,8 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-05-04`
-- **holesky**: `2024-05-04` to `2024-05-05`
+- **mainnet**: `2024-05-06` to `2024-05-06`
+- **holesky**: `2024-05-04` to `2024-05-06`
 - **sepolia**: `2024-04-08` to `2024-04-08`
 
 #### Example
@@ -1141,9 +1141,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-15` to `2024-05-05`
-- **holesky**: `2023-09-28` to `2024-05-05`
-- **sepolia**: `2022-07-06` to `2024-05-05`
+- **mainnet**: `2022-09-15` to `2024-05-06`
+- **holesky**: `2023-09-28` to `2024-05-06`
+- **sepolia**: `2022-07-06` to `2024-05-06`
 
 #### Example
 
@@ -1212,8 +1212,8 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-02` to `2024-05-05`
-- **holesky**: `2024-02-11` to `2024-05-05`
+- **mainnet**: `2023-04-02` to `2024-05-06`
+- **holesky**: `2024-02-11` to `2024-05-06`
 - **sepolia**: `2024-03-28` to `2024-03-28`
 
 #### Example
@@ -1268,8 +1268,8 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-05-05`
-- **holesky**: `2023-09-29` to `2024-05-05`
+- **mainnet**: `2020-12-01` to `2024-05-06`
+- **holesky**: `2023-09-29` to `2024-05-06`
 - **sepolia**: `2022-07-01` to `2022-07-01`
 
 #### Example
@@ -1326,9 +1326,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-05-05`
-- **holesky**: `2023-09-29` to `2024-05-05`
-- **sepolia**: `2023-02-28` to `2024-05-05`
+- **mainnet**: `2023-04-12` to `2024-05-06`
+- **holesky**: `2023-09-29` to `2024-05-06`
+- **sepolia**: `2023-02-28` to `2024-05-06`
 
 #### Example
 
@@ -1383,9 +1383,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-05-05`
-- **holesky**: `2024-02-07` to `2024-05-05`
-- **sepolia**: `2024-01-30` to `2024-05-05`
+- **mainnet**: `2024-03-13` to `2024-05-06`
+- **holesky**: `2024-02-07` to `2024-05-06`
+- **sepolia**: `2024-01-30` to `2024-05-06`
 
 #### Example
 
@@ -1443,9 +1443,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-05-05`
-- **holesky**: `2023-09-28` to `2024-05-05`
-- **sepolia**: `2022-06-20` to `2024-05-05`
+- **mainnet**: `2020-12-01` to `2024-05-06`
+- **holesky**: `2023-09-28` to `2024-05-06`
+- **sepolia**: `2022-06-20` to `2024-05-06`
 
 #### Example
 
@@ -1496,9 +1496,9 @@ clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainne
 #### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-05-03` to `2024-05-05`
-- **holesky**: `2023-09-28` to `2024-05-05`
-- **sepolia**: `2023-04-05` to `2024-05-05`
+- **mainnet**: `2023-05-03` to `2024-05-06`
+- **holesky**: `2023-09-28` to `2024-05-06`
+- **sepolia**: `2023-04-05` to `2024-05-06`
 
 #### Example
 
