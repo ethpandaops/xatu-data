@@ -7,13 +7,13 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-12-25"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2023-12-24"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
     quirks: >-
@@ -26,7 +26,7 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-29"
         to: "2024-05-23"
@@ -196,13 +196,13 @@ tables:
     networks:
       mainnet:
         from: "2023-07-22"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2024-01-08"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2024-01-08"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Execution layer
       - Transaction
@@ -232,13 +232,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-28"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2022-06-20"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
@@ -253,7 +253,7 @@ tables:
         to: "2024-04-11"
       holesky:
         from: "2024-05-21"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: Coming soon!
         to: Coming soon!
@@ -286,7 +286,7 @@ tables:
     networks:
       mainnet:
         from: "2024-05-18"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2024-05-21"
         to: "2024-05-21"
@@ -304,13 +304,13 @@ tables:
     networks:
       mainnet:
         from: "2022-09-15"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-28"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2022-07-06"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
@@ -322,10 +322,10 @@ tables:
     networks:
       mainnet:
         from: "2023-04-02"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2024-02-11"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2024-03-28"
         to: "2024-03-28"
@@ -340,10 +340,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-29"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2022-07-01"
         to: "2022-07-01"
@@ -358,13 +358,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-12"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-29"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2023-02-28"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
@@ -376,13 +376,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2024-02-07"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2024-01-30"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
@@ -397,10 +397,10 @@ tables:
         to: "2024-05-23"
       holesky:
         from: "2023-09-28"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2022-06-20"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
@@ -412,13 +412,13 @@ tables:
     networks:
       mainnet:
         from: "2023-05-03"
-        to: "2024-05-23"
+        to: "2024-05-24"
       holesky:
         from: "2023-09-28"
-        to: "2024-05-23"
+        to: "2024-05-24"
       sepolia:
         from: "2023-04-05"
-        to: "2024-05-23"
+        to: "2024-05-24"
     tags:
       - Consensus layer
       - Finalized
