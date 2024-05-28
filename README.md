@@ -4,16 +4,20 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 
+![Extraction Process](./assets/extraction.png)
+
 ## Table of contents
 
 - [Available data](#available-data)
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse](#setup-clickhouse)
   - [Examples](#examples)
+- [Schema](#schema)
 - [License](#license)
 - [Maintainers](#maintainers)
 
 ## Available data
+
 <!-- datasets_start -->
 | Dataset Name | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
 |--------------|-------------|--------|---|---|
@@ -25,9 +29,14 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
 
+### Schema
+
+For a detailed description of the data schema, please refer to the [Schema Documentation](./SCHEMA.md).
+
 ## Working with the data
 
 Public data is available in the form of Apache Parquet files. You can use any tool that supports the Apache Parquet format to query the data. If you have access to EthPandaOps Clickhouse you can query the data directly.
+
 
 If you have access to EthPandaOps Clickhouse you can query the data directly. Skip ahead to [Using EthPandaOps Clickhouse](#using-ethpandaops-clickhouse).
 

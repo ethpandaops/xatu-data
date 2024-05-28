@@ -9,11 +9,14 @@ This **dataset** contains a wealth of information about the **Ethereum network**
   <a href="http://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" class="flex gap-1 items-center font-bold"><span>CC BY 4.0</span><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a>
 </div>
 
+![Extraction Process](https://github.com/ethpandaops/xatu-data/blob/master/assets/extraction.png?raw=true)
+
 ## Table of contents
 
 <div class="bg-neutral-500/10 rounded-xl py-4 px-2 text-base sm:text-lg md:text-xl">
 
 - [Available data](#available-data)
+  - [Schema](#schema)
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse](#setup-clickhouse)
   - [Examples](#examples)
@@ -22,6 +25,22 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Maintainers](#maintainers)
 
 </div>
+
+## Available data
+<!-- datasets_start -->
+| Dataset Name | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
+|--------------|-------------|--------|---|---|
+| **Beacon API Event Stream** | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
+| **Execution Layer P2P** | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
+| **Canonical Beacon** | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
+| **Consensus Layer P2P** | Events from the consensus layer p2p network | libp2p_ | ✅ | ❌ |
+<!-- datasets_end -->
+
+>Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
+
+### Schema
+
+For a detailed description of the data schema, please refer to the [Schema Documentation](./SCHEMA.md).
 
 ## Working with the data
 
