@@ -45,6 +45,11 @@ fi
 
 # Read table configuration from config.yaml
 HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
+AVAILABILITY=$(yq e ".tables[] | select(.name == \"$TABLE\").availability" "$CONFIG_FILE")
+if [[ "$AVAILABILITY" == "private" ]]; then
+    log "❌ Table $TABLE is private and not available for public access"
+    exit 0
+fi
 
 # Initialize counters
 available_days=0

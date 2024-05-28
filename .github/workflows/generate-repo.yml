@@ -1,4 +1,4 @@
-name: Generate schema
+name: Generate repo
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate-schema:
+  generate-repo:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -53,6 +53,13 @@ jobs:
           HUGO: true
           SCHEMA: SCHEMA.hugo.md
         run: ./generate-schema.sh
+      - name: Run generate-readme.sh for README.md
+        run: ./generate-readme.sh
+      - name: Run generate-readme.sh for README.hugo.md
+        env:
+          HUGO: true
+          README: README.hugo.md
+        run: ./generate-readme.sh
       - name: Cleanup before commit
         run: |
           cd xatu

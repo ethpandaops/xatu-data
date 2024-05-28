@@ -1,3 +1,31 @@
+datasets:
+  - name: "Beacon API Event Stream"
+    description: "Events derived from the Beacon API event stream"
+    tables:
+      prefix: beacon_api_
+    availability:
+      - public
+      - ethpandaops-clickhouse
+  - name: "Execution Layer P2P"
+    description: "Events from the execution layer p2p network"
+    tables:
+      prefix: mempool_
+    availability:
+      - ethpandaops-clickhouse
+      - public
+  - name: "Canonical Beacon"
+    description: "Events derived from the finalized beacon chain"
+    tables:
+      prefix: canonical_beacon_
+    availability:
+      - ethpandaops-clickhouse
+      - public
+  - name: "Consensus Layer P2P"
+    description: "Events from the consensus layer p2p network"
+    tables:
+      prefix: libp2p_
+    availability:
+      - ethpandaops-clickhouse
 tables:
   - name: beacon_api_eth_v1_beacon_committee
     database: default
@@ -422,3 +450,327 @@ tables:
     tags:
       - Consensus layer
       - Finalized
+  - name: libp2p_add_peer
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_connected
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_disconnected
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_gossipsub_beacon_attestation
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_gossipsub_beacon_block
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_handle_metadata
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_handle_status
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_join
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_peer
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_recv_rpc
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_remove_peer
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_control_graft
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_control_ihave
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_control_iwant
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_control_prune
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_message
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_rpc_meta_subscription
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_send_rpc
+    database: default
+    excluded_columns: []
+    date_partition_column: event_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "hidden"
+        to: "hidden"
+      holesky:
+        from: "hidden"
+        to: "hidden"
+      sepolia:
+        from: "hidden"
+        to: "hidden"
+    tags:
+      - Consensus layer
+      - P2P
