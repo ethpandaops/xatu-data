@@ -4,7 +4,6 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 <p xmlns:cc="http://creativecommons.org/ns#" >This work is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a></p>
 
-![Extraction Process](./assets/extraction.png)
 
 ## Table of contents
 
@@ -19,8 +18,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 ## Available data
 
 <!-- datasets_start -->
-| Dataset Name | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
-|--------------|-------------|--------|---|---|
+| Dataset Name | Description | Table Prefix | EthPandaOps Clickhouse | Public Parquet Files |
+|--------------|-------------|--------------|------------------------|----------------------|
 | **Beacon API Event Stream** | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
 | **Execution Layer P2P** | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
 | **Canonical Beacon** | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
@@ -28,6 +27,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 <!-- datasets_end -->
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
+
+Check out the visual representation of the [extraction process](./assets/extraction.png).
 
 ### Schema
 
@@ -232,7 +233,7 @@ Now that we have data in a Clickhouse server, we can query it.
 
 #### Jupyter Notebooks
 
-[Example notebook](./examples/jupyter-notebooks.ipynb)
+There are some examples for both Parquet and Clickhouse and SQLAlchemy in the [examples/parquet](./examples/parquet) and [examples/clickhouse](./examples/clickhouse) directories respectively.
 
 ## License
 

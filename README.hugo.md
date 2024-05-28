@@ -9,8 +9,6 @@ This **dataset** contains a wealth of information about the **Ethereum network**
   <a href="http://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" class="flex gap-1 items-center font-bold"><span>CC BY 4.0</span><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a>
 </div>
 
-![Extraction Process](https://github.com/ethpandaops/xatu-data/blob/master/assets/extraction.png?raw=true)
-
 ## Table of contents
 
 <div class="bg-neutral-500/10 rounded-xl py-4 px-2 text-base sm:text-lg md:text-xl">
@@ -28,8 +26,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 ## Available data
 <!-- datasets_start -->
-| Dataset Name | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
-|--------------|-------------|--------|---|---|
+| Dataset Name | Description | Table Prefix | EthPandaOps Clickhouse | Public Parquet Files |
+|--------------|-------------|--------------|------------------------|----------------------|
 | **Beacon API Event Stream** | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
 | **Execution Layer P2P** | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
 | **Canonical Beacon** | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
@@ -38,15 +36,17 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
 
+Check out the visual representation of the [extraction process](https://github.com/ethpandaops/xatu-data/blob/master/assets/extraction.png?raw=true).
+
 ### Schema
 
-For a detailed description of the data schema, please refer to the [Schema Documentation](./SCHEMA.md).
+For a detailed description of the data schema, please refer to the [Schema Documentation](https://ethpandaops.io/data/xatu/schema).
 
 ## Working with the data
 
 Public data is available in the form of Apache Parquet files. You can use any tool that supports the Apache Parquet format to query the data. If you have access to EthPandaOps Clickhouse you can query the data directly.
 
-If you have access to EthPandaOps Clickhouse you can query the data directly. Skip ahead to [Using EthPandaOps Clickhouse](#using-ethpandaops-clickhouse).
+If you have access to EthPandaOps Clickhouse you can query the data directly. Skip ahead to [**Using EthPandaOps Clickhouse**](#using-ethpandaops-clickhouse).
 
 - [Setup clickhouse](#setup-clickhouse)
   - [Running your own Clickhouse](#running-your-own-clickhouse)
@@ -239,7 +239,7 @@ Now that we have data in a Clickhouse server, we can query it.
 
 #### Jupyter Notebooks
 
-[Example notebook](./examples/jupyter-notebooks.ipynb)
+There are some examples for both Parquet and Clickhouse and SQLAlchemy in the [examples/parquet](https://github.com/ethpandaops/xatu-data/tree/master/examples/parquet) and [examples/clickhouse](https://github.com/ethpandaops/xatu-data/tree/master/examples/clickhouse) directories respectively.
 
 ## Issues
 
