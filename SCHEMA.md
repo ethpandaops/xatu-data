@@ -1,6 +1,6 @@
 # Schema
 
-## Table of contents
+## Tables
 
 <!-- schema_toc_start -->
 - [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)

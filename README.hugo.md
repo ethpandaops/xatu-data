@@ -9,6 +9,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
   <a href="http://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" class="flex gap-1 items-center font-bold"><span>CC BY 4.0</span><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a>
 </div>
 
+![Extraction Process](./assets/extraction.png)
+
 ## Table of contents
 
 <div class="bg-neutral-500/10 rounded-xl py-4 px-2 text-base sm:text-lg md:text-xl">
@@ -16,6 +18,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
   - [Jupyter Notebooks](#jupyter-notebooks)
+- 
 - [Issues](#issues)
 - [License](#license)
 - [Maintainers](#maintainers)
