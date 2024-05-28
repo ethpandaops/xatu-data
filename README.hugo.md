@@ -40,7 +40,7 @@ Check out the visual representation of the [extraction process](https://github.c
 
 ### Schema
 
-For a detailed description of the data schema, please refer to the [Schema Documentation](https://ethpandaops.io/data/xatu/schema).
+For a detailed description of the data schema, please refer to the [Schema Documentation]({{< ref "data/xatu/schema" >}} "Schema Documentation").
 
 ## Working with the data
 
