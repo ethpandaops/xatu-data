@@ -8,10 +8,10 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 ## Table of contents
 
 - [Available data](#available-data)
+  - [Schema](#schema)
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse](#setup-clickhouse)
   - [Examples](#examples)
-- [Schema](#schema)
 - [License](#license)
 - [Maintainers](#maintainers)
 
