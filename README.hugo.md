@@ -216,7 +216,7 @@ Now that we have data in a Clickhouse server, we can query it.
         round(quantile(0.90)(propagation_slot_start_diff)) AS p90_ms
     FROM beacon_api_eth_v1_events_block
     WHERE
-        slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27'
+        slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27' -- strongly recommend filtering by the partition key (slot_start_date_time) for query performance
     GROUP BY day
     FORMAT Pretty
   """
@@ -231,7 +231,7 @@ Now that we have data in a Clickhouse server, we can query it.
         COUNT(*) AS count
     FROM beacon_api_eth_v1_events_block
     WHERE
-        slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27'
+        slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27' -- strongly recommend filtering by the partition key (slot_start_date_time) for query performance
     GROUP BY client_name
     FORMAT Pretty
   """
