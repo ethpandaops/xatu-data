@@ -26,8 +26,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 ## Available data
 <!-- datasets_start -->
-| Dataset Name | Description | Table Prefix | EthPandaOps Clickhouse | Public Parquet Files |
-|--------------|-------------|--------------|------------------------|----------------------|
+| Dataset Name | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
+|--------------|-------------|--------|---|---|
 | **Beacon API Event Stream** | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
 | **Execution Layer P2P** | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
 | **Canonical Beacon** | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
