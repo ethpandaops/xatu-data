@@ -6,7 +6,7 @@ source ./scripts/date.sh
 clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
 hugo=${HUGO:-false}
 config_file=${CONFIG:-config.yaml}
-readme_file=${README:-README.md}
+schema_file=${SCHEMA:-SCHEMA.md}
 
 # Temporary files
 temp_schema_file=$(mktemp)
@@ -36,7 +36,7 @@ generate_schema() {
         
         schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
 
-        echo "### $table_name"
+        echo "## $table_name"
         # check if hugo is set
         if [ "$hugo" = true ]; then
             echo "{{< lead >}} $table_description {{< /lead >}}"
@@ -56,14 +56,14 @@ generate_schema() {
             fi
         fi
         echo ""
-        echo "#### Availability"
+        echo "### Availability"
         echo "Data is partitioned **$interval** on **$date_partition_column** for the following networks:"
         echo ""
         echo "$table_config" | jq -r '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' | while read -r network_info; do
             echo "- $network_info"
         done
         echo ""
-        echo "#### Example"
+        echo "### Example"
         echo ""
         echo "> $formated_url"
         echo ""
@@ -71,7 +71,7 @@ generate_schema() {
         echo "clickhouse client -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
         echo "\`\`\`"
         echo ""
-        echo "#### Columns"
+        echo "### Columns"
         echo "| Name | Type | Description |"
         echo "|--------|------|-------------|"
         
@@ -90,18 +90,18 @@ generate_schema > "$temp_schema_file"
 
 # Generate the updated Schema TOC
 schema_toc=$(yq e '.tables[]' "$config_file" -o=json | jq -r '.name' | while read -r table_name; do
-    echo "  - [\`$table_name\`](#${table_name// /-})"
+    echo "- [\`$table_name\`](#${table_name// /-})"
 done)
 
 # update ToC
 {
-    awk '/<!-- schema_toc_start -->/{exit}1' "$readme_file"
+    awk '/<!-- schema_toc_start -->/{exit}1' "$schema_file"
     
-    echo "- [Schema](#schema)<!-- schema_toc_start -->"
+    echo "<!-- schema_toc_start -->"
     echo "$schema_toc"
     echo "<!-- schema_toc_end -->"
 
-    awk '/<!-- schema_toc_end -->/{flag=1}flag' "$readme_file" | tail -n +2
+    awk '/<!-- schema_toc_end -->/{flag=1}flag' "$schema_file" | tail -n +2
 } > "$temp_toc_readme"
 
 # update schema
@@ -116,7 +116,7 @@ done)
 } > "$temp_schema_readme"
 
 # Replace the original README with the new content
-mv "$temp_schema_readme" "$readme_file"
+mv "$temp_schema_readme" "$schema_file"
 
 # Cleanup
 rm "$temp_schema_file"

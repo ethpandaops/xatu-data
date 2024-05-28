@@ -46,12 +46,12 @@ jobs:
             echo "Container exited with code $EXIT_CODE, failing the job."
             exit 1
           fi
-      - name: Run generate-schema.sh for README.md
+      - name: Run generate-schema.sh for SCHEMA.md
         run: ./generate-schema.sh
-      - name: Run generate-schema.sh for README.hugo.md
+      - name: Run generate-schema.sh for SCHEMA.hugo.md
         env:
           HUGO: true
-          README: README.hugo.md
+          SCHEMA: SCHEMA.hugo.md
         run: ./generate-schema.sh
       - name: Cleanup before commit
         run: |
