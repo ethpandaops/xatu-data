@@ -11,6 +11,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
   - [Jupyter Notebooks](#jupyter-notebooks)
+- [Schema](#schema)
 - [License](#license)
 - [Maintainers](#maintainers)
 
@@ -87,6 +88,10 @@ LIMIT 10
 EOF
 )"
 ```
+
+### Schema
+
+For a detailed description of the data schema, please refer to the [Schema Documentation](https://ethpandaops.io/data/xatu/schema).
 
 ### Jupyter Notebooks
 
