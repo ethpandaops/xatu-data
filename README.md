@@ -91,7 +91,7 @@ EOF
 
 ### Schema
 
-For a detailed description of the data schema, please refer to the [Schema Documentation](https://ethpandaops.io/data/xatu/schema).
+For a detailed description of the data schema, please refer to the [Schema Documentation](./SCHEMA.md).
 
 ### Jupyter Notebooks
 

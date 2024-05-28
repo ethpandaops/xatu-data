@@ -9,7 +9,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
   <a href="http://creativecommons.org/licenses/by/4.0" target="_blank" rel="license noopener noreferrer" class="flex gap-1 items-center font-bold"><span>CC BY 4.0</span><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img class="w-5 h-5 m-0" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"></a>
 </div>
 
-![Extraction Process](./assets/extraction.png)
+![Extraction Process](https://github.com/ethpandaops/xatu-data/blob/master/assets/extraction.png?raw=true)
 
 ## Table of contents
 
@@ -18,7 +18,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Working with the data](#working-with-the-data)
   - [Setup clickhouse locally to import and query the data](#setup-clickhouse-locally-to-import-and-query-the-data)
   - [Jupyter Notebooks](#jupyter-notebooks)
-- 
+- [Schema](#schema)
 - [Issues](#issues)
 - [License](#license)
 - [Maintainers](#maintainers)
@@ -67,7 +67,6 @@ You might want to download data from multiple tables and query the data. You can
 
   - Use the [import-clickhouse.sh](https://github.com/ethpandaops/xatu-data/blob/master/import-clickhouse.sh) script. 
 ```bash
-```bash
 ./import-clickhouse.sh mainnet default beacon_api_eth_v1_events_block 2024-03-20
 ```
 
@@ -98,6 +97,10 @@ LIMIT 10
 EOF
 )"
 ```
+
+### Schema
+
+For a detailed description of the data schema, please refer to the [Schema Documentation](https://ethpandaops.io/data/xatu/schema).
 
 ### Jupyter Notebooks
 
