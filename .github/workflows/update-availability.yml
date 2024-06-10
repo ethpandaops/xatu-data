@@ -16,9 +16,13 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-      - name: Run update-availability script
+      - name: Run update-availability script for all datasets
         run: |
-          ./update-availability.sh
+          DATASETS=$(yq e '.datasets[].name' ./config.yaml)
+          for DATASET in $DATASETS; do
+            echo "Running update-availability script for $DATASET"
+            ./update-availability.sh "$DATASET"
+          done
       - name: Commit changes
         run: |
           git config --global user.email "action@github.com"

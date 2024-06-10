@@ -43,13 +43,20 @@ if ! command -v yq &> /dev/null; then
     exit 1
 fi
 
-# Read table configuration from config.yaml
-HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
-AVAILABILITY=$(yq e ".tables[] | select(.name == \"$TABLE\").availability" "$CONFIG_FILE")
-if [[ "$AVAILABILITY" == "private" ]]; then
-    log "❌ Table $TABLE is private and not available for public access"
+# Determine which tables to check
+log "Determining tables to check for public availability..."
+PUBLIC_TABLES=$(yq e '.tables[] | select(.availability == "public").name' "$CONFIG_FILE")
+
+# Check if the provided table is in the list of public tables
+if ! echo "$PUBLIC_TABLES" | grep -q "^$TABLE$"; then
+    log "❌ Table $TABLE is not available for public access"
     exit 0
 fi
+
+log "✅ Table $TABLE is available for public access"
+
+# Read table configuration from config.yaml
+HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
 
 # Initialize counters
 available_days=0
