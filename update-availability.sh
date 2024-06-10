@@ -71,9 +71,9 @@ data_is_available() {
 
     HTTP_STATUS=$(curl --head --connect-timeout 5 --max-time 10 --silent --write-out "%{http_code}" --output /dev/null "$URL")
     if [[ "$HTTP_STATUS" == "200" ]]; then
-        return 1
-    else
         return 0
+    else
+        return 1
     fi
 }
 
@@ -83,43 +83,34 @@ determine_start_date() {
     local NETWORK=$2
     local HOURLY_PARTITIONING=$3
     local DATABASE=$4
-    local START_DATE=$5
 
-    EXISTING_START_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.from" "$CONFIG_FILE")
-    if [[ "$EXISTING_START_DATE" == "null" ]]; then
-        log "No existing start date found for $DATABASE.$TABLE on $NETWORK, using $START_DATE as the start date"
-        EXISTING_START_DATE="$START_DATE"
-    else
-        log "Existing start date for $DATABASE.$TABLE on $NETWORK is $EXISTING_START_DATE"
-    fi
 
-    START_DATE_FOUND=""
-    CURRENT_DATE="$EXISTING_START_DATE"
     while : ; do
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.from" "$CONFIG_FILE")
+        if [[ "$CURRENT_DATE" == "null" || -z "$CURRENT_DATE" ]]; then
+            CURRENT_DATE=$(date -u '+%Y-%m-%d')
+        fi
+
         NEXT_DATE=$(date -u -d "$CURRENT_DATE - 1 day" '+%Y-%m-%d')
 
         if [[ "$NEXT_DATE" < "2020-01-01" ]]; then
             log "No data available before 2020-01-01 for $DATABASE.$TABLE on $NETWORK"
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = null)" -i "$CONFIG_FILE"
+            log "No start date found for $DATABASE.$TABLE on $NETWORK, setting it to null"
             break
         fi
-
 
         if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
-            break
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
+            log "Start date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
+            CURRENT_DATE="$NEXT_DATE"
+            continue
         fi
 
-        CURRENT_DATE="$NEXT_DATE"
+        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        log "Start date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
+        break
     done
-
-    if [ -n "$START_DATE_FOUND" ]; then
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$START_DATE_FOUND\")" -i "$CONFIG_FILE"
-        if [[ "$EXISTING_START_DATE" != "$START_DATE_FOUND" ]]; then
-            log "Start date for $DATABASE.$TABLE on $NETWORK has changed from $EXISTING_START_DATE to $START_DATE_FOUND"
-        fi
-    else
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = null)" -i "$CONFIG_FILE"
-        log "No start date found for $DATABASE.$TABLE on $NETWORK, setting it to null"
-    fi
 }
 
 # Function to determine the end date
@@ -128,41 +119,33 @@ determine_end_date() {
     local NETWORK=$2
     local HOURLY_PARTITIONING=$3
     local DATABASE=$4
-    local START_DATE=$5
 
-    EXISTING_END_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.to" "$CONFIG_FILE")
-    if [[ "$EXISTING_END_DATE" == "null" ]]; then
-        log "No existing end date found for $DATABASE.$TABLE on $NETWORK, using $START_DATE as the end date"
-        EXISTING_END_DATE="$START_DATE"
-    else
-        log "Existing end date for $DATABASE.$TABLE on $NETWORK is $EXISTING_END_DATE"
-    fi
 
-    END_DATE_FOUND=""
-    CURRENT_DATE="$EXISTING_END_DATE"
     while : ; do
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.to" "$CONFIG_FILE")
+        if [[ "$CURRENT_DATE" == "null" || -z "$CURRENT_DATE" ]]; then
+            CURRENT_DATE=$(date -u '+%Y-%m-%d')
+        fi
+
         NEXT_DATE=$(date -u -d "$CURRENT_DATE + 1 day" '+%Y-%m-%d')
         if [[ "$NEXT_DATE" > "$(date -u '+%Y-%m-%d')" ]]; then
             log "No data available after $(date -u '+%Y-%m-%d') for $DATABASE.$TABLE on $NETWORK"
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+            log "End date for $DATABASE.$TABLE on $NETWORK is now $CURRENT_DATE"
             break
         fi
 
         if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
-            break
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
+            log "End date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
+            CURRENT_DATE="$NEXT_DATE"
+            continue
         fi
 
-        CURRENT_DATE="$NEXT_DATE"
+        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        log "End date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
+        break
     done
-
-    if [ -n "$END_DATE_FOUND" ]; then
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$END_DATE_FOUND\")" -i "$CONFIG_FILE"
-        if [[ "$EXISTING_END_DATE" != "$END_DATE_FOUND" ]]; then
-            log "End date for $DATABASE.$TABLE on $NETWORK has changed from $EXISTING_END_DATE to $END_DATE_FOUND"
-        fi
-    else
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = null)" -i "$CONFIG_FILE"
-        log "No end date found for $DATABASE.$TABLE on $NETWORK, setting it to null"
-    fi
 }
 
 # Define the start date for the search
@@ -175,7 +158,7 @@ for TABLE in $TABLES; do
     for NETWORK in $NETWORKS; do
         log "Checking availability for $DATABASE.$TABLE on $NETWORK"
 
-        determine_start_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$START_DATE"
-        determine_end_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$START_DATE"
+        determine_start_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE"
+        determine_end_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE"
     done
 done
