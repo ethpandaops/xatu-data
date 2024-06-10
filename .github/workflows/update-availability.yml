@@ -18,11 +18,10 @@ jobs:
           ref: ${{ github.ref }}
       - name: Run update-availability script for all datasets
         run: |
-          DATASETS=$(yq e '.datasets[].name' ./config.yaml)
-          for DATASET in $DATASETS; do
-            echo "Running update-availability script for $DATASET"
-            ./update-availability.sh "$DATASET"
-          done
+            echo "Running update-availability script for all datasets"
+            ./update-availability.sh "Beacon API Event Stream"
+            ./update-availability.sh "Execution Layer P2P"
+            ./update-availability.sh "Canonical Beacon"
       - name: Commit changes
         run: |
           git config --global user.email "action@github.com"
