@@ -457,14 +457,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -475,14 +475,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -493,14 +493,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -511,14 +511,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -529,14 +529,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -547,14 +547,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -565,14 +565,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -583,14 +583,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -601,14 +601,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -619,14 +619,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -637,14 +637,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -655,14 +655,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -673,14 +673,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -691,14 +691,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -709,14 +709,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -727,14 +727,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -745,14 +745,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
@@ -763,14 +763,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       holesky:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
       sepolia:
-        from: "hidden"
-        to: "hidden"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - P2P
