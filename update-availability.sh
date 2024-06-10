@@ -15,93 +15,150 @@ if ! command -v yq &> /dev/null; then
     exit 1
 fi
 
+# Accept dataset as a parameter
+DATASET=$1
+
+if [ -z "$DATASET" ]; then
+    log "No dataset specified. Please provide a dataset name."
+    exit 1
+fi
+
+# Check if the dataset has availability == "public"
+IS_PUBLIC=$(yq e ".datasets[] | select(.name == \"$DATASET\").availability | contains([\"public\"])" "$CONFIG_FILE")
+
+if [ "$IS_PUBLIC" != "true" ]; then
+    log "Dataset '$DATASET' does not have public availability."
+    exit 0
+fi
+
+# Read table prefixes from the specified dataset in config.yaml
+TABLE_PREFIXES=$(yq e ".datasets[] | select(.name == \"$DATASET\").tables.prefix" "$CONFIG_FILE")
+
+if [ -z "$TABLE_PREFIXES" ]; then
+    log "No tables found for dataset '$DATASET'."
+    exit 1
+fi
+
+log "Checking tables with prefixes: $TABLE_PREFIXES"
+
+# Read tables from config.yaml that match the prefixes
+TABLES=$(yq e ".tables[].name" "$CONFIG_FILE" | grep -E "^($TABLE_PREFIXES)")
+
+if [ -z "$TABLES" ]; then
+    log "No tables found matching the prefixes: $TABLE_PREFIXES"
+    exit 1
+fi
+
+log "Tables to be checked: $TABLES"
+
+# Function to check if data is available for a given date
+data_is_available() {
+    local TABLE=$1
+    local NETWORK=$2
+    local HOURLY_PARTITIONING=$3
+    local DATABASE=$4
+    local DATE=$5
+
+    YEAR=$(date -u -d "$DATE" '+%Y')
+    MONTH=$(date -u -d "$DATE" '+%-m')
+    DAY=$(date -u -d "$DATE" '+%-d')
+    BASE_URL="https://data.ethpandaops.io/xatu/$NETWORK/databases/$DATABASE/$TABLE"
+    if [[ "$HOURLY_PARTITIONING" == "true" ]]; then
+        URL="$BASE_URL/$YEAR/$MONTH/$DAY/0.parquet"
+    else
+        URL="$BASE_URL/$YEAR/$MONTH/$DAY.parquet"
+    fi
+
+    HTTP_STATUS=$(curl --head --connect-timeout 5 --max-time 10 --silent --write-out "%{http_code}" --output /dev/null "$URL")
+    if [[ "$HTTP_STATUS" == "200" ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Function to determine the start date
+determine_start_date() {
+    local TABLE=$1
+    local NETWORK=$2
+    local HOURLY_PARTITIONING=$3
+    local DATABASE=$4
 
 
-# Read tables from config.yaml
-TABLES=$(yq e '.tables[].name' "$CONFIG_FILE")
+    while : ; do
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.from" "$CONFIG_FILE")
+        if [[ "$CURRENT_DATE" == "null" || -z "$CURRENT_DATE" ]]; then
+            CURRENT_DATE=$(date -u '+%Y-%m-%d')
+        fi
+
+        NEXT_DATE=$(date -u -d "$CURRENT_DATE - 1 day" '+%Y-%m-%d')
+
+        if [[ "$NEXT_DATE" < "2020-01-01" ]]; then
+            log "No data available before 2020-01-01 for $DATABASE.$TABLE on $NETWORK"
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = null)" -i "$CONFIG_FILE"
+            log "No start date found for $DATABASE.$TABLE on $NETWORK, setting it to null"
+            break
+        fi
+
+        if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
+            log "Start date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
+            CURRENT_DATE="$NEXT_DATE"
+            continue
+        fi
+
+        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        log "Start date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
+        break
+    done
+}
+
+# Function to determine the end date
+determine_end_date() {
+    local TABLE=$1
+    local NETWORK=$2
+    local HOURLY_PARTITIONING=$3
+    local DATABASE=$4
+
+
+    while : ; do
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.to" "$CONFIG_FILE")
+        if [[ "$CURRENT_DATE" == "null" || -z "$CURRENT_DATE" ]]; then
+            CURRENT_DATE=$(date -u '+%Y-%m-%d')
+        fi
+
+        NEXT_DATE=$(date -u -d "$CURRENT_DATE + 1 day" '+%Y-%m-%d')
+        if [[ "$NEXT_DATE" > "$(date -u '+%Y-%m-%d')" ]]; then
+            log "No data available after $(date -u '+%Y-%m-%d') for $DATABASE.$TABLE on $NETWORK"
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+            log "End date for $DATABASE.$TABLE on $NETWORK is now $CURRENT_DATE"
+            break
+        fi
+
+        if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
+            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
+            log "End date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
+            CURRENT_DATE="$NEXT_DATE"
+            continue
+        fi
+
+        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        log "End date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
+        break
+    done
+}
 
 # Define the start date for the search
-START_DATE=$(date '+%Y-%m-%d') # Set start date to today
+START_DATE=$(date -u '+%Y-%m-%d') # Set start date to today in UTC
 
 for TABLE in $TABLES; do
     DATABASE=$(yq e ".tables[] | select(.name == \"$TABLE\").database" "$CONFIG_FILE")
     HOURLY_PARTITIONING=$(yq e ".tables[] | select(.name == \"$TABLE\").hourly_partitioning" "$CONFIG_FILE")
     NETWORKS=$(yq e ".tables[] | select(.name == \"$TABLE\").networks | keys" "$CONFIG_FILE" | yq e '.[]')
     for NETWORK in $NETWORKS; do
-        CURRENT_DATE="$START_DATE"
-        DATA_FOUND=false
-        FROM_DATE=""
-        TO_DATE=""
         log "Checking availability for $DATABASE.$TABLE on $NETWORK"
-        while : ; do
-            # If the date is before 2020, break the loop
-            if [[ "$CURRENT_DATE" < "2020-01-01" ]]; then
-                log "❌❌❌ Data not available for $DATABASE.$TABLE on $NETWORK"
-                break
-            fi
-            
-            YEAR=$(date -d "$CURRENT_DATE" '+%Y')
-            MONTH=$(date -d "$CURRENT_DATE" '+%-m')
-            DAY=$(date -d "$CURRENT_DATE" '+%-d')
-            BASE_URL="https://data.ethpandaops.io/xatu/$NETWORK/databases/$DATABASE/$TABLE"
-            if [[ "$HOURLY_PARTITIONING" == "true" ]]; then
-                URL="$BASE_URL/$YEAR/$MONTH/$DAY/0.parquet"
-            else
-                URL="$BASE_URL/$YEAR/$MONTH/$DAY.parquet"
-            fi
 
-            # Initialize retry counter
-            RETRY_COUNT=0
-
-            # Loop to retry the curl command
-            while : ; do
-                if ! HTTP_STATUS=$(curl --head --connect-timeout 5 --max-time 10 --silent --write-out "%{http_code}" --output /dev/null "$URL"); then
-                    log "Error executing curl command for $URL. Retrying..."
-                    RETRY_COUNT=$((RETRY_COUNT+1))
-                    if [ "$RETRY_COUNT" -ge 20 ]; then
-                        log "❌ Failed to execute curl command after 20 retries for $URL"
-                        break 2
-                    fi
-                    sleep 1
-                    continue
-                fi
-
-                if [[ "$HTTP_STATUS" == "200" ]]; then
-                    if [ -z "$FROM_DATE" ]; then
-                        log "✅ Data available for $CURRENT_DATE for $TABLE on $NETWORK"
-                        FROM_DATE="$CURRENT_DATE"
-                    fi
-                    DATA_FOUND=true
-                    break
-                elif [[ "$HTTP_STATUS" == "404" ]]; then
-                    if [ "$DATA_FOUND" = true ]; then
-                        log "❌ Data not available for $CURRENT_DATE for $TABLE on $NETWORK"
-                        TO_DATE=$(date -d "$CURRENT_DATE + 1 day" '+%Y-%m-%d')
-                        break 2
-                    fi
-                    break
-                else
-                    log "Received HTTP status $HTTP_STATUS for $URL. Retrying..."
-                    RETRY_COUNT=$((RETRY_COUNT+1))
-                    if [ "$RETRY_COUNT" -ge 20 ]; then
-                        log "❌ Failed to get a valid response after 20 retries for $URL"
-                        break 2
-                    fi
-                    sleep 1
-                fi
-            done
-
-            # Move to the next date
-            CURRENT_DATE=$(date -d "$CURRENT_DATE - 1 day" '+%Y-%m-%d')
-        done
-        if [ -n "$FROM_DATE" ] && [ -n "$TO_DATE" ]; then
-            log "Data exists in $DATABASE.$TABLE on $NETWORK from $FROM_DATE to $TO_DATE"
-            # Swap FROM and TO dates so they're more human readable
-
-            FROM_CMD="yq e \".tables |= map(select(.name == \\\"$TABLE\\\").networks.$NETWORK.to = \\\"$FROM_DATE\\\")\" -i \"$CONFIG_FILE\""
-            TO_CMD="yq e \".tables |= map(select(.name == \\\"$TABLE\\\").networks.$NETWORK.from = \\\"$TO_DATE\\\")\" -i \"$CONFIG_FILE\""
-            eval $FROM_CMD
-            eval $TO_CMD
-        fi
+        determine_start_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE"
+        determine_end_date "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE"
     done
 done
