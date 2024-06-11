@@ -94,20 +94,17 @@ determine_start_date() {
         NEXT_DATE=$(date -u -d "$CURRENT_DATE - 1 day" '+%Y-%m-%d')
 
         if [[ "$NEXT_DATE" < "2020-01-01" ]]; then
-            log "No data available before 2020-01-01 for $DATABASE.$TABLE on $NETWORK"
-            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = null)" -i "$CONFIG_FILE"
-            log "No start date found for $DATABASE.$TABLE on $NETWORK, setting it to null"
+            log "No start date found for $DATABASE.$TABLE on $NETWORK."
             break
         fi
 
         if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
             yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
             log "Start date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
-            CURRENT_DATE="$NEXT_DATE"
             continue
         fi
 
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.from = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.from" "$CONFIG_FILE")
         log "Start date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
         break
     done
@@ -129,20 +126,17 @@ determine_end_date() {
 
         NEXT_DATE=$(date -u -d "$CURRENT_DATE + 1 day" '+%Y-%m-%d')
         if [[ "$NEXT_DATE" > "$(date -u '+%Y-%m-%d')" ]]; then
-            log "No data available after $(date -u '+%Y-%m-%d') for $DATABASE.$TABLE on $NETWORK"
-            yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
-            log "End date for $DATABASE.$TABLE on $NETWORK is now $CURRENT_DATE"
+            log "No end date found for $DATABASE.$TABLE on $NETWORK."
             break
         fi
 
         if data_is_available "$TABLE" "$NETWORK" "$HOURLY_PARTITIONING" "$DATABASE" "$NEXT_DATE"; then
             yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$NEXT_DATE\")" -i "$CONFIG_FILE"
             log "End date for $DATABASE.$TABLE on $NETWORK is now $NEXT_DATE"
-            CURRENT_DATE="$NEXT_DATE"
             continue
         fi
 
-        yq e ".tables |= map(select(.name == \"$TABLE\").networks.$NETWORK.to = \"$CURRENT_DATE\")" -i "$CONFIG_FILE"
+        CURRENT_DATE=$(yq e ".tables[] | select(.name == \"$TABLE\").networks.$NETWORK.to" "$CONFIG_FILE")
         log "End date for $DATABASE.$TABLE on $NETWORK is still $CURRENT_DATE"
         break
     done
