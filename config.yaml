@@ -178,8 +178,8 @@ tables:
         from: "2023-10-01"
         to: "2023-10-06"
       sepolia:
-        from: "2024-06-10"
-        to: "2024-06-10"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_validator_attestation_data
@@ -283,8 +283,8 @@ tables:
         from: "2024-05-21"
         to: "2024-05-26"
       sepolia:
-        from: "2024-06-10"
-        to: "2024-06-10"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - Finalized
@@ -301,8 +301,8 @@ tables:
         from: "2024-03-26"
         to: "2024-03-26"
       sepolia:
-        from: "2024-06-10"
-        to: "2024-06-10"
+        from: "null"
+        to: "null"
     tags:
       - Consensus layer
       - Finalized
