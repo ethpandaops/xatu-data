@@ -93,7 +93,7 @@ We strongly recommend using Clickhouse to query the data. Clickhouse is a fast, 
        ```
     2. Start the Xatu clickhouse stack
        ```bash
-       docker compose up -d --profile clickhouse
+       docker compose --profile clickhouse up --detach
        ```
     3. Verify the Clickhouse server is running and migrations are applied
        ```bash
