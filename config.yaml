@@ -35,10 +35,10 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-06-15"
+        to: "2024-06-16"
       holesky:
         from: "2023-12-25"
-        to: "2024-06-15"
+        to: "2024-06-16"
       sepolia:
         from: "2023-12-24"
         to: "2024-06-15"
