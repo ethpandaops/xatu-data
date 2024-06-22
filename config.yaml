@@ -35,13 +35,13 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-06-19"
+        to: "2024-06-20"
       holesky:
         from: "2023-12-25"
-        to: "2024-06-19"
+        to: "2024-06-20"
       sepolia:
         from: "2023-12-24"
-        to: "2024-06-19"
+        to: "2024-06-20"
     tags:
       - Consensus layer
     quirks: >-
