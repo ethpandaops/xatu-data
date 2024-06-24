@@ -50,7 +50,7 @@
 <!-- schema_start -->
 ## beacon_api_eth_v1_beacon_committee
 
-
+Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 
 
 > Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
@@ -63,20 +63,12 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `2023-12-25` to `2024-06-22`
 - **sepolia**: `2023-12-24` to `2024-06-22`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_beacon_committee FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -126,18 +118,12 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `2023-09-29` to `2024-06-21`
 - **sepolia**: `2023-09-01` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_attestation WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -185,7 +171,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_attestation
 
 ## beacon_api_eth_v1_events_blob_sidecar
 
-
+Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -195,20 +181,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-07` to `2024-06-21`
 - **sepolia**: `2024-01-30` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_blob_sidecar/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_blob_sidecar FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -251,7 +229,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_blob_sideca
 
 ## beacon_api_eth_v1_events_block
 
-
+Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -261,20 +239,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-06-21`
 - **sepolia**: `2023-12-24` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_block/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_block FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -315,7 +285,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_block FINAL
 
 ## beacon_api_eth_v1_events_chain_reorg
 
-
+Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -325,20 +295,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-05` to `2024-06-21`
 - **sepolia**: `2024-05-23` to `2024-05-23`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_chain_reorg/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_chain_reorg FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -383,7 +345,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_chain_reorg
 
 ## beacon_api_eth_v1_events_contribution_and_proof
 
-
+Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -393,20 +355,12 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 - **holesky**: `2023-12-24` to `2024-06-21`
 - **sepolia**: `2023-12-24` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_contribution_and_proof/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_contribution_and_proof FINAL WHERE contribution_slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -452,7 +406,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_contributio
 
 ## beacon_api_eth_v1_events_finalized_checkpoint
 
-
+Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -462,20 +416,12 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 - **holesky**: `2023-03-26` to `2024-06-21`
 - **sepolia**: `2023-03-26` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_finalized_checkpoint FINAL WHERE epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -514,7 +460,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_finalized_c
 
 ## beacon_api_eth_v1_events_head
 
-
+Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -524,20 +470,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-05` to `2024-06-21`
 - **sepolia**: `2023-12-05` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_head/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_head FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -581,7 +519,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_head FINAL 
 
 ## beacon_api_eth_v1_events_voluntary_exit
 
-
+Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -591,20 +529,12 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 - **holesky**: `2023-10-01` to `2023-10-06`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_voluntary_exit/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_voluntary_exit FINAL WHERE epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -642,7 +572,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_voluntary_e
 
 ## beacon_api_eth_v1_validator_attestation_data
 
-
+Contains beacon API validator attestation data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -652,20 +582,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-06-21`
 - **sepolia**: `2023-12-24` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_validator_attestation_data/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_validator_attestation_data FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -714,7 +636,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_validator_attestat
 
 ## beacon_api_eth_v2_beacon_block
 
-
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -724,20 +646,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-06-21`
 - **sepolia**: `2023-12-24` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v2_beacon_block/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v2_beacon_block FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -792,7 +706,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v2_beacon_block FINAL
 
 ## mempool_transaction
 
-
+Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 
 
 ### Availability
@@ -802,20 +716,12 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 - **holesky**: `2024-01-08` to `2024-06-01`
 - **sepolia**: `2024-01-08` to `2024-06-01`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mempool_transaction/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.mempool_transaction FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -863,7 +769,7 @@ clickhouse client -q "SELECT * FROM default.mempool_transaction FINAL WHERE even
 
 ## beacon_api_eth_v1_proposer_duty
 
-
+Contains a proposer duty from a beacon block.
 
 
 ### Availability
@@ -873,20 +779,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-04-03` to `2024-06-21`
 - **sepolia**: `2024-04-03` to `2024-06-21`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_proposer_duty/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_proposer_duty FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -926,7 +824,7 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_proposer_duty FINA
 
 ## canonical_beacon_block
 
-
+Contains beacon block from a beacon node.
 
 
 ### Availability
@@ -936,20 +834,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-28` to `2024-06-19`
 - **sepolia**: `2022-06-20` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1003,7 +893,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block FINAL WHERE s
 
 ## canonical_beacon_block_attester_slashing
 
-
+Contains attester slashing from a beacon block.
 
 
 ### Availability
@@ -1013,20 +903,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-05-21` to `2024-05-26`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_attester_slashing/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_attester_slashing FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1084,7 +966,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_attester_slas
 
 ## canonical_beacon_block_proposer_slashing
 
-
+Contains proposer slashing from a beacon block.
 
 
 ### Availability
@@ -1094,20 +976,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-03-26` to `2024-03-26`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_proposer_slashing/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_proposer_slashing FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1159,7 +1033,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_proposer_slas
 
 ## canonical_beacon_block_bls_to_execution_change
 
-
+Contains bls to execution change from a beacon block.
 
 
 ### Availability
@@ -1169,20 +1043,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-05-25` to `2024-05-25`
 - **sepolia**: `2024-04-08` to `2024-04-08`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_bls_to_execution_change/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_bls_to_execution_change FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1226,7 +1092,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_bls_to_execut
 
 ## canonical_beacon_block_execution_transaction
 
-
+Contains execution transaction from a beacon block.
 
 
 ### Availability
@@ -1236,20 +1102,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-28` to `2024-06-19`
 - **sepolia**: `2022-07-06` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_transaction/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_execution_transaction FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1307,7 +1165,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_execution_tra
 
 ## canonical_beacon_block_voluntary_exit
 
-
+Contains a voluntary exit from a beacon block.
 
 
 ### Availability
@@ -1317,20 +1175,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-11` to `2024-06-19`
 - **sepolia**: `2024-03-28` to `2024-03-28`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_voluntary_exit/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_voluntary_exit FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1373,7 +1223,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_voluntary_exi
 
 ## canonical_beacon_block_deposit
 
-
+Contains a deposit from a beacon block.
 
 
 ### Availability
@@ -1383,20 +1233,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-29` to `2024-06-19`
 - **sepolia**: `2022-07-01` to `2022-07-01`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_deposit/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_deposit FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1441,7 +1283,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_deposit FINAL
 
 ## canonical_beacon_block_withdrawal
 
-
+Contains a withdrawal from a beacon block.
 
 
 ### Availability
@@ -1451,20 +1293,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-29` to `2024-06-19`
 - **sepolia**: `2023-02-28` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_withdrawal/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_block_withdrawal FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1508,7 +1342,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_withdrawal FI
 
 ## canonical_beacon_blob_sidecar
 
-
+Contains a blob sidecar from a beacon block.
 
 
 ### Availability
@@ -1518,20 +1352,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-07` to `2024-06-19`
 - **sepolia**: `2024-01-30` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_blob_sidecar/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_blob_sidecar FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1578,7 +1404,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_blob_sidecar FINAL 
 
 ## canonical_beacon_proposer_duty
 
-
+Contains a proposer duty from a beacon block.
 
 
 ### Availability
@@ -1588,20 +1414,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-28` to `2024-06-19`
 - **sepolia**: `2022-06-20` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_proposer_duty/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_proposer_duty FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1641,7 +1459,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_proposer_duty FINAL
 
 ## canonical_beacon_elaborated_attestation
 
-
+Contains elaborated attestations from beacon blocks.
 
 
 ### Availability
@@ -1651,20 +1469,12 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-09-28` to `2024-06-19`
 - **sepolia**: `2023-04-05` to `2024-06-19`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_elaborated_attestation/YYYY/MM/DD.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/6/17.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.canonical_beacon_elaborated_attestation FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1717,7 +1527,7 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_elaborated_attestat
 
 ## libp2p_add_peer
 
-
+Contains the details of the peers added to the libp2p client.
 
 
 ### Availability
@@ -1727,20 +1537,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_add_peer/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_add_peer/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_add_peer FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1770,7 +1572,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_add_peer FINAL WHERE event_da
 
 ## libp2p_connected
 
-
+Contains the details of the CONNECTED events from the libp2p client.
 
 
 ### Availability
@@ -1780,20 +1582,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_connected/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_connected/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_connected FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1843,7 +1637,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_connected FINAL WHERE event_d
 
 ## libp2p_disconnected
 
-
+Contains the details of the DISCONNECTED events from the libp2p client.
 
 
 ### Availability
@@ -1853,20 +1647,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_disconnected/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_disconnected/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_disconnected FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1916,7 +1702,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_disconnected FINAL WHERE even
 
 ## libp2p_gossipsub_beacon_attestation
 
-
+Table for libp2p gossipsub beacon attestation data.
 
 
 ### Availability
@@ -1926,20 +1712,12 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_attestation/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_gossipsub_beacon_attestation FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -1994,7 +1772,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_gossipsub_beacon_attestation 
 
 ## libp2p_gossipsub_beacon_block
 
-
+Table for libp2p gossipsub beacon block data.
 
 
 ### Availability
@@ -2004,20 +1782,12 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_block/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_gossipsub_beacon_block FINAL WHERE slot_start_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2063,7 +1833,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_gossipsub_beacon_block FINAL 
 
 ## libp2p_handle_metadata
 
-
+Contains the metadata handling events for libp2p peers.
 
 
 ### Availability
@@ -2073,20 +1843,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_handle_metadata/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_metadata/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_handle_metadata FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2121,7 +1883,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_handle_metadata FINAL WHERE e
 
 ## libp2p_handle_status
 
-
+Contains the status handling events for libp2p peers.
 
 
 ### Availability
@@ -2131,20 +1893,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_handle_status/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_handle_status FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2186,7 +1940,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_handle_status FINAL WHERE eve
 
 ## libp2p_join
 
-
+Contains the details of the JOIN events from the libp2p client.
 
 
 ### Availability
@@ -2196,20 +1950,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_join/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_join/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_join FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2242,7 +1988,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_join FINAL WHERE event_date_t
 
 ## libp2p_peer
 
-
+Contains the original peer id of a seahashed peer_id + meta_network_name, commonly seen in other tables as the field peer_id_unique_key
 
 
 ### Availability
@@ -2252,20 +1998,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_peer/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_peer/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_peer FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2279,7 +2017,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_peer FINAL WHERE event_date_t
 
 ## libp2p_recv_rpc
 
-
+Contains the details of the RPC messages received by the peer.
 
 
 ### Availability
@@ -2289,20 +2027,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_recv_rpc/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_recv_rpc/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_recv_rpc FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2331,7 +2061,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_recv_rpc FINAL WHERE event_da
 
 ## libp2p_remove_peer
 
-
+Contains the details of the peers removed from the libp2p client.
 
 
 ### Availability
@@ -2341,20 +2071,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_remove_peer/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_remove_peer/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_remove_peer FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2383,7 +2105,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_remove_peer FINAL WHERE event
 
 ## libp2p_rpc_meta_control_graft
 
-
+Contains the details of the "Graft" control messages from the peer.
 
 
 ### Availability
@@ -2393,20 +2115,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_control_graft/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_graft/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_graft FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2441,7 +2155,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_graft FINAL 
 
 ## libp2p_rpc_meta_control_ihave
 
-
+Contains the details of the "I have" control messages from the peer.
 
 
 ### Availability
@@ -2451,20 +2165,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_control_ihave/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_ihave/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_ihave FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2501,7 +2207,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_ihave FINAL 
 
 ## libp2p_rpc_meta_control_iwant
 
-
+Contains the details of the "I want" control messages from the peer.
 
 
 ### Availability
@@ -2511,20 +2217,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_control_iwant/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_iwant/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_iwant FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2557,7 +2255,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_iwant FINAL 
 
 ## libp2p_rpc_meta_control_prune
 
-
+Contains the details of the "Prune" control messages from the peer.
 
 
 ### Availability
@@ -2567,20 +2265,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_control_prune/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_prune/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_prune FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2617,7 +2307,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_control_prune FINAL 
 
 ## libp2p_rpc_meta_message
 
-
+Contains the details of the RPC meta messages from the peer
 
 
 ### Availability
@@ -2627,20 +2317,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_message/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_message/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_message FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2676,7 +2358,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_message FINAL WHERE 
 
 ## libp2p_rpc_meta_subscription
 
-
+Contains the details of the RPC subscriptions from the peer.
 
 
 ### Availability
@@ -2686,20 +2368,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_meta_subscription/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_subscription/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_subscription FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
@@ -2735,7 +2409,7 @@ clickhouse client -q "SELECT * FROM default.libp2p_rpc_meta_subscription FINAL W
 
 ## libp2p_send_rpc
 
-
+Contains the details of the RPC messages sent by the peer.
 
 
 ### Availability
@@ -2745,20 +2419,12 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 - **holesky**: `null` to `null`
 - **sepolia**: `null` to `null`
 
-### Example - parquet file
+### Example
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_send_rpc/YYYY/MM/DD/HH.parquet
 
 ```bash
 clickhouse client -q "SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_send_rpc/2024/6/17/0.parquet', 'Parquet') LIMIT 10"
-```
-
-### Example - clickhouse table
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-clickhouse client -q "SELECT * FROM default.libp2p_send_rpc FINAL WHERE event_date_time >= NOW() - INTERVAL '1 HOUR' LIMIT 10"
 ```
 
 ### Columns
