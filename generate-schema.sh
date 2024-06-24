@@ -17,20 +17,28 @@ temp_schema_readme=$(mktemp)
 generate_schema() {
     yq e '.tables[]' "$config_file" -o=json | jq -c '.' | while read -r table_config; do
         table_name=$(echo "$table_config" | jq -r '.name')
+        database=$(echo "$table_config" | jq -r '.database')
         quirks=$(echo "$table_config" | jq -r '.quirks')
         hourly_partitioning=$(echo "$table_config" | jq -r '.hourly_partitioning')
         date_partition_column=$(echo "$table_config" | jq -r '.date_partition_column')
         interval="daily"
         # get today's date - 1 week as 2024/3/20
         example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
-        formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/default/${table_name}/YYYY/MM/DD.parquet"
-        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/default/${table_name}/${example_date}.parquet"
+        formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD.parquet"
+        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}.parquet"
         if [ "$hourly_partitioning" = true ]; then
             interval="hourly"
-            formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/default/${table_name}/YYYY/MM/DD/HH.parquet"
-            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/default/${table_name}/${example_date}/0.parquet"
+            formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD/HH.parquet"
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}/0.parquet"
         fi
         table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
+
+        table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        should_use_final=false
+        # check if table engine contains Replacing
+        if [[ "$table_engine" =~ "Replacing" ]]; then
+            should_use_final=true
+        fi
 
         excluded_columns=$(echo "$table_config" | jq -r '.excluded_columns[]' | tr '\n' ' ')
         
@@ -63,12 +71,22 @@ generate_schema() {
             echo "- $network_info"
         done
         echo ""
-        echo "### Example"
+        echo "### Example - parquet file"
         echo ""
         echo "> $formated_url"
         echo ""
         echo "\`\`\`bash"
         echo "clickhouse client -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
+        echo "\`\`\`"
+        echo ""
+        echo "### Example - clickhouse table"
+        if [ "$should_use_final" = true ]; then
+            echo ""
+            echo "> **Note:** [\`FINAL\`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table"
+        fi
+        echo ""
+        echo "\`\`\`bash"
+        echo "clickhouse client -q \"SELECT * FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) WHERE $date_partition_column >= NOW() - INTERVAL '1 HOUR' LIMIT 10\""
         echo "\`\`\`"
         echo ""
         echo "### Columns"
