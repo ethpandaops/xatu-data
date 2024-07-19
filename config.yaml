@@ -168,7 +168,7 @@ tables:
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
-    date_partition_column: epoch_start_date_time
+    date_partition_column: wallclock_epoch_start_date_time
     hourly_partitioning: false
     networks:
       mainnet:
