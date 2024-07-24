@@ -194,9 +194,9 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_attestation
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-07-21`
-- **holesky**: `2024-02-07` to `2024-07-21`
-- **sepolia**: `2024-01-30` to `2024-07-21`
+- **mainnet**: `2024-03-13` to `2024-07-22`
+- **holesky**: `2024-02-07` to `2024-07-22`
+- **sepolia**: `2024-01-30` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -257,9 +257,9 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_blob_sideca
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-02-28` to `2024-07-21`
-- **holesky**: `2023-12-24` to `2024-07-21`
-- **sepolia**: `2023-12-24` to `2024-07-21`
+- **mainnet**: `2023-02-28` to `2024-07-22`
+- **holesky**: `2023-12-24` to `2024-07-22`
+- **sepolia**: `2023-12-24` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -318,9 +318,9 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_block FINAL
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-07-21`
-- **holesky**: `2024-02-05` to `2024-07-21`
-- **sepolia**: `2024-05-23` to `2024-07-21`
+- **mainnet**: `2023-03-01` to `2024-07-22`
+- **holesky**: `2024-02-05` to `2024-07-22`
+- **sepolia**: `2024-05-23` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -383,9 +383,9 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_events_chain_reorg
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-07-21`
-- **holesky**: `2023-12-24` to `2024-07-21`
-- **sepolia**: `2023-12-24` to `2024-07-21`
+- **mainnet**: `2023-08-31` to `2024-07-22`
+- **holesky**: `2023-12-24` to `2024-07-22`
+- **sepolia**: `2023-12-24` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -906,9 +906,9 @@ clickhouse client -q "SELECT * FROM default.beacon_api_eth_v1_proposer_duty FINA
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-07-21`
-- **holesky**: `2023-09-23` to `2024-07-21`
-- **sepolia**: `2022-06-20` to `2024-07-21`
+- **mainnet**: `2020-12-01` to `2024-07-22`
+- **holesky**: `2023-09-23` to `2024-07-22`
+- **sepolia**: `2022-06-20` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -981,8 +981,8 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block FINAL WHERE s
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-07-21`
-- **holesky**: `2023-09-23` to `2024-07-21`
+- **mainnet**: `2020-12-01` to `2024-07-22`
+- **holesky**: `2023-09-23` to `2024-07-22`
 - **sepolia**: `null` to `null`
 
 ### Example - parquet file
@@ -1059,8 +1059,8 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_attester_slas
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-07-21`
-- **holesky**: `2023-09-23` to `2024-07-21`
+- **mainnet**: `2020-12-01` to `2024-07-22`
+- **holesky**: `2023-09-23` to `2024-07-22`
 - **sepolia**: `null` to `null`
 
 ### Example - parquet file
@@ -1131,9 +1131,9 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_proposer_slas
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-07-21`
-- **holesky**: `2023-09-28` to `2024-07-21`
-- **sepolia**: `2022-06-22` to `2024-07-21`
+- **mainnet**: `2023-04-12` to `2024-07-22`
+- **holesky**: `2023-09-28` to `2024-07-22`
+- **sepolia**: `2022-06-22` to `2024-07-22`
 
 ### Example - parquet file
 
@@ -1195,8 +1195,8 @@ clickhouse client -q "SELECT * FROM default.canonical_beacon_block_bls_to_execut
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2024-07-21`
-- **holesky**: `2023-09-23` to `2024-07-21`
+- **mainnet**: `2022-09-06` to `2024-07-22`
+- **holesky**: `2023-09-23` to `2024-07-22`
 - **sepolia**: `2022-06-22` to `2024-07-21`
 
 ### Example - parquet file
