@@ -54,13 +54,13 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-29"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2023-09-01"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
@@ -172,7 +172,7 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2024-01-01"
+        from: "2020-12-01"
         to: "2024-08-05"
       holesky:
         from: "2023-10-01"
@@ -338,7 +338,7 @@ tables:
         to: "2024-08-05"
       sepolia:
         from: "2022-06-22"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -350,13 +350,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-23"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2022-06-22"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -368,13 +368,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-23"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2022-06-22"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -386,13 +386,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-12"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-23"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2023-02-28"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -404,13 +404,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2024-02-07"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2024-01-30"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -422,13 +422,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-23"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2022-06-20"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
@@ -440,13 +440,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-08-04"
+        to: "2024-08-05"
       holesky:
         from: "2023-09-23"
-        to: "2024-08-04"
+        to: "2024-08-05"
       sepolia:
         from: "2022-06-22"
-        to: "2024-08-04"
+        to: "2024-08-05"
     tags:
       - Consensus layer
       - Finalized
