@@ -511,14 +511,14 @@ tables:
     hourly_partitioning: true
     networks:
       mainnet:
-        from: "null"
-        to: "null"
+        from: "2024-05-01"
+        to: "2024-08-16"
       holesky:
-        from: "null"
-        to: "null"
+        from: "2024-05-01"
+        to: "2024-05-16"
       sepolia:
-        from: "null"
-        to: "null"
+        from: "2024-05-01"
+        to: "2024-06-03"
     tags:
       - Consensus layer
       - P2P
@@ -526,17 +526,35 @@ tables:
     database: default
     excluded_columns: []
     date_partition_column: slot_start_date_time
-    hourly_partitioning: true
+    hourly_partitioning: false
     networks:
       mainnet:
-        from: "null"
-        to: "null"
+        from: "2024-04-26"
+        to: "2024-08-16"
       holesky:
-        from: "null"
-        to: "null"
+        from: "2024-04-26"
+        to: "2024-08-16"
       sepolia:
-        from: "null"
-        to: "null"
+        from: "2024-04-26"
+        to: "2024-08-16"
+    tags:
+      - Consensus layer
+      - P2P
+  - name: libp2p_gossipsub_blob_sidecar
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: false
+    networks:
+      mainnet:
+        from: "2024-06-04"
+        to: "2024-08-16"
+      holesky:
+        from: "2024-06-04"
+        to: "2024-08-16"
+      sepolia:
+        from: "2024-06-04"
+        to: "2024-08-16"
     tags:
       - Consensus layer
       - P2P
