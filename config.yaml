@@ -26,6 +26,7 @@ datasets:
       prefix: libp2p_
     availability:
       - ethpandaops-clickhouse
+      - public
 tables:
   - name: beacon_api_eth_v1_beacon_committee
     database: default
