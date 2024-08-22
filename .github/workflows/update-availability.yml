@@ -22,6 +22,7 @@ jobs:
             ./update-availability.sh "Beacon API Event Stream"
             ./update-availability.sh "Execution Layer P2P"
             ./update-availability.sh "Canonical Beacon"
+            ./update-availability.sh "Consensus Layer P2P"
       - name: Commit changes
         run: |
           git config --global user.email "action@github.com"
