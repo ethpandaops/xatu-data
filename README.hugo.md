@@ -31,7 +31,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 | **Beacon API Event Stream** | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
 | **Execution Layer P2P** | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
 | **Canonical Beacon** | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
-| **Consensus Layer P2P** | Events from the consensus layer p2p network | libp2p_ | ✅ | ❌ |
+| **Consensus Layer P2P** | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
 <!-- datasets_end -->
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
