@@ -513,13 +513,13 @@ tables:
     networks:
       mainnet:
         from: "2024-05-01"
-        to: "2024-08-16"
+        to: "2024-08-19"
       holesky:
         from: "2024-05-01"
-        to: "2024-05-16"
+        to: "2024-08-19"
       sepolia:
         from: "2024-05-01"
-        to: "2024-06-03"
+        to: "2024-06-17"
     tags:
       - Consensus layer
       - P2P
@@ -531,13 +531,13 @@ tables:
     networks:
       mainnet:
         from: "2024-04-26"
-        to: "2024-08-16"
+        to: "2024-08-19"
       holesky:
         from: "2024-04-26"
-        to: "2024-08-16"
+        to: "2024-08-19"
       sepolia:
         from: "2024-04-26"
-        to: "2024-08-16"
+        to: "2024-08-19"
     tags:
       - Consensus layer
       - P2P
@@ -549,13 +549,13 @@ tables:
     networks:
       mainnet:
         from: "2024-06-04"
-        to: "2024-08-16"
+        to: "2024-08-19"
       holesky:
         from: "2024-06-04"
-        to: "2024-08-16"
+        to: "2024-08-19"
       sepolia:
         from: "2024-06-04"
-        to: "2024-08-16"
+        to: "2024-08-19"
     tags:
       - Consensus layer
       - P2P
