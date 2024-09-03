@@ -51,7 +51,7 @@
 <!-- schema_start -->
 ## beacon_api_eth_v1_beacon_committee
 
-
+Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 
 
 > Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
@@ -239,7 +239,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_blob_sidecar
 
-
+Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -332,7 +332,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_block
 
-
+Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -423,7 +423,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_chain_reorg
 
-
+Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -518,7 +518,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_contribution_and_proof
 
-
+Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -614,7 +614,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_finalized_checkpoint
 
-
+Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -703,7 +703,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_head
 
-
+Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -797,7 +797,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_events_voluntary_exit
 
-
+Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -889,7 +889,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_validator_attestation_data
 
-
+Contains beacon API validator attestation data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -988,7 +988,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v2_beacon_block
 
-
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
 
 ### Availability
@@ -1098,7 +1098,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## mempool_transaction
 
-
+Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 
 
 ### Availability
@@ -1196,7 +1196,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## beacon_api_eth_v1_proposer_duty
 
-
+Contains a proposer duty from a beacon block.
 
 
 ### Availability
@@ -2369,7 +2369,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_add_peer
 
-
+Contains the details of the peers added to the libp2p client.
 
 
 ### Availability
@@ -2449,7 +2449,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_connected
 
-
+Contains the details of the CONNECTED events from the libp2p client.
 
 
 ### Availability
@@ -2549,7 +2549,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_disconnected
 
-
+Contains the details of the DISCONNECTED events from the libp2p client.
 
 
 ### Availability
@@ -2649,7 +2649,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_gossipsub_beacon_attestation
 
-
+Table for libp2p gossipsub beacon attestation data.
 
 
 ### Availability
@@ -2755,7 +2755,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_gossipsub_beacon_block
 
-
+Table for libp2p gossipsub beacon block data.
 
 
 ### Availability
@@ -2852,7 +2852,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_gossipsub_blob_sidecar
 
-
+Table for libp2p gossipsub blob sidecar data
 
 
 ### Availability
@@ -2951,7 +2951,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_handle_metadata
 
-
+Contains the metadata handling events for libp2p peers.
 
 
 ### Availability
@@ -3036,7 +3036,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_handle_status
 
-
+Contains the status handling events for libp2p peers.
 
 
 ### Availability
@@ -3128,7 +3128,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_join
 
-
+Contains the details of the JOIN events from the libp2p client.
 
 
 ### Availability
@@ -3211,7 +3211,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_peer
 
-
+Contains the original peer id of a seahashed peer_id + meta_network_name, commonly seen in other tables as the field peer_id_unique_key
 
 
 ### Availability
@@ -3276,7 +3276,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_recv_rpc
 
-
+Contains the details of the RPC messages received by the peer.
 
 
 ### Availability
@@ -3356,7 +3356,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_remove_peer
 
-
+Contains the details of the peers removed from the libp2p client.
 
 
 ### Availability
@@ -3435,7 +3435,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_control_graft
 
-
+Contains the details of the "Graft" control messages from the peer.
 
 
 ### Availability
@@ -3521,7 +3521,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_control_ihave
 
-
+Contains the details of the "I have" control messages from the peer.
 
 
 ### Availability
@@ -3609,7 +3609,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_control_iwant
 
-
+Contains the details of the "I want" control messages from the peer.
 
 
 ### Availability
@@ -3693,7 +3693,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_control_prune
 
-
+Contains the details of the "Prune" control messages from the peer.
 
 
 ### Availability
@@ -3781,7 +3781,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_message
 
-
+Contains the details of the RPC meta messages from the peer
 
 
 ### Availability
@@ -3868,7 +3868,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_rpc_meta_subscription
 
-
+Contains the details of the RPC subscriptions from the peer.
 
 
 ### Availability
@@ -3955,7 +3955,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 
 ## libp2p_send_rpc
 
-
+Contains the details of the RPC messages sent by the peer.
 
 
 ### Availability

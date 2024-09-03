@@ -62,12 +62,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 <!-- schema_start -->
 ## beacon_api_eth_v1_beacon_committee
-
-
-
-
-> Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
-
+{{< lead >}} Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node. {{< /lead >}}
+{{<alert >}} Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch. {{< /alert >}}
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -155,9 +151,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_attestation
-
-Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
-
+{{< lead >}} Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -250,9 +244,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_blob_sidecar
-
-
-
+{{< lead >}} Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -343,9 +335,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_block
-
-
-
+{{< lead >}} Contains beacon API eventstream "block" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -434,9 +424,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_chain_reorg
-
-
-
+{{< lead >}} Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -529,9 +517,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_contribution_and_proof
-
-
-
+{{< lead >}} Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
@@ -625,9 +611,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_finalized_checkpoint
-
-
-
+{{< lead >}} Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
@@ -714,9 +698,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_head
-
-
-
+{{< lead >}} Contains beacon API eventstream "head" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -808,9 +790,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_voluntary_exit
-
-
-
+{{< lead >}} Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
@@ -900,9 +880,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_validator_attestation_data
-
-
-
+{{< lead >}} Contains beacon API validator attestation data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -999,9 +977,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v2_beacon_block
-
-
-
+{{< lead >}} Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1109,9 +1085,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## mempool_transaction
-
-
-
+{{< lead >}} Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1207,9 +1181,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_proposer_duty
-
-
-
+{{< lead >}} Contains a proposer duty from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1297,9 +1269,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block
-
-Contains beacon block from a beacon node.
-
+{{< lead >}} Contains beacon block from a beacon node. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1406,9 +1376,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_attester_slashing
-
-Contains attester slashing from a beacon block.
-
+{{< lead >}} Contains attester slashing from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1513,9 +1481,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_proposer_slashing
-
-Contains proposer slashing from a beacon block.
-
+{{< lead >}} Contains proposer slashing from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1614,9 +1580,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_bls_to_execution_change
-
-Contains bls to execution change from a beacon block.
-
+{{< lead >}} Contains bls to execution change from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1707,9 +1671,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_execution_transaction
-
-Contains execution transaction from a beacon block.
-
+{{< lead >}} Contains execution transaction from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1814,9 +1776,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_voluntary_exit
-
-Contains a voluntary exit from a beacon block.
-
+{{< lead >}} Contains a voluntary exit from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1906,9 +1866,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_deposit
-
-Contains a deposit from a beacon block.
-
+{{< lead >}} Contains a deposit from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2000,9 +1958,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_block_withdrawal
-
-Contains a withdrawal from a beacon block.
-
+{{< lead >}} Contains a withdrawal from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2093,9 +2049,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_blob_sidecar
-
-Contains a blob sidecar from a beacon block.
-
+{{< lead >}} Contains a blob sidecar from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2189,9 +2143,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## canonical_beacon_proposer_duty
-
-Contains a proposer duty from a beacon block.
-
+{{< lead >}} Contains a proposer duty from a beacon block. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2278,9 +2230,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the even* |
 
 ## canonical_beacon_elaborated_attestation
-
-Contains elaborated attestations from beacon blocks.
-
+{{< lead >}} Contains elaborated attestations from beacon blocks. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2380,9 +2330,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## libp2p_add_peer
-
-
-
+{{< lead >}} Contains the details of the peers added to the libp2p client. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -2460,9 +2408,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_connected
-
-
-
+{{< lead >}} Contains the details of the CONNECTED events from the libp2p client. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -2560,9 +2506,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_disconnected
-
-
-
+{{< lead >}} Contains the details of the DISCONNECTED events from the libp2p client. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -2660,9 +2604,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_gossipsub_beacon_attestation
-
-
-
+{{< lead >}} Table for libp2p gossipsub beacon attestation data. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -2766,9 +2708,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
 ## libp2p_gossipsub_beacon_block
-
-
-
+{{< lead >}} Table for libp2p gossipsub beacon block data. {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2863,9 +2803,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
 ## libp2p_gossipsub_blob_sidecar
-
-
-
+{{< lead >}} Table for libp2p gossipsub blob sidecar data {{< /lead >}}
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2962,9 +2900,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
 ## libp2p_handle_metadata
-
-
-
+{{< lead >}} Contains the metadata handling events for libp2p peers. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3047,9 +2983,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_handle_status
-
-
-
+{{< lead >}} Contains the status handling events for libp2p peers. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3139,9 +3073,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_join
-
-
-
+{{< lead >}} Contains the details of the JOIN events from the libp2p client. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3222,9 +3154,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_peer
-
-
-
+{{< lead >}} Contains the original peer id of a seahashed peer_id + meta_network_name, commonly seen in other tables as the field peer_id_unique_key {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3287,9 +3217,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_recv_rpc
-
-
-
+{{< lead >}} Contains the details of the RPC messages received by the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3367,9 +3295,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_remove_peer
-
-
-
+{{< lead >}} Contains the details of the peers removed from the libp2p client. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3446,9 +3372,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_graft
-
-
-
+{{< lead >}} Contains the details of the "Graft" control messages from the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3532,9 +3456,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_ihave
-
-
-
+{{< lead >}} Contains the details of the "I have" control messages from the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3620,9 +3542,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_iwant
-
-
-
+{{< lead >}} Contains the details of the "I want" control messages from the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3704,9 +3624,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_prune
-
-
-
+{{< lead >}} Contains the details of the "Prune" control messages from the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3792,9 +3710,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_message
-
-
-
+{{< lead >}} Contains the details of the RPC meta messages from the peer {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3879,9 +3795,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_subscription
-
-
-
+{{< lead >}} Contains the details of the RPC subscriptions from the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
@@ -3966,9 +3880,7 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_send_rpc
-
-
-
+{{< lead >}} Contains the details of the RPC messages sent by the peer. {{< /lead >}}
 
 ### Availability
 Data is partitioned **hourly** on **event_date_time** for the following networks:
