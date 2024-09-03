@@ -86,42 +86,10 @@ First install the dependencies:
 
   [Click here to get started](#using-ethpandaops-clickhouse)
 
-#### Querying public parquet files
-
-Querying the public parquet files is a great way to get started with the data. **We recommend you don't do this for larger queries or queries that you'll run again.**
-
-Examples:
-
-- Count the number of block events per consensus client for the 20th of March 2024 on Mainnet
-
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
-  SELECT
-    count(*), meta_consensus_implementation 
-  FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/20.parquet', 'Parquet')
-  GROUP BY meta_consensus_implementation 
-  FORMAT Pretty
-"
-```
-
-- Show the 90th, 50th, 05th percentile and min arrival time for blocks per day for the 20th to 27th of March 2024 on Mainnet
-
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
-  SELECT
-    toDate(slot_start_date_time) AS day,
-    round(MIN(propagation_slot_start_diff)) AS min_ms,
-    round(quantile(0.05)(propagation_slot_start_diff)) AS p05_ms,
-    round(quantile(0.50)(propagation_slot_start_diff)) AS p50_ms,
-    round(quantile(0.90)(propagation_slot_start_diff)) AS p90_ms
-  FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/{15..20}.parquet', 'Parquet')
-  GROUP BY day
-  FORMAT Pretty
-"
-```
 
 #### Running your own Clickhouse
 
+Running your own Clickhouse cluster is recommended for most use cases. This process will walk you through the steps of setting up a cluster with the Xatu Clickhouse migrations and importing the data straight from the public parquet files.
 
 - **Clone the Xatu repo**  
   Xatu contains a docker compose file to run a Clickhouse cluster locally. This server will automatically have the correct schema migrations applied.
@@ -211,12 +179,29 @@ If you need access please reach out to us at ethpandaops at ethereum.org. Access
         LIMIT 10"
        ```
 
+#### Querying public parquet files
+
+Querying the public parquet files is a great way to get started with the data. **We recommend you don't do this for larger queries or queries that you'll run again.**
+
+Examples:
+
+- Count the number of block events per consensus client for the 20th of March 2024 on Mainnet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
+  SELECT
+    count(*), meta_consensus_implementation 
+  FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/20.parquet', 'Parquet')
+  GROUP BY meta_consensus_implementation 
+  FORMAT Pretty
+"
+```
+
 ### Examples
-#### Queries
 
 Now that we have data in a Clickhouse server, we can query it.
 
-##### Show all block events for the 20th of March 2024 by nimbus sentries on mainnet between 01:20 and 01:30
+- Show all block events for the 20th of March 2024 by nimbus sentries on mainnet between 01:20 and 01:30
   
   ```bash
   docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="""
@@ -231,7 +216,7 @@ Now that we have data in a Clickhouse server, we can query it.
   """
   ```
 
-#### Show the 90th, 50th, 05th percentile and min arrival time for blocks per day for the 20th to 27th of March 2024
+- Show the 90th, 50th, 05th percentile and min arrival time for blocks per day for the 20th to 27th of March 2024
 
   ```bash
   docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="""
