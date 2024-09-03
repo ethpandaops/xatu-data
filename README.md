@@ -45,9 +45,9 @@ If you have access to EthPandaOps Clickhouse you can query the data directly. Sk
 
 - [Getting started](#getting-started)
 - [Choose your data access method](#choose-your-data-access-method)
-  - [Querying public parquet files](#querying-public-parquet-files)
   - [Running your own Clickhouse](#running-your-own-clickhouse)
   - [Using EthPandaOps Clickhouse](#using-ethpandaops-clickhouse)
+  - [Querying public parquet files](#querying-public-parquet-files)
 - [Examples](#examples)
   - [Queries](#queries)
   - [Jupyter Notebooks](#jupyter-notebooks)
@@ -204,8 +204,9 @@ docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
 ```
 
 ### Examples
-
 Once your Clickhouse server is setup and the data is imported, you can query the data.
+
+#### Queries
 
 - Show all block events for the 20th of March 2024 by nimbus sentries on mainnet between 01:20 and 01:30
   
