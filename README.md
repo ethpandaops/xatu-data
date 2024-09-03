@@ -70,7 +70,7 @@ There are three options to get started with the data, all of them using Clickhou
   
   Great for larger, repeated queries or when you want to query the data in a more complex way.
 
-  > [!NOTE]
+> [!IMPORTANT]
   > Recommended for most use cases.
 
   [Click here to get started](#running-your-own-clickhouse)
