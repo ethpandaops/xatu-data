@@ -64,6 +64,7 @@ First install the dependencies:
 
 #### Choose your data access method
 
+There are three options to get started with the data, all of them using Clickhouse. 
 
 - Option 1: **Setup your own Clickhouse server and import the data.**
   
@@ -171,12 +172,17 @@ If you need access please reach out to us at ethpandaops at ethereum.org. Access
   
     2. Execute a query
        ```bash
-       docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="
-         SELECT 
-           *
-        FROM
-          default.beacon_api_eth_v1_events_block
-        LIMIT 10"
+        curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+        -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+            --data-urlencode "query= \
+            SELECT \
+                * \
+            FROM default.beacon_api_eth_v1_events_block FINAL \
+            WHERE \
+                slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
+            LIMIT 3 \
+            FORMAT Pretty \
+            "
        ```
 
 #### Querying public parquet files
@@ -199,7 +205,7 @@ docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
 
 ### Examples
 
-Now that we have data in a Clickhouse server, we can query it.
+Once your Clickhouse server is setup and the data is imported, you can query the data.
 
 - Show all block events for the 20th of March 2024 by nimbus sentries on mainnet between 01:20 and 01:30
   
