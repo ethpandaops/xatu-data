@@ -13,8 +13,6 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [Available data](#available-data)
   - [Schema](#schema)
 - [Working with the data](#working-with-the-data)
-  - [Setup clickhouse](#setup-clickhouse)
-  - [Examples](#examples)
 - [License](#license)
 - [Maintainers](#maintainers)
 
@@ -68,10 +66,10 @@ There are three options to get started with the data, all of them using Clickhou
 
 - Option 1: **Setup your own Clickhouse server and import the data.**
   
+  > Recommended for most use cases.
+  > 
   Great for larger, repeated queries or when you want to query the data in a more complex way.
 
-> [!IMPORTANT]
-  > Recommended for most use cases.
 
   [Click here to get started](#running-your-own-clickhouse)
 
