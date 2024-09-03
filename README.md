@@ -128,14 +128,19 @@ Running your own Clickhouse cluster is recommended for most use cases. This proc
        git clone https://github.com/ethpandaops/xatu-data.git
        cd xatu-data;
        ```
-    2. Import the data into Clickhouse
+    2. Install clickhouse client
+       ```bash
+       curl https://clickhouse.com/ | sh
+       ```
+    3. Import the data into Clickhouse
        ```bash
        ./import-clickhouse.sh mainnet default beacon_api_eth_v1_events_block 2024-03-20 2024-03-27
        ```
        This will import the data for the `default.beacon_api_eth_v1_events_block` table in mainnet from the 20th of March 2024 to the 27th of March 2024.
-    3. Verify the data import
+    4. Verify the data import
        ```bash
-       clickhouse client --query "SELECT toStartOfDay(slot_start_date_time) AS day, COUNT(*) FROM default.beacon_api_eth_v1_events_block GROUP BY day FORMAT Pretty"
+       docker run --rm -it --net host \
+        clickhouse/clickhouse-server clickhouse client -q "SELECT toStartOfDay(slot_start_date_time) AS day, COUNT(*) FROM default.beacon_api_eth_v1_events_block GROUP BY day FORMAT Pretty"
        ```
        This query will show you the count of events per day.
 
