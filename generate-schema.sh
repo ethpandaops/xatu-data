@@ -76,7 +76,7 @@ generate_schema() {
         echo "> $formated_url"
         echo ""
         echo "\`\`\`bash"
-        echo "clickhouse client -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
+        echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query -q \"SELECT * FROM url('$example_url', 'Parquet') LIMIT 10\""
         echo "\`\`\`"
         echo ""
         echo "### Example - clickhouse table"
@@ -86,7 +86,7 @@ generate_schema() {
         fi
         echo ""
         echo "\`\`\`bash"
-        echo "clickhouse client -q \"SELECT * FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) WHERE $date_partition_column >= NOW() - INTERVAL '1 HOUR' LIMIT 10\""
+        echo "docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client -q \"SELECT * FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) WHERE $date_partition_column >= NOW() - INTERVAL '1 HOUR' LIMIT 10\""
         echo "\`\`\`"
         echo ""
         echo "### Columns"
