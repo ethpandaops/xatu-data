@@ -1508,7 +1508,7 @@ Contains proposer slashing from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-01`
+- **mainnet**: `2020-12-01` to `2024-09-02`
 - **holesky**: `2023-09-23` to `2024-09-01`
 - **sepolia**: `null` to `null`
 
