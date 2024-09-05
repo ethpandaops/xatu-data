@@ -245,7 +245,7 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-09-02`
+- **mainnet**: `2024-03-13` to `2024-09-03`
 - **holesky**: `2024-02-07` to `2024-09-02`
 - **sepolia**: `2024-01-30` to `2024-09-02`
 
@@ -525,7 +525,7 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-08-31` to `2024-09-02`
-- **holesky**: `2023-12-24` to `2024-09-02`
+- **holesky**: `2023-12-24` to `2024-09-03`
 - **sepolia**: `2023-12-24` to `2024-09-02`
 
 ### Example - Parquet file
@@ -1610,7 +1610,7 @@ Contains bls to execution change from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-04-12` to `2024-09-02`
-- **holesky**: `2023-09-28` to `2024-09-02`
+- **holesky**: `2023-09-28` to `2024-09-03`
 - **sepolia**: `2022-06-22` to `2024-09-02`
 
 ### Example - Parquet file
