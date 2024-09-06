@@ -245,9 +245,9 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-09-03`
-- **holesky**: `2024-02-07` to `2024-09-03`
-- **sepolia**: `2024-01-30` to `2024-09-03`
+- **mainnet**: `2024-03-13` to `2024-09-04`
+- **holesky**: `2024-02-07` to `2024-09-04`
+- **sepolia**: `2024-01-30` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -338,9 +338,9 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-02-28` to `2024-09-03`
-- **holesky**: `2023-12-24` to `2024-09-03`
-- **sepolia**: `2023-12-24` to `2024-09-03`
+- **mainnet**: `2023-02-28` to `2024-09-04`
+- **holesky**: `2023-12-24` to `2024-09-04`
+- **sepolia**: `2023-12-24` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -429,9 +429,9 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-09-03`
-- **holesky**: `2024-02-05` to `2024-09-03`
-- **sepolia**: `2024-05-23` to `2024-09-03`
+- **mainnet**: `2023-03-01` to `2024-09-04`
+- **holesky**: `2024-02-05` to `2024-09-04`
+- **sepolia**: `2024-05-23` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -524,9 +524,9 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-09-03`
-- **holesky**: `2023-12-24` to `2024-09-03`
-- **sepolia**: `2023-12-24` to `2024-09-03`
+- **mainnet**: `2023-08-31` to `2024-09-04`
+- **holesky**: `2023-12-24` to `2024-09-04`
+- **sepolia**: `2023-12-24` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -1292,9 +1292,9 @@ Contains beacon block from a beacon node.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-03`
-- **holesky**: `2023-09-23` to `2024-09-03`
-- **sepolia**: `2022-06-20` to `2024-09-03`
+- **mainnet**: `2020-12-01` to `2024-09-04`
+- **holesky**: `2023-09-23` to `2024-09-04`
+- **sepolia**: `2022-06-20` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -1401,8 +1401,8 @@ Contains attester slashing from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-03`
-- **holesky**: `2023-09-23` to `2024-09-03`
+- **mainnet**: `2020-12-01` to `2024-09-04`
+- **holesky**: `2023-09-23` to `2024-09-04`
 - **sepolia**: `null` to `null`
 
 ### Example - Parquet file
@@ -1508,8 +1508,8 @@ Contains proposer slashing from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-03`
-- **holesky**: `2023-09-23` to `2024-09-03`
+- **mainnet**: `2020-12-01` to `2024-09-04`
+- **holesky**: `2023-09-23` to `2024-09-04`
 - **sepolia**: `null` to `null`
 
 ### Example - Parquet file
@@ -1609,9 +1609,9 @@ Contains bls to execution change from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-09-03`
-- **holesky**: `2023-09-28` to `2024-09-03`
-- **sepolia**: `2022-06-22` to `2024-09-03`
+- **mainnet**: `2023-04-12` to `2024-09-04`
+- **holesky**: `2023-09-28` to `2024-09-04`
+- **sepolia**: `2022-06-22` to `2024-09-04`
 
 ### Example - Parquet file
 
@@ -1702,8 +1702,8 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2024-09-03`
-- **holesky**: `2023-09-23` to `2024-09-03`
+- **mainnet**: `2022-09-06` to `2024-09-04`
+- **holesky**: `2023-09-23` to `2024-09-04`
 - **sepolia**: `2022-06-22` to `2024-09-03`
 
 ### Example - Parquet file
@@ -2761,9 +2761,9 @@ Table for libp2p gossipsub beacon block data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2024-09-03`
-- **holesky**: `2024-04-26` to `2024-09-03`
-- **sepolia**: `2024-04-26` to `2024-09-03`
+- **mainnet**: `2024-04-26` to `2024-09-04`
+- **holesky**: `2024-04-26` to `2024-09-04`
+- **sepolia**: `2024-04-26` to `2024-09-04`
 
 ### Example - Parquet file
 
