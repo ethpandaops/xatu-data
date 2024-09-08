@@ -249,9 +249,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-09-05`
-- **holesky**: `2024-02-07` to `2024-09-05`
-- **sepolia**: `2024-01-30` to `2024-09-05`
+- **mainnet**: `2024-03-13` to `2024-09-06`
+- **holesky**: `2024-02-07` to `2024-09-06`
+- **sepolia**: `2024-01-30` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -340,9 +340,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-02-28` to `2024-09-05`
-- **holesky**: `2023-12-24` to `2024-09-05`
-- **sepolia**: `2023-12-24` to `2024-09-05`
+- **mainnet**: `2023-02-28` to `2024-09-06`
+- **holesky**: `2023-12-24` to `2024-09-06`
+- **sepolia**: `2023-12-24` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -429,9 +429,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-09-05`
-- **holesky**: `2024-02-05` to `2024-09-05`
-- **sepolia**: `2024-05-23` to `2024-09-05`
+- **mainnet**: `2023-03-01` to `2024-09-06`
+- **holesky**: `2024-02-05` to `2024-09-06`
+- **sepolia**: `2024-05-23` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -522,9 +522,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-09-05`
-- **holesky**: `2023-12-24` to `2024-09-05`
-- **sepolia**: `2023-12-24` to `2024-09-05`
+- **mainnet**: `2023-08-31` to `2024-09-06`
+- **holesky**: `2023-12-24` to `2024-09-06`
+- **sepolia**: `2023-12-24` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -1274,9 +1274,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-05`
-- **holesky**: `2023-09-23` to `2024-09-05`
-- **sepolia**: `2022-06-20` to `2024-09-05`
+- **mainnet**: `2020-12-01` to `2024-09-06`
+- **holesky**: `2023-09-23` to `2024-09-06`
+- **sepolia**: `2022-06-20` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -1381,8 +1381,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-05`
-- **holesky**: `2023-09-23` to `2024-09-05`
+- **mainnet**: `2020-12-01` to `2024-09-06`
+- **holesky**: `2023-09-23` to `2024-09-06`
 - **sepolia**: `null` to `null`
 
 ### Example - Parquet file
@@ -1486,8 +1486,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-05`
-- **holesky**: `2023-09-23` to `2024-09-05`
+- **mainnet**: `2020-12-01` to `2024-09-06`
+- **holesky**: `2023-09-23` to `2024-09-06`
 - **sepolia**: `null` to `null`
 
 ### Example - Parquet file
@@ -1585,9 +1585,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-09-05`
-- **holesky**: `2023-09-28` to `2024-09-05`
-- **sepolia**: `2022-06-22` to `2024-09-05`
+- **mainnet**: `2023-04-12` to `2024-09-06`
+- **holesky**: `2023-09-28` to `2024-09-06`
+- **sepolia**: `2022-06-22` to `2024-09-06`
 
 ### Example - Parquet file
 
@@ -1676,8 +1676,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2024-09-05`
-- **holesky**: `2023-09-23` to `2024-09-05`
+- **mainnet**: `2022-09-06` to `2024-09-06`
+- **holesky**: `2023-09-23` to `2024-09-06`
 - **sepolia**: `2022-06-22` to `2024-09-05`
 
 ### Example - Parquet file
@@ -2713,9 +2713,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2024-09-05`
-- **holesky**: `2024-04-26` to `2024-09-05`
-- **sepolia**: `2024-04-26` to `2024-09-05`
+- **mainnet**: `2024-04-26` to `2024-09-06`
+- **holesky**: `2024-04-26` to `2024-09-06`
+- **sepolia**: `2024-04-26` to `2024-09-06`
 
 ### Example - Parquet file
 
