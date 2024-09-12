@@ -55,6 +55,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 - [`libp2p_rpc_meta_message`](#libp2p_rpc_meta_message)
 - [`libp2p_rpc_meta_subscription`](#libp2p_rpc_meta_subscription)
 - [`libp2p_send_rpc`](#libp2p_send_rpc)
+- [`mev_relay_bid_trace`](#mev_relay_bid_trace)
 <!-- schema_toc_end -->
 
 
@@ -79,7 +80,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -157,8 +158,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-06-05` to `2024-09-10`
-- **holesky**: `2023-09-29` to `2024-09-09`
-- **sepolia**: `2023-09-01` to `2024-09-08`
+- **holesky**: `2023-09-29` to `2024-09-10`
+- **sepolia**: `2023-09-01` to `2024-09-10`
 
 ### Example - Parquet file
 
@@ -167,7 +168,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -260,7 +261,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -351,7 +352,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -440,7 +441,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -533,7 +534,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -627,7 +628,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -714,7 +715,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -806,7 +807,7 @@ Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the fol
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -896,7 +897,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -993,7 +994,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1101,7 +1102,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1197,7 +1198,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1285,7 +1286,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1392,7 +1393,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1497,7 +1498,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1596,7 +1597,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1687,7 +1688,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1792,7 +1793,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1882,7 +1883,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1974,7 +1975,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2065,7 +2066,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2159,7 +2160,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2235,9 +2236,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-08`
-- **holesky**: `2023-09-23` to `2024-09-08`
-- **sepolia**: `2022-06-22` to `2024-09-08`
+- **mainnet**: `2020-12-01` to `2024-09-10`
+- **holesky**: `2023-09-23` to `2024-09-10`
+- **sepolia**: `2022-06-22` to `2024-09-10`
 
 ### Example - Parquet file
 
@@ -2246,7 +2247,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2346,7 +2347,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_add_peer/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_add_peer/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2424,7 +2425,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_connected/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_connected/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2522,7 +2523,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_disconnected/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_disconnected/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2620,7 +2621,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2724,7 +2725,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2819,7 +2820,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/9/4.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/9/5.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2916,7 +2917,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_metadata/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_metadata/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -2999,7 +3000,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3089,7 +3090,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_join/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_join/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3170,7 +3171,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_peer/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_peer/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3233,7 +3234,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_recv_rpc/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_recv_rpc/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3311,7 +3312,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_remove_peer/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_remove_peer/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3388,7 +3389,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_graft/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_graft/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3472,7 +3473,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_ihave/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_ihave/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3558,7 +3559,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_iwant/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_iwant/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3640,7 +3641,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_prune/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_prune/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3726,7 +3727,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_message/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_message/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3811,7 +3812,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_subscription/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_subscription/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3896,7 +3897,7 @@ Data is partitioned **hourly** on **event_date_time** for the following networks
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_send_rpc/2024/9/4/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_send_rpc/2024/9/5/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -3956,5 +3957,105 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## mev_relay_bid_trace
+{{< lead >}} Contains MEV relay block bids data. {{< /lead >}}
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **mainnet**: `2024-09-03` to `2024-09-03`
+- **holesky**: `2024-09-03` to `2024-09-03`
+- **sepolia**: `2024-09-03` to `2024-09-03`
+
+### Example - Parquet file
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_bid_trace/YYYY/MM/DD.parquet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
+ "SELECT * \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/9/5.parquet', 'Parquet') \
+ LIMIT 10"
+```
+
+### Example - Your Clickhouse
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host \
+    clickhouse/clickhouse-server clickhouse client -q \
+    "SELECT \
+        * \
+    FROM default.mev_relay_bid_trace FINAL \
+    WHERE \
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
+    LIMIT 10"
+
+```
+### Example - EthPandaOps Clickhouse
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+-u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+    --data-urlencode "query= \
+    SELECT \
+        * \
+    FROM default.mev_relay_bid_trace FINAL \
+    WHERE \
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
+    LIMIT 3 \
+    FORMAT Pretty \
+    "
+```
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *When the bid was fetched* |
+| **slot** | `UInt32` | *Slot number within the block bid* |
+| **slot_start_date_time** | `DateTime` | *The start time for the slot that the bid is for* |
+| **epoch** | `UInt32` | *Epoch number derived from the slot that the bid is for* |
+| **epoch_start_date_time** | `DateTime` | *The start time for the epoch that the bid is for* |
+| **wallclock_request_slot** | `UInt32` | *The wallclock slot when the request was sent* |
+| **wallclock_request_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
+| **wallclock_request_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
+| **wallclock_request_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
+| **requested_at_slot_time** | `UInt32` | *The time in the slot when the request was sent* |
+| **response_at_slot_time** | `UInt32` | *The time in the slot when the response was received* |
+| **relay_name** | `String` | *The relay that the bid was fetched from* |
+| **parent_hash** | `FixedString(66)` | *The parent hash of the bid* |
+| **block_number** | `UInt64` | *The block number of the bid* |
+| **block_hash** | `FixedString(66)` | *The block hash of the bid* |
+| **builder_pubkey** | `String` | *The builder pubkey of the bid* |
+| **proposer_pubkey** | `String` | *The proposer pubkey of the bid* |
+| **proposer_fee_recipient** | `FixedString(42)` | *The proposer fee recipient of the bid* |
+| **gas_limit** | `UInt64` | *The gas limit of the bid* |
+| **gas_used** | `UInt64` | *The gas used of the bid* |
+| **value** | `UInt256` | *The transaction value in float64* |
+| **num_tx** | `UInt32` | *The number of transactions in the bid* |
+| **timestamp** | `Int64` | *The timestamp of the bid* |
+| **timestamp_ms** | `Int64` | *The timestamp of the bid in milliseconds* |
+| **optimistic_submission** | `Bool` | *Whether the bid was optimistic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 <!-- schema_end -->
