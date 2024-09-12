@@ -27,6 +27,13 @@ datasets:
     availability:
       - ethpandaops-clickhouse
       - public
+  - name: "MEV Relay"
+    description: "Events derived from MEV relays"
+    tables:
+      prefix: mev_relay_
+    availability:
+      - public
+      - ethpandaops-clickhouse
 tables:
   - name: beacon_api_eth_v1_beacon_committee
     database: default
@@ -793,3 +800,21 @@ tables:
     tags:
       - Consensus layer
       - P2P
+  - name: mev_relay_bid_trace
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: false
+    networks:
+      mainnet:
+        from: "2024-09-03"
+        to: "2024-09-03"
+      holesky:
+        from: "2024-09-03"
+        to: "2024-09-03"
+      sepolia:
+        from: "2024-09-03"
+        to: "2024-09-03"
+    tags:
+      - Consensus layer
+      - MEV
