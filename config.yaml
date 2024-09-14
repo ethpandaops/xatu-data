@@ -82,7 +82,7 @@ tables:
         to: "2024-09-12"
       holesky:
         from: "2024-02-07"
-        to: "2024-09-12"
+        to: "2024-09-13"
       sepolia:
         from: "2024-01-30"
         to: "2024-09-12"
@@ -153,7 +153,7 @@ tables:
         to: "2024-09-12"
       sepolia:
         from: "2023-03-26"
-        to: "2024-09-12"
+        to: "2024-09-13"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_head
@@ -394,7 +394,7 @@ tables:
     networks:
       mainnet:
         from: "2023-04-12"
-        to: "2024-09-12"
+        to: "2024-09-13"
       holesky:
         from: "2023-09-23"
         to: "2024-09-12"
