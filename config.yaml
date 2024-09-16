@@ -1,6 +1,6 @@
 datasets:
-  - name: "Beacon API Event Stream"
-    description: "Events derived from the Beacon API event stream"
+  - description: "Events derived from the Beacon API event stream"
+    name: "Beacon API Event Stream"
     tables:
       prefix: beacon_api_
     availability:
