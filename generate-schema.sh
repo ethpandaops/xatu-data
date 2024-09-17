@@ -204,7 +204,11 @@ generate_datasets_table() {
         dataset_name=$(echo "$dataset_config" | jq -r '.name')
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
-        dataset_link="./schema/$dataset_prefix.md"
+        if [ "${hugo}" = true ]; then
+            dataset_link="./${dataset_prefix}.md"
+        else
+            dataset_link="./schema/$dataset_prefix.md"
+        fi
         echo -n "| **$dataset_name** | [Schema]($dataset_link) | $dataset_description | $dataset_prefix |"
         for option in $dataset_availability_options; do
             if echo "$dataset_config" | jq -r '.availability[]' | grep -q "$option"; then

@@ -1,5 +1,3 @@
-# Xatu Dataset Schema
-
 {{< alert icon="circle-info" >}}
 This **dataset** contains a wealth of information about the **Ethereum network**, including detailed data on **beacon chain** events, **mempool** activity, and **canonical chain** events. Read more in our [announcement post]({{< ref "/posts/open-source-xatu-data" >}} "Announcement post").
 {{< /alert >}}
@@ -10,14 +8,15 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 </div>
 
 ## Classes of Data
-Xatu data is organized into the following classes:
+
+Xatu data is organized in to different datasets:
 
 <!-- schema_toc_start -->
 | Dataset Name | Schema Link | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
 |--------------|-------------|-------------|--------|---|---|
-| **Beacon API Event Stream** | [Schema](./schema/beacon_api_.md) | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
-| **Execution Layer P2P** | [Schema](./schema/mempool_.md) | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
-| **Canonical Beacon** | [Schema](./schema/canonical_beacon_.md) | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
-| **Consensus Layer P2P** | [Schema](./schema/libp2p_.md) | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
-| **MEV Relay** | [Schema](./schema/mev_relay_.md) | Events derived from MEV relays | mev_relay_ | ✅ | ✅ |
+| **Beacon API Event Stream** | [Schema](./beacon_api_.md) | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
+| **Execution Layer P2P** | [Schema](./mempool_.md) | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
+| **Canonical Beacon** | [Schema](./canonical_beacon_.md) | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
+| **Consensus Layer P2P** | [Schema](./libp2p_.md) | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
+| **MEV Relay** | [Schema](./mev_relay_.md) | Events derived from MEV relays | mev_relay_ | ✅ | ✅ |
 <!-- schema_toc_end -->
