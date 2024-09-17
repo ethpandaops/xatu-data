@@ -231,6 +231,8 @@ log "Updating main schema file $main_schema_file"
 
 # Replace the content between the markers directly
 sed -i '' -e "/<!-- schema_toc_start -->/,/<!-- schema_toc_end -->/{//!d;}" "$main_schema_file"
+
+log "Inserting new schema_toc into main schema file"
 sed -i '' -e "/<!-- schema_toc_start -->/r /dev/stdin" "$main_schema_file" <<< "$new_schema_toc"
 
 log "Schema update completed"
