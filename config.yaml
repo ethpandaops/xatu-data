@@ -458,60 +458,6 @@ tables:
     tags:
       - Consensus layer
       - Finalized
-  - name: libp2p_add_peer
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_connected
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_disconnected
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
   - name: libp2p_gossipsub_beacon_attestation
     database: default
     excluded_columns: []
@@ -566,240 +512,6 @@ tables:
     tags:
       - Consensus layer
       - P2P
-  - name: libp2p_handle_metadata
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_handle_status
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_join
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_peer
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_recv_rpc
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_remove_peer
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_control_graft
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_control_ihave
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_control_iwant
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_control_prune
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_message
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_rpc_meta_subscription
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_send_rpc
-    database: default
-    excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: true
-    networks:
-      mainnet:
-        from: "null"
-        to: "null"
-      holesky:
-        from: "null"
-        to: "null"
-      sepolia:
-        from: "null"
-        to: "null"
-    tags:
-      - Consensus layer
-      - P2P
   - name: mev_relay_bid_trace
     database: default
     excluded_columns: []
@@ -807,14 +519,30 @@ tables:
     hourly_partitioning: false
     networks:
       mainnet:
-        from: "2024-09-03"
-        to: "2024-09-03"
+        from: "2024-09-16"
+        to: "2024-09-16"
       holesky:
-        from: "2024-09-03"
-        to: "2024-09-03"
+        from: "2024-09-16"
+        to: "2024-09-16"
       sepolia:
-        from: "2024-09-03"
-        to: "2024-09-03"
+        from: "2024-09-16"
+        to: "2024-09-16"
+  - name: mev_relay_proposer_payload_delivered
+    database: default
+    excluded_columns: []
+    date_partition_column: slot_start_date_time
+    hourly_partitioning: false
+    networks:
+      mainnet:
+        from: "2024-09-16"
+        to: "2024-09-16"
+      holesky:
+        from: "2024-09-16"
+        to: "2024-09-16"
+      sepolia:
+        from: "2024-09-16"
+        to: "2024-09-16"
     tags:
       - Consensus layer
+      - Execution layer
       - MEV

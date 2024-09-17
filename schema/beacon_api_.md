@@ -3,8 +3,8 @@
 Events derived from the Beacon API event stream
 
 ## Availability
-- public
-- ethpandaops-clickhouse
+- Public Parquet Files
+- EthPandaOps Clickhouse
 
 ## Tables
 
@@ -25,8 +25,11 @@ Events derived from the Beacon API event stream
 
 <!-- schema_start -->
 ## beacon_api_eth_v1_beacon_committee
-{{< lead >}}  {{< /lead >}}
-{{<alert >}} Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch. {{< /alert >}}
+
+Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
+
+
+> Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -42,7 +45,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/9/9/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/9/10/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -114,7 +117,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_attestation
-{{< lead >}} Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node. {{< /lead >}}
+
+Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -130,7 +134,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/9/9/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/9/10/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -207,7 +211,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_blob_sidecar
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -223,7 +228,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -298,7 +303,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_block
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -314,7 +320,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -387,7 +393,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_chain_reorg
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -403,7 +410,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -480,7 +487,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_contribution_and_proof
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
@@ -496,7 +504,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -574,7 +582,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_finalized_checkpoint
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
@@ -590,7 +599,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -661,7 +670,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_head
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -677,7 +687,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -753,7 +763,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_events_voluntary_exit
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
@@ -769,7 +780,7 @@ Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the fol
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -843,7 +854,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_validator_attestation_data
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API validator attestation data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -859,7 +871,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -940,7 +952,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v2_beacon_block
-{{< lead >}}  {{< /lead >}}
+
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -956,7 +969,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1048,7 +1061,8 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## beacon_api_eth_v1_proposer_duty
-{{< lead >}}  {{< /lead >}}
+
+Contains a proposer duty from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1064,7 +1078,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 

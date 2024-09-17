@@ -19,6 +19,18 @@ log() {
     echo "$(date +"%Y-%m-%d %H:%M:%S") - $1"
 }
 
+# Function to get availability override
+get_availability_override() {
+    local key="$1"
+    for i in "${!availability_overrides_keys[@]}"; do
+        if [[ "${availability_overrides_keys[$i]}" == "$key" ]]; then
+            echo "${availability_overrides_values[$i]}"
+            return
+        fi
+    done
+    echo "$key"
+}
+
 # Generate schema for a single table
 generate_table_schema() {
     set -e;
@@ -39,7 +51,7 @@ generate_table_schema() {
         example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}/0.parquet"
     fi
     
-    local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '$table_name' FORMAT TabSeparated")
+    local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
     local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
     local should_use_final=false
     if [[ "$table_engine" =~ "Replacing" ]]; then
@@ -50,24 +62,15 @@ generate_table_schema() {
     local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
 
     echo "## $table_name"
-    if [ "$hugo" = true ]; then
-        echo "{{< lead >}} $table_description {{< /lead >}}"
-    else
-        echo ""
-        echo "$table_description"
-        echo ""
-    fi
+    echo ""
+    echo "$table_description"
+    echo ""
 
     if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
-        if [ "$hugo" = true ]; then
-            echo "{{<alert >}} $quirks {{< /alert >}}"
-        else
-            echo ""
-            echo "> $quirks"
-            echo ""
-        fi
+        echo ""
+        echo "> $quirks"
+        echo ""
     fi
-    echo ""
     echo "### Availability"
     echo "Data is partitioned **$interval** on **$date_partition_column** for the following networks:"
     echo ""
@@ -155,7 +158,7 @@ generate_dataset_schema() {
         echo
         echo "## Availability"
         echo "$dataset_config" | yq e '.availability[]' - | while read -r availability; do
-            echo "- $availability"
+            echo "- $(get_availability_override $availability)"
         done
         echo
         echo "## Tables"
@@ -185,18 +188,6 @@ done
 
 # Update main schema file
 log "Updating main schema file $main_schema_file"
-
-# Function to get availability override
-get_availability_override() {
-    local key="$1"
-    for i in "${!availability_overrides_keys[@]}"; do
-        if [[ "${availability_overrides_keys[$i]}" == "$key" ]]; then
-            echo "${availability_overrides_values[$i]}"
-            return
-        fi
-    done
-    echo "$key"
-}
 
 # Generate the datasets table markdown
 generate_datasets_table() {

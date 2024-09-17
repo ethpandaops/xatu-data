@@ -3,8 +3,8 @@
 Events from the execution layer p2p network
 
 ## Availability
-- ethpandaops-clickhouse
-- public
+- EthPandaOps Clickhouse
+- Public Parquet Files
 
 ## Tables
 
@@ -14,7 +14,8 @@ Events from the execution layer p2p network
 
 <!-- schema_start -->
 ## mempool_transaction
-{{< lead >}}  {{< /lead >}}
+
+Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -30,7 +31,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
