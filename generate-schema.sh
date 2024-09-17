@@ -205,7 +205,7 @@ generate_datasets_table() {
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
         if [ "${hugo}" = true ]; then
-            dataset_link="./${dataset_prefix}.md"
+            dataset_link="./${dataset_prefix}"
         else
             dataset_link="./schema/$dataset_prefix.md"
         fi
