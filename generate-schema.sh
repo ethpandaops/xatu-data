@@ -10,6 +10,8 @@ hugo=${HUGO:-false}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
 
+temp_schema_file=$(mktemp)
+
 # Availability overrides
 availability_overrides_keys=("public" "ethpandaops-clickhouse")
 availability_overrides_values=("Public Parquet Files" "EthPandaOps Clickhouse")
@@ -186,9 +188,6 @@ yq e '.datasets[].name' "$config_file" | while read -r dataset_name; do
 done
 
 
-# Update main schema file
-log "Updating main schema file $main_schema_file"
-
 # Generate the datasets table markdown
 generate_datasets_table() {
     # Extract all unique availability options for datasets
@@ -221,18 +220,26 @@ generate_datasets_table() {
     done
 }
 
-
-# Generate the new schema_toc content
-new_schema_toc=$(generate_datasets_table)
-
-log "Generated new schema_toc"
-
+# Update main schema file
 log "Updating main schema file $main_schema_file"
 
-# Replace the content between the markers directly
-sed -i '' -e "/<!-- schema_toc_start -->/,/<!-- schema_toc_end -->/{//!d;}" "$main_schema_file"
+# Generate the new schema_toc content
+schema_toc=$(generate_datasets_table)
 
-log "Inserting new schema_toc into main schema file"
-sed -i '' -e "/<!-- schema_toc_start -->/r /dev/stdin" "$main_schema_file" <<< "$new_schema_toc"
+echo "$schema_toc"
+
+# update ToC
+{
+    awk '/<!-- schema_toc_start -->/{exit}1' "$main_schema_file"
+    
+    echo "<!-- schema_toc_start -->"
+    echo "$schema_toc"
+    echo "<!-- schema_toc_end -->"
+
+    awk '/<!-- schema_toc_end -->/{flag=1}flag' "$main_schema_file" | tail -n +2
+} > "$temp_schema_file"
+
+# Replace the original README with the new content
+mv "$temp_schema_file" "$main_schema_file"
 
 log "Schema update completed"

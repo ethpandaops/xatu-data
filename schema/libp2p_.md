@@ -22,8 +22,8 @@ Events from the consensus layer p2p network
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2024-09-14`
-- **holesky**: `2024-05-01` to `2024-09-14`
+- **mainnet**: `2024-05-01` to `2024-09-15`
+- **holesky**: `2024-05-01` to `2024-09-16`
 - **sepolia**: `2024-05-01` to `2024-09-14`
 
 ### Example - Parquet file
@@ -77,9 +77,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2024-09-14`
-- **holesky**: `2024-04-26` to `2024-09-14`
-- **sepolia**: `2024-04-26` to `2024-09-14`
+- **mainnet**: `2024-04-26` to `2024-09-15`
+- **holesky**: `2024-04-26` to `2024-09-15`
+- **sepolia**: `2024-04-26` to `2024-09-16`
 
 ### Example - Parquet file
 
@@ -132,9 +132,9 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-06-04` to `2024-09-14`
-- **holesky**: `2024-06-04` to `2024-09-14`
-- **sepolia**: `2024-06-04` to `2024-09-14`
+- **mainnet**: `2024-06-04` to `2024-09-15`
+- **holesky**: `2024-06-04` to `2024-09-16`
+- **sepolia**: `2024-06-04` to `2024-09-15`
 
 ### Example - Parquet file
 
