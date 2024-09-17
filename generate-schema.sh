@@ -225,6 +225,10 @@ generate_datasets_table() {
 # Generate the new schema_toc content
 new_schema_toc=$(generate_datasets_table)
 
+log "Generated new schema_toc"
+
+log "Updating main schema file $main_schema_file"
+
 # Replace the content between the markers directly
 sed -i '' -e "/<!-- schema_toc_start -->/,/<!-- schema_toc_end -->/{//!d;}" "$main_schema_file"
 sed -i '' -e "/<!-- schema_toc_start -->/r /dev/stdin" "$main_schema_file" <<< "$new_schema_toc"
