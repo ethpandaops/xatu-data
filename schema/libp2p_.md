@@ -9,9 +9,9 @@ Events from the consensus layer p2p network
 ## Tables
 
 <!-- schema_toc_start -->
-- [`libp2p_gossipsub_beacon_attestation`](#libp2p-gossipsub-beacon-attestation)
-- [`libp2p_gossipsub_beacon_block`](#libp2p-gossipsub-beacon-block)
-- [`libp2p_gossipsub_blob_sidecar`](#libp2p-gossipsub-blob-sidecar)
+- [`libp2p_gossipsub_beacon_attestation`](#libp2p_gossipsub_beacon_attestation)
+- [`libp2p_gossipsub_beacon_block`](#libp2p_gossipsub_beacon_block)
+- [`libp2p_gossipsub_blob_sidecar`](#libp2p_gossipsub_blob_sidecar)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->

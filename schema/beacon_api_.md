@@ -9,18 +9,18 @@ Events derived from the Beacon API event stream
 ## Tables
 
 <!-- schema_toc_start -->
-- [`beacon_api_eth_v1_beacon_committee`](#beacon-api-eth-v1-beacon-committee)
-- [`beacon_api_eth_v1_events_attestation`](#beacon-api-eth-v1-events-attestation)
-- [`beacon_api_eth_v1_events_blob_sidecar`](#beacon-api-eth-v1-events-blob-sidecar)
-- [`beacon_api_eth_v1_events_block`](#beacon-api-eth-v1-events-block)
-- [`beacon_api_eth_v1_events_chain_reorg`](#beacon-api-eth-v1-events-chain-reorg)
-- [`beacon_api_eth_v1_events_contribution_and_proof`](#beacon-api-eth-v1-events-contribution-and-proof)
-- [`beacon_api_eth_v1_events_finalized_checkpoint`](#beacon-api-eth-v1-events-finalized-checkpoint)
-- [`beacon_api_eth_v1_events_head`](#beacon-api-eth-v1-events-head)
-- [`beacon_api_eth_v1_events_voluntary_exit`](#beacon-api-eth-v1-events-voluntary-exit)
-- [`beacon_api_eth_v1_validator_attestation_data`](#beacon-api-eth-v1-validator-attestation-data)
-- [`beacon_api_eth_v2_beacon_block`](#beacon-api-eth-v2-beacon-block)
-- [`beacon_api_eth_v1_proposer_duty`](#beacon-api-eth-v1-proposer-duty)
+- [`beacon_api_eth_v1_beacon_committee`](#beacon_api_eth_v1_beacon_committee)
+- [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
+- [`beacon_api_eth_v1_events_blob_sidecar`](#beacon_api_eth_v1_events_blob_sidecar)
+- [`beacon_api_eth_v1_events_block`](#beacon_api_eth_v1_events_block)
+- [`beacon_api_eth_v1_events_chain_reorg`](#beacon_api_eth_v1_events_chain_reorg)
+- [`beacon_api_eth_v1_events_contribution_and_proof`](#beacon_api_eth_v1_events_contribution_and_proof)
+- [`beacon_api_eth_v1_events_finalized_checkpoint`](#beacon_api_eth_v1_events_finalized_checkpoint)
+- [`beacon_api_eth_v1_events_head`](#beacon_api_eth_v1_events_head)
+- [`beacon_api_eth_v1_events_voluntary_exit`](#beacon_api_eth_v1_events_voluntary_exit)
+- [`beacon_api_eth_v1_validator_attestation_data`](#beacon_api_eth_v1_validator_attestation_data)
+- [`beacon_api_eth_v2_beacon_block`](#beacon_api_eth_v2_beacon_block)
+- [`beacon_api_eth_v1_proposer_duty`](#beacon_api_eth_v1_proposer_duty)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->

@@ -9,8 +9,8 @@ Events derived from MEV relays
 ## Tables
 
 <!-- schema_toc_start -->
-- [`mev_relay_bid_trace`](#mev-relay-bid-trace)
-- [`mev_relay_proposer_payload_delivered`](#mev-relay-proposer-payload-delivered)
+- [`mev_relay_bid_trace`](#mev_relay_bid_trace)
+- [`mev_relay_proposer_payload_delivered`](#mev_relay_proposer_payload_delivered)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->

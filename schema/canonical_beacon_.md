@@ -9,17 +9,17 @@ Events derived from the finalized beacon chain
 ## Tables
 
 <!-- schema_toc_start -->
-- [`canonical_beacon_block`](#canonical-beacon-block)
-- [`canonical_beacon_block_attester_slashing`](#canonical-beacon-block-attester-slashing)
-- [`canonical_beacon_block_proposer_slashing`](#canonical-beacon-block-proposer-slashing)
-- [`canonical_beacon_block_bls_to_execution_change`](#canonical-beacon-block-bls-to-execution-change)
-- [`canonical_beacon_block_execution_transaction`](#canonical-beacon-block-execution-transaction)
-- [`canonical_beacon_block_voluntary_exit`](#canonical-beacon-block-voluntary-exit)
-- [`canonical_beacon_block_deposit`](#canonical-beacon-block-deposit)
-- [`canonical_beacon_block_withdrawal`](#canonical-beacon-block-withdrawal)
-- [`canonical_beacon_blob_sidecar`](#canonical-beacon-blob-sidecar)
-- [`canonical_beacon_proposer_duty`](#canonical-beacon-proposer-duty)
-- [`canonical_beacon_elaborated_attestation`](#canonical-beacon-elaborated-attestation)
+- [`canonical_beacon_block`](#canonical_beacon_block)
+- [`canonical_beacon_block_attester_slashing`](#canonical_beacon_block_attester_slashing)
+- [`canonical_beacon_block_proposer_slashing`](#canonical_beacon_block_proposer_slashing)
+- [`canonical_beacon_block_bls_to_execution_change`](#canonical_beacon_block_bls_to_execution_change)
+- [`canonical_beacon_block_execution_transaction`](#canonical_beacon_block_execution_transaction)
+- [`canonical_beacon_block_voluntary_exit`](#canonical_beacon_block_voluntary_exit)
+- [`canonical_beacon_block_deposit`](#canonical_beacon_block_deposit)
+- [`canonical_beacon_block_withdrawal`](#canonical_beacon_block_withdrawal)
+- [`canonical_beacon_blob_sidecar`](#canonical_beacon_blob_sidecar)
+- [`canonical_beacon_proposer_duty`](#canonical_beacon_proposer_duty)
+- [`canonical_beacon_elaborated_attestation`](#canonical_beacon_elaborated_attestation)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->

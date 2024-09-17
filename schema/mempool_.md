@@ -9,7 +9,7 @@ Events from the execution layer p2p network
 ## Tables
 
 <!-- schema_toc_start -->
-- [`mempool_transaction`](#mempool-transaction)
+- [`mempool_transaction`](#mempool_transaction)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->

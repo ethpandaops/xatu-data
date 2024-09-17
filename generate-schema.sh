@@ -165,7 +165,7 @@ generate_dataset_schema() {
         echo
         echo "<!-- schema_toc_start -->"
         for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
-            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g'))"
+            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
         done
         echo "<!-- schema_toc_end -->"
         echo
