@@ -46,6 +46,8 @@ jobs:
             echo "Container exited with code $EXIT_CODE, failing the job."
             exit 1
           fi
+      - name: Go to root directory
+        run: cd ..
       - name: Run generate-schema.sh for SCHEMA.md
         run: ./generate-schema.sh
       - name: Run generate-schema.sh for SCHEMA.hugo.md
