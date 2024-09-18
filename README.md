@@ -21,11 +21,11 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 <!-- datasets_start -->
 | Dataset Name | Schema | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
 |--------------|--------|-------------|--------|---|---|
-| **Beacon API Event Stream** | [Schema](./schema/beacon_api_) | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
-| **Execution Layer P2P** | [Schema](./schema/mempool_) | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
-| **Canonical Beacon** | [Schema](./schema/canonical_beacon_) | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
-| **Consensus Layer P2P** | [Schema](./schema/libp2p_) | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
-| **MEV Relay** | [Schema](./schema/mev_relay_) | Events derived from MEV relays | mev_relay_ | ✅ | ✅ |
+| **Beacon API Event Stream** | [Schema](./schema/beacon_api_.md) | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
+| **Execution Layer P2P** | [Schema](./schema/mempool_.md) | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
+| **Canonical Beacon** | [Schema](./schema/canonical_beacon_.md) | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
+| **Consensus Layer P2P** | [Schema](./schema/libp2p_.md) | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
+| **MEV Relay** | [Schema](./schema/mev_relay_.md) | Events derived from MEV relays | mev_relay_ | ✅ | ✅ |
 <!-- datasets_end -->
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.

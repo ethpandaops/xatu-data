@@ -10,6 +10,7 @@ Events derived from the finalized beacon chain
 
 <!-- schema_toc_start -->
 - [`canonical_beacon_block`](#canonical_beacon_block)
+- [`canonical_beacon_committee`](#canonical_beacon_committee)
 - [`canonical_beacon_block_attester_slashing`](#canonical_beacon_block_attester_slashing)
 - [`canonical_beacon_block_proposer_slashing`](#canonical_beacon_block_proposer_slashing)
 - [`canonical_beacon_block_bls_to_execution_change`](#canonical_beacon_block_bls_to_execution_change)
@@ -108,6 +109,94 @@ curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version that generated the event* |
+| **meta_consensus_version_major** | `LowCardinality(String)` | *Ethereum consensus client major version that generated the event* |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## canonical_beacon_committee
+
+Contains canonical beacon API /eth/v1/beacon/committees data.
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **mainnet**: `2020-12-01` to `2024-09-16`
+- **holesky**: `2023-09-23` to `2024-09-16`
+- **sepolia**: `2022-06-20` to `2024-09-16`
+
+### Example - Parquet file
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_committee/YYYY/MM/DD.parquet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
+ "SELECT * \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2024/9/11.parquet', 'Parquet') \
+ LIMIT 10"
+```
+
+### Example - Your Clickhouse
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host \
+    clickhouse/clickhouse-server clickhouse client -q \
+    "SELECT \
+        * \
+    FROM default.canonical_beacon_committee FINAL \
+    WHERE \
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
+    LIMIT 10"
+
+```
+### Example - EthPandaOps Clickhouse
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+-u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+    --data-urlencode "query= \
+    SELECT \
+        * \
+    FROM default.canonical_beacon_committee FINAL \
+    WHERE \
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
+    LIMIT 3 \
+    FORMAT Pretty \
+    "
+```
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *Slot number in the beacon API committee payload* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **committee_index** | `LowCardinality(String)` | *The committee index in the beacon API committee payload* |
+| **validators** | `Array(UInt32)` | *The validator indices in the beacon API committee payload* |
+| **epoch** | `UInt32` | *The epoch number in the beacon API committee payload* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
