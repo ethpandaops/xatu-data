@@ -9,7 +9,9 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 ## Classes of Data
 
-Xatu data is organized in to different datasets:
+Xatu data is organized in to different datasets.
+
+Note: View all datasets on one page [here](./all)
 
 <!-- schema_toc_start -->
 | Dataset Name | Schema Link | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |

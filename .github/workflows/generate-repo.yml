@@ -52,14 +52,19 @@ jobs:
         run: ./generate-schema.sh
       - name: Run generate-schema.sh for SCHEMA.hugo.md
         env:
-          HUGO: true
+          MODE: hugo
           SCHEMA: SCHEMA.hugo.md
+        run: ./generate-schema.sh
+      - name: Run generate-schema.sh for SCHEMA.all.md
+        env:
+          MODE: all
+          SCHEMA: SCHEMA.all.md
         run: ./generate-schema.sh
       - name: Run generate-readme.sh for README.md
         run: ./generate-readme.sh
       - name: Run generate-readme.sh for README.hugo.md
         env:
-          HUGO: true
+          MODE: hugo
           README: README.hugo.md
         run: ./generate-readme.sh
       - name: Cleanup before commit

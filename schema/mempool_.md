@@ -1,4 +1,4 @@
-# Execution Layer P2P
+# mempool_
 
 Events from the execution layer p2p network
 
@@ -31,7 +31,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/10.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/11.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
