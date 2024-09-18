@@ -6,9 +6,15 @@ source ./scripts/date.sh
 
 # Configuration
 clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
-hugo=${HUGO:-false}
+mode=${MODE:-}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
+
+if [ "$mode" != "" ]; then
+    echo "Running in $mode mode"
+else
+    echo "Running in default mode"
+fi
 
 temp_schema_file=$(mktemp)
 
@@ -148,42 +154,43 @@ generate_dataset_schema() {
     local dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
     local dataset_description=$(echo "$dataset_config" | yq e '.description' -)
     local table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
-    local schema_file="schema/${table_prefix}.md"
-
-    log "Generating schema for dataset: $dataset_name"
 
     # Start writing to the schema file
-    {
-        echo "# $dataset_name"
-        echo
-        echo "$dataset_description"
-        echo
-        echo "## Availability"
-        echo "$dataset_config" | yq e '.availability[]' - | while read -r availability; do
-            echo "- $(get_availability_override $availability)"
-        done
-        echo
-        echo "## Tables"
-        echo
-        echo "<!-- schema_toc_start -->"
-        for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
-            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
-        done
-        echo "<!-- schema_toc_end -->"
-        echo
-        echo "<!-- schema_start -->"
-        for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
-            table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
-            generate_table_schema "$table_name" "$table_config"
-        done
-        echo "<!-- schema_end -->"
-    } > "$schema_file"
+    dataset_ref="$dataset_name"
+    if [ "$mode" = "all" ]; then
+        dataset_ref="$table_prefix"
+    fi
+    echo "# $dataset_ref"
+    echo
+    echo "$dataset_description"
+    echo
+    echo "## Availability"
+    echo "$dataset_config" | yq e '.availability[]' - | while read -r availability; do
+        echo "- $(get_availability_override $availability)"
+    done
+    echo
+    echo "## Tables"
+    echo
+    echo "<!-- schema_toc_start -->"
+    for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
+        echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
+    done
+    echo "<!-- schema_toc_end -->"
+    echo
+    echo "<!-- schema_start -->"
+    for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
+        table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
+        generate_table_schema "$table_name" "$table_config"
+    done
+    echo "<!-- schema_end -->"
 }
 
 # Generate schemas for all datasets
 yq e '.datasets[].name' "$config_file" | while read -r dataset_name; do
     echo "Generating schema for dataset: $dataset_name"
-    generate_dataset_schema "$dataset_name"
+    dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
+    table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
+    generate_dataset_schema "$dataset_name" > "schema/${table_prefix}.md"
     echo "Schema generation completed for $dataset_name"
 done
 
@@ -203,9 +210,13 @@ generate_datasets_table() {
         dataset_name=$(echo "$dataset_config" | jq -r '.name')
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
-        if [ "${hugo}" = true ]; then
+        if [ "${mode}" = "hugo" ]; then
             dataset_link="./${dataset_prefix}"
-        else
+        fi
+        if [ "${mode}" = "all" ]; then
+            dataset_link="#${dataset_prefix}"
+        fi
+        if [ "${mode}" = "" ]; then
             dataset_link="./schema/$dataset_prefix.md"
         fi
         echo -n "| **$dataset_name** | [Schema]($dataset_link) | $dataset_description | $dataset_prefix |"
@@ -216,7 +227,7 @@ generate_datasets_table() {
                 echo -n " ❌ |"
             fi
         done
-        echo
+        echo 
     done
 }
 
@@ -239,6 +250,28 @@ echo "$schema_toc"
     awk '/<!-- schema_toc_end -->/{flag=1}flag' "$main_schema_file" | tail -n +2
 } > "$temp_schema_file"
 
+
+if [ "${mode}" = "all" ]; then
+    echo "Generating all schemas"
+
+    temp_schema_file_all=$(mktemp)
+    yq e '.datasets[].name' "$config_file" | while read -r dataset_name; do
+        echo "Generating schema for dataset: $dataset_name"
+        generate_dataset_schema "$dataset_name" >> "$temp_schema_file_all"
+        echo "Schema generation completed for $dataset_name"
+    done
+
+    # Update Schema.all.md
+    {
+        awk '/<!-- schema_start -->/{exit}1' "$main_schema_file"
+    
+        echo "<!-- schema_start -->"
+        cat "$temp_schema_file_all"
+        echo "<!-- schema_end -->"
+
+        awk '/<!-- schema_end -->/{flag=1}flag' "$main_schema_file" | tail -n +2
+    } > "$temp_schema_file"
+fi
 # Replace the original README with the new content
 mv "$temp_schema_file" "$main_schema_file"
 
