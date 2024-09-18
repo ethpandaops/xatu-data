@@ -49,7 +49,7 @@ generate_datasets_table() {
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
         if [ "${mode}" = "hugo" ]; then
-            dataset_link="./${dataset_prefix}"
+            dataset_link="./schema/${dataset_prefix}"
         fi
         if [ "${mode}" = "" ]; then
             dataset_link="./schema/$dataset_prefix.md"
