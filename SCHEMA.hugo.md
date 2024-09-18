@@ -11,7 +11,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 Xatu data is organized in to different datasets.
 
-Note: View all datasets on one page [here](./all)
+Note: View all schemas on one page [here](./all)
 
 <!-- schema_toc_start -->
 | Dataset Name | Schema Link | Description | Prefix | EthPandaOps Clickhouse|Public Parquet Files |
