@@ -22,7 +22,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2023-07-22` to `2024-09-17`
 - **holesky**: `2024-01-08` to `2024-09-17`
-- **sepolia**: `2024-01-08` to `2024-09-17`
+- **sepolia**: `2024-01-08` to `2024-09-18`
 
 ### Example - Parquet file
 
