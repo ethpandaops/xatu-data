@@ -31,7 +31,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/13.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/9/14.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
