@@ -1,0 +1,273 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "When the bid was fetched"
+    },
+    {
+        "name": "slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number within the block bid"
+    },
+    {
+        "name": "slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the slot that the bid is for"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number derived from the slot that the bid is for"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the epoch that the bid is for"
+    },
+    {
+        "name": "wallclock_request_slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock slot when the request was sent"
+    },
+    {
+        "name": "wallclock_request_slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the slot when the request was sent"
+    },
+    {
+        "name": "wallclock_request_epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock epoch when the request was sent"
+    },
+    {
+        "name": "wallclock_request_epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the wallclock epoch when the request was sent"
+    },
+    {
+        "name": "requested_at_slot_time",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The time in the slot when the request was sent"
+    },
+    {
+        "name": "response_at_slot_time",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The time in the slot when the response was received"
+    },
+    {
+        "name": "relay_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The relay that the bid was fetched from"
+    },
+    {
+        "name": "parent_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The parent hash of the bid"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number of the bid"
+    },
+    {
+        "name": "block_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The block hash of the bid"
+    },
+    {
+        "name": "builder_pubkey",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The builder pubkey of the bid"
+    },
+    {
+        "name": "proposer_pubkey",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The proposer pubkey of the bid"
+    },
+    {
+        "name": "proposer_fee_recipient",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The proposer fee recipient of the bid"
+    },
+    {
+        "name": "gas_limit",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas limit of the bid"
+    },
+    {
+        "name": "gas_used",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas used of the bid"
+    },
+    {
+        "name": "value",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction value in float64"
+    },
+    {
+        "name": "num_tx",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The number of transactions in the bid"
+    },
+    {
+        "name": "timestamp",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The timestamp of the bid"
+    },
+    {
+        "name": "timestamp_ms",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The timestamp of the bid in milliseconds"
+    },
+    {
+        "name": "optimistic_submission",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED",
+        "description": "Whether the bid was optimistic"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    },
+    {
+        "name": "meta_labels",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Labels associated with the event",
+        "fields": [
+            {
+                "name": "key_value",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "key",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    },
+                    {
+                        "name": "value",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    }
+                ]
+            }
+        ]
+    }
+]

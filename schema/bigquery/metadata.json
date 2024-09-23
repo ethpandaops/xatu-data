@@ -1,0 +1,302 @@
+[
+    {
+        "name": "beacon_api_eth_v1_beacon_committee",
+        "description": "Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","committee_index"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_attestation",
+        "description": "Contains beacon API eventstream \"attestation\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_blob_sidecar",
+        "description": "Contains beacon API eventstream \"blob_sidecar\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","block_root","blob_index"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_block",
+        "description": "Contains beacon API eventstream \"block\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","block"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_chain_reorg",
+        "description": "Contains beacon API eventstream \"chain reorg\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","old_head_block","new_head_block"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_contribution_and_proof",
+        "description": "Contains beacon API eventstream \"contribution and proof\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "contribution_slot_start_date_time"
+        },
+        "clustering": ["contribution_slot_start_date_time","meta_client_name","contribution_beacon_block_root","contribution_subcommittee_index"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_finalized_checkpoint",
+        "description": "Contains beacon API eventstream \"finalized checkpoint\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "epoch_start_date_time"
+        },
+        "clustering": ["epoch_start_date_time","meta_client_name","block","state"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_head",
+        "description": "Contains beacon API eventstream \"head\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","block","previous_duty_dependent_root"]
+    },
+    {
+        "name": "beacon_api_eth_v1_events_voluntary_exit",
+        "description": "Contains beacon API eventstream \"voluntary exit\" data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "wallclock_epoch_start_date_time"
+        },
+        "clustering": ["wallclock_epoch_start_date_time","meta_client_name","validator_index"]
+    },
+    {
+        "name": "beacon_api_eth_v1_validator_attestation_data",
+        "description": "Contains beacon API validator attestation data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","committee_index","beacon_block_root"]
+    },
+    {
+        "name": "beacon_api_eth_v2_beacon_block",
+        "description": "Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","block_root","parent_root"]
+    },
+    {
+        "name": "beacon_api_eth_v1_proposer_duty",
+        "description": "Contains a proposer duty from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","proposer_validator_index"]
+    },
+    {
+        "name": "mempool_transaction",
+        "description": "Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "event_date_time"
+        },
+        "clustering": ["event_date_time","meta_client_name","hash","from"]
+    },
+    {
+        "name": "canonical_beacon_block",
+        "description": "Contains beacon block from a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time"]
+    },
+    {
+        "name": "canonical_beacon_committee",
+        "description": "Contains canonical beacon API /eth/v1/beacon/committees data.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","committee_index"]
+    },
+    {
+        "name": "canonical_beacon_block_attester_slashing",
+        "description": "Contains attester slashing from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","attestation_1_attesting_indices","attestation_2_attesting_indices"]
+    },
+    {
+        "name": "canonical_beacon_block_proposer_slashing",
+        "description": "Contains proposer slashing from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","signed_header_1_message_slot","signed_header_2_message_slot"]
+    },
+    {
+        "name": "canonical_beacon_block_bls_to_execution_change",
+        "description": "Contains bls to execution change from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","exchanging_message_validator_index","exchanging_message_from_bls_pubkey"]
+    },
+    {
+        "name": "canonical_beacon_block_execution_transaction",
+        "description": "Contains execution transaction from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","position","hash"]
+    },
+    {
+        "name": "canonical_beacon_block_voluntary_exit",
+        "description": "Contains a voluntary exit from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","voluntary_exit_message_epoch","voluntary_exit_message_validator_index"]
+    },
+    {
+        "name": "canonical_beacon_block_deposit",
+        "description": "Contains a deposit from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","deposit_data_pubkey","deposit_proof"]
+    },
+    {
+        "name": "canonical_beacon_block_withdrawal",
+        "description": "Contains a withdrawal from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","withdrawal_index","withdrawal_validator_index"]
+    },
+    {
+        "name": "canonical_beacon_blob_sidecar",
+        "description": "Contains a blob sidecar from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","blob_index"]
+    },
+    {
+        "name": "canonical_beacon_proposer_duty",
+        "description": "Contains a proposer duty from a beacon block.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","proposer_validator_index","proposer_pubkey"]
+    },
+    {
+        "name": "canonical_beacon_elaborated_attestation",
+        "description": "Contains elaborated attestations from beacon blocks.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","block_root","block_slot","position_in_block"]
+    },
+    {
+        "name": "libp2p_gossipsub_beacon_attestation",
+        "description": "Table for libp2p gossipsub beacon attestation data.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","peer_id_unique_key","message_id"]
+    },
+    {
+        "name": "libp2p_gossipsub_beacon_block",
+        "description": "Table for libp2p gossipsub beacon block data.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","peer_id_unique_key","message_id"]
+    },
+    {
+        "name": "libp2p_gossipsub_blob_sidecar",
+        "description": "Table for libp2p gossipsub blob sidecar data",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","peer_id_unique_key","message_id"]
+    },
+    {
+        "name": "mev_relay_bid_trace",
+        "description": "Contains MEV relay block bids data.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","relay_name","block_hash","meta_client_name"]
+    },
+    {
+        "name": "mev_relay_proposer_payload_delivered",
+        "description": "Contains MEV relay proposer payload delivered data.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","relay_name","block_hash","meta_client_name"]
+    }
+]
