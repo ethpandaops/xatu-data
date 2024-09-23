@@ -21,8 +21,8 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2023-07-22` to `2024-09-21`
-- **holesky**: `2024-01-08` to `2024-09-21`
-- **sepolia**: `2024-01-08` to `2024-09-21`
+- **holesky**: `2024-01-08` to `2024-09-22`
+- **sepolia**: `2024-01-08` to `2024-09-22`
 
 ### Example - Parquet file
 

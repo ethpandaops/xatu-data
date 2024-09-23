@@ -34,8 +34,8 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-09-05` to `2024-09-21`
-- **holesky**: `2023-12-25` to `2024-09-21`
+- **mainnet**: `2023-09-05` to `2024-09-22`
+- **holesky**: `2023-12-25` to `2024-09-22`
 - **sepolia**: `2023-12-24` to `2024-09-21`
 
 ### Example - Parquet file
@@ -123,9 +123,9 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-06-05` to `2024-09-21`
+- **mainnet**: `2023-06-05` to `2024-09-22`
 - **holesky**: `2023-09-29` to `2024-09-21`
-- **sepolia**: `2023-09-01` to `2024-09-21`
+- **sepolia**: `2023-09-01` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -219,7 +219,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2024-03-13` to `2024-09-21`
 - **holesky**: `2024-02-07` to `2024-09-21`
-- **sepolia**: `2024-01-30` to `2024-09-21`
+- **sepolia**: `2024-01-30` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -310,8 +310,8 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-02-28` to `2024-09-21`
-- **holesky**: `2023-12-24` to `2024-09-21`
-- **sepolia**: `2023-12-24` to `2024-09-21`
+- **holesky**: `2023-12-24` to `2024-09-22`
+- **sepolia**: `2023-12-24` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -399,9 +399,9 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-09-21`
+- **mainnet**: `2023-03-01` to `2024-09-22`
 - **holesky**: `2024-02-05` to `2024-09-21`
-- **sepolia**: `2024-05-23` to `2024-09-21`
+- **sepolia**: `2024-05-23` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -495,7 +495,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 
 - **mainnet**: `2023-08-31` to `2024-09-21`
 - **holesky**: `2023-12-24` to `2024-09-21`
-- **sepolia**: `2023-12-24` to `2024-09-21`
+- **sepolia**: `2023-12-24` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -588,8 +588,8 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-10` to `2024-09-21`
-- **holesky**: `2023-03-26` to `2024-09-21`
+- **mainnet**: `2023-04-10` to `2024-09-22`
+- **holesky**: `2023-03-26` to `2024-09-22`
 - **sepolia**: `2023-03-26` to `2024-09-21`
 
 ### Example - Parquet file
@@ -677,8 +677,8 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-08-30` to `2024-09-21`
-- **holesky**: `2023-12-05` to `2024-09-21`
-- **sepolia**: `2023-12-05` to `2024-09-21`
+- **holesky**: `2023-12-05` to `2024-09-22`
+- **sepolia**: `2023-12-05` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -860,9 +860,9 @@ Contains beacon API validator attestation data from each sentry client attached 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-09-21`
-- **holesky**: `2023-12-24` to `2024-09-21`
-- **sepolia**: `2023-12-24` to `2024-09-21`
+- **mainnet**: `2023-08-31` to `2024-09-22`
+- **holesky**: `2023-12-24` to `2024-09-22`
+- **sepolia**: `2023-12-24` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -1068,7 +1068,7 @@ Contains a proposer duty from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-04-03` to `2024-09-21`
-- **holesky**: `2024-04-03` to `2024-09-21`
+- **holesky**: `2024-04-03` to `2024-09-22`
 - **sepolia**: `2024-04-03` to `2024-09-21`
 
 ### Example - Parquet file
