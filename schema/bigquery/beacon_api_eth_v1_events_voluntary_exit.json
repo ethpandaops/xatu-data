@@ -1,0 +1,213 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "When the sentry received the event from a beacon node"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The epoch number in the beacon API event stream payload"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The wall clock time when the epoch started"
+    },
+    {
+        "name": "wallclock_slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number of the wall clock when the event was received"
+    },
+    {
+        "name": "wallclock_slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the wall clock slot when the event was received"
+    },
+    {
+        "name": "wallclock_epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number of the wall clock when the event was received"
+    },
+    {
+        "name": "wallclock_epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the wall clock epoch when the event was received"
+    },
+    {
+        "name": "validator_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The index of the validator making the voluntary exit"
+    },
+    {
+        "name": "signature",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The signature of the voluntary exit in the beacon API event stream payload"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    },
+    {
+        "name": "meta_consensus_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_major",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client major version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_minor",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client minor version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_patch",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client patch version that generated the event"
+    },
+    {
+        "name": "meta_consensus_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client implementation that generated the event"
+    },
+    {
+        "name": "meta_labels",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Labels associated with the event",
+        "fields": [
+            {
+                "name": "key_value",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "key",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    },
+                    {
+                        "name": "value",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    }
+                ]
+            }
+        ]
+    }
+]

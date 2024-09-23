@@ -1,0 +1,224 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "version",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Version of this row, to help with de-duplication we want the latest updated_date_time but lowest propagation_slot_start_diff time"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp of the event with millisecond precision"
+    },
+    {
+        "name": "slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number associated with the event"
+    },
+    {
+        "name": "slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the slot"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number associated with the event"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the epoch"
+    },
+    {
+        "name": "wallclock_slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number of the wall clock when the event was received"
+    },
+    {
+        "name": "wallclock_slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the wall clock slot when the event was received"
+    },
+    {
+        "name": "wallclock_epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number of the wall clock when the event was received"
+    },
+    {
+        "name": "wallclock_epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Start date and time of the wall clock epoch when the event was received"
+    },
+    {
+        "name": "propagation_slot_start_diff",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Difference in slot start time for propagation"
+    },
+    {
+        "name": "block",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The beacon block root hash"
+    },
+    {
+        "name": "proposer_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The proposer index of the beacon block"
+    },
+    {
+        "name": "peer_id_unique_key",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Unique key associated with the identifier of the peer"
+    },
+    {
+        "name": "message_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Identifier of the message"
+    },
+    {
+        "name": "message_size",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Size of the message in bytes"
+    },
+    {
+        "name": "topic_layer",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Layer of the topic in the gossipsub protocol"
+    },
+    {
+        "name": "topic_fork_digest_value",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Fork digest value of the topic"
+    },
+    {
+        "name": "topic_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the topic"
+    },
+    {
+        "name": "topic_encoding",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Encoding used for the topic"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Network ID associated with the client"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the network associated with the client"
+    }
+]

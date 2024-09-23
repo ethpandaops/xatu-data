@@ -1,0 +1,231 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "When the payload was delivered"
+    },
+    {
+        "name": "slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number within the payload"
+    },
+    {
+        "name": "slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the slot that the bid is for"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number derived from the slot that the bid is for"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the epoch that the bid is for"
+    },
+    {
+        "name": "wallclock_slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock slot when the request was sent"
+    },
+    {
+        "name": "wallclock_slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the slot when the request was sent"
+    },
+    {
+        "name": "wallclock_epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock epoch when the request was sent"
+    },
+    {
+        "name": "wallclock_epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the wallclock epoch when the request was sent"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number of the payload"
+    },
+    {
+        "name": "relay_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The relay that delivered the payload"
+    },
+    {
+        "name": "block_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The block hash associated with the payload"
+    },
+    {
+        "name": "proposer_pubkey",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The proposer pubkey that received the payload"
+    },
+    {
+        "name": "builder_pubkey",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The builder pubkey that sent the payload"
+    },
+    {
+        "name": "proposer_fee_recipient",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The proposer fee recipient of the payload"
+    },
+    {
+        "name": "gas_limit",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas limit of the payload"
+    },
+    {
+        "name": "gas_used",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas used by the payload"
+    },
+    {
+        "name": "num_tx",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The number of transactions in the payload"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    },
+    {
+        "name": "meta_labels",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Labels associated with the event",
+        "fields": [
+            {
+                "name": "key_value",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "key",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    },
+                    {
+                        "name": "value",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    }
+                ]
+            }
+        ]
+    }
+]
