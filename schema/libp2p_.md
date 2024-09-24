@@ -22,7 +22,7 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2024-09-21`
+- **mainnet**: `2024-05-01` to `2024-09-22`
 - **holesky**: `2024-05-01` to `2024-09-22`
 - **sepolia**: `2024-05-01` to `2024-09-22`
 
@@ -33,7 +33,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/9/16/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/9/17/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -138,7 +138,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/9/16.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/9/17.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -224,8 +224,8 @@ Table for libp2p gossipsub blob sidecar data
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-06-04` to `2024-09-22`
-- **holesky**: `2024-06-04` to `2024-09-21`
-- **sepolia**: `2024-06-04` to `2024-09-21`
+- **holesky**: `2024-06-04` to `2024-09-22`
+- **sepolia**: `2024-06-04` to `2024-09-22`
 
 ### Example - Parquet file
 
@@ -234,7 +234,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/9/16.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/9/17.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
