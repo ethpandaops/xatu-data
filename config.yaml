@@ -68,7 +68,7 @@ tables:
         to: "2024-09-25"
       sepolia:
         from: "2023-09-01"
-        to: "2024-09-24"
+        to: "2024-09-25"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
