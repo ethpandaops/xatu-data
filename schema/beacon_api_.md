@@ -399,7 +399,7 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2024-09-28`
+- **mainnet**: `2023-03-01` to `2024-09-29`
 - **holesky**: `2024-02-05` to `2024-09-28`
 - **sepolia**: `2024-05-23` to `2024-09-28`
 
