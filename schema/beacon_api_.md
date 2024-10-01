@@ -217,7 +217,7 @@ Contains beacon API eventstream "blob_sidecar" data from each sentry client atta
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-09-29`
+- **mainnet**: `2024-03-13` to `2024-09-30`
 - **holesky**: `2024-02-07` to `2024-09-29`
 - **sepolia**: `2024-01-30` to `2024-09-29`
 
@@ -493,7 +493,7 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-09-29`
+- **mainnet**: `2023-08-31` to `2024-09-30`
 - **holesky**: `2023-12-24` to `2024-09-29`
 - **sepolia**: `2023-12-24` to `2024-09-29`
 
