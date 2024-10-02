@@ -31,7 +31,7 @@ Contains beacon block from a beacon node.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-29`
+- **mainnet**: `2020-12-01` to `2024-09-30`
 - **holesky**: `2023-09-23` to `2024-09-29`
 - **sepolia**: `2022-06-20` to `2024-09-29`
 
@@ -42,7 +42,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -139,9 +139,9 @@ Contains canonical beacon API /eth/v1/beacon/committees data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-29`
-- **holesky**: `2023-09-23` to `2024-09-29`
-- **sepolia**: `2022-06-20` to `2024-09-29`
+- **mainnet**: `2020-12-01` to `2024-09-30`
+- **holesky**: `2023-09-23` to `2024-09-30`
+- **sepolia**: `2022-06-20` to `2024-09-30`
 
 ### Example - Parquet file
 
@@ -150,7 +150,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -228,7 +228,7 @@ Contains attester slashing from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-09-29`
-- **holesky**: `2023-09-23` to `2024-09-29`
+- **holesky**: `2023-09-23` to `2024-09-30`
 - **sepolia**: `2022-06-22` to `null`
 
 ### Example - Parquet file
@@ -238,7 +238,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -344,7 +344,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -433,9 +433,9 @@ Contains bls to execution change from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-09-29`
-- **holesky**: `2023-09-28` to `2024-09-29`
-- **sepolia**: `2022-06-22` to `2024-09-29`
+- **mainnet**: `2023-04-12` to `2024-09-30`
+- **holesky**: `2023-09-28` to `2024-09-30`
+- **sepolia**: `2022-06-22` to `2024-09-30`
 
 ### Example - Parquet file
 
@@ -444,7 +444,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -525,9 +525,9 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2024-09-29`
+- **mainnet**: `2022-09-06` to `2024-09-30`
 - **holesky**: `2023-09-23` to `2024-09-29`
-- **sepolia**: `2022-06-22` to `2024-09-29`
+- **sepolia**: `2022-06-22` to `2024-09-30`
 
 ### Example - Parquet file
 
@@ -536,7 +536,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -631,8 +631,8 @@ Contains a voluntary exit from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-29`
-- **holesky**: `2023-09-23` to `2024-09-29`
+- **mainnet**: `2020-12-01` to `2024-09-30`
+- **holesky**: `2023-09-23` to `2024-09-30`
 - **sepolia**: `2022-06-22` to `2024-09-29`
 
 ### Example - Parquet file
@@ -642,7 +642,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -733,7 +733,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -815,8 +815,8 @@ Contains a withdrawal from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2024-09-29`
-- **holesky**: `2023-09-23` to `2024-09-29`
+- **mainnet**: `2023-04-12` to `2024-09-30`
+- **holesky**: `2023-09-23` to `2024-09-30`
 - **sepolia**: `2023-02-28` to `2024-09-29`
 
 ### Example - Parquet file
@@ -826,7 +826,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -907,8 +907,8 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-09-29`
-- **holesky**: `2024-02-07` to `2024-09-29`
+- **mainnet**: `2024-03-13` to `2024-09-30`
+- **holesky**: `2024-02-07` to `2024-09-30`
 - **sepolia**: `2024-01-30` to `2024-09-29`
 
 ### Example - Parquet file
@@ -918,7 +918,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1002,9 +1002,9 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-09-29`
+- **mainnet**: `2020-12-01` to `2024-09-30`
 - **holesky**: `2023-09-23` to `2024-09-29`
-- **sepolia**: `2022-06-20` to `2024-09-29`
+- **sepolia**: `2022-06-20` to `2024-09-30`
 
 ### Example - Parquet file
 
@@ -1013,7 +1013,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1091,8 +1091,8 @@ Contains elaborated attestations from beacon blocks.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-09-29`
-- **holesky**: `2023-09-23` to `2024-09-29`
-- **sepolia**: `2022-06-22` to `2024-09-29`
+- **holesky**: `2023-09-23` to `2024-09-30`
+- **sepolia**: `2022-06-22` to `2024-09-30`
 
 ### Example - Parquet file
 
@@ -1101,7 +1101,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/9/24.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/9/25.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
