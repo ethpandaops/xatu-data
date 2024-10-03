@@ -224,7 +224,7 @@ Table for libp2p gossipsub blob sidecar data
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-06-04` to `2024-10-01`
-- **holesky**: `2024-06-04` to `2024-10-01`
+- **holesky**: `2024-06-04` to `2024-10-02`
 - **sepolia**: `2024-06-04` to `2024-10-01`
 
 ### Example - Parquet file
