@@ -85,7 +85,7 @@
     },
     {
         "name": "block_number",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The block number of the bid"
     },
@@ -115,19 +115,19 @@
     },
     {
         "name": "gas_limit",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The gas limit of the bid"
     },
     {
         "name": "gas_used",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The gas used of the bid"
     },
     {
         "name": "value",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "REQUIRED",
         "description": "The transaction value in float64"
     },

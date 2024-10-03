@@ -49,7 +49,7 @@
     },
     {
         "name": "blob_index",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The index of blob sidecar in the beacon API event stream payload"
     },

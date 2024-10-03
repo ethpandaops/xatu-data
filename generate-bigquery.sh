@@ -26,15 +26,15 @@ declare -A clickhouse_to_bigquery_types=(
     ["UInt8"]="INTEGER"
     ["UInt16"]="INTEGER"
     ["UInt32"]="INTEGER"
-    ["UInt64"]="INTEGER"
-    ["UInt128"]="NUMERIC"
-    ["UInt256"]="NUMERIC"
+    ["UInt64"]="NUMERIC"
+    ["UInt128"]="BIGNUMERIC"
+    ["UInt256"]="BIGNUMERIC"
     ["Int8"]="INTEGER"
     ["Int16"]="INTEGER"
     ["Int32"]="INTEGER"
     ["Int64"]="INTEGER"
-    ["Int128"]="NUMERIC"
-    ["Int256"]="NUMERIC"
+    ["Int128"]="BIGNUMERIC"
+    ["Int256"]="BIGNUMERIC"
     ["Float32"]="FLOAT"
     ["Float64"]="FLOAT"
     ["String"]="STRING"
@@ -68,9 +68,8 @@ generate_table_schema() {
 
             if [[ "$type" =~ ^Array\((.*)\)$ ]]; then
                 local inner_type=$(echo "$type" | sed -E 's/Array\((.*)\)/\1/')
-                type="REPEATED"
-                echo "$(generate_json "$name" "$inner_type" "NULLABLE" "$comment")"
-                continue
+                mode="REPEATED"
+                type=$inner_type
             fi
 
             if [[ "$type" =~ ^Map\((.*)\)$ ]]; then
@@ -151,9 +150,33 @@ EOF
         exit 1
     fi
 
+
     local table_sorting_keys=$(curl -s "$clickhouse_host" --data "SELECT sorting_key FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
-    # bigquery can only have 4 clustering fields, also remove meta_network_name as we split by network in bigquery anyway
-    local table_sorting_keys_array=$(echo "$table_sorting_keys" | jq -R -s -c 'split(",") | map(gsub("^\\s+|\\s+$"; "")) | map(select(. != "meta_network_name")) | .[0:4]')
+    local table_sorting_keys_array=($(echo "$table_sorting_keys" | tr -d ',' | tr -s ' '))
+    local filtered_keys=("meta_network_name")
+
+    local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
+    while IFS=$'\t' read -r name type; do
+        if [[ ! " $excluded_columns " =~ " $name " ]]; then
+            if [[ " ${table_sorting_keys_array[@]} " =~ " $name " ]]; then
+                if [[ "$type" =~ ^Array\((.*)\)$ ]]; then
+                    filtered_keys+=("$name")
+                fi
+            fi
+        fi
+    done <<< "$schema"
+
+
+    local table_sorting_keys_filtered_array=("${table_sorting_keys_array[@]}")
+        local new_array=()
+        for element in "${table_sorting_keys_filtered_array[@]}"; do
+            if [[ ! " ${filtered_keys[@]} " =~ " ${element} " ]]; then
+            new_array+=("$element")
+        fi
+    done
+    table_sorting_keys_filtered_array=("${new_array[@]}")
+
+    local table_sorting_keys_json=$(printf '%s\n' "${table_sorting_keys_filtered_array[@]}" | jq -R . | jq -s . | jq -c .[0:4])
 
     cat <<EOF >> "$metadata_file"
     {
@@ -161,7 +184,7 @@ EOF
         "description": $table_description,
         "partition_type": "$table_partition_type",
         "partition_value": $table_partition_value,
-        "clustering": $table_sorting_keys_array
+        "clustering": $table_sorting_keys_json
     },
 EOF
 }

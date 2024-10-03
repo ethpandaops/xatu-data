@@ -31,37 +31,37 @@
     },
     {
         "name": "nonce",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The nonce of the sender account at the time of the transaction"
     },
     {
         "name": "gas_price",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "REQUIRED",
         "description": "The gas price of the transaction in wei"
     },
     {
         "name": "gas",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The maximum gas provided for the transaction execution"
     },
     {
         "name": "gas_tip_cap",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "NULLABLE",
         "description": "The priority fee (tip) the user has set for the transaction"
     },
     {
         "name": "gas_fee_cap",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "NULLABLE",
         "description": "The max fee the user has set for the transaction"
     },
     {
         "name": "value",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "REQUIRED",
         "description": "The value transferred with the transaction in wei"
     },
@@ -85,20 +85,20 @@
     },
     {
         "name": "blob_gas",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "NULLABLE",
         "description": "The maximum gas provided for the blob transaction execution"
     },
     {
         "name": "blob_gas_fee_cap",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "NULLABLE",
         "description": "The max fee the user has set for the transaction"
     },
     {
         "name": "blob_hashes",
-        "type": "String",
-        "mode": "NULLABLE",
+        "type": "STRING",
+        "mode": "REPEATED",
         "description": "The hashes of the blob commitments for blob transactions"
     },
     {

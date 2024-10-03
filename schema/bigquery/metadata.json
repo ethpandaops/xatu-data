@@ -157,7 +157,7 @@
             "type": "MONTH",
             "field": "slot_start_date_time"
         },
-        "clustering": ["slot_start_date_time","block_root","attestation_1_attesting_indices","attestation_2_attesting_indices"]
+        "clustering": ["slot_start_date_time","block_root","attestation_1_data_slot","attestation_2_data_slot"]
     },
     {
         "name": "canonical_beacon_block_proposer_slashing",
@@ -207,7 +207,7 @@
             "type": "MONTH",
             "field": "slot_start_date_time"
         },
-        "clustering": ["slot_start_date_time","block_root","deposit_data_pubkey","deposit_proof"]
+        "clustering": ["slot_start_date_time","block_root","deposit_data_pubkey"]
     },
     {
         "name": "canonical_beacon_block_withdrawal",
