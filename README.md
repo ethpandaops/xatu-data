@@ -344,6 +344,7 @@ The following events will be collected:
     - When the beacon node has a new head block
     - <details>
         <summary>Example payload</summary>
+
         ```yaml
         data:
           block: "0x43d85cfa70181f60971dbc59d60c0e82e2ff8aea995bc942dc9c27bb16a055ca"
@@ -369,6 +370,7 @@ The following events will be collected:
     - When the beacon node has a new block
     - <details>
         <summary>Example payload</summary>
+
         ```yaml
         data:
           block: "0x7bb7f9e703896d516a0ee56d273dbe8fd71fd994a2f36cc489b8e1b825d74d44"
@@ -392,6 +394,7 @@ The following events will be collected:
     - When the beacon node has recieved a blob sidecar that passes gossip validation.
     - <details>
         <summary>Example payload</summary>
+
         ```yaml
         data:
           block_root: '0xc78adbc7ce7ab828bed85fedc6429989b4f4451d41aac8dc0c40b9f57839a3d7'
@@ -418,6 +421,7 @@ The following events will be collected:
     - When the beacon node has reorganized its chain
     - <details>
         <summary>Example payload</summary>
+
         ```yaml
         data:
           depth: '3'
@@ -445,6 +449,7 @@ The following events will be collected:
     - When the beacon node's finalized checkpoint has been updated
     - <details>
         <summary>Example payload</summary>
+
         ```yaml
         data:
           block: '0x418645de30f82a71b7470dfc9831602f750a3b8e14e507e112791d53b3d3842e'
@@ -522,6 +527,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 #### No additional Geo/ASN data
 <details>
   <summary>No additional Geo/ASN data</summary>
+
   ```yaml
   autonomous_system_number: REDACTED # REDACTED
   autonomous_system_organization: REDACTED # REDACTED
@@ -535,6 +541,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 #### With ASN data
 <details>
   <summary>Share geo location down to the city level</summary>
+
   ```yaml
   autonomous_system_number: 24940
   autonomous_system_organization: "Hetzner Online GmbH"
@@ -547,6 +554,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the country level</summary>
+
   ```yaml
   autonomous_system_number: 24940
   autonomous_system_organization: "Hetzner Online GmbH"
@@ -560,6 +568,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the continent level</summary>
+
   ```yaml
   autonomous_system_number: 24940
   autonomous_system_organization: "Hetzner Online GmbH"
@@ -573,6 +582,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share no geo location data</summary>
+
   ```yaml
   autonomous_system_number: 24940
   autonomous_system_organization: "Hetzner Online GmbH"
@@ -587,6 +597,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 #### Without ASN data
 <details>
   <summary>Share geo location down to the city level without ASN</summary>
+
   ```yaml
   city: "Helsinki"
   continent_code: "EU"
@@ -600,6 +611,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the country level without ASN</summary>
+
   ```yaml
   continent_code: "EU"
   country: "Finland"
@@ -613,6 +625,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the continent level without ASN</summary>
+
   ```yaml
   continent_code: "EU"
 
