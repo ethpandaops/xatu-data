@@ -340,7 +340,7 @@ graph TD
 
 The following events will be collected:
 
-- **[beacon_api_eth_v1_events_head](/data/xatu/schema/#beacon_api_eth_v1_events_head)**
+- **[beacon_api_eth_v1_events_head](/schema/beacon_api_.md#beacon_api_eth_v1_events_head)**
     - When the beacon node has a new head block
     - <details>
         <summary>Example payload</summary>
@@ -366,7 +366,7 @@ The following events will be collected:
             start_date_time: "2024-10-04T03:01:11Z"
         ```
       </details>
-- **[beacon_api_eth_v1_events_block](/data/xatu/schema/#beacon_api_eth_v1_events_block)**
+- **[beacon_api_eth_v1_events_block](/schema/beacon_api_.md#beacon_api_eth_v1_events_block)**
     - When the beacon node has a new block
     - <details>
         <summary>Example payload</summary>
@@ -390,7 +390,7 @@ The following events will be collected:
             start_date_time: "2024-10-04T03:13:35Z"
         ```
       </details>
-- **[beacon_api_eth_v1_events_blob_sidecar](/data/xatu/schema/#beacon_api_eth_v1_events_blob_sidecar)**
+- **[beacon_api_eth_v1_events_blob_sidecar](/schema/beacon_api_.md#beacon_api_eth_v1_events_blob_sidecar)**
     - When the beacon node has recieved a blob sidecar that passes gossip validation.
     - <details>
         <summary>Example payload</summary>
@@ -417,7 +417,7 @@ The following events will be collected:
             start_date_time: '2024-10-04T03:20:59Z'
         ```
       </details>
-- **[beacon_api_eth_v1_events_chain_reorg](/data/xatu/schema/#beacon_api_eth_v1_events_chain_reorg)**
+- **[beacon_api_eth_v1_events_chain_reorg](/schema/beacon_api_.md#beacon_api_eth_v1_events_chain_reorg)**
     - When the beacon node has reorganized its chain
     - <details>
         <summary>Example payload</summary>
@@ -445,7 +445,7 @@ The following events will be collected:
             start_date_time: '2024-10-04T03:00:24Z'
         ```
       </details>
-- **[beacon_api_eth_v1_events_finalized_checkpoint](/data/xatu/schema/#beacon_api_eth_v1_events_finalized_checkpoint)**
+- **[beacon_api_eth_v1_events_finalized_checkpoint](/schema/beacon_api_.md#beacon_api_eth_v1_events_finalized_checkpoint)**
     - When the beacon node's finalized checkpoint has been updated
     - <details>
         <summary>Example payload</summary>
@@ -625,7 +625,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the continent level without ASN</summary>
-
+1
   ```yaml
   continent_code: "EU"
 
