@@ -625,7 +625,7 @@ Privacy is a top priority for us. We have created privacy groups to allow users 
 
 <details>
   <summary>Share geo location down to the continent level without ASN</summary>
-1
+
   ```yaml
   continent_code: "EU"
 
