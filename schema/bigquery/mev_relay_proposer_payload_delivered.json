@@ -61,7 +61,7 @@
     },
     {
         "name": "block_number",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The block number of the payload"
     },
@@ -97,13 +97,13 @@
     },
     {
         "name": "gas_limit",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The gas limit of the payload"
     },
     {
         "name": "gas_used",
-        "type": "INTEGER",
+        "type": "NUMERIC",
         "mode": "REQUIRED",
         "description": "The gas used by the payload"
     },

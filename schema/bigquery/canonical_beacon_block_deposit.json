@@ -43,8 +43,8 @@
     },
     {
         "name": "deposit_proof",
-        "type": "String",
-        "mode": "NULLABLE",
+        "type": "STRING",
+        "mode": "REPEATED",
         "description": "The proof of the deposit data"
     },
     {
@@ -61,7 +61,7 @@
     },
     {
         "name": "deposit_data_amount",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "REQUIRED",
         "description": "The amount of the deposit from the deposit data"
     },

@@ -31,8 +31,8 @@
     },
     {
         "name": "validators",
-        "type": "UInt32",
-        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "mode": "REPEATED",
         "description": "The validator indices in the beacon API committee payload"
     },
     {

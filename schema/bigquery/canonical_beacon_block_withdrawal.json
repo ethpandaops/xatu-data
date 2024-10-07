@@ -61,7 +61,7 @@
     },
     {
         "name": "withdrawal_amount",
-        "type": "NUMERIC",
+        "type": "BIGNUMERIC",
         "mode": "REQUIRED",
         "description": "The amount of the withdrawal from the withdrawal data"
     },

@@ -43,8 +43,8 @@
     },
     {
         "name": "attestation_1_attesting_indices",
-        "type": "UInt32",
-        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "mode": "REPEATED",
         "description": "The attesting indices from the first attestation in the slashing payload"
     },
     {
@@ -97,8 +97,8 @@
     },
     {
         "name": "attestation_2_attesting_indices",
-        "type": "UInt32",
-        "mode": "NULLABLE",
+        "type": "INTEGER",
+        "mode": "REPEATED",
         "description": "The attesting indices from the second attestation in the slashing payload"
     },
     {
