@@ -907,7 +907,7 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-10-07`
+- **mainnet**: `2024-03-13` to `2024-10-08`
 - **holesky**: `2024-02-07` to `2024-10-07`
 - **sepolia**: `2024-01-30` to `2024-10-07`
 
@@ -1091,7 +1091,7 @@ Contains elaborated attestations from beacon blocks.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-10-07`
-- **holesky**: `2023-09-23` to `2024-10-07`
+- **holesky**: `2023-09-23` to `2024-10-08`
 - **sepolia**: `2022-06-22` to `2024-10-07`
 
 ### Example - Parquet file
