@@ -538,13 +538,13 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
       holesky:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
       sepolia:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
   - name: mev_relay_proposer_payload_delivered
     database: default
     excluded_columns: []
@@ -553,13 +553,13 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
       holesky:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
       sepolia:
         from: "2024-09-16"
-        to: "2024-09-16"
+        to: "2024-10-08"
     tags:
       - Consensus layer
       - Execution layer
