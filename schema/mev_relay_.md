@@ -21,9 +21,9 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2024-10-11`
-- **holesky**: `2024-09-16` to `2024-10-11`
-- **sepolia**: `2024-09-16` to `2024-10-11`
+- **mainnet**: `2024-09-16` to `2024-10-12`
+- **holesky**: `2024-09-16` to `2024-10-12`
+- **sepolia**: `2024-09-16` to `2024-10-12`
 
 ### Example - Parquet file
 
@@ -122,9 +122,9 @@ Contains MEV relay proposer payload delivered data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2024-10-11`
-- **holesky**: `2024-09-16` to `2024-10-11`
-- **sepolia**: `2024-09-16` to `2024-10-11`
+- **mainnet**: `2024-09-16` to `2024-10-12`
+- **holesky**: `2024-09-16` to `2024-10-12`
+- **sepolia**: `2024-09-16` to `2024-10-12`
 
 ### Example - Parquet file
 
