@@ -476,6 +476,24 @@ tables:
     tags:
       - Consensus layer
       - Finalized
+  - name: canonical_beacon_validators
+    database: default
+    excluded_columns: []
+    date_partition_column: epoch_start_date_time
+    hourly_partitioning: true
+    networks:
+      mainnet:
+        from: "2020-12-01"
+        to: "2024-10-09"
+      holesky:
+        from: "2023-09-23"
+        to: "2024-10-09"
+      sepolia:
+        from: "2022-06-22"
+        to: "2024-10-09"
+    tags:
+      - Consensus layer
+      - Finalized
   - name: libp2p_gossipsub_beacon_attestation
     database: default
     excluded_columns: []
