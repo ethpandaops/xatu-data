@@ -250,6 +250,16 @@
         "clustering": ["slot_start_date_time","block_root","block_slot","position_in_block"]
     },
     {
+        "name": "canonical_beacon_validators",
+        "description": "Contains a validator state for an epoch.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "epoch_start_date_time"
+        },
+        "clustering": ["epoch_start_date_time","index","status"]
+    },
+    {
         "name": "libp2p_gossipsub_beacon_attestation",
         "description": "Table for libp2p gossipsub beacon attestation data.",
         "partition_type": "time",
