@@ -46,17 +46,26 @@ generate_table_schema() {
     local table_config=$(yq e ".tables[] | select(.name == \"$table_name\")" "$config_file")
     local database=$(echo "$table_config" | yq e '.database' -)
     local quirks=$(echo "$table_config" | yq e '.quirks' -)
-    local hourly_partitioning=$(echo "$table_config" | yq e '.hourly_partitioning' -)
-    local date_partition_column=$(echo "$table_config" | yq e '.date_partition_column' -)
-    local interval="daily"
-    local example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
-    local formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD.parquet"
-    local example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}.parquet"
-    
-    if [ "$hourly_partitioning" = true ]; then
-        interval="hourly"
-        formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD/HH.parquet"
-        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}/0.parquet"
+    local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
+    local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
+    local partition_interval=$(echo "$table_config" | yq e '.partitioning.interval' -)
+    local formated_url=""
+    local example_url=""
+
+    if [ "$partition_type" = "datetime" ]; then
+        local example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
+        if [ "$partition_interval" = "daily" ]; then
+            formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD.parquet"
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}.parquet"
+        elif [ "$partition_interval" = "hourly" ]; then
+            formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD/HH.parquet"
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}/0.parquet"
+        fi
+    fi
+
+    if [ "$partition_type" = "integer" ]; then
+        formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/${partition_interval}/CHUNK_NUMBER.parquet"
+        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{$(( partition_interval * 50 / partition_interval ))..$(( partition_interval * 51 / partition_interval ))}000.parquet"
     fi
     
     local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
@@ -80,7 +89,11 @@ generate_table_schema() {
         echo ""
     fi
     echo "### Availability"
-    echo "Data is partitioned **$interval** on **$date_partition_column** for the following networks:"
+    if [ "$partition_type" = "datetime" ]; then
+        echo "Data is partitioned **$partition_interval** on **$partition_column** for the following networks:"
+    elif [ "$partition_type" = "integer" ]; then
+        echo "Data is partitioned in chunks of **$partition_interval** on **$partition_column** for the following networks:"
+    fi
     echo ""
     echo "$table_config" | yq e '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' - | while read -r network_info; do
         echo "- $network_info"
@@ -89,7 +102,20 @@ generate_table_schema() {
     echo "### Example - Parquet file"
     echo ""
     echo "> $formated_url"
-    echo ""
+    if [ "$partition_type" = "integer" ]; then
+        echo ""
+        echo "To find the parquet file with the \`${partition_column}\` you're looking for, you need the correct \`CHUNK_NUMBER\` which is in intervals of \`${partition_interval}\`."
+        echo ""
+        echo "Contains \`${partition_column}\` between \`0\` and \`999\`:"
+        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
+        echo ""
+        echo "Contains \`${partition_column}\` between \`50000\` and \`50999\`:"
+        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/50000.parquet"
+        echo ""
+        echo "Contains \`${partition_column}\` between \`1000000\` and \`1001999\`:"
+        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}000.parquet"
+        echo ""
+    fi
     echo "\`\`\`bash"
     echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \\"
     echo " \"SELECT * \\"
@@ -110,7 +136,11 @@ generate_table_schema() {
     echo "        * \\"
     echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) \\"
     echo "    WHERE \\"
-    echo "        $date_partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+    if [ "$partition_type" = "datetime" ]; then
+        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+    elif [ "$partition_type" = "integer" ]; then
+        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 )) \\"
+    fi
     echo "    LIMIT 10\""
     echo ""
     echo "\`\`\`"
@@ -122,14 +152,18 @@ generate_table_schema() {
     fi
     echo ""
     echo "\`\`\`bash"
-    echo "curl -G \"https://clickhouse.analytics.production.platform.ethpandaops.io\" \\"
+    echo "curl -G \"https://clickhouse.xatu.ethpandaops.io\" \\"
     echo "-u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" \\"
     echo "    --data-urlencode \"query= \\"
     echo "    SELECT \\"
     echo "        * \\"
     echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) \\"
     echo "    WHERE \\"
-    echo "        $date_partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+    if [ "$partition_type" = "datetime" ]; then
+        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+    elif [ "$partition_type" = "integer" ]; then
+        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 )) \\"
+    fi
     echo "    LIMIT 3 \\"
     echo "    FORMAT Pretty \\"
     echo "    \""
