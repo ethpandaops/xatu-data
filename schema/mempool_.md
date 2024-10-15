@@ -20,9 +20,9 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-07-22` to `2024-10-13`
-- **holesky**: `2024-01-08` to `2024-10-13`
-- **sepolia**: `2024-01-08` to `2024-10-13`
+- **mainnet**: `2023-07-22` to `2024-10-14`
+- **holesky**: `2024-01-08` to `2024-10-14`
+- **sepolia**: `2024-01-08` to `2024-10-14`
 
 ### Example - Parquet file
 
