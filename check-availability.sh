@@ -64,9 +64,6 @@ PREFIXES=$(yq e '
   | .tables.prefix
 ' "$CONFIG_FILE")
 
-# Debugging: Uncomment the following line to see the extracted prefixes
-# echo "Extracted Prefixes: $PREFIXES"
-
 if [[ -z "$PREFIXES" ]]; then
     log "❌ No datasets are marked as public in the configuration."
     exit 1
