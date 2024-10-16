@@ -22,6 +22,7 @@ jobs:
             ./update-availability.sh "Beacon API Event Stream"
             ./update-availability.sh "Execution Layer P2P"
             ./update-availability.sh "Canonical Beacon"
+            ./update-availability.sh "Canonical Execution"
             ./update-availability.sh "Consensus Layer P2P"
             ./update-availability.sh "MEV Relay"
       - name: Commit changes

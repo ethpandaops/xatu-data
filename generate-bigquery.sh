@@ -133,13 +133,13 @@ EOF
         fi
         table_partition_value=$(cat <<EOF
 {
-    "field": "$table_partition_field",
-    "range": {
-        "start": 0,
-        "end": 1000000000000,
-        "interval": $table_partition_interval
-    }
-}
+            "field": "$table_partition_field",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": $table_partition_interval
+            }
+        }
 EOF
         )
     fi

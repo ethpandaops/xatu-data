@@ -20,6 +20,13 @@ datasets:
     availability:
       - ethpandaops-clickhouse
       - public
+  - name: "Canonical Execution"
+    description: "Events derived from the execution chain"
+    tables:
+      prefix: canonical_execution_
+    availability:
+      - ethpandaops-clickhouse
+      - public
   - name: "Consensus Layer P2P"
     description: "Events from the consensus layer p2p network"
     tables:
@@ -38,8 +45,10 @@ tables:
   - name: beacon_api_eth_v1_beacon_committee
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: true
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: hourly
     networks:
       mainnet:
         from: "2023-09-05"
@@ -57,8 +66,10 @@ tables:
   - name: beacon_api_eth_v1_events_attestation
     database: default
     excluded_columns: []
-    hourly_partitioning: true
-    date_partition_column: slot_start_date_time
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: hourly
     networks:
       mainnet:
         from: "2023-06-05"
@@ -74,8 +85,10 @@ tables:
   - name: beacon_api_eth_v1_events_blob_sidecar
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-03-13"
@@ -91,8 +104,10 @@ tables:
   - name: beacon_api_eth_v1_events_block
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-02-28"
@@ -108,8 +123,10 @@ tables:
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-03-01"
@@ -125,8 +142,10 @@ tables:
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
     excluded_columns: []
-    date_partition_column: contribution_slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: contribution_slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-08-31"
@@ -142,8 +161,10 @@ tables:
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
-    date_partition_column: epoch_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: epoch_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-04-10"
@@ -159,8 +180,10 @@ tables:
   - name: beacon_api_eth_v1_events_head
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-08-30"
@@ -176,8 +199,10 @@ tables:
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
-    date_partition_column: wallclock_epoch_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: wallclock_epoch_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -193,8 +218,10 @@ tables:
   - name: beacon_api_eth_v1_validator_attestation_data
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-08-31"
@@ -210,8 +237,10 @@ tables:
   - name: beacon_api_eth_v2_beacon_block
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-11-14"
@@ -227,8 +256,10 @@ tables:
   - name: mempool_transaction
     database: default
     excluded_columns: []
-    date_partition_column: event_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-07-22"
@@ -246,8 +277,10 @@ tables:
   - name: beacon_api_eth_v1_proposer_duty
     database: default
     excluded_columns: []
-    hourly_partitioning: false
-    date_partition_column: slot_start_date_time
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-04-03"
@@ -263,8 +296,10 @@ tables:
   - name: canonical_beacon_block
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -281,8 +316,10 @@ tables:
   - name: canonical_beacon_committee
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -299,8 +336,10 @@ tables:
   - name: canonical_beacon_block_attester_slashing
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -317,8 +356,10 @@ tables:
   - name: canonical_beacon_block_proposer_slashing
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -334,9 +375,11 @@ tables:
       - Finalized
   - name: canonical_beacon_block_bls_to_execution_change
     database: default
-    date_partition_column: slot_start_date_time
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     excluded_columns: []
-    hourly_partitioning: false
     networks:
       mainnet:
         from: "2023-04-12"
@@ -353,8 +396,10 @@ tables:
   - name: canonical_beacon_block_execution_transaction
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2022-09-06"
@@ -371,8 +416,10 @@ tables:
   - name: canonical_beacon_block_voluntary_exit
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -389,8 +436,10 @@ tables:
   - name: canonical_beacon_block_deposit
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -407,8 +456,10 @@ tables:
   - name: canonical_beacon_block_withdrawal
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2023-04-12"
@@ -425,8 +476,10 @@ tables:
   - name: canonical_beacon_blob_sidecar
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-03-13"
@@ -443,8 +496,10 @@ tables:
   - name: canonical_beacon_proposer_duty
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -461,8 +516,10 @@ tables:
   - name: canonical_beacon_elaborated_attestation
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2020-12-01"
@@ -479,8 +536,10 @@ tables:
   - name: canonical_beacon_validators
     database: default
     excluded_columns: []
-    date_partition_column: epoch_start_date_time
-    hourly_partitioning: true
+    partitioning:
+      type: datetime
+      column: epoch_start_date_time
+      interval: hourly
     networks:
       mainnet:
         from: "2020-12-01"
@@ -497,8 +556,10 @@ tables:
   - name: libp2p_gossipsub_beacon_attestation
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: true
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: hourly
     networks:
       mainnet:
         from: "2024-05-01"
@@ -515,8 +576,10 @@ tables:
   - name: libp2p_gossipsub_beacon_block
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-04-26"
@@ -533,8 +596,10 @@ tables:
   - name: libp2p_gossipsub_blob_sidecar
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-06-04"
@@ -551,8 +616,10 @@ tables:
   - name: mev_relay_bid_trace
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-09-16"
@@ -566,8 +633,10 @@ tables:
   - name: mev_relay_proposer_payload_delivered
     database: default
     excluded_columns: []
-    date_partition_column: slot_start_date_time
-    hourly_partitioning: false
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
     networks:
       mainnet:
         from: "2024-09-16"
@@ -582,3 +651,323 @@ tables:
       - Consensus layer
       - Execution layer
       - MEV
+  - name: canonical_execution_block
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_transaction
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_traces
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_logs
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_contracts
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_four_byte_counts
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_address_appearances
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_balance_diffs
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_balance_reads
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_erc20_transfers
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_erc721_transfers
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_native_transfers
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_nonce_diffs
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_nonce_reads
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      # mainnet:
+      #   from: "0"
+      #   to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_storage_diffs
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "0"
+        to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
+  - name: canonical_execution_storage_reads
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      # mainnet:
+      #   from: "0"
+      #   to: "20967000"
+      holesky:
+        from: "0"
+        to: "2533000"
+      sepolia:
+        from: "0"
+        to: "6876000"
+    tags:
+      - Execution layer
+      - Finalized
