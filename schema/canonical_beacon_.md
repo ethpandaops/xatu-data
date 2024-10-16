@@ -39,11 +39,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -67,7 +66,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -147,11 +146,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_committee/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -175,7 +173,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -235,11 +233,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_attester_slashing/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -263,7 +260,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -341,11 +338,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_proposer_slashing/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -369,7 +365,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -441,11 +437,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_bls_to_execution_change/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -469,7 +464,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -533,11 +528,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_transaction/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -561,7 +555,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -639,11 +633,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_voluntary_exit/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -667,7 +660,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -730,11 +723,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_deposit/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -758,7 +750,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -823,11 +815,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_withdrawal/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -851,7 +842,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -915,11 +906,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_blob_sidecar/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -943,7 +933,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -1010,11 +1000,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_proposer_duty/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1038,7 +1027,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -1098,11 +1087,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_elaborated_attestation/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1126,7 +1114,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -1194,16 +1182,15 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2024-10-14`
 - **holesky**: `2023-09-23` to `2024-10-14`
-- **sepolia**: `2022-06-22` to `2024-10-13`
+- **sepolia**: `2022-06-22` to `2024-10-14`
 
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_validators/YYYY/MM/DD/HH.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2024/10/8/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2024/10/9/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -1227,7 +1214,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \

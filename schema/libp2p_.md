@@ -29,11 +29,10 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_attestation/YYYY/MM/DD/HH.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/8/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/9/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -57,7 +56,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -134,11 +133,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_block/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -162,7 +160,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -230,11 +228,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_blob_sidecar/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -258,7 +255,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \

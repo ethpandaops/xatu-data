@@ -1,0 +1,128 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction index"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash"
+    },
+    {
+        "name": "nonce",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction nonce"
+    },
+    {
+        "name": "from_address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction from address"
+    },
+    {
+        "name": "to_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The transaction to address"
+    },
+    {
+        "name": "value",
+        "type": "BIGNUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction value in float64"
+    },
+    {
+        "name": "input",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The transaction input in hex"
+    },
+    {
+        "name": "gas_limit",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction gas limit"
+    },
+    {
+        "name": "gas_used",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction gas used"
+    },
+    {
+        "name": "gas_price",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction gas price"
+    },
+    {
+        "name": "transaction_type",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction type"
+    },
+    {
+        "name": "max_priority_fee_per_gas",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction max priority fee per gas"
+    },
+    {
+        "name": "max_fee_per_gas",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction max fee per gas"
+    },
+    {
+        "name": "success",
+        "type": "BOOLEAN",
+        "mode": "REQUIRED",
+        "description": "The transaction success"
+    },
+    {
+        "name": "n_input_bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction input bytes"
+    },
+    {
+        "name": "n_input_zero_bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction input zero bytes"
+    },
+    {
+        "name": "n_input_nonzero_bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction input nonzero bytes"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

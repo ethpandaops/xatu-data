@@ -1,0 +1,80 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction index"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash associated with the log"
+    },
+    {
+        "name": "log_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The log index within the block"
+    },
+    {
+        "name": "address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The address associated with the log"
+    },
+    {
+        "name": "topic0",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The first topic of the log"
+    },
+    {
+        "name": "topic1",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The second topic of the log"
+    },
+    {
+        "name": "topic2",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The third topic of the log"
+    },
+    {
+        "name": "topic3",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The fourth topic of the log"
+    },
+    {
+        "name": "data",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The data associated with the log"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

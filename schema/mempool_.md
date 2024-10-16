@@ -27,11 +27,10 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mempool_transaction/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -55,7 +54,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \

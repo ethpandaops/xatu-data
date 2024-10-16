@@ -1,0 +1,92 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash that created the contract"
+    },
+    {
+        "name": "create_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The create index"
+    },
+    {
+        "name": "contract_address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The contract address"
+    },
+    {
+        "name": "deployer",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The address of the contract deployer"
+    },
+    {
+        "name": "factory",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The address of the factory that deployed the contract"
+    },
+    {
+        "name": "init_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The initialization code of the contract"
+    },
+    {
+        "name": "code",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The code of the contract"
+    },
+    {
+        "name": "init_code_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The hash of the initialization code"
+    },
+    {
+        "name": "n_init_code_bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Number of bytes in the initialization code"
+    },
+    {
+        "name": "n_code_bytes",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Number of bytes in the contract code"
+    },
+    {
+        "name": "code_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The hash of the contract code"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

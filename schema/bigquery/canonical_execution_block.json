@@ -1,0 +1,68 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The block timestamp"
+    },
+    {
+        "name": "block_number",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "block_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The block hash"
+    },
+    {
+        "name": "author",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The block author"
+    },
+    {
+        "name": "gas_used",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "The block gas used"
+    },
+    {
+        "name": "extra_data",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The block extra data in hex"
+    },
+    {
+        "name": "extra_data_string",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The block extra data in UTF-8 string"
+    },
+    {
+        "name": "base_fee_per_gas",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "The block base fee per gas"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

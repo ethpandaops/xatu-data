@@ -1,0 +1,62 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction index"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash associated with the storage diff"
+    },
+    {
+        "name": "address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The address associated with the storage diff"
+    },
+    {
+        "name": "slot",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The storage slot key"
+    },
+    {
+        "name": "from_value",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The original value before the storage diff"
+    },
+    {
+        "name": "to_value",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The new value after the storage diff"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

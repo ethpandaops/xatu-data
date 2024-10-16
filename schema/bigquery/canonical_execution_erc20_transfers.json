@@ -1,0 +1,68 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction index in the block"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash"
+    },
+    {
+        "name": "log_index",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The log index in the block"
+    },
+    {
+        "name": "erc20",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The erc20 address"
+    },
+    {
+        "name": "from_address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The from address"
+    },
+    {
+        "name": "to_address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The to address"
+    },
+    {
+        "name": "value",
+        "type": "BIGNUMERIC",
+        "mode": "REQUIRED",
+        "description": "The value of the transfer"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

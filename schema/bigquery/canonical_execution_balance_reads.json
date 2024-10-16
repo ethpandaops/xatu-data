@@ -1,0 +1,50 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The transaction index in the block"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash that caused the balance read"
+    },
+    {
+        "name": "address",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The address of the balance read"
+    },
+    {
+        "name": "balance",
+        "type": "BIGNUMERIC",
+        "mode": "REQUIRED",
+        "description": "The balance that was read"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

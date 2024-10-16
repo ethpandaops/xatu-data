@@ -28,11 +28,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_bid_trace/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -56,7 +55,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \
@@ -129,11 +128,10 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ### Example - Parquet file
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_proposer_payload_delivered/YYYY/MM/DD.parquet
-
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/10/8.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/10/9.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -157,7 +155,7 @@ docker run --rm -it --net host \
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
+curl -G "https://clickhouse.xatu.ethpandaops.io" \
 -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-urlencode "query= \
     SELECT \

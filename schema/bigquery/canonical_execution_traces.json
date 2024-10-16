@@ -1,0 +1,134 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number"
+    },
+    {
+        "name": "transaction_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The transaction index"
+    },
+    {
+        "name": "transaction_hash",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The transaction hash"
+    },
+    {
+        "name": "action_from",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The from address of the action"
+    },
+    {
+        "name": "action_to",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The to address of the action"
+    },
+    {
+        "name": "action_value",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The value of the action"
+    },
+    {
+        "name": "action_gas",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas provided for the action"
+    },
+    {
+        "name": "action_input",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The input data for the action"
+    },
+    {
+        "name": "action_call_type",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The call type of the action"
+    },
+    {
+        "name": "action_init",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The initialization code for the action"
+    },
+    {
+        "name": "action_reward_type",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The reward type for the action"
+    },
+    {
+        "name": "action_type",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The type of the action"
+    },
+    {
+        "name": "result_gas_used",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The gas used in the result"
+    },
+    {
+        "name": "result_output",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The output of the result"
+    },
+    {
+        "name": "result_code",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The code returned in the result"
+    },
+    {
+        "name": "result_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The address returned in the result"
+    },
+    {
+        "name": "trace_address",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The trace address"
+    },
+    {
+        "name": "subtraces",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The number of subtraces"
+    },
+    {
+        "name": "error",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "The error, if any, in the trace"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    }
+]

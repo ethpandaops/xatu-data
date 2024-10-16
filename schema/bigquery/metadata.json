@@ -260,6 +260,230 @@
         "clustering": ["epoch_start_date_time","index","status"]
     },
     {
+        "name": "canonical_execution_block",
+        "description": "Contains canonical execution block data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number"]
+    },
+    {
+        "name": "canonical_execution_transaction",
+        "description": "Contains canonical execution transaction data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_traces",
+        "description": "Contains canonical execution traces data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash"]
+    },
+    {
+        "name": "canonical_execution_logs",
+        "description": "Contains canonical execution logs data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash","log_index"]
+    },
+    {
+        "name": "canonical_execution_contracts",
+        "description": "Contains canonical execution contract data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash"]
+    },
+    {
+        "name": "canonical_execution_four_byte_counts",
+        "description": "Contains canonical execution four byte count data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_address_appearances",
+        "description": "Contains canonical execution address appearance data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash"]
+    },
+    {
+        "name": "canonical_execution_balance_diffs",
+        "description": "Contains canonical execution balance diff data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_balance_reads",
+        "description": "Contains canonical execution balance read data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_erc20_transfers",
+        "description": "Contains canonical execution erc20 transfer data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index","log_index"]
+    },
+    {
+        "name": "canonical_execution_erc721_transfers",
+        "description": "Contains canonical execution erc721 transfer data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index","log_index"]
+    },
+    {
+        "name": "canonical_execution_native_transfers",
+        "description": "Contains canonical execution native transfer data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index","transfer_index"]
+    },
+    {
+        "name": "canonical_execution_nonce_diffs",
+        "description": "Contains canonical execution nonce diff data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_nonce_reads",
+        "description": "Contains canonical execution nonce read data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_index"]
+    },
+    {
+        "name": "canonical_execution_storage_diffs",
+        "description": "Contains canonical execution storage diffs data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash"]
+    },
+    {
+        "name": "canonical_execution_storage_reads",
+        "description": "Contains canonical execution storage reads data.",
+        "partition_type": "range",
+        "partition_value": {
+            "field": "block_number",
+            "range": {
+                "start": 0,
+                "end": 1000000000000,
+                "interval": 5000000
+            }
+        },
+        "clustering": ["block_number","transaction_hash","contract_address","slot"]
+    },
+    {
         "name": "libp2p_gossipsub_beacon_attestation",
         "description": "Table for libp2p gossipsub beacon attestation data.",
         "partition_type": "time",
