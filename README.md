@@ -157,11 +157,21 @@ Running your own Clickhouse cluster is recommended for most use cases. This proc
   Steps:
     1. Query the first 10 rows of the beacon_api_eth_v1_events_block table for 2024-03-20
        ```bash
-       clickhouse client --query="SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/20.parquet', 'Parquet') LIMIT 10 FORMAT Pretty"
+       # date based partitioned tables
+       clickhouse local --query="SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/20.parquet', 'Parquet') LIMIT 10 FORMAT Pretty"
        ```
-    2. Use globs to query multiple files, e.g., 15th to 20th March
+    2. Query the first 10 rows of the canonical_execution_block table for chunk `20000000.parquet` (block numbers between `20000000` and `20000999`)
        ```bash
-       clickhouse client --query="SELECT COUNT(*) FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/{15..20}.parquet', 'Parquet') FORMAT Pretty"
+       # integer based partitioned tables
+       clickhouse local --query="SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/20000000.parquet', 'Parquet') LIMIT 10 FORMAT Pretty"
+       ```
+    3. Use globs to query multiple files, e.g., 15th to 20th March or between block `20000000` and `20010000`
+       ```bash
+       # date based partitioned tables
+       clickhouse local --query="SELECT COUNT(*) FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/3/{15..20}.parquet', 'Parquet') FORMAT Pretty"
+
+       # integer based partitioned tables
+       clickhouse local --query="SELECT COUNT(*) FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{20000..20010}000.parquet', 'Parquet') LIMIT 10 FORMAT Pretty"
        ```
 
 #### Using EthPandaOps Clickhouse
@@ -212,6 +222,23 @@ docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
 "
 ```
 
+- Show the top 5 block builders by block numbers between 20000000 and 20010999
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query="
+  SELECT
+      count(*),
+      extra_data_string
+  FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{20000..20010}000.parquet', 'Parquet')
+  WHERE
+      block_number BETWEEN 20000000 AND 20010000
+  GROUP BY extra_data_string
+  ORDER BY count(*) DESC
+  LIMIT 5
+  FORMAT Pretty
+"
+```
+
 ### Examples
 Once your Clickhouse server is setup and the data is imported, you can query the data.
 
@@ -251,10 +278,10 @@ Once your Clickhouse server is setup and the data is imported, you can query the
   """
   ```
 
-#### Show the amount of times a block was seen per sentry for the 20th to 27th of March 2024
+- Show the amount of times a block was seen per sentry for the 20th to 27th of March 2024
 
-  ```sql
-  clickhouse client --query="""
+  ```bash
+  docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         meta_client_name AS client_name,
         COUNT(*) AS count
@@ -262,6 +289,23 @@ Once your Clickhouse server is setup and the data is imported, you can query the
     WHERE
         slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27' -- strongly recommend filtering by the partition key (slot_start_date_time) for query performance
     GROUP BY client_name
+    FORMAT Pretty
+  """
+  ```
+
+- Show the top 5 block builders by block numbers between 20000000 and 20010000
+
+  ```bash
+  docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        count(*),
+        extra_data_string
+    FROM canonical_execution_block
+    WHERE
+        block_number BETWEEN 20000000 AND 20010000
+    GROUP BY extra_data_string
+    ORDER BY count(*) DESC
+    LIMIT 5
     FORMAT Pretty
   """
   ```
