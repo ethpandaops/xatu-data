@@ -32,7 +32,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/9/0.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/10/0.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -136,7 +136,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
@@ -231,7 +231,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
  "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/9.parquet', 'Parquet') \
+ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/10.parquet', 'Parquet') \
  LIMIT 10"
 ```
 
