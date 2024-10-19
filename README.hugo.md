@@ -33,7 +33,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 | **Beacon API Event Stream** | [Schema](./schema/beacon_api_) | Events derived from the Beacon API event stream | beacon_api_ | ✅ | ✅ |
 | **Execution Layer P2P** | [Schema](./schema/mempool_) | Events from the execution layer p2p network | mempool_ | ✅ | ✅ |
 | **Canonical Beacon** | [Schema](./schema/canonical_beacon_) | Events derived from the finalized beacon chain | canonical_beacon_ | ✅ | ✅ |
-| **Canonical Execution** | [Schema](./schema/canonical_execution_) | Events derived from the execution chain | canonical_execution_ | ✅ | ✅ |
+| **Canonical Execution** | [Schema](./schema/canonical_execution_) | Data extracted from the execution layer | canonical_execution_ | ✅ | ✅ |
 | **Consensus Layer P2P** | [Schema](./schema/libp2p_) | Events from the consensus layer p2p network | libp2p_ | ✅ | ✅ |
 | **MEV Relay** | [Schema](./schema/mev_relay_) | Events derived from MEV relays | mev_relay_ | ✅ | ✅ |
 <!-- datasets_end -->

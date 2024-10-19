@@ -1,5 +1,5 @@
 
-Events derived from the execution chain
+Data extracted from the execution layer
 
 ## Availability
 - EthPandaOps Clickhouse
