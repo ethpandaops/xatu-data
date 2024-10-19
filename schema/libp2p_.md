@@ -1,4 +1,3 @@
-# libp2p_
 
 Events from the consensus layer p2p network
 
@@ -26,48 +25,58 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `2024-05-01` to `2024-10-14`
 - **sepolia**: `2024-05-01` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_attestation/YYYY/MM/DD/HH.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/12/0.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/10/12/0.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.libp2p_gossipsub_beacon_attestation FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_beacon_attestation FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.libp2p_gossipsub_beacon_attestation FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_beacon_attestation FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -130,48 +139,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-04-26` to `2024-10-14`
 - **sepolia**: `2024-04-26` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_block/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.libp2p_gossipsub_beacon_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_beacon_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.libp2p_gossipsub_beacon_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_beacon_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -225,48 +244,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-06-04` to `2024-10-14`
 - **sepolia**: `2024-06-04` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_blob_sidecar/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.libp2p_gossipsub_blob_sidecar FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_blob_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.libp2p_gossipsub_blob_sidecar FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_blob_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |

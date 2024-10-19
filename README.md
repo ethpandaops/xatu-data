@@ -186,22 +186,19 @@ If you need access please reach out to us at ethpandaops at ethereum.org. Access
         ```bash
         export CLICKHOUSE_USER=YOUR_USERNAME
         export CLICKHOUSE_PASSWORD=YOUR_PASSWORD
-        export CLICKHOUSE_HOST=clickhouse.analytics.production.platform.ethpandaops.io
         ```
   
     2. Execute a query
        ```bash
-        curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
-        -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-            --data-urlencode "query= \
-            SELECT \
-                * \
-            FROM default.beacon_api_eth_v1_events_block FINAL \
-            WHERE \
-                slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-            LIMIT 3 \
-            FORMAT Pretty \
-            "
+        echo """
+            SELECT
+                *
+            FROM default.beacon_api_eth_v1_events_block FINAL
+            WHERE
+                slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+            LIMIT 3
+            FORMAT Pretty
+        """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
        ```
 
 #### Querying public parquet files

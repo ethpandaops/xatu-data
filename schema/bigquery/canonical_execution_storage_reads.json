@@ -24,6 +24,12 @@
         "description": "The transaction hash associated with the storage read"
     },
     {
+        "name": "internal_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The internal index of the storage read within the transaction"
+    },
+    {
         "name": "contract_address",
         "type": "STRING",
         "mode": "REQUIRED",

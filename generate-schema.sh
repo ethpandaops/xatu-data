@@ -99,12 +99,15 @@ generate_table_schema() {
         echo "- $network_info"
     done
     echo ""
-    echo "### Example - Parquet file"
+    echo "### Examples"
+    echo ""
+    echo "<details>"
+    echo "<summary>Parquet file</summary>"
     echo ""
     echo "> $formated_url"
     if [ "$partition_type" = "integer" ]; then
         echo ""
-        echo "To find the parquet file with the \`${partition_column}\` you're looking for, you need the correct \`CHUNK_NUMBER\` which is in intervals of \`${partition_interval}\`."
+        echo "To find the parquet file with the \`${partition_column}\` you're looking for, you need the correct \`CHUNK_NUMBER\` which is in intervals of \`${partition_interval}\`. Take the following examples;"
         echo ""
         echo "Contains \`${partition_column}\` between \`0\` and \`999\`:"
         echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
@@ -117,57 +120,64 @@ generate_table_schema() {
         echo ""
     fi
     echo "\`\`\`bash"
-    echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \\"
-    echo " \"SELECT * \\"
-    echo " FROM url('$example_url', 'Parquet') \\"
-    echo " LIMIT 10\""
+    echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query=\"\"\""
+    echo "    SELECT"
+    echo "        *"
+    echo "    FROM url('$example_url', 'Parquet')"
+    echo "    LIMIT 10"
+    echo "    FORMAT Pretty"
+    echo "\"\"\""
     echo "\`\`\`"
+    echo "</details>"
     echo ""
-    echo "### Example - Your Clickhouse"
+    echo "<details>"
+    echo "<summary>Your Clickhouse</summary>"
     if [ "$should_use_final" = true ]; then
         echo ""
         echo "> **Note:** [\`FINAL\`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table"
     fi
     echo ""
     echo "\`\`\`bash"
-    echo "docker run --rm -it --net host \\"
-    echo "    clickhouse/clickhouse-server clickhouse client -q \\"
-    echo "    \"SELECT \\"
-    echo "        * \\"
-    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) \\"
-    echo "    WHERE \\"
+    echo "docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query=\"\"\""
+    echo "    SELECT"
+    echo "        *"
+    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    echo "    WHERE"
     if [ "$partition_type" = "datetime" ]; then
-        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
     elif [ "$partition_type" = "integer" ]; then
-        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 )) \\"
+        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
     fi
-    echo "    LIMIT 10\""
-    echo ""
+    echo "    LIMIT 10"
+    echo "    FORMAT Pretty"
+    echo "\"\"\""
     echo "\`\`\`"
 
-    echo "### Example - EthPandaOps Clickhouse"
+    echo "</details>"
+    echo ""
+    echo "<details>"
+    echo "<summary>EthPandaOps Clickhouse</summary>"
     if [ "$should_use_final" = true ]; then
         echo ""
         echo "> **Note:** [\`FINAL\`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table"
     fi
     echo ""
     echo "\`\`\`bash"
-    echo "curl -G \"https://clickhouse.xatu.ethpandaops.io\" \\"
-    echo "-u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" \\"
-    echo "    --data-urlencode \"query= \\"
-    echo "    SELECT \\"
-    echo "        * \\"
-    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi) \\"
-    echo "    WHERE \\"
+    echo "echo \"\"\""
+    echo "    SELECT"
+    echo "        *"
+    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    echo "    WHERE"
     if [ "$partition_type" = "datetime" ]; then
-        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR' \\"
+        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
     elif [ "$partition_type" = "integer" ]; then
-        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 )) \\"
+        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
     fi
-    echo "    LIMIT 3 \\"
-    echo "    FORMAT Pretty \\"
-    echo "    \""
+    echo "    LIMIT 3"
+    echo "    FORMAT Pretty"
+    echo "\"\"\" | curl \"https://clickhouse.xatu.ethpandaops.io\" -u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" --data-binary @-"
     echo "\`\`\`"
+    echo "</details>"
     echo ""
     echo "### Columns"
     echo "| Name | Type | Description |"
@@ -190,11 +200,9 @@ generate_dataset_schema() {
     local table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
 
     # Start writing to the schema file
-    dataset_ref="$dataset_name"
     if [ "$mode" = "all" ]; then
-        dataset_ref="$table_prefix"
+        echo "# $table_prefix"
     fi
-    echo "# $dataset_ref"
     echo
     echo "$dataset_description"
     echo

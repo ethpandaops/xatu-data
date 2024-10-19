@@ -285,7 +285,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash"]
     },
     {
         "name": "canonical_execution_traces",
@@ -299,7 +299,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_logs",
@@ -313,7 +313,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash","log_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_contracts",
@@ -327,7 +327,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_four_byte_counts",
@@ -341,7 +341,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash"]
     },
     {
         "name": "canonical_execution_address_appearances",
@@ -355,7 +355,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_balance_diffs",
@@ -369,7 +369,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_balance_reads",
@@ -383,7 +383,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_erc20_transfers",
@@ -397,7 +397,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index","log_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_erc721_transfers",
@@ -411,7 +411,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index","log_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_native_transfers",
@@ -425,7 +425,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index","transfer_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_nonce_diffs",
@@ -439,7 +439,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_nonce_reads",
@@ -453,7 +453,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_index"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_storage_diffs",
@@ -467,7 +467,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "canonical_execution_storage_reads",
@@ -481,7 +481,7 @@
                 "interval": 5000000
             }
         },
-        "clustering": ["block_number","transaction_hash","contract_address","slot"]
+        "clustering": ["block_number","transaction_hash","internal_index"]
     },
     {
         "name": "libp2p_gossipsub_beacon_attestation",

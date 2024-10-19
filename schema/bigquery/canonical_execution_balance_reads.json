@@ -24,6 +24,12 @@
         "description": "The transaction hash that caused the balance read"
     },
     {
+        "name": "internal_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The internal index of the balance read within the transaction"
+    },
+    {
         "name": "address",
         "type": "STRING",
         "mode": "REQUIRED",

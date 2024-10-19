@@ -191,22 +191,19 @@ If you need access please reach out to us at ethpandaops at ethereum.org. Access
         ```bash
         export CLICKHOUSE_USER=YOUR_USERNAME
         export CLICKHOUSE_PASSWORD=YOUR_PASSWORD
-        export CLICKHOUSE_HOST=clickhouse.analytics.production.platform.ethpandaops.io
         ```
   
     2. Execute a query
        ```bash
-        curl -G "https://clickhouse.analytics.production.platform.ethpandaops.io" \
-        -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-            --data-urlencode "query= \
-            SELECT \
-                * \
-            FROM default.beacon_api_eth_v1_events_block FINAL \
-            WHERE \
-                slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-            LIMIT 3 \
-            FORMAT Pretty \
-            "
+        echo """
+            SELECT
+                *
+            FROM default.beacon_api_eth_v1_events_block FINAL
+            WHERE
+                slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+            LIMIT 3
+            FORMAT Pretty
+        """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
        ```
 
 #### Querying public parquet files
@@ -336,55 +333,8 @@ As discussions regarding the potential increase in maximum blob count continue *
 
 Data is collected by running a Beacon node and the `xatu sentry` sidecar. The data is then sent to a pipeline that we run, which further anonymizes and redacts the data.
 
-{{< mermaid >}}
-graph TD
-    A1[Home Staker 1] --> B1[Beacon Node]
-    A2[You!] --> B2[Beacon Node]
-    A3[Home Staker 3] --> B3[Beacon Node]
-    B1 --> X1[Xatu Sentry]
-    B2 --> X2[Xatu Sentry]
-    B3 --> X3[Xatu Sentry]
-    C[EthPandaOps]
-    C --> D[Data Pipeline]
-    
-    D --> E[Public Parquet Files]
-    
-    X1 --> C
-    X2 --> C
-    X3 --> C
-
-    subgraph "Data Collection"
-        A1
-        A2
-        A3
-        B1
-        B2
-        B3
-        X1
-        X2
-        X3
-    end
-    
-    subgraph " "
-        C
-        D
-    end
-    
-    subgraph " "
-        E
-    end
-    linkStyle 0 stroke:#f66,stroke-width:2px;
-    linkStyle 1 stroke:#f66,stroke-width:2px;
-    linkStyle 2 stroke:#f66,stroke-width:2px;
-    linkStyle 3 stroke:#f66,stroke-width:2px;
-    linkStyle 4 stroke:#f66,stroke-width:2px;
-    linkStyle 5 stroke:#f66,stroke-width:2px;
-    linkStyle 6 stroke:#f66,stroke-width:2px;
-    linkStyle 7 stroke:#f66,stroke-width:2px;
-    linkStyle 8 stroke:#f66,stroke-width:2px;
-    linkStyle 9 stroke:#f66,stroke-width:2px;
-    linkStyle 10 stroke:#f66,stroke-width:2px;
-{{< /mermaid >}}
+<!-- Hugo Blowfish markdown importer broken on {{ mermaid }} shortcode -->
+<img alt="Data Collection" class="rounded" src="assets/data-collection.png" />
 
 #### Events Collected
 
