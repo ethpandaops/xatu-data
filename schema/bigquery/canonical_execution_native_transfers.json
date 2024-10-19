@@ -24,12 +24,6 @@
         "description": "The transaction hash"
     },
     {
-        "name": "internal_index",
-        "type": "INTEGER",
-        "mode": "REQUIRED",
-        "description": "The internal index of the transfer within the transaction"
-    },
-    {
         "name": "transfer_index",
         "type": "NUMERIC",
         "mode": "REQUIRED",

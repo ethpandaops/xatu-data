@@ -18,12 +18,6 @@
         "description": "The transaction hash that caused the address appearance"
     },
     {
-        "name": "internal_index",
-        "type": "INTEGER",
-        "mode": "REQUIRED",
-        "description": "The internal index of the address appearance within the transaction"
-    },
-    {
         "name": "address",
         "type": "STRING",
         "mode": "REQUIRED",

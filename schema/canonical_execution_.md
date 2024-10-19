@@ -1,3 +1,4 @@
+# canonical_execution_
 
 Data extracted from the execution layer
 
@@ -302,7 +303,6 @@ echo """
 | **block_number** | `UInt32` | *The block number* |
 | **transaction_index** | `UInt32` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **internal_index** | `UInt32` | *The internal index of the trace within the transaction* |
 | **action_from** | `String` | *The from address of the action* |
 | **action_to** | `Nullable(String)` | *The to address of the action* |
 | **action_value** | `String` | *The value of the action* |
@@ -405,7 +405,6 @@ echo """
 | **block_number** | `UInt32` | *The block number* |
 | **transaction_index** | `UInt32` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the log* |
-| **internal_index** | `UInt32` | *The internal index of the log within the transaction* |
 | **log_index** | `UInt32` | *The log index within the block* |
 | **address** | `String` | *The address associated with the log* |
 | **topic0** | `String` | *The first topic of the log* |
@@ -498,7 +497,6 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_number** | `UInt32` | *The block number* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that created the contract* |
-| **internal_index** | `UInt32` | *The internal index of the contract creation within the transaction* |
 | **create_index** | `UInt32` | *The create index* |
 | **contract_address** | `String` | *The contract address* |
 | **deployer** | `String` | *The address of the contract deployer* |
@@ -683,7 +681,6 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that caused the address appearance* |
-| **internal_index** | `UInt32` | *The internal index of the address appearance within the transaction* |
 | **address** | `String` | *The address of the address appearance* |
 | **relationship** | `LowCardinality(String)` | *The relationship of the address to the transaction* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
@@ -772,7 +769,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that caused the balance diff* |
-| **internal_index** | `UInt32` | *The internal index of the balance diff within the transaction* |
 | **address** | `String` | *The address of the balance diff* |
 | **from_value** | `UInt256` | *The from value of the balance diff* |
 | **to_value** | `UInt256` | *The to value of the balance diff* |
@@ -862,7 +858,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that caused the balance read* |
-| **internal_index** | `UInt32` | *The internal index of the balance read within the transaction* |
 | **address** | `String` | *The address of the balance read* |
 | **balance** | `UInt256` | *The balance that was read* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
@@ -951,7 +946,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **internal_index** | `UInt32` | *The internal index of the transfer within the transaction* |
 | **log_index** | `UInt64` | *The log index in the block* |
 | **erc20** | `String` | *The erc20 address* |
 | **from_address** | `String` | *The from address* |
@@ -1043,7 +1037,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **internal_index** | `UInt32` | *The internal index of the transfer within the transaction* |
 | **log_index** | `UInt64` | *The log index in the block* |
 | **erc20** | `String` | *The erc20 address* |
 | **from_address** | `String` | *The from address* |
@@ -1135,7 +1128,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **internal_index** | `UInt32` | *The internal index of the transfer within the transaction* |
 | **transfer_index** | `UInt64` | *The transfer index* |
 | **from_address** | `String` | *The from address* |
 | **to_address** | `String` | *The to address* |
@@ -1226,7 +1218,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that caused the nonce diff* |
-| **internal_index** | `UInt32` | *The internal index of the nonce diff within the transaction* |
 | **address** | `String` | *The address of the nonce diff* |
 | **from_value** | `UInt64` | *The from value of the nonce diff* |
 | **to_value** | `UInt64` | *The to value of the nonce diff* |
@@ -1315,7 +1306,6 @@ echo """
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_index** | `UInt64` | *The transaction index in the block* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that caused the nonce read* |
-| **internal_index** | `UInt32` | *The internal index of the nonce read within the transaction* |
 | **address** | `String` | *The address of the nonce read* |
 | **nonce** | `UInt64` | *The nonce that was read* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
@@ -1404,7 +1394,6 @@ echo """
 | **block_number** | `UInt32` | *The block number* |
 | **transaction_index** | `UInt32` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the storage diff* |
-| **internal_index** | `UInt32` | *The internal index of the storage diff within the transaction* |
 | **address** | `String` | *The address associated with the storage diff* |
 | **slot** | `String` | *The storage slot key* |
 | **from_value** | `String` | *The original value before the storage diff* |
@@ -1494,7 +1483,6 @@ echo """
 | **block_number** | `UInt32` | *The block number* |
 | **transaction_index** | `UInt32` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the storage read* |
-| **internal_index** | `UInt32` | *The internal index of the storage read within the transaction* |
 | **contract_address** | `String` | *The contract address associated with the storage read* |
 | **slot** | `String` | *The storage slot key* |
 | **value** | `String` | *The value read from the storage slot* |
