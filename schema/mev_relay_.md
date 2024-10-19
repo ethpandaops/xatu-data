@@ -1,4 +1,3 @@
-# mev_relay_
 
 Events derived from MEV relays
 
@@ -25,48 +24,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-09-16` to `2024-10-14`
 - **sepolia**: `2024-09-16` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_bid_trace/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.mev_relay_bid_trace FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.mev_relay_bid_trace FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.mev_relay_bid_trace FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.mev_relay_bid_trace FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -125,48 +134,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-09-16` to `2024-10-14`
 - **sepolia**: `2024-09-16` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_proposer_payload_delivered/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.mev_relay_proposer_payload_delivered FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.mev_relay_proposer_payload_delivered FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.mev_relay_proposer_payload_delivered FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.mev_relay_proposer_payload_delivered FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |

@@ -1,4 +1,3 @@
-# beacon_api_
 
 Events derived from the Beacon API event stream
 
@@ -38,48 +37,58 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `2023-12-25` to `2024-10-14`
 - **sepolia**: `2023-12-24` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/10/12/0.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2024/10/12/0.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_beacon_committee FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_beacon_committee FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_beacon_committee FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_beacon_committee FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -126,44 +135,54 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 - **holesky**: `2023-09-29` to `2024-10-14`
 - **sepolia**: `2023-09-01` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/10/12/0.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2024/10/12/0.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_attestation \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_attestation
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_attestation \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_attestation
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -219,48 +238,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-07` to `2024-10-14`
 - **sepolia**: `2024-01-30` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_blob_sidecar/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_blob_sidecar FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_blob_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_blob_sidecar FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_blob_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -310,48 +339,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-10-14`
 - **sepolia**: `2023-12-24` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_block/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -399,48 +438,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-02-05` to `2024-10-14`
 - **sepolia**: `2024-05-23` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_chain_reorg/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_chain_reorg FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_chain_reorg FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_chain_reorg FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_chain_reorg FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -492,48 +541,58 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 - **holesky**: `2023-12-24` to `2024-10-14`
 - **sepolia**: `2023-12-24` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_contribution_and_proof/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_contribution_and_proof FINAL \
-    WHERE \
-        contribution_slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_contribution_and_proof FINAL
+    WHERE
+        contribution_slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_contribution_and_proof FINAL \
-    WHERE \
-        contribution_slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_contribution_and_proof FINAL
+    WHERE
+        contribution_slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -586,48 +645,58 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 - **holesky**: `2023-03-26` to `2024-10-14`
 - **sepolia**: `2023-03-26` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_finalized_checkpoint FINAL \
-    WHERE \
-        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_finalized_checkpoint FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_finalized_checkpoint FINAL \
-    WHERE \
-        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_finalized_checkpoint FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -673,48 +742,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-05` to `2024-10-14`
 - **sepolia**: `2023-12-05` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_head/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_head FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_head FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_head FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_head FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -765,48 +844,58 @@ Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the fol
 - **holesky**: `2023-10-01` to `2024-10-14`
 - **sepolia**: `2023-10-01` to `null`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_voluntary_exit/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_voluntary_exit FINAL \
-    WHERE \
-        wallclock_epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_voluntary_exit FINAL
+    WHERE
+        wallclock_epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_events_voluntary_exit FINAL \
-    WHERE \
-        wallclock_epoch_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_voluntary_exit FINAL
+    WHERE
+        wallclock_epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -855,48 +944,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-10-14`
 - **sepolia**: `2023-12-24` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_validator_attestation_data/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_validator_attestation_data FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_validator_attestation_data FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_validator_attestation_data FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_validator_attestation_data FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -952,48 +1051,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2023-12-24` to `2024-10-14`
 - **sepolia**: `2023-12-24` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v2_beacon_block/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v2_beacon_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v2_beacon_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v2_beacon_block FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v2_beacon_block FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |
@@ -1060,48 +1169,58 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 - **holesky**: `2024-04-03` to `2024-10-14`
 - **sepolia**: `2024-04-03` to `2024-10-14`
 
-### Example - Parquet file
+### Examples
+
+<details>
+<summary>Parquet file</summary>
 
 > https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_proposer_duty/YYYY/MM/DD.parquet
 ```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query \
- "SELECT * \
- FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/10/12.parquet', 'Parquet') \
- LIMIT 10"
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2024/10/12.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
+</details>
 
-### Example - Your Clickhouse
+<details>
+<summary>Your Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-docker run --rm -it --net host \
-    clickhouse/clickhouse-server clickhouse client -q \
-    "SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_proposer_duty FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 10"
-
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_proposer_duty FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
 ```
-### Example - EthPandaOps Clickhouse
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
 
 > **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
 
 ```bash
-curl -G "https://clickhouse.xatu.ethpandaops.io" \
--u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
-    --data-urlencode "query= \
-    SELECT \
-        * \
-    FROM default.beacon_api_eth_v1_proposer_duty FINAL \
-    WHERE \
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR' \
-    LIMIT 3 \
-    FORMAT Pretty \
-    "
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_proposer_duty FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
+</details>
 
 ### Columns
 | Name | Type | Description |

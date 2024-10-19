@@ -24,6 +24,12 @@
         "description": "The transaction hash that caused the nonce diff"
     },
     {
+        "name": "internal_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The internal index of the nonce diff within the transaction"
+    },
+    {
         "name": "address",
         "type": "STRING",
         "mode": "REQUIRED",

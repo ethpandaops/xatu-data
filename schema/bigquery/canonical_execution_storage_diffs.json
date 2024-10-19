@@ -24,6 +24,12 @@
         "description": "The transaction hash associated with the storage diff"
     },
     {
+        "name": "internal_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The internal index of the storage diff within the transaction"
+    },
+    {
         "name": "address",
         "type": "STRING",
         "mode": "REQUIRED",
