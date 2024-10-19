@@ -21,7 +21,7 @@ datasets:
       - ethpandaops-clickhouse
       - public
   - name: "Canonical Execution"
-    description: "Events derived from the execution chain"
+    description: "Data extracted from the execution layer"
     tables:
       prefix: canonical_execution_
     availability:
