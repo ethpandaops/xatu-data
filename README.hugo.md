@@ -334,7 +334,7 @@ As discussions regarding the potential increase in maximum blob count continue *
 Data is collected by running a Beacon node and the `xatu sentry` sidecar. The data is then sent to a pipeline that we run, which further anonymizes and redacts the data.
 
 <!-- Hugo Blowfish markdown importer broken on {{ mermaid }} shortcode -->
-<img alt="Data Collection" class="rounded" src="assets/data-collection.png" />
+<img alt="Data Collection" class="rounded" src="https://github.com/ethpandaops/xatu-data/blob/master/assets/data-collection.png?raw=true" />
 
 #### Events Collected
 
