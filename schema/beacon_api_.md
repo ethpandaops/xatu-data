@@ -1166,7 +1166,7 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-03` to `2024-10-16`
+- **mainnet**: `2024-04-03` to `2024-10-21`
 - **holesky**: `2024-04-03` to `2024-10-21`
 - **sepolia**: `2024-04-03` to `2024-10-21`
 
