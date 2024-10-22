@@ -23,15 +23,6 @@ if [ -z "$DATASET" ]; then
     exit 1
 fi
 
-# Check if table exists
-log "Checking if table '$TABLE' exists in the configuration..."
-
-if [[ -z $(yq e ".tables[] | select(.name == \"$TABLE\")" "$CONFIG_FILE") ]]; then
-    log "Table '$TABLE' does not exist in the configuration."
-    exit 1
-fi
-
-yq e ".tables | any(.name == \"canonical_execution_block\")" "config.yaml"
 # Check if the dataset has availability == "public"
 IS_PUBLIC=$(yq e ".datasets[] | select(.name == \"$DATASET\").availability | contains([\"public\"])" "$CONFIG_FILE")
 

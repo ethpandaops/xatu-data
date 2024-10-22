@@ -661,7 +661,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "20967000"
+        to: "20983000"
       holesky:
         from: "0"
         to: "2533000"
@@ -764,7 +764,7 @@ tables:
         to: "20967000"
       holesky:
         from: "0"
-        to: "2533000"
+        to: "2400000"
       sepolia:
         from: "0"
         to: "6876000"
@@ -826,7 +826,7 @@ tables:
         to: "20967000"
       holesky:
         from: "0"
-        to: "2533000"
+        to: "2400000"
       sepolia:
         from: "0"
         to: "6876000"
@@ -923,12 +923,12 @@ tables:
       column: block_number
       interval: 1000
     networks:
-      # mainnet:
-      #   from: "0"
-      #   to: "20967000"
+      mainnet:
+        from: "0"
+        to: "20967000"
       holesky:
         from: "0"
-        to: "2533000"
+        to: "2400000"
       sepolia:
         from: "0"
         to: "6876000"
@@ -970,7 +970,7 @@ tables:
       #   to: "20967000"
       holesky:
         from: "0"
-        to: "2533000"
+        to: "2400000"
       sepolia:
         from: "0"
         to: "6876000"
