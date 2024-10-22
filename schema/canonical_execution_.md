@@ -518,7 +518,7 @@ echo """
 Contains canonical execution four byte count data.
 
 
-> Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+> Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
 
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
@@ -788,7 +788,7 @@ echo """
 Contains canonical execution balance read data.
 
 
-> Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+> Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
 
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
@@ -1245,7 +1245,7 @@ echo """
 Contains canonical execution nonce read data.
 
 
-> Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+> Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
 
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
@@ -1428,7 +1428,7 @@ echo """
 Contains canonical execution storage reads data.
 
 
-> Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+> Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
 
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
