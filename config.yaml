@@ -772,7 +772,7 @@ tables:
       - Execution layer
       - Finalized
     quirks: >-
-      Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
   - name: canonical_execution_address_appearances
     database: default
     excluded_columns: []
@@ -834,7 +834,7 @@ tables:
       - Execution layer
       - Finalized
     quirks: >-
-      Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
   - name: canonical_execution_erc20_transfers
     database: default
     excluded_columns: []
@@ -936,7 +936,7 @@ tables:
       - Execution layer
       - Finalized
     quirks: >-
-      Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
   - name: canonical_execution_storage_diffs
     database: default
     excluded_columns: []
@@ -978,4 +978,4 @@ tables:
       - Execution layer
       - Finalized
     quirks: >-
-      Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402595`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+      Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
