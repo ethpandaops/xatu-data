@@ -18,6 +18,12 @@
         "description": "The transaction hash that created the contract"
     },
     {
+        "name": "internal_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The internal index of the contract creation within the transaction"
+    },
+    {
         "name": "create_index",
         "type": "INTEGER",
         "mode": "REQUIRED",
