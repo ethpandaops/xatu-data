@@ -55,7 +55,7 @@ tables:
         to: "2024-10-20"
       holesky:
         from: "2023-12-25"
-        to: "2024-10-20"
+        to: "2024-10-21"
       sepolia:
         from: "2023-12-24"
         to: "2024-10-20"
@@ -76,7 +76,7 @@ tables:
         to: "2024-10-20"
       holesky:
         from: "2023-09-29"
-        to: "2024-10-20"
+        to: "2024-10-21"
       sepolia:
         from: "2023-09-01"
         to: "2024-10-20"
@@ -661,10 +661,10 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21010000"
+        to: "21023000"
       holesky:
         from: "0"
-        to: "2577000"
+        to: "2586000"
       sepolia:
         from: "0"
         to: "6916000"
@@ -724,7 +724,7 @@ tables:
         to: "21010000"
       holesky:
         from: "0"
-        to: "2579000"
+        to: "2586000"
       sepolia:
         from: "0"
         to: "6876000"
@@ -744,7 +744,7 @@ tables:
         to: "21010000"
       holesky:
         from: "0"
-        to: "2578000"
+        to: "2586000"
       sepolia:
         from: "0"
         to: "6916000"
@@ -767,7 +767,7 @@ tables:
         to: "2401000"
       sepolia:
         from: "0"
-        to: "6913000"
+        to: "6924000"
     tags:
       - Execution layer
       - Finalized
@@ -789,7 +789,7 @@ tables:
         to: "2575000"
       sepolia:
         from: "0"
-        to: "6913000"
+        to: "6924000"
     tags:
       - Execution layer
       - Finalized
@@ -806,7 +806,7 @@ tables:
         to: "21010000"
       holesky:
         from: "0"
-        to: "2580000"
+        to: "2586000"
       sepolia:
         from: "0"
         to: "6876000"
@@ -865,7 +865,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21010000"
+        to: "21023000"
       holesky:
         from: "0"
         to: "2577000"
@@ -885,7 +885,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21010000"
+        to: "21023000"
       holesky:
         from: "0"
         to: "2575000"
