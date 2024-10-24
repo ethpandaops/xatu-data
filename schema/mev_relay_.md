@@ -133,7 +133,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2024-09-16` to `2024-10-22`
 - **holesky**: `2024-09-16` to `2024-10-22`
-- **sepolia**: `2024-09-16` to `2024-10-22`
+- **sepolia**: `2024-09-16` to `2024-10-23`
 
 ### Examples
 
