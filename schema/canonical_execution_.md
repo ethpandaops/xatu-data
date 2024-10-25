@@ -1067,7 +1067,7 @@ Contains canonical execution native transfer data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `21031000`
-- **holesky**: `0` to `2594000`
+- **holesky**: `0` to `2600000`
 - **sepolia**: `0` to `6931000`
 
 ### Examples
