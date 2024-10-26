@@ -614,7 +614,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21038000`
 - **holesky**: `0` to `2600000`
-- **sepolia**: `0` to `6938000`
+- **sepolia**: `0` to `6945000`
 
 ### Examples
 
@@ -1067,7 +1067,7 @@ Contains canonical execution native transfer data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `21038000`
-- **holesky**: `0` to `2600000`
+- **holesky**: `0` to `2607000`
 - **sepolia**: `0` to `6938000`
 
 ### Examples
@@ -1252,7 +1252,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21029000`
 - **holesky**: `0` to `2401000`
-- **sepolia**: `0` to `6938000`
+- **sepolia**: `0` to `6945000`
 
 ### Examples
 
@@ -1434,7 +1434,7 @@ Contains canonical execution storage reads data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **holesky**: `0` to `2401000`
-- **sepolia**: `0` to `6938000`
+- **sepolia**: `0` to `6945000`
 
 ### Examples
 
