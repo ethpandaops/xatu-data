@@ -136,8 +136,8 @@ Table for libp2p gossipsub beacon block data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2024-10-31`
-- **holesky**: `2024-04-26` to `2024-10-31`
+- **mainnet**: `2024-04-26` to `2024-11-01`
+- **holesky**: `2024-04-26` to `2024-11-01`
 - **sepolia**: `2024-04-26` to `2024-10-31`
 
 ### Examples
@@ -241,9 +241,9 @@ Table for libp2p gossipsub blob sidecar data
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-06-04` to `2024-10-31`
-- **holesky**: `2024-06-04` to `2024-10-31`
-- **sepolia**: `2024-06-04` to `2024-10-31`
+- **mainnet**: `2024-06-04` to `2024-11-01`
+- **holesky**: `2024-06-04` to `2024-11-01`
+- **sepolia**: `2024-06-04` to `2024-11-01`
 
 ### Examples
 
