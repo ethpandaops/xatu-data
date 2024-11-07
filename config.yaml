@@ -549,7 +549,7 @@ tables:
         to: "2024-11-05"
       sepolia:
         from: "2022-06-22"
-        to: "2024-11-04"
+        to: "2024-11-05"
     tags:
       - Consensus layer
       - Finalized
