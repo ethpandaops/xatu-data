@@ -739,7 +739,7 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-30` to `2024-11-06`
+- **mainnet**: `2023-08-30` to `2024-11-07`
 - **holesky**: `2023-12-05` to `2024-11-06`
 - **sepolia**: `2023-12-05` to `2024-11-06`
 
@@ -1048,7 +1048,7 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-11-14` to `2024-11-06`
+- **mainnet**: `2023-11-14` to `2024-11-07`
 - **holesky**: `2023-12-24` to `2024-11-06`
 - **sepolia**: `2023-12-24` to `2024-11-06`
 
