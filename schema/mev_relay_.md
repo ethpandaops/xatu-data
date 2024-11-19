@@ -23,7 +23,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2024-09-16` to `2024-11-17`
 - **holesky**: `2024-09-16` to `2024-11-17`
-- **sepolia**: `2024-09-16` to `2024-11-17`
+- **sepolia**: `2024-09-16` to `2024-11-18`
 
 ### Examples
 
@@ -132,8 +132,8 @@ Contains MEV relay proposer payload delivered data.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-09-16` to `2024-11-17`
-- **holesky**: `2024-09-16` to `2024-11-17`
-- **sepolia**: `2024-09-16` to `2024-11-17`
+- **holesky**: `2024-09-16` to `2024-11-18`
+- **sepolia**: `2024-09-16` to `2024-11-18`
 
 ### Examples
 
