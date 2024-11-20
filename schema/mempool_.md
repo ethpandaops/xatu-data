@@ -22,7 +22,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2023-07-22` to `2024-11-18`
 - **holesky**: `2024-01-08` to `2024-11-18`
-- **sepolia**: `2024-01-08` to `2024-11-17`
+- **sepolia**: `2024-01-08` to `2024-11-18`
 
 ### Examples
 
@@ -34,7 +34,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/11/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/11/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
