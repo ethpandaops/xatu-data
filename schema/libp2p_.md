@@ -243,7 +243,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2024-06-04` to `2024-11-18`
 - **holesky**: `2024-06-04` to `2024-11-18`
-- **sepolia**: `2024-06-04` to `2024-11-18`
+- **sepolia**: `2024-06-04` to `2024-11-19`
 
 ### Examples
 

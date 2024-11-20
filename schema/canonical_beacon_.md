@@ -572,7 +572,7 @@ Contains execution transaction from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2022-09-06` to `2024-11-18`
-- **holesky**: `2023-09-23` to `2024-11-18`
+- **holesky**: `2023-09-23` to `2024-11-19`
 - **sepolia**: `2022-06-22` to `2024-11-18`
 
 ### Examples

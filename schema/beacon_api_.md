@@ -436,7 +436,7 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-03-01` to `2024-11-18`
-- **holesky**: `2024-02-05` to `2024-11-18`
+- **holesky**: `2024-02-05` to `2024-11-19`
 - **sepolia**: `2024-05-23` to `2024-11-18`
 
 ### Examples
@@ -941,7 +941,7 @@ Contains beacon API validator attestation data from each sentry client attached 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-11-18`
+- **mainnet**: `2023-08-31` to `2024-11-19`
 - **holesky**: `2023-12-24` to `2024-11-18`
 - **sepolia**: `2023-12-24` to `2024-11-18`
 
@@ -1049,7 +1049,7 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-11-14` to `2024-11-18`
-- **holesky**: `2023-12-24` to `2024-11-18`
+- **holesky**: `2023-12-24` to `2024-11-19`
 - **sepolia**: `2023-12-24` to `2024-11-18`
 
 ### Examples
