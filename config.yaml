@@ -661,7 +661,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21225000"
+        to: "21232000"
       holesky:
         from: "0"
         to: "2669000"
@@ -931,7 +931,7 @@ tables:
         to: "2401000"
       sepolia:
         from: "0"
-        to: "7112000"
+        to: "7118000"
     tags:
       - Execution layer
       - Finalized
