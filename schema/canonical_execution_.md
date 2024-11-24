@@ -523,7 +523,7 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `21246000`
+- **mainnet**: `0` to `21253000`
 - **holesky**: `0` to `2786000`
 - **sepolia**: `0` to `7118000`
 
