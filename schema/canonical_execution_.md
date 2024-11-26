@@ -128,7 +128,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7136000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -229,7 +229,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2669000`
-- **sepolia**: `0` to `7137000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -426,7 +426,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7136000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -614,7 +614,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7136000`
+- **sepolia**: `0` to `7138000`
 
 ### Examples
 
@@ -795,7 +795,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7137000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -1068,7 +1068,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7136000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -1252,7 +1252,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7132000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
@@ -1341,7 +1341,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `21260000`
 - **holesky**: `0` to `2790000`
-- **sepolia**: `0` to `7136000`
+- **sepolia**: `0` to `7138000`
 
 ### Examples
 
@@ -1434,7 +1434,7 @@ Contains canonical execution storage reads data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **holesky**: `0` to `2791000`
-- **sepolia**: `0` to `7131000`
+- **sepolia**: `0` to `7139000`
 
 ### Examples
 
