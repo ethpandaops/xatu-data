@@ -23,7 +23,7 @@ Table for libp2p gossipsub beacon attestation data.
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-05-01` to `2024-11-27`
-- **holesky**: `2024-05-01` to `2024-11-27`
+- **holesky**: `2024-05-01` to `2024-11-28`
 - **sepolia**: `2024-05-01` to `2024-11-27`
 
 ### Examples
@@ -242,7 +242,7 @@ Table for libp2p gossipsub blob sidecar data
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-06-04` to `2024-11-27`
-- **holesky**: `2024-06-04` to `2024-11-27`
+- **holesky**: `2024-06-04` to `2024-11-28`
 - **sepolia**: `2024-06-04` to `2024-11-27`
 
 ### Examples
