@@ -52,7 +52,7 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-11-29"
+        to: "2024-12-01"
       holesky:
         from: "2023-12-25"
         to: "2024-11-30"
@@ -114,7 +114,7 @@ tables:
         to: "2024-11-30"
       holesky:
         from: "2023-12-24"
-        to: "2024-11-29"
+        to: "2024-12-01"
       sepolia:
         from: "2023-12-24"
         to: "2024-11-30"
@@ -133,7 +133,7 @@ tables:
         to: "2024-11-30"
       holesky:
         from: "2024-02-05"
-        to: "2024-11-29"
+        to: "2024-12-01"
       sepolia:
         from: "2024-05-23"
         to: "2024-11-30"
@@ -171,7 +171,7 @@ tables:
         to: "2024-11-30"
       holesky:
         from: "2023-03-26"
-        to: "2024-11-29"
+        to: "2024-12-01"
       sepolia:
         from: "2023-03-26"
         to: "2024-11-30"
@@ -250,7 +250,7 @@ tables:
         to: "2024-11-30"
       sepolia:
         from: "2023-12-24"
-        to: "2024-11-29"
+        to: "2024-12-01"
     tags:
       - Consensus layer
   - name: mempool_transaction
@@ -284,7 +284,7 @@ tables:
     networks:
       mainnet:
         from: "2024-04-03"
-        to: "2024-11-29"
+        to: "2024-12-01"
       holesky:
         from: "2024-04-03"
         to: "2024-11-30"
@@ -302,14 +302,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2024-11-26"
-        to: "2024-11-29"
+        from: "2024-11-25"
+        to: "2024-12-01"
       holesky:
-        from: "2024-11-26"
-        to: "2024-11-30"
+        from: "2024-11-25"
+        to: "2024-12-01"
       sepolia:
-        from: "2024-11-26"
-        to: "2024-11-30"
+        from: "2024-11-25"
+        to: "2024-12-01"
     tags:
       - Consensus layer
   - name: canonical_beacon_block
@@ -585,7 +585,7 @@ tables:
         to: "2024-11-30"
       holesky:
         from: "2024-05-01"
-        to: "2024-11-29"
+        to: "2024-11-30"
       sepolia:
         from: "2024-05-01"
         to: "2024-11-30"
@@ -625,7 +625,7 @@ tables:
         to: "2024-11-30"
       holesky:
         from: "2024-06-04"
-        to: "2024-11-29"
+        to: "2024-12-01"
       sepolia:
         from: "2024-06-04"
         to: "2024-11-30"
