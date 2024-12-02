@@ -701,7 +701,7 @@ docker run -d \
   ethpandaops/xatu:latest sentry \
   --preset ethpandaops \
   --beacon-node-url=http://localhost:5052 # Replace with your beacon node URL \
-  --output-authorization=REDACTED
+  --output-authorization=REDACTED # Replace with your output authorization key
 ```
 
 ## Rocketpool
@@ -718,7 +718,7 @@ docker run -d \
   ethpandaops/xatu:latest sentry \
   --preset ethpandaops \
   --beacon-node-url=http://eth2:5052 \
-  --output-authorization="REDACTED"
+  --output-authorization="REDACTED" # Replace with your output authorization key
 
 ```
 
@@ -732,7 +732,7 @@ Once you have the `xatu` binary, you can run it with the following command:
 xatu sentry \
   --preset ethpandaops \
   --beacon-node-url=http://localhost:5052 # Replace with your beacon node URL \
-  --output-authorization=REDACTED
+  --output-authorization=REDACTED # Replace with your output authorization key
 ```
 
 ## License
