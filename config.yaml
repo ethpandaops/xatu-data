@@ -206,10 +206,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2023-10-01"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -225,13 +225,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v2_beacon_block
@@ -244,10 +244,10 @@ tables:
     networks:
       mainnet:
         from: "2023-11-14"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2023-12-24"
         to: "2024-12-01"
@@ -263,13 +263,13 @@ tables:
     networks:
       mainnet:
         from: "2023-07-22"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-01-08"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-01-08"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Execution layer
       - Transaction
@@ -287,10 +287,10 @@ tables:
         to: "2024-12-01"
       holesky:
         from: "2024-04-03"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-04-03"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v3_validator_block
@@ -582,13 +582,13 @@ tables:
     networks:
       mainnet:
         from: "2024-05-01"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-05-01"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-05-01"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
       - P2P
@@ -602,13 +602,13 @@ tables:
     networks:
       mainnet:
         from: "2024-04-26"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-04-26"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-04-26"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
       - P2P
@@ -622,13 +622,13 @@ tables:
     networks:
       mainnet:
         from: "2024-06-04"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-06-04"
         to: "2024-12-01"
       sepolia:
         from: "2024-06-04"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
       - P2P
@@ -642,13 +642,13 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
   - name: mev_relay_proposer_payload_delivered
     database: default
     excluded_columns: []
@@ -659,13 +659,13 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
       holesky:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
       sepolia:
         from: "2024-09-16"
-        to: "2024-11-30"
+        to: "2024-12-01"
     tags:
       - Consensus layer
       - Execution layer
