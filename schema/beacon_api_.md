@@ -35,7 +35,7 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-09-05` to `2024-12-01`
+- **mainnet**: `2023-09-05` to `2024-12-02`
 - **holesky**: `2023-12-25` to `2024-12-01`
 - **sepolia**: `2023-12-24` to `2024-12-01`
 
@@ -338,7 +338,7 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-02-28` to `2024-12-01`
-- **holesky**: `2023-12-24` to `2024-12-01`
+- **holesky**: `2023-12-24` to `2024-12-02`
 - **sepolia**: `2023-12-24` to `2024-12-01`
 
 ### Examples
@@ -437,7 +437,7 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-03-01` to `2024-12-01`
-- **holesky**: `2024-02-05` to `2024-12-01`
+- **holesky**: `2024-02-05` to `2024-12-02`
 - **sepolia**: `2024-05-23` to `2024-12-01`
 
 ### Examples
@@ -644,7 +644,7 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
 - **mainnet**: `2023-04-10` to `2024-12-01`
-- **holesky**: `2023-03-26` to `2024-12-01`
+- **holesky**: `2023-03-26` to `2024-12-02`
 - **sepolia**: `2023-03-26` to `2024-12-01`
 
 ### Examples
@@ -842,8 +842,8 @@ Contains beacon API eventstream "voluntary exit" data from each sentry client at
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-12-01`
-- **holesky**: `2023-10-01` to `2024-12-01`
+- **mainnet**: `2020-12-01` to `2024-12-02`
+- **holesky**: `2023-10-01` to `2024-12-02`
 - **sepolia**: `2023-10-01` to `null`
 
 ### Examples
@@ -942,9 +942,9 @@ Contains beacon API validator attestation data from each sentry client attached 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2024-12-01`
-- **holesky**: `2023-12-24` to `2024-12-01`
-- **sepolia**: `2023-12-24` to `2024-12-01`
+- **mainnet**: `2023-08-31` to `2024-12-02`
+- **holesky**: `2023-12-24` to `2024-12-02`
+- **sepolia**: `2023-12-24` to `2024-12-02`
 
 ### Examples
 
@@ -1049,9 +1049,9 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-11-14` to `2024-12-01`
-- **holesky**: `2023-12-24` to `2024-12-01`
-- **sepolia**: `2023-12-24` to `2024-12-01`
+- **mainnet**: `2023-11-14` to `2024-12-02`
+- **holesky**: `2023-12-24` to `2024-12-02`
+- **sepolia**: `2023-12-24` to `2024-12-02`
 
 ### Examples
 
@@ -1167,9 +1167,9 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-03` to `2024-12-01`
-- **holesky**: `2024-04-03` to `2024-12-01`
-- **sepolia**: `2024-04-03` to `2024-12-01`
+- **mainnet**: `2024-04-03` to `2024-12-02`
+- **holesky**: `2024-04-03` to `2024-12-02`
+- **sepolia**: `2024-04-03` to `2024-12-02`
 
 ### Examples
 
@@ -1265,9 +1265,9 @@ Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-11-25` to `2024-12-01`
-- **holesky**: `2024-11-25` to `2024-12-01`
-- **sepolia**: `2024-11-25` to `2024-12-01`
+- **mainnet**: `2024-11-25` to `2024-12-02`
+- **holesky**: `2024-11-25` to `2024-12-02`
+- **sepolia**: `2024-11-25` to `2024-12-02`
 
 ### Examples
 
