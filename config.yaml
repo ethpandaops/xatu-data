@@ -55,10 +55,10 @@ tables:
         to: "2024-12-02"
       holesky:
         from: "2023-12-25"
-        to: "2024-12-01"
+        to: "2024-12-02"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
     quirks: >-
@@ -73,13 +73,13 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2023-09-29"
-        to: "2024-12-01"
+        to: "2024-12-02"
       sepolia:
         from: "2023-09-01"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
@@ -92,13 +92,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2024-02-07"
-        to: "2024-12-01"
+        to: "2024-12-02"
       sepolia:
         from: "2024-01-30"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_block
@@ -111,13 +111,13 @@ tables:
     networks:
       mainnet:
         from: "2023-02-28"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2023-12-24"
         to: "2024-12-02"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_chain_reorg
@@ -130,13 +130,13 @@ tables:
     networks:
       mainnet:
         from: "2023-03-01"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2024-02-05"
         to: "2024-12-02"
       sepolia:
         from: "2024-05-23"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_contribution_and_proof
@@ -149,13 +149,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2023-12-24"
-        to: "2024-12-01"
+        to: "2024-12-02"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_finalized_checkpoint
@@ -168,13 +168,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2023-03-26"
         to: "2024-12-02"
       sepolia:
         from: "2023-03-26"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_head
@@ -187,13 +187,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-30"
-        to: "2024-12-01"
+        to: "2024-12-02"
       holesky:
         from: "2023-12-05"
-        to: "2024-12-01"
+        to: "2024-12-02"
       sepolia:
         from: "2023-12-05"
-        to: "2024-12-01"
+        to: "2024-12-02"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_voluntary_exit
