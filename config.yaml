@@ -568,7 +568,7 @@ tables:
         to: "2024-12-06"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-05"
+        to: "2024-12-06"
     tags:
       - Consensus layer
       - Finalized
@@ -662,7 +662,7 @@ tables:
         to: "2024-12-06"
       holesky:
         from: "2024-09-16"
-        to: "2024-12-05"
+        to: "2024-12-06"
       sepolia:
         from: "2024-09-16"
         to: "2024-12-06"
