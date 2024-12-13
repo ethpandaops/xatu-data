@@ -150,7 +150,7 @@ Contains canonical beacon API /eth/v1/beacon/committees data.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-12-11`
-- **holesky**: `2023-09-23` to `2024-12-11`
+- **holesky**: `2023-09-23` to `2024-12-12`
 - **sepolia**: `2022-06-20` to `2024-12-11`
 
 ### Examples
@@ -361,7 +361,7 @@ Contains proposer slashing from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-12-11`
+- **mainnet**: `2020-12-01` to `2024-12-12`
 - **holesky**: `2023-09-23` to `2024-12-11`
 - **sepolia**: `2022-06-22` to `null`
 
@@ -571,7 +571,7 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2024-12-11`
+- **mainnet**: `2022-09-06` to `2024-12-12`
 - **holesky**: `2023-09-23` to `2024-12-11`
 - **sepolia**: `2022-06-22` to `2024-12-11`
 
@@ -788,7 +788,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2020-12-01` to `2024-12-11`
 - **holesky**: `2023-09-23` to `2024-12-11`
-- **sepolia**: `2022-06-22` to `2024-12-11`
+- **sepolia**: `2022-06-22` to `2024-12-12`
 
 ### Examples
 
@@ -890,7 +890,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2023-04-12` to `2024-12-11`
 - **holesky**: `2023-09-23` to `2024-12-11`
-- **sepolia**: `2023-02-28` to `2024-12-11`
+- **sepolia**: `2023-02-28` to `2024-12-12`
 
 ### Examples
 
@@ -989,9 +989,9 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2024-12-11`
+- **mainnet**: `2024-03-13` to `2024-12-12`
 - **holesky**: `2024-02-07` to `2024-12-11`
-- **sepolia**: `2024-01-30` to `2024-12-11`
+- **sepolia**: `2024-01-30` to `2024-12-12`
 
 ### Examples
 
@@ -1094,7 +1094,7 @@ Contains a proposer duty from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-12-11`
-- **holesky**: `2023-09-23` to `2024-12-11`
+- **holesky**: `2023-09-23` to `2024-12-12`
 - **sepolia**: `2022-06-20` to `2024-12-11`
 
 ### Examples
