@@ -21,9 +21,9 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2024-12-11`
-- **holesky**: `2024-09-16` to `2024-12-11`
-- **sepolia**: `2024-09-16` to `2024-12-11`
+- **mainnet**: `2024-09-16` to `2024-12-12`
+- **holesky**: `2024-09-16` to `2024-12-12`
+- **sepolia**: `2024-09-16` to `2024-12-12`
 
 ### Examples
 
@@ -35,7 +35,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/7.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -145,7 +145,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/7.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
