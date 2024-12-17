@@ -1,0 +1,273 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "When the sentry received the event from a beacon node"
+    },
+    {
+        "name": "slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number within the payload"
+    },
+    {
+        "name": "slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The wall clock time when the reorg slot started"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The epoch number in the beacon API event stream payload"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The wall clock time when the epoch started"
+    },
+    {
+        "name": "block_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The version of the beacon block"
+    },
+    {
+        "name": "block_total_bytes",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "The total bytes of the beacon block payload"
+    },
+    {
+        "name": "block_total_bytes_compressed",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "The total bytes of the beacon block payload when compressed using snappy"
+    },
+    {
+        "name": "consensus_payload_value",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Consensus rewards paid to the proposer for this block, in Wei. Use to determine relative value of consensus blocks."
+    },
+    {
+        "name": "execution_payload_value",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Execution payload value in Wei. Use to determine relative value of execution payload."
+    },
+    {
+        "name": "execution_payload_block_number",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The block number of the execution payload"
+    },
+    {
+        "name": "execution_payload_base_fee_per_gas",
+        "type": "BIGNUMERIC",
+        "mode": "NULLABLE",
+        "description": "Base fee per gas for execution payload"
+    },
+    {
+        "name": "execution_payload_blob_gas_used",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Gas used for blobs in execution payload"
+    },
+    {
+        "name": "execution_payload_excess_blob_gas",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Excess gas used for blobs in execution payload"
+    },
+    {
+        "name": "execution_payload_gas_limit",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Gas limit for execution payload"
+    },
+    {
+        "name": "execution_payload_gas_used",
+        "type": "NUMERIC",
+        "mode": "NULLABLE",
+        "description": "Gas used for execution payload"
+    },
+    {
+        "name": "execution_payload_transactions_count",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "The transaction count of the execution payload"
+    },
+    {
+        "name": "execution_payload_transactions_total_bytes",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "The transaction total bytes of the execution payload"
+    },
+    {
+        "name": "execution_payload_transactions_total_bytes_compressed",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "The transaction total bytes of the execution payload when compressed using snappy"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Ethereum network ID"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    },
+    {
+        "name": "meta_consensus_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_major",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client major version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_minor",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client minor version that generated the event"
+    },
+    {
+        "name": "meta_consensus_version_patch",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client patch version that generated the event"
+    },
+    {
+        "name": "meta_consensus_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum consensus client implementation that generated the event"
+    },
+    {
+        "name": "meta_labels",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Labels associated with the event",
+        "fields": [
+            {
+                "name": "key_value",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "key",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    },
+                    {
+                        "name": "value",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    }
+                ]
+            }
+        ]
+    }
+]

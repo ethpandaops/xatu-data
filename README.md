@@ -700,8 +700,26 @@ docker run -d \
   --read-only \
   ethpandaops/xatu:latest sentry \
   --preset ethpandaops \
-  --beacon-node-url=http://localhost:5052 \
-  --output-authorization=REDACTED
+  --beacon-node-url=http://localhost:5052 # Replace with your beacon node URL \
+  --output-authorization=REDACTED # Replace with your output authorization key
+```
+
+## Rocketpool
+If you're running a Rocketpool node, you can contribute to the Xatu dataset by running `xatu sentry` with the following command:
+
+```bash
+docker run -d \
+  --name xatu-sentry \
+  --restart unless-stopped \
+  --cpus="0.5" \
+  --memory="1g" \
+  --read-only \
+  --network=rocketpool_net \
+  ethpandaops/xatu:latest sentry \
+  --preset ethpandaops \
+  --beacon-node-url=http://eth2:5052 \
+  --output-authorization="REDACTED" # Replace with your output authorization key
+
 ```
 
 ### Binary
@@ -713,8 +731,8 @@ Once you have the `xatu` binary, you can run it with the following command:
 ```bash
 xatu sentry \
   --preset ethpandaops \
-  --beacon-node-url=http://localhost:5052 \
-  --output-authorization=REDACTED
+  --beacon-node-url=http://localhost:5052 # Replace with your beacon node URL \
+  --output-authorization=REDACTED # Replace with your output authorization key
 ```
 
 ## License

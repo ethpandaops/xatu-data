@@ -120,6 +120,16 @@
         "clustering": ["slot_start_date_time","meta_client_name","proposer_validator_index"]
     },
     {
+        "name": "beacon_api_eth_v3_validator_block",
+        "description": "Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.",
+        "partition_type": "time",
+        "partition_value": {
+            "type": "MONTH",
+            "field": "slot_start_date_time"
+        },
+        "clustering": ["slot_start_date_time","meta_client_name","event_date_time"]
+    },
+    {
         "name": "mempool_transaction",
         "description": "Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.",
         "partition_type": "time",
