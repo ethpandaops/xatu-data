@@ -11,6 +11,7 @@ Events derived from MEV relays
 <!-- schema_toc_start -->
 - [`mev_relay_bid_trace`](#mev_relay_bid_trace)
 - [`mev_relay_proposer_payload_delivered`](#mev_relay_proposer_payload_delivered)
+- [`mev_relay_validator_registration`](#mev_relay_validator_registration)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -35,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -145,7 +146,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -210,6 +211,105 @@ echo """
 | **gas_limit** | `UInt64` | *The gas limit of the payload* |
 | **gas_used** | `UInt64` | *The gas used by the payload* |
 | **num_tx** | `UInt32` | *The number of transactions in the payload* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## mev_relay_validator_registration
+
+Contains MEV relay validator registrations data.
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **mainnet**: `2020-12-01` to `2024-12-15`
+- **holesky**: `2023-09-23` to `2024-12-15`
+- **sepolia**: `2022-06-22` to `2024-12-15`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/mev_relay_validator_registration/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2024/12/10.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.mev_relay_validator_registration FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.mev_relay_validator_registration FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *When the bid was fetched* |
+| **timestamp** | `Int64` | *The timestamp of the bid* |
+| **relay_name** | `String` | *The relay that the bid was fetched from* |
+| **validator_index** | `UInt32` | *The validator index of the validator registration* |
+| **gas_limit** | `UInt64` | *The gas limit of the validator registration* |
+| **fee_recipient** | `String` | *The fee recipient of the validator registration* |
+| **slot** | `UInt32` | *Slot number derived from the validator registration `timestamp` field* |
+| **slot_start_date_time** | `DateTime` | *The slot start time derived from the validator registration `timestamp` field* |
+| **epoch** | `UInt32` | *Epoch number derived from the validator registration `timestamp` field* |
+| **epoch_start_date_time** | `DateTime` | *The epoch start time derived from the validator registration `timestamp` field* |
+| **wallclock_slot** | `UInt32` | *The wallclock slot when the request was sent* |
+| **wallclock_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
+| **wallclock_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
