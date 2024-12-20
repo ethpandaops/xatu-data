@@ -9,19 +9,19 @@
         "name": "event_date_time",
         "type": "TIMESTAMP",
         "mode": "REQUIRED",
-        "description": "When the bid was fetched"
+        "description": "When the registration was fetched"
     },
     {
         "name": "timestamp",
         "type": "INTEGER",
         "mode": "REQUIRED",
-        "description": "The timestamp of the bid"
+        "description": "The timestamp of the registration"
     },
     {
         "name": "relay_name",
         "type": "STRING",
         "mode": "REQUIRED",
-        "description": "The relay that the bid was fetched from"
+        "description": "The relay that the registration was fetched from"
     },
     {
         "name": "validator_index",

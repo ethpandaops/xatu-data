@@ -36,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -146,7 +146,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -233,11 +233,11 @@ echo """
 Contains MEV relay validator registrations data.
 
 ### Availability
-Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2024-12-18`
-- **holesky**: `2023-09-23` to `2024-12-18`
-- **sepolia**: `2022-06-22` to `2024-12-18`
+- **mainnet**: `2024-12-12` to `2024-12-18`
+- **holesky**: `2024-12-12` to `2024-12-18`
+- **sepolia**: `2024-12-12` to `2024-12-18`
 
 ### Examples
 
@@ -249,7 +249,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2024/12/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2024/12/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -267,7 +267,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
         *
     FROM default.mev_relay_validator_registration FINAL
     WHERE
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 10
     FORMAT Pretty
 """
@@ -285,7 +285,7 @@ echo """
         *
     FROM default.mev_relay_validator_registration FINAL
     WHERE
-        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -296,9 +296,9 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *When the bid was fetched* |
-| **timestamp** | `Int64` | *The timestamp of the bid* |
-| **relay_name** | `String` | *The relay that the bid was fetched from* |
+| **event_date_time** | `DateTime64(3)` | *When the registration was fetched* |
+| **timestamp** | `Int64` | *The timestamp of the registration* |
+| **relay_name** | `String` | *The relay that the registration was fetched from* |
 | **validator_index** | `UInt32` | *The validator index of the validator registration* |
 | **gas_limit** | `UInt64` | *The gas limit of the validator registration* |
 | **fee_recipient** | `String` | *The fee recipient of the validator registration* |

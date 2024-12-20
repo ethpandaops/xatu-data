@@ -549,8 +549,8 @@
         "partition_type": "time",
         "partition_value": {
             "type": "MONTH",
-            "field": "slot_start_date_time"
+            "field": "event_date_time"
         },
-        "clustering": ["slot_start_date_time","meta_client_name","relay_name","validator_index"]
+        "clustering": ["event_date_time","meta_client_name","relay_name","validator_index"]
     }
 ]
