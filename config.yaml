@@ -675,17 +675,17 @@ tables:
     excluded_columns: []
     partitioning:
       type: datetime
-      column: slot_start_date_time
+      column: event_date_time
       interval: daily
     networks:
       mainnet:
-        from: "2020-12-01"
+        from: "2024-12-12"
         to: "2024-12-18"
       holesky:
-        from: "2023-09-23"
+        from: "2024-12-12"
         to: "2024-12-18"
       sepolia:
-        from: "2022-06-22"
+        from: "2024-12-12"
         to: "2024-12-18"
     tags:
       - Consensus layer
