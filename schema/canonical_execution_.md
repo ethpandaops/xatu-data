@@ -35,7 +35,7 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `21439000`
+- **mainnet**: `0` to `21447000`
 - **holesky**: `0` to `2977000`
 - **sepolia**: `0` to `7321000`
 
