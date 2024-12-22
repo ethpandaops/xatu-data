@@ -1301,7 +1301,7 @@ Contains a validator state for an epoch.
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2024-12-20`
-- **holesky**: `2023-09-23` to `2024-12-20`
+- **holesky**: `2023-09-23` to `2024-12-21`
 - **sepolia**: `2022-06-22` to `2024-12-19`
 
 ### Examples
