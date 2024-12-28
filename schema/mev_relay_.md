@@ -22,7 +22,7 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2024-12-25`
+- **mainnet**: `2024-09-16` to `2024-12-26`
 - **holesky**: `2024-09-16` to `2024-12-26`
 - **sepolia**: `2024-09-16` to `2024-12-26`
 
@@ -36,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/20.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2024/12/21.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -146,7 +146,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/20.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2024/12/21.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -236,7 +236,7 @@ Contains MEV relay validator registrations data.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-12-11` to `2024-12-26`
-- **holesky**: `2024-12-11` to `2024-12-25`
+- **holesky**: `2024-12-11` to `2024-12-26`
 - **sepolia**: `2024-12-11` to `2024-12-26`
 
 ### Examples
@@ -249,7 +249,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2024/12/20.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2024/12/21.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
