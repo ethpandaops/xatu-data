@@ -52,13 +52,13 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-25"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
     quirks: >-
@@ -73,13 +73,13 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-29"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-09-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
@@ -92,13 +92,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-02-07"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-01-30"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_block
@@ -111,13 +111,13 @@ tables:
     networks:
       mainnet:
         from: "2023-02-28"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_chain_reorg
@@ -130,13 +130,13 @@ tables:
     networks:
       mainnet:
         from: "2023-03-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-02-05"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-05-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_contribution_and_proof
@@ -149,13 +149,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_finalized_checkpoint
@@ -168,13 +168,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-10"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-03-26"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-03-26"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_head
@@ -187,13 +187,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-30"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-05"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-05"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_voluntary_exit
@@ -206,10 +206,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-10-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -225,13 +225,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v2_beacon_block
@@ -244,13 +244,13 @@ tables:
     networks:
       mainnet:
         from: "2023-11-14"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-12-24"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: mempool_transaction
@@ -263,13 +263,13 @@ tables:
     networks:
       mainnet:
         from: "2023-07-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-01-08"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-01-08"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Execution layer
       - Transaction
@@ -284,13 +284,13 @@ tables:
     networks:
       mainnet:
         from: "2024-04-03"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-04-03"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-04-03"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v3_validator_block
@@ -303,13 +303,13 @@ tables:
     networks:
       mainnet:
         from: "2024-11-25"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-11-25"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-11-25"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
   - name: canonical_beacon_block
@@ -322,13 +322,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-20"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -342,13 +342,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-20"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -362,10 +362,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
         to: "null"
@@ -382,10 +382,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
         to: "null"
@@ -402,13 +402,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-12"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-28"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -422,13 +422,13 @@ tables:
     networks:
       mainnet:
         from: "2022-09-06"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -442,13 +442,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -462,13 +462,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -482,13 +482,13 @@ tables:
     networks:
       mainnet:
         from: "2023-04-12"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2023-02-28"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -502,13 +502,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2024-02-07"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2024-01-30"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -522,13 +522,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-20"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -542,13 +542,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -562,13 +562,13 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2024-12-31"
+        to: "2025-01-01"
       holesky:
         from: "2023-09-23"
-        to: "2024-12-31"
+        to: "2025-01-01"
       sepolia:
         from: "2022-06-22"
-        to: "2024-12-31"
+        to: "2025-01-01"
     tags:
       - Consensus layer
       - Finalized
@@ -701,13 +701,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -721,13 +721,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -741,13 +741,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -761,13 +761,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -781,13 +781,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -801,13 +801,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -826,10 +826,10 @@ tables:
         to: "21525000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -843,13 +843,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -863,13 +863,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -885,13 +885,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -905,13 +905,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3051000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -925,13 +925,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -945,13 +945,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
@@ -965,13 +965,13 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21525000"
+        to: "21532000"
       holesky:
         from: "0"
-        to: "3052000"
+        to: "3058000"
       sepolia:
         from: "0"
-        to: "7395000"
+        to: "7402000"
     tags:
       - Execution layer
       - Finalized
