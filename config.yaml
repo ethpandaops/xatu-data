@@ -582,19 +582,18 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "1100000"
+        to: "1143650"
       holesky:
         from: "0"
-        to: "1100000"
+        to: "1899950"
       sepolia:
         from: "0"
-        to: "100"
+        to: "1900"
     tags:
       - Consensus layer
       - Finalized
     quirks: >-
-     A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
-
+      A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
   - name: libp2p_gossipsub_beacon_attestation
     database: default
     excluded_columns: []
