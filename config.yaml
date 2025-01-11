@@ -823,7 +823,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21590000"
+        to: "21597000"
       holesky:
         from: "0"
         to: "3112000"
