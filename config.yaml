@@ -568,7 +568,7 @@ tables:
         to: "2025-01-09"
       sepolia:
         from: "2022-06-22"
-        to: "2025-01-08"
+        to: "2025-01-09"
     tags:
       - Consensus layer
       - Finalized
@@ -585,7 +585,7 @@ tables:
         to: "1739850"
       holesky:
         from: "0"
-        to: "1900650"
+        to: "1901250"
       sepolia:
         from: "0"
         to: "1900"
