@@ -55,10 +55,10 @@ tables:
         to: "2025-01-13"
       holesky:
         from: "2023-12-25"
-        to: "2025-01-13"
+        to: "2025-01-14"
       sepolia:
         from: "2023-12-24"
-        to: "2025-01-13"
+        to: "2025-01-14"
     tags:
       - Consensus layer
     quirks: >-
@@ -73,13 +73,13 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2025-01-13"
+        to: "2025-01-14"
       holesky:
         from: "2023-09-29"
         to: "2025-01-13"
       sepolia:
         from: "2023-09-01"
-        to: "2025-01-13"
+        to: "2025-01-14"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
@@ -92,13 +92,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2025-01-13"
+        to: "2025-01-14"
       holesky:
         from: "2024-02-07"
-        to: "2025-01-13"
+        to: "2025-01-14"
       sepolia:
         from: "2024-01-30"
-        to: "2025-01-13"
+        to: "2025-01-14"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_block
@@ -111,10 +111,10 @@ tables:
     networks:
       mainnet:
         from: "2023-02-28"
-        to: "2025-01-13"
+        to: "2025-01-14"
       holesky:
         from: "2023-12-24"
-        to: "2025-01-13"
+        to: "2025-01-14"
       sepolia:
         from: "2023-12-24"
         to: "2025-01-13"
@@ -133,7 +133,7 @@ tables:
         to: "2025-01-13"
       holesky:
         from: "2024-02-05"
-        to: "2025-01-13"
+        to: "2025-01-14"
       sepolia:
         from: "2024-05-23"
         to: "2025-01-13"
@@ -149,7 +149,7 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2025-01-13"
+        to: "2025-01-14"
       holesky:
         from: "2023-12-24"
         to: "2025-01-13"
