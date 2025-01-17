@@ -1,0 +1,207 @@
+[
+    {
+        "name": "updated_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "Timestamp when the record was last updated"
+    },
+    {
+        "name": "event_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "When the registration was fetched"
+    },
+    {
+        "name": "timestamp",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The timestamp of the registration"
+    },
+    {
+        "name": "relay_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The relay that the registration was fetched from"
+    },
+    {
+        "name": "validator_index",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The validator index of the validator registration"
+    },
+    {
+        "name": "gas_limit",
+        "type": "NUMERIC",
+        "mode": "REQUIRED",
+        "description": "The gas limit of the validator registration"
+    },
+    {
+        "name": "fee_recipient",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "The fee recipient of the validator registration"
+    },
+    {
+        "name": "slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Slot number derived from the validator registration `timestamp` field"
+    },
+    {
+        "name": "slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The slot start time derived from the validator registration `timestamp` field"
+    },
+    {
+        "name": "epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Epoch number derived from the validator registration `timestamp` field"
+    },
+    {
+        "name": "epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The epoch start time derived from the validator registration `timestamp` field"
+    },
+    {
+        "name": "wallclock_slot",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock slot when the request was sent"
+    },
+    {
+        "name": "wallclock_slot_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the slot when the request was sent"
+    },
+    {
+        "name": "wallclock_epoch",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "The wallclock epoch when the request was sent"
+    },
+    {
+        "name": "wallclock_epoch_start_date_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED",
+        "description": "The start time for the wallclock epoch when the request was sent"
+    },
+    {
+        "name": "meta_client_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Name of the client that generated the event"
+    },
+    {
+        "name": "meta_client_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Unique Session ID of the client that generated the event. This changes every time the client is restarted."
+    },
+    {
+        "name": "meta_client_version",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Version of the client that generated the event"
+    },
+    {
+        "name": "meta_client_implementation",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Implementation of the client that generated the event"
+    },
+    {
+        "name": "meta_client_os",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Operating system of the client that generated the event"
+    },
+    {
+        "name": "meta_client_ip",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "IP address of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_city",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "City of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_country_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Country code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_continent_code",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Continent code of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_longitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Longitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_latitude",
+        "type": "FLOAT",
+        "mode": "NULLABLE",
+        "description": "Latitude of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_number",
+        "type": "INTEGER",
+        "mode": "NULLABLE",
+        "description": "Autonomous system number of the client that generated the event"
+    },
+    {
+        "name": "meta_client_geo_autonomous_system_organization",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "Autonomous system organization of the client that generated the event"
+    },
+    {
+        "name": "meta_network_name",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Ethereum network name"
+    },
+    {
+        "name": "meta_labels",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "description": "Labels associated with the event",
+        "fields": [
+            {
+                "name": "key_value",
+                "type": "RECORD",
+                "mode": "REPEATED",
+                "fields": [
+                    {
+                        "name": "key",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    },
+                    {
+                        "name": "value",
+                        "type": "STRING",
+                        "mode": "REQUIRED"
+                    }
+                ]
+            }
+        ]
+    }
+]

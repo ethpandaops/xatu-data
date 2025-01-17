@@ -20,9 +20,9 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-07-22` to `2024-12-14`
-- **holesky**: `2024-01-08` to `2024-12-14`
-- **sepolia**: `2024-01-08` to `2024-12-14`
+- **mainnet**: `2023-07-22` to `2025-01-05`
+- **holesky**: `2024-01-08` to `2025-01-05`
+- **sepolia**: `2024-01-08` to `2025-01-05`
 
 ### Examples
 
@@ -34,7 +34,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/12/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2024/12/30.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

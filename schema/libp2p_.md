@@ -22,9 +22,9 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2024-12-14`
-- **holesky**: `2024-05-01` to `2024-12-14`
-- **sepolia**: `2024-05-01` to `2024-12-14`
+- **mainnet**: `2024-05-01` to `2025-01-05`
+- **holesky**: `2024-05-01` to `2025-01-05`
+- **sepolia**: `2024-05-01` to `2025-01-05`
 
 ### Examples
 
@@ -36,7 +36,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/12/9/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2024/12/30/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -136,9 +136,9 @@ Table for libp2p gossipsub beacon block data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2024-12-14`
-- **holesky**: `2024-04-26` to `2024-12-14`
-- **sepolia**: `2024-04-26` to `2024-12-14`
+- **mainnet**: `2024-04-26` to `2025-01-05`
+- **holesky**: `2024-04-26` to `2025-01-05`
+- **sepolia**: `2024-04-26` to `2025-01-05`
 
 ### Examples
 
@@ -150,7 +150,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/12/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2024/12/30.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -241,9 +241,9 @@ Table for libp2p gossipsub blob sidecar data
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-06-04` to `2024-12-14`
-- **holesky**: `2024-06-04` to `2024-12-14`
-- **sepolia**: `2024-06-04` to `2024-12-14`
+- **mainnet**: `2024-06-04` to `2025-01-05`
+- **holesky**: `2024-06-04` to `2025-01-05`
+- **sepolia**: `2024-06-04` to `2025-01-05`
 
 ### Examples
 
@@ -255,7 +255,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/12/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2024/12/30.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
