@@ -1,3 +1,4 @@
 .env
 .venv
 .cursorrules
+.DS_Store
