@@ -826,7 +826,7 @@ tables:
         to: "21640000"
       holesky:
         from: "0"
-        to: "3153000"
+        to: "3160000"
       sepolia:
         from: "0"
         to: "7507000"
