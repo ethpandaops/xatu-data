@@ -79,7 +79,7 @@ tables:
         to: "2025-01-21"
       sepolia:
         from: "2023-09-01"
-        to: "2025-01-21"
+        to: "2025-01-22"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_blob_sidecar
@@ -155,7 +155,7 @@ tables:
         to: "2025-01-22"
       sepolia:
         from: "2023-12-24"
-        to: "2025-01-21"
+        to: "2025-01-22"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_finalized_checkpoint
@@ -209,7 +209,7 @@ tables:
         to: "2025-01-21"
       holesky:
         from: "2023-10-01"
-        to: "2025-01-21"
+        to: "2025-01-22"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -303,7 +303,7 @@ tables:
     networks:
       mainnet:
         from: "2024-11-25"
-        to: "2025-01-21"
+        to: "2025-01-22"
       holesky:
         from: "2024-11-25"
         to: "2025-01-21"
@@ -729,7 +729,7 @@ tables:
         to: "3193000"
       sepolia:
         from: "0"
-        to: "7543000"
+        to: "7550000"
     tags:
       - Execution layer
       - Finalized
@@ -766,7 +766,7 @@ tables:
         to: "21683000"
       holesky:
         from: "0"
-        to: "3193000"
+        to: "3199000"
       sepolia:
         from: "0"
         to: "7543000"
@@ -871,7 +871,7 @@ tables:
         to: "3199000"
       sepolia:
         from: "0"
-        to: "7543000"
+        to: "7550000"
     tags:
       - Execution layer
       - Finalized
@@ -1009,7 +1009,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "21676000"
+        to: "21683000"
       holesky:
         from: "0"
         to: "3193000"
