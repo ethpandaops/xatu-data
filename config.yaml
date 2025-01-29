@@ -117,7 +117,7 @@ tables:
         to: "2025-01-27"
       sepolia:
         from: "2023-12-24"
-        to: "2025-01-27"
+        to: "2025-01-28"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_chain_reorg
@@ -422,7 +422,7 @@ tables:
     networks:
       mainnet:
         from: "2022-09-06"
-        to: "2025-01-27"
+        to: "2025-01-28"
       holesky:
         from: "2023-09-23"
         to: "2025-01-27"
