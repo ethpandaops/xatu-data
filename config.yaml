@@ -52,10 +52,10 @@ tables:
     networks:
       mainnet:
         from: "2023-09-05"
-        to: "2025-01-27"
+        to: "2025-01-29"
       holesky:
         from: "2023-12-25"
-        to: "2025-01-27"
+        to: "2025-01-29"
       sepolia:
         from: "2023-12-24"
         to: "2025-01-28"
@@ -117,7 +117,7 @@ tables:
         to: "2025-01-28"
       sepolia:
         from: "2023-12-24"
-        to: "2025-01-28"
+        to: "2025-01-29"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_chain_reorg
@@ -228,7 +228,7 @@ tables:
         to: "2025-01-28"
       holesky:
         from: "2023-12-24"
-        to: "2025-01-28"
+        to: "2025-01-29"
       sepolia:
         from: "2023-12-24"
         to: "2025-01-28"
@@ -422,7 +422,7 @@ tables:
     networks:
       mainnet:
         from: "2022-09-06"
-        to: "2025-01-28"
+        to: "2025-01-29"
       holesky:
         from: "2023-09-23"
         to: "2025-01-28"
@@ -488,7 +488,7 @@ tables:
         to: "2025-01-28"
       sepolia:
         from: "2023-02-28"
-        to: "2025-01-28"
+        to: "2025-01-29"
     tags:
       - Consensus layer
       - Finalized
@@ -684,7 +684,7 @@ tables:
         to: "2025-01-28"
       holesky:
         from: "2024-09-16"
-        to: "2025-01-28"
+        to: "2025-01-29"
       sepolia:
         from: "2024-09-16"
         to: "2025-01-28"
