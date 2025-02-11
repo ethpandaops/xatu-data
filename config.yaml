@@ -76,7 +76,7 @@ tables:
         to: "2025-02-09"
       holesky:
         from: "2023-09-29"
-        to: "2025-02-08"
+        to: "2025-02-10"
       sepolia:
         from: "2023-09-01"
         to: "2025-02-09"
@@ -92,10 +92,10 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2025-02-08"
+        to: "2025-02-10"
       holesky:
         from: "2024-02-07"
-        to: "2025-02-08"
+        to: "2025-02-10"
       sepolia:
         from: "2024-01-30"
         to: "2025-02-09"
@@ -111,7 +111,7 @@ tables:
     networks:
       mainnet:
         from: "2023-02-28"
-        to: "2025-02-08"
+        to: "2025-02-10"
       holesky:
         from: "2023-12-24"
         to: "2025-02-09"
@@ -130,13 +130,13 @@ tables:
     networks:
       mainnet:
         from: "2023-03-01"
-        to: "2025-02-08"
+        to: "2025-02-10"
       holesky:
         from: "2024-02-05"
         to: "2025-02-09"
       sepolia:
         from: "2024-05-23"
-        to: "2025-02-08"
+        to: "2025-02-10"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_contribution_and_proof
@@ -174,7 +174,7 @@ tables:
         to: "2025-02-09"
       sepolia:
         from: "2023-03-26"
-        to: "2025-02-08"
+        to: "2025-02-10"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_head
@@ -187,13 +187,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-30"
-        to: "2025-02-08"
+        to: "2025-02-10"
       holesky:
         from: "2023-12-05"
-        to: "2025-02-08"
+        to: "2025-02-10"
       sepolia:
         from: "2023-12-05"
-        to: "2025-02-08"
+        to: "2025-02-10"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_voluntary_exit
@@ -225,10 +225,10 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2025-02-08"
+        to: "2025-02-10"
       holesky:
         from: "2023-12-24"
-        to: "2025-02-08"
+        to: "2025-02-10"
       sepolia:
         from: "2023-12-24"
         to: "2025-02-09"
