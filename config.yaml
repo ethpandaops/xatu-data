@@ -73,7 +73,7 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2025-02-09"
+        to: "2025-02-11"
       holesky:
         from: "2023-09-29"
         to: "2025-02-10"
@@ -209,7 +209,7 @@ tables:
         to: "2025-02-09"
       holesky:
         from: "2023-10-01"
-        to: "2025-02-09"
+        to: "2025-02-11"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -826,7 +826,7 @@ tables:
         to: "21811000"
       holesky:
         from: "0"
-        to: "3320000"
+        to: "3333000"
       sepolia:
         from: "0"
         to: "7675000"
@@ -871,7 +871,7 @@ tables:
         to: "3320000"
       sepolia:
         from: "0"
-        to: "7675000"
+        to: "7689000"
     tags:
       - Execution layer
       - Finalized
