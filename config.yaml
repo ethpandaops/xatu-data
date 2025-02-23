@@ -98,7 +98,7 @@ tables:
         to: "2025-02-21"
       sepolia:
         from: "2024-01-30"
-        to: "2025-02-21"
+        to: "2025-02-22"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_block
@@ -174,7 +174,7 @@ tables:
         to: "2025-02-21"
       sepolia:
         from: "2023-03-26"
-        to: "2025-02-21"
+        to: "2025-02-22"
     tags:
       - Consensus layer
   - name: beacon_api_eth_v1_events_head
