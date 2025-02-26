@@ -73,7 +73,7 @@ tables:
     networks:
       mainnet:
         from: "2023-06-05"
-        to: "2025-02-23"
+        to: "2025-02-24"
       holesky:
         from: "2023-09-29"
         to: "2025-02-24"
