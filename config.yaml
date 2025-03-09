@@ -76,7 +76,7 @@ tables:
         to: "2025-03-07"
       holesky:
         from: "2023-09-29"
-        to: "2025-03-07"
+        to: "2025-03-08"
       sepolia:
         from: "2023-09-01"
         to: "2025-03-07"
@@ -92,7 +92,7 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2025-03-07"
+        to: "2025-03-08"
       holesky:
         from: "2024-02-07"
         to: "2025-03-07"
@@ -209,7 +209,7 @@ tables:
         to: "2025-03-07"
       holesky:
         from: "2023-10-01"
-        to: "2025-03-07"
+        to: "2025-03-08"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -269,7 +269,7 @@ tables:
         to: "2025-03-07"
       sepolia:
         from: "2024-01-08"
-        to: "2025-03-07"
+        to: "2025-03-08"
     tags:
       - Execution layer
       - Transaction
@@ -385,7 +385,7 @@ tables:
         to: "2025-03-07"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-07"
+        to: "2025-03-08"
       sepolia:
         from: "2022-06-22"
         to: "null"
@@ -465,7 +465,7 @@ tables:
         to: "2025-03-07"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-07"
+        to: "2025-03-08"
       sepolia:
         from: "2022-06-22"
         to: "2025-03-07"
@@ -562,7 +562,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-03-07"
+        to: "2025-03-08"
       holesky:
         from: "2023-09-23"
         to: "2025-03-07"
@@ -610,7 +610,7 @@ tables:
         to: "2025-03-07"
       sepolia:
         from: "2024-05-01"
-        to: "2025-03-07"
+        to: "2025-03-08"
     tags:
       - Consensus layer
       - P2P
@@ -664,7 +664,7 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2025-03-07"
+        to: "2025-03-08"
       holesky:
         from: "2024-09-16"
         to: "2025-03-07"
