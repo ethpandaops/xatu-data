@@ -261,7 +261,7 @@ Once your Clickhouse server is setup and the data is imported, you can query the
   ```bash
   docker run --rm -it --net host -e CLICKHOUSE_USER=$CLICKHOUSE_USER -e CLICKHOUSE_PASSWORD=$CLICKHOUSE_PASSWORD -e CLICKHOUSE_HOST=$CLICKHOUSE_HOST clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
-        toStartOfDay(slot_start_date_time) AS day,
+        toDate(slot_start_date_time) AS date,
         round(MIN(propagation_slot_start_diff)) AS min_ms,
         round(quantile(0.05)(propagation_slot_start_diff)) AS p05_ms,
         round(quantile(0.50)(propagation_slot_start_diff)) AS p50_ms,
@@ -269,8 +269,8 @@ Once your Clickhouse server is setup and the data is imported, you can query the
     FROM beacon_api_eth_v1_events_block
     WHERE
         slot_start_date_time BETWEEN '2024-03-20' AND '2024-03-27' -- strongly recommend filtering by the partition key (slot_start_date_time) for query performance
-    GROUP BY day
-    ORDER BY day AS
+    GROUP BY date
+    ORDER BY date AS
     FORMAT Pretty
   """
   ```

@@ -69,6 +69,8 @@ jobs:
         run: ./generate-readme.sh
       - name: Run generate-bigquery.sh
         run: ./generate-bigquery.sh
+      - name: Run generate-llmstxt.sh
+        run: ./generate-llmstxt.sh
       - name: Cleanup before commit
         run: |
           cd xatu
