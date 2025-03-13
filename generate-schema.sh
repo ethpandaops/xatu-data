@@ -22,6 +22,7 @@ temp_schema_file=$(mktemp)
 availability_overrides_keys=("public" "ethpandaops-clickhouse")
 availability_overrides_values=("Public Parquet Files" "EthPandaOps Clickhouse")
 
+
 # Logging function
 log() {
     echo "$(date +"%Y-%m-%d %H:%M:%S") - $1"
@@ -190,6 +191,29 @@ generate_table_schema() {
     done
     
     echo
+
+    # Create directory for SQL files
+    mkdir -p "./schema/clickhouse/${database}"
+    
+    # Get the _local table definition
+    local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
+    
+    # Replace escaped newlines with actual newlines and fix escaped quotes
+    sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+    
+    # Save the _local table definition
+    echo "$sql_ddl_local" > "./schema/clickhouse/${database}/${table_name}_local.sql"
+    log "Local table SQL DDL saved to ./schema/clickhouse/${database}/${table_name}_local.sql"
+    
+    # Get the distributed table definition
+    local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
+    
+    # Replace escaped newlines with actual newlines and fix escaped quotes
+    sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+    
+    # Save the distributed table definition
+    echo "$sql_ddl_distributed" > "./schema/clickhouse/${database}/${table_name}.sql"
+    log "Distributed table SQL DDL saved to ./schema/clickhouse/${database}/${table_name}.sql"
 }
 
 # Generate schema for each dataset
@@ -226,6 +250,10 @@ generate_dataset_schema() {
     done
     echo "<!-- schema_end -->"
 }
+
+# Remove all existing SQL files
+rm -rf "./schema/clickhouse/"
+
 
 # Generate schemas for all datasets
 yq e '.datasets[].name' "$config_file" | while read -r dataset_name; do
@@ -291,7 +319,6 @@ echo "$schema_toc"
 
     awk '/<!-- schema_toc_end -->/{flag=1}flag' "$main_schema_file" | tail -n +2
 } > "$temp_schema_file"
-
 
 if [ "${mode}" = "all" ]; then
     echo "Generating all schemas"

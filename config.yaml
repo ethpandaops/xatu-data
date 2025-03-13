@@ -1,1043 +1,1100 @@
 datasets:
-  - description: "Events derived from the Beacon API event stream"
-    name: "Beacon API Event Stream"
-    tables:
-      prefix: beacon_api_
-    availability:
-      - public
-      - ethpandaops-clickhouse
-  - name: "Execution Layer P2P"
-    description: "Events from the execution layer p2p network"
-    tables:
-      prefix: mempool_
-    availability:
-      - ethpandaops-clickhouse
-      - public
-  - name: "Canonical Beacon"
-    description: "Events derived from the finalized beacon chain"
-    tables:
-      prefix: canonical_beacon_
-    availability:
-      - ethpandaops-clickhouse
-      - public
-  - name: "Canonical Execution"
-    description: "Data extracted from the execution layer"
-    tables:
-      prefix: canonical_execution_
-    availability:
-      - ethpandaops-clickhouse
-      - public
-  - name: "Consensus Layer P2P"
-    description: "Events from the consensus layer p2p network"
-    tables:
-      prefix: libp2p_
-    availability:
-      - ethpandaops-clickhouse
-      - public
-  - name: "MEV Relay"
-    description: "Events derived from MEV relays"
-    tables:
-      prefix: mev_relay_
-    availability:
-      - public
-      - ethpandaops-clickhouse
+- name: "Beacon API Event Stream"
+  description: "Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. 
+    Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. 
+    These tables can be joined with the canonical tables to get a more complete view of the data.
+    For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block."
+  tables:
+    prefix: beacon_api_
+  availability:
+  - public
+  - ethpandaops-clickhouse
+- name: "Execution Layer P2P"
+  description: "Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. 
+    Because of this it usually has the same data but from many different instances."
+  tables:
+    prefix: mempool_
+  availability:
+  - ethpandaops-clickhouse
+  - public
+- name: "Canonical Beacon"
+  description: "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables.
+    These tables can be reliably JOINed on to hydrate other tables with information"
+  tables:
+    prefix: canonical_beacon_
+  availability:
+  - ethpandaops-clickhouse
+  - public
+- name: "Canonical Execution"
+  description: "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables.
+    These tables can be reliably JOINed on to hydrate other tables with information"
+  tables:
+    prefix: canonical_execution_
+  availability:
+  - ethpandaops-clickhouse
+  - public
+- name: "Consensus Layer P2P"
+  description: "Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. 
+    Because of this it usually has the same data but from many different instances."
+  tables:
+    prefix: libp2p_
+  availability:
+  - ethpandaops-clickhouse
+  - public
+- name: "MEV Relay"
+  description: "Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances."
+  tables:
+    prefix: mev_relay_
+  availability:
+  - public
+  - ethpandaops-clickhouse
 tables:
-  - name: beacon_api_eth_v1_beacon_committee
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: hourly
-    networks:
-      mainnet:
-        from: "2023-09-05"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-12-25"
-        to: "2025-03-10"
-      sepolia:
-        from: "2023-12-24"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-    quirks: >-
-      Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
-  - name: beacon_api_eth_v1_events_attestation
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: hourly
-    networks:
-      mainnet:
-        from: "2023-06-05"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-29"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-09-01"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_blob_sidecar
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-03-13"
-        to: "2025-03-10"
-      holesky:
-        from: "2024-02-07"
-        to: "2025-03-10"
-      sepolia:
-        from: "2024-01-30"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-02-28"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-12-24"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-12-24"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_chain_reorg
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-03-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-02-05"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-05-23"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_contribution_and_proof
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: contribution_slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-08-31"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-12-24"
-        to: "2025-03-10"
-      sepolia:
-        from: "2023-12-24"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_finalized_checkpoint
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: epoch_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-04-10"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-03-26"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-03-26"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_head
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-08-30"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-12-05"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-12-05"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_events_voluntary_exit
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: wallclock_epoch_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-10-01"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-10-01"
-        to: "null"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v1_validator_attestation_data
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-08-31"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-12-24"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-12-24"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v2_beacon_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-11-14"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-12-24"
-        to: "2025-03-11"
-      sepolia:
-        from: "2023-12-24"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: mempool_transaction
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-07-22"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-01-08"
-        to: "2025-03-10"
-      sepolia:
-        from: "2024-01-08"
-        to: "2025-03-11"
-    tags:
-      - Execution layer
-      - Transaction
-      - Mempool
-  - name: beacon_api_eth_v1_proposer_duty
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-04-03"
-        to: "2025-03-10"
-      holesky:
-        from: "2024-04-03"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-04-03"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-  - name: beacon_api_eth_v3_validator_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-11-25"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-11-25"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-11-25"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-  - name: canonical_beacon_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-10"
-      sepolia:
-        from: "2022-06-20"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_committee
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-20"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_attester_slashing
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "null"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_proposer_slashing
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "null"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_bls_to_execution_change
-    database: default
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    excluded_columns: []
-    networks:
-      mainnet:
-        from: "2023-04-12"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-28"
-        to: "2025-03-10"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_execution_transaction
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2022-09-06"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-10"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_voluntary_exit
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_deposit
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_block_withdrawal
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2023-04-12"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-10"
-      sepolia:
-        from: "2023-02-28"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_blob_sidecar
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-03-13"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-02-07"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-01-30"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_proposer_duty
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-10"
-      sepolia:
-        from: "2022-06-20"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_elaborated_attestation
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-10"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-10"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_validators
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: epoch_start_date_time
-      interval: hourly
-    networks:
-      mainnet:
-        from: "2020-12-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2023-09-23"
-        to: "2025-03-11"
-      sepolia:
-        from: "2022-06-22"
-        to: "2025-03-09"
-    tags:
-      - Consensus layer
-      - Finalized
-  - name: canonical_beacon_validators_pubkeys
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: index
-      interval: 50
-    networks:
-      mainnet:
-        from: "0"
-        to: "1819250"
-      holesky:
-        from: "0"
-        to: "1920800"
-      sepolia:
-        from: "0"
-        to: "1900"
-    tags:
-      - Consensus layer
-      - Finalized
-    quirks: >-
-      A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
-  - name: libp2p_gossipsub_beacon_attestation
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: hourly
-    networks:
-      mainnet:
-        from: "2024-05-01"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-05-01"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-05-01"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_gossipsub_beacon_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-04-26"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-04-26"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-04-26"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: libp2p_gossipsub_blob_sidecar
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-06-04"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-06-04"
-        to: "2025-03-10"
-      sepolia:
-        from: "2024-06-04"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - P2P
-  - name: mev_relay_bid_trace
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-09-16"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-09-16"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-09-16"
-        to: "2025-03-11"
-  - name: mev_relay_proposer_payload_delivered
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: slot_start_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-09-16"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-09-16"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-09-16"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Execution layer
-      - MEV
-  - name: mev_relay_validator_registration
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2024-12-11"
-        to: "2025-03-11"
-      holesky:
-        from: "2024-12-11"
-        to: "2025-03-11"
-      sepolia:
-        from: "2024-12-11"
-        to: "2025-03-11"
-    tags:
-      - Consensus layer
-      - Execution layer
-      - MEV
-  - name: canonical_execution_block
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7826000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_transaction
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22019000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_traces
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_logs
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22019000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_contracts
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_four_byte_counts
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-    quirks: >-
-      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
-  - name: canonical_execution_address_appearances
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_balance_diffs
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_balance_reads
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-    quirks: >-
-      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
-  - name: canonical_execution_erc20_transfers
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_erc721_transfers
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_native_transfers
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_nonce_diffs
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22019000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_nonce_reads
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-    quirks: >-
-      Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
-  - name: canonical_execution_storage_diffs
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      mainnet:
-        from: "0"
-        to: "22026000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-  - name: canonical_execution_storage_reads
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: integer
-      column: block_number
-      interval: 1000
-    networks:
-      # mainnet:
-      #   from: "0"
-      #   to: "20967000"
-      holesky:
-        from: "0"
-        to: "3418000"
-      sepolia:
-        from: "0"
-        to: "7726000"
-    tags:
-      - Execution layer
-      - Finalized
-    quirks: >-
-      Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+- name: beacon_api_eth_v1_beacon_committee
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: hourly
+  networks:
+    mainnet:
+      from: "2023-09-05"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-12-25"
+      to: "2025-03-10"
+    sepolia:
+      from: "2023-12-24"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  quirks: >-
+    Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
+  description: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_attestation
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: hourly
+  networks:
+    mainnet:
+      from: "2023-06-05"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-29"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-09-01"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_blob_sidecar
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-03-13"
+      to: "2025-03-10"
+    holesky:
+      from: "2024-02-07"
+      to: "2025-03-10"
+    sepolia:
+      from: "2024-01-30"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-02-28"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-12-24"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-12-24"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_chain_reorg
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-03-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-02-05"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-05-23"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_contribution_and_proof
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: contribution_slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-08-31"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-12-24"
+      to: "2025-03-10"
+    sepolia:
+      from: "2023-12-24"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_finalized_checkpoint
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: epoch_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-04-10"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-03-26"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-03-26"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_head
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-08-30"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-12-05"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-12-05"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_events_voluntary_exit
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: wallclock_epoch_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-10-01"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-10-01"
+      to: "null"
+  tags:
+  - Consensus layer
+  description: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v1_validator_attestation_data
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-08-31"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-12-24"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-12-24"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
+- name: beacon_api_eth_v2_beacon_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-11-14"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-12-24"
+      to: "2025-03-11"
+    sepolia:
+      from: "2023-12-24"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+- name: mempool_transaction
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: event_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-07-22"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-01-08"
+      to: "2025-03-10"
+    sepolia:
+      from: "2024-01-08"
+      to: "2025-03-11"
+  tags:
+  - Execution layer
+  - Transaction
+  - Mempool
+  description: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
+- name: beacon_api_eth_v1_proposer_duty
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-04-03"
+      to: "2025-03-10"
+    holesky:
+      from: "2024-04-03"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-04-03"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  description: Contains a proposer duty from a beacon block.
+- name: beacon_api_eth_v3_validator_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-11-25"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-11-25"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-11-25"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  description: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
+- name: canonical_beacon_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-10"
+    sepolia:
+      from: "2022-06-20"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains beacon block from a beacon node.
+- name: canonical_beacon_committee
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-20"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains canonical beacon API /eth/v1/beacon/committees data.
+- name: canonical_beacon_block_attester_slashing
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "null"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains attester slashing from a beacon block.
+- name: canonical_beacon_block_proposer_slashing
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "null"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains proposer slashing from a beacon block.
+- name: canonical_beacon_block_bls_to_execution_change
+  database: default
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  excluded_columns: []
+  networks:
+    mainnet:
+      from: "2023-04-12"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-28"
+      to: "2025-03-10"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains bls to execution change from a beacon block.
+- name: canonical_beacon_block_execution_transaction
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2022-09-06"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-10"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains execution transaction from a beacon block.
+- name: canonical_beacon_block_voluntary_exit
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a voluntary exit from a beacon block.
+- name: canonical_beacon_block_deposit
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a deposit from a beacon block.
+- name: canonical_beacon_block_withdrawal
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2023-04-12"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-10"
+    sepolia:
+      from: "2023-02-28"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a withdrawal from a beacon block.
+- name: canonical_beacon_blob_sidecar
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-03-13"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-02-07"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-01-30"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a blob sidecar from a beacon block.
+- name: canonical_beacon_proposer_duty
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-10"
+    sepolia:
+      from: "2022-06-20"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a proposer duty from a beacon block.
+- name: canonical_beacon_elaborated_attestation
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-10"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-10"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains elaborated attestations from beacon blocks.
+- name: canonical_beacon_validators
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: epoch_start_date_time
+    interval: hourly
+  networks:
+    mainnet:
+      from: "2020-12-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2023-09-23"
+      to: "2025-03-11"
+    sepolia:
+      from: "2022-06-22"
+      to: "2025-03-09"
+  tags:
+  - Consensus layer
+  - Finalized
+  description: Contains a validator state for an epoch.
+- name: canonical_beacon_validators_pubkeys
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: index
+    interval: 50
+  networks:
+    mainnet:
+      from: "0"
+      to: "1819250"
+    holesky:
+      from: "0"
+      to: "1920800"
+    sepolia:
+      from: "0"
+      to: "1900"
+  tags:
+  - Consensus layer
+  - Finalized
+  quirks: >-
+    A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
+  description: Contains a validator state for an epoch.
+- name: libp2p_gossipsub_beacon_attestation
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: hourly
+  networks:
+    mainnet:
+      from: "2024-05-01"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-05-01"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-05-01"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - P2P
+  description: Table for libp2p gossipsub beacon attestation data.
+- name: libp2p_gossipsub_beacon_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-04-26"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-04-26"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-04-26"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - P2P
+  description: Table for libp2p gossipsub beacon block data.
+- name: libp2p_gossipsub_blob_sidecar
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-06-04"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-06-04"
+      to: "2025-03-10"
+    sepolia:
+      from: "2024-06-04"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - P2P
+  description: Table for libp2p gossipsub blob sidecar data
+- name: mev_relay_bid_trace
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-09-16"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-09-16"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-09-16"
+      to: "2025-03-11"
+  description: Contains MEV relay block bids data.
+- name: mev_relay_proposer_payload_delivered
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: slot_start_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-09-16"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-09-16"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-09-16"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Execution layer
+  - MEV
+  description: Contains MEV relay proposer payload delivered data.
+- name: mev_relay_validator_registration
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: datetime
+    column: event_date_time
+    interval: daily
+  networks:
+    mainnet:
+      from: "2024-12-11"
+      to: "2025-03-11"
+    holesky:
+      from: "2024-12-11"
+      to: "2025-03-11"
+    sepolia:
+      from: "2024-12-11"
+      to: "2025-03-11"
+  tags:
+  - Consensus layer
+  - Execution layer
+  - MEV
+  description: Contains MEV relay validator registrations data.
+- name: canonical_execution_block
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7826000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution block data.
+- name: canonical_execution_transaction
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22019000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution transaction data.
+- name: canonical_execution_traces
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution traces data.
+- name: canonical_execution_logs
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22019000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution logs data.
+- name: canonical_execution_contracts
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution contract data.
+- name: canonical_execution_four_byte_counts
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  quirks: >-
+    Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+  description: Contains canonical execution four byte count data.
+- name: canonical_execution_address_appearances
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution address appearance data.
+- name: canonical_execution_balance_diffs
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution balance diff data.
+- name: canonical_execution_balance_reads
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  quirks: >-
+    Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+  description: Contains canonical execution balance read data.
+- name: canonical_execution_erc20_transfers
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution erc20 transfer data.
+- name: canonical_execution_erc721_transfers
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution erc721 transfer data.
+- name: canonical_execution_native_transfers
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution native transfer data.
+- name: canonical_execution_nonce_diffs
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22019000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution nonce diff data.
+- name: canonical_execution_nonce_reads
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  quirks: >-
+    Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+  description: Contains canonical execution nonce read data.
+- name: canonical_execution_storage_diffs
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    mainnet:
+      from: "0"
+      to: "22026000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  description: Contains canonical execution storage diffs data.
+- name: canonical_execution_storage_reads
+  database: default
+  excluded_columns: []
+  partitioning:
+    type: integer
+    column: block_number
+    interval: 1000
+  networks:
+    # mainnet:
+    #   from: "0"
+    #   to: "20967000"
+    holesky:
+      from: "0"
+      to: "3418000"
+    sepolia:
+      from: "0"
+      to: "7726000"
+  tags:
+  - Execution layer
+  - Finalized
+  quirks: >-
+    Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+  description: Contains canonical execution storage reads data.

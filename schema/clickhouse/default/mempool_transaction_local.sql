@@ -1,0 +1,46 @@
+CREATE TABLE default.mempool_transaction_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'The time when the sentry saw the transaction in the mempool' CODEC(DoubleDelta, ZSTD(1)),
+    `hash` FixedString(66) COMMENT 'The hash of the transaction' CODEC(ZSTD(1)),
+    `from` FixedString(42) COMMENT 'The address of the account that sent the transaction' CODEC(ZSTD(1)),
+    `to` Nullable(FixedString(42)) COMMENT 'The address of the account that is the transaction recipient' CODEC(ZSTD(1)),
+    `nonce` UInt64 COMMENT 'The nonce of the sender account at the time of the transaction' CODEC(ZSTD(1)),
+    `gas_price` UInt128 COMMENT 'The gas price of the transaction in wei' CODEC(ZSTD(1)),
+    `gas` UInt64 COMMENT 'The maximum gas provided for the transaction execution' CODEC(ZSTD(1)),
+    `gas_tip_cap` Nullable(UInt128) COMMENT 'The priority fee (tip) the user has set for the transaction',
+    `gas_fee_cap` Nullable(UInt128) COMMENT 'The max fee the user has set for the transaction',
+    `value` UInt128 COMMENT 'The value transferred with the transaction in wei' CODEC(ZSTD(1)),
+    `type` Nullable(UInt8) COMMENT 'The type of the transaction',
+    `size` UInt32 COMMENT 'The size of the transaction data in bytes' CODEC(ZSTD(1)),
+    `call_data_size` UInt32 COMMENT 'The size of the call data of the transaction in bytes' CODEC(ZSTD(1)),
+    `blob_gas` Nullable(UInt64) COMMENT 'The maximum gas provided for the blob transaction execution',
+    `blob_gas_fee_cap` Nullable(UInt128) COMMENT 'The max fee the user has set for the transaction',
+    `blob_hashes` Array(String) COMMENT 'The hashes of the blob commitments for blob transactions',
+    `blob_sidecars_size` Nullable(UInt32) COMMENT 'The total size of the sidecars for blob transactions in bytes',
+    `blob_sidecars_empty_size` Nullable(UInt32) COMMENT 'The total empty size of the sidecars for blob transactions in bytes',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_execution_fork_id_hash` LowCardinality(String) COMMENT 'The hash of the fork ID of the current Ethereum network',
+    `meta_execution_fork_id_next` LowCardinality(String) COMMENT 'The fork ID of the next planned Ethereum network upgrade',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/mempool_transaction_local/{shard}', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(event_date_time)
+ORDER BY (event_date_time, meta_network_name, meta_client_name, hash, from, nonce, gas)
+SETTINGS index_granularity = 8192
+COMMENT 'Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.'
