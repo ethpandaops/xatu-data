@@ -32,17 +32,27 @@ log "Generating llms.txt file..."
 cat > "$output_file" << 'EOF'
 # Xatu Dataset Guide
 
-Note: When querying data, you must use the partitioning column as a filter to avoid querying too much data. This is extremely important and can be the difference between a query that runs in seconds and one that runs for hours.
-
-
+Note: 
 ## Dataset Overview
 
 Xatu data contains information about the Ethereum network, organized into different datasets.
 - Xatu is a data collection and processing pipeline for Ethereum network data.
 - Xatu contains multiple "modules" that each derive Ethereum data differently. This data is then forwarded on to a data pipeline, and stored in a Clickhouse database.
-  - Some community members and researchers have access to this Clickhouse database
-- ethPandaOps maintains the project, while also running a semi public data pipeline for users to contribute to.
-- The data is then openly published to Parquet files with a 1 to 3 day delay with a few columns redacted for privacy.
+- ethPandaOps runs all modules to hydrate the data pipeline. Community members also run some modules to contribute their data to the data pipeline.
+- All the data is then openly published to Parquet files with a 1 to 3 day delay with a few columns redacted for privacy.
+
+## Notes
+
+### Clickhouse
+When querying data via Parquet files:
+  - Data is partitioned differently for each table. Check the table config for the partitioning column and type.
+  - You should calculate the minimum and maximum values for the partitioning column to avoid querying too much data. Generally its better to request a little more data than you need and to then filter within the query.
+  - You MUST use the partitioning column as a filter to avoid querying too much data. 
+    - This is extremely important and can be the difference between a query that runs in seconds and one that runs for hours.
+    
+When loading Parquet files into Clickhouse, you should first create the table schema in Clickhouse, and then use the `url` function to load the data.
+  - Without this, Clickhouse will store the data sub-optimally resulting in significantly more disk space usage.
+  - The CREATE TABLE statement is available here: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/$DATABASE/$TABLE_NAME.sql
 
 ## Datasets
 EOF
@@ -112,7 +122,7 @@ LIMIT 10 FORMAT Pretty"
 ## Checking Data Availability
 
 ```bash
-# List all tables
+# Get the most recent table config
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
   yq e '.tables[] | "# Table: " + .name + 
   "\n  Database: " + .database + 
@@ -126,17 +136,15 @@ curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.ya
   yq e '.tables[] | select(.name == "'$TABLE'") | "Networks: " + (.networks | keys | join(", "))'
 ```
 
-## Schema Documentation
+## Table Listing
 
 EOF
 
-# Add schema links
-cat config.yaml | yq e '.datasets[] | "- [" + .name + "](./schema/" + .tables.prefix + ".md): Tables with prefix `" + .tables.prefix + "`"' - >> "$output_file"
-
-# Add information about table structure
 cat >> "$output_file" << 'EOF'
 
-## Common Fields
+## Schema Documentation
+
+### Common Fields
 
 All tables include:
 - **meta_client_name**: Client that collected the data
@@ -144,6 +152,24 @@ All tables include:
 - **meta_client_version**: Client version
 - **meta_network_name**: Network name
 - **event_date_time**: When the event was created
+
+### Tables
+EOF
+
+# Generate and add the table listing with date ranges
+log "Generating table listing with date ranges..."
+yq e '.tables[] | "# " + .name + 
+  "\n  - Database: " + .database + 
+  "\n  - Description: " + .description + 
+  "\n  - Partitioning: " + .partitioning.column + " (" + .partitioning.type + "), " + .partitioning.interval + 
+  "\n  - Networks: " + 
+  (.networks | to_entries | map(
+    .key + " (" + .value.from + " to " + .value.to + ")"
+  ) | join(", ")) +
+  "\n  - Tags: " + (.tags | join(", "))' config.yaml >> "$output_file"
+
+# Add information about table structure
+cat >> "$output_file" << 'EOF'
 
 ## License
 
