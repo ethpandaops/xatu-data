@@ -58,7 +58,7 @@ tables:
         to: "2025-03-12"
       sepolia:
         from: "2023-12-24"
-        to: "2025-03-11"
+        to: "2025-03-12"
     tags:
       - Consensus layer
     quirks: >-
@@ -799,7 +799,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22029000"
+        to: "22034000"
       holesky:
         from: "0"
         to: "3480000"
