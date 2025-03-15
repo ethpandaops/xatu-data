@@ -117,7 +117,7 @@ tables:
         to: "2025-03-13"
       holesky:
         from: "2023-12-24"
-        to: "2025-03-13"
+        to: "2025-03-14"
       sepolia:
         from: "2023-12-24"
         to: "2025-03-13"
@@ -302,7 +302,7 @@ tables:
         to: "2025-03-13"
       sepolia:
         from: "2024-04-03"
-        to: "2025-03-13"
+        to: "2025-03-14"
     tags:
       - Consensus layer
     description: Contains a proposer duty from a beacon block.
@@ -319,7 +319,7 @@ tables:
         to: "2025-03-13"
       holesky:
         from: "2024-11-25"
-        to: "2025-03-13"
+        to: "2025-03-14"
       sepolia:
         from: "2024-11-25"
         to: "2025-03-13"
@@ -468,7 +468,7 @@ tables:
         to: "2025-03-13"
       sepolia:
         from: "2022-06-22"
-        to: "2025-03-13"
+        to: "2025-03-14"
     tags:
       - Consensus layer
       - Finalized
@@ -486,7 +486,7 @@ tables:
         to: "2025-03-13"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-13"
+        to: "2025-03-14"
       sepolia:
         from: "2022-06-22"
         to: "2025-03-13"
@@ -567,7 +567,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-03-13"
+        to: "2025-03-14"
       holesky:
         from: "2023-09-23"
         to: "2025-03-13"
@@ -653,7 +653,7 @@ tables:
     networks:
       mainnet:
         from: "2024-04-26"
-        to: "2025-03-13"
+        to: "2025-03-14"
       holesky:
         from: "2024-04-26"
         to: "2025-03-13"
@@ -695,7 +695,7 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2025-03-13"
+        to: "2025-03-14"
       holesky:
         from: "2024-09-16"
         to: "2025-03-13"
@@ -778,7 +778,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22041000"
+        to: "22048000"
       holesky:
         from: "0"
         to: "3485000"
@@ -909,7 +909,7 @@ tables:
         to: "22041000"
       holesky:
         from: "0"
-        to: "3485000"
+        to: "3491000"
       sepolia:
         from: "0"
         to: "7726000"
