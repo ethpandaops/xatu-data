@@ -58,7 +58,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2023-12-24"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
     quirks: >-
@@ -80,7 +80,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2023-09-01"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -100,7 +100,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2024-01-30"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
@@ -134,7 +134,7 @@ tables:
     networks:
       mainnet:
         from: "2023-03-01"
-        to: "2025-03-16"
+        to: "2025-03-17"
       holesky:
         from: "2024-02-05"
         to: "2025-03-17"
@@ -342,7 +342,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2022-06-20"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
       - Finalized
@@ -357,7 +357,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-03-16"
+        to: "2025-03-17"
       holesky:
         from: "2023-09-23"
         to: "2025-03-17"
@@ -507,7 +507,7 @@ tables:
         to: "2025-03-17"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-16"
+        to: "2025-03-17"
       sepolia:
         from: "2023-02-28"
         to: "2025-03-17"
@@ -594,7 +594,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2022-06-22"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
       - Finalized
@@ -677,7 +677,7 @@ tables:
         to: "2025-03-17"
       holesky:
         from: "2024-06-04"
-        to: "2025-03-16"
+        to: "2025-03-17"
       sepolia:
         from: "2024-06-04"
         to: "2025-03-17"
@@ -741,7 +741,7 @@ tables:
         to: "2025-03-17"
       sepolia:
         from: "2024-12-11"
-        to: "2025-03-16"
+        to: "2025-03-17"
     tags:
       - Consensus layer
       - Execution layer
