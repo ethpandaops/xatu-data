@@ -117,7 +117,7 @@ tables:
         to: "2025-03-21"
       holesky:
         from: "2023-12-24"
-        to: "2025-03-19"
+        to: "2025-03-22"
       sepolia:
         from: "2023-12-24"
         to: "2025-03-21"
@@ -134,10 +134,10 @@ tables:
     networks:
       mainnet:
         from: "2023-03-01"
-        to: "2025-03-20"
+        to: "2025-03-22"
       holesky:
         from: "2024-02-05"
-        to: "2025-03-20"
+        to: "2025-03-22"
       sepolia:
         from: "2024-05-23"
         to: "2025-03-21"
@@ -177,7 +177,7 @@ tables:
         to: "2025-03-21"
       holesky:
         from: "2023-03-26"
-        to: "2025-03-20"
+        to: "2025-03-22"
       sepolia:
         from: "2023-03-26"
         to: "2025-03-21"
@@ -194,7 +194,7 @@ tables:
     networks:
       mainnet:
         from: "2023-08-30"
-        to: "2025-03-20"
+        to: "2025-03-22"
       holesky:
         from: "2023-12-05"
         to: "2025-03-21"
@@ -214,7 +214,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-03-20"
+        to: "2025-03-22"
       holesky:
         from: "2023-10-01"
         to: "2025-03-21"
@@ -339,7 +339,7 @@ tables:
         to: "2025-03-21"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-19"
+        to: "2025-03-22"
       sepolia:
         from: "2022-06-20"
         to: "2025-03-21"
@@ -426,7 +426,7 @@ tables:
         to: "2025-03-21"
       sepolia:
         from: "2022-06-22"
-        to: "2025-03-19"
+        to: "2025-03-22"
     tags:
       - Consensus layer
       - Finalized
@@ -468,7 +468,7 @@ tables:
         to: "2025-03-21"
       sepolia:
         from: "2022-06-22"
-        to: "2025-03-20"
+        to: "2025-03-22"
     tags:
       - Consensus layer
       - Finalized
@@ -489,7 +489,7 @@ tables:
         to: "2025-03-21"
       sepolia:
         from: "2022-06-22"
-        to: "2025-03-20"
+        to: "2025-03-22"
     tags:
       - Consensus layer
       - Finalized
@@ -507,7 +507,7 @@ tables:
         to: "2025-03-21"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-20"
+        to: "2025-03-22"
       sepolia:
         from: "2023-02-28"
         to: "2025-03-21"
@@ -841,7 +841,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22091000"
+        to: "22105000"
       holesky:
         from: "0"
         to: "3515000"
