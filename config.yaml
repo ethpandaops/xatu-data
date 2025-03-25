@@ -80,7 +80,7 @@ tables:
         to: "2025-03-23"
       sepolia:
         from: "2023-09-01"
-        to: "2025-03-22"
+        to: "2025-03-23"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
