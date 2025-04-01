@@ -160,7 +160,7 @@ tables:
         to: "2025-03-30"
       sepolia:
         from: "2023-12-24"
-        to: "2025-03-30"
+        to: "2025-03-31"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -257,7 +257,7 @@ tables:
         to: "2025-03-30"
       holesky:
         from: "2023-12-24"
-        to: "2025-03-30"
+        to: "2025-03-31"
       sepolia:
         from: "2023-12-24"
         to: "2025-03-30"
@@ -441,7 +441,7 @@ tables:
     networks:
       mainnet:
         from: "2022-09-06"
-        to: "2025-03-30"
+        to: "2025-03-31"
       holesky:
         from: "2023-09-23"
         to: "2025-03-30"
@@ -486,7 +486,7 @@ tables:
         to: "2025-03-30"
       holesky:
         from: "2023-09-23"
-        to: "2025-03-30"
+        to: "2025-03-31"
       sepolia:
         from: "2022-06-22"
         to: "2025-03-30"
