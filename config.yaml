@@ -214,7 +214,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-03-31"
+        to: "2025-04-01"
       holesky:
         from: "2023-10-01"
         to: "2025-03-31"
