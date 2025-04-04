@@ -1013,7 +1013,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22177000"
+        to: "22184000"
       holesky:
         from: "0"
         to: "3515000"
