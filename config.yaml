@@ -552,7 +552,7 @@ tables:
         to: "2025-04-05"
       sepolia:
         from: "2022-06-20"
-        to: "2025-04-05"
+        to: "2025-04-06"
     tags:
       - Consensus layer
       - Finalized
@@ -680,7 +680,7 @@ tables:
         to: "2025-04-05"
       sepolia:
         from: "2024-06-04"
-        to: "2025-04-05"
+        to: "2025-04-06"
     tags:
       - Consensus layer
       - P2P
@@ -927,7 +927,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22205000"
+        to: "22212000"
       holesky:
         from: "0"
         to: "3515000"
