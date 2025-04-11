@@ -58,7 +58,7 @@ tables:
         to: "2025-04-09"
       sepolia:
         from: "2023-12-24"
-        to: "2025-04-08"
+        to: "2025-04-10"
     tags:
       - Consensus layer
     quirks: >-
@@ -157,10 +157,10 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2023-12-24"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2023-12-24"
-        to: "2025-04-09"
+        to: "2025-04-10"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -277,10 +277,10 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2024-01-08"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2024-01-08"
-        to: "2025-04-09"
+        to: "2025-04-10"
     tags:
       - Execution layer
       - Transaction
@@ -296,7 +296,7 @@ tables:
     networks:
       mainnet:
         from: "2024-04-03"
-        to: "2025-04-09"
+        to: "2025-04-10"
       holesky:
         from: "2024-04-03"
         to: "2025-04-09"
@@ -316,7 +316,7 @@ tables:
     networks:
       mainnet:
         from: "2024-11-25"
-        to: "2025-04-09"
+        to: "2025-04-10"
       holesky:
         from: "2024-11-25"
         to: "2025-04-09"
@@ -339,7 +339,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2023-09-23"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2022-06-20"
         to: "2025-04-09"
@@ -363,7 +363,7 @@ tables:
         to: "2025-04-09"
       sepolia:
         from: "2022-06-20"
-        to: "2025-04-09"
+        to: "2025-04-10"
     tags:
       - Consensus layer
       - Finalized
@@ -381,7 +381,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2023-09-23"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2022-06-22"
         to: "null"
@@ -402,7 +402,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2023-09-23"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2022-06-22"
         to: "null"
@@ -441,13 +441,13 @@ tables:
     networks:
       mainnet:
         from: "2022-09-06"
-        to: "2025-04-09"
+        to: "2025-04-10"
       holesky:
         from: "2023-09-23"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2022-06-22"
-        to: "2025-04-09"
+        to: "2025-04-10"
     tags:
       - Consensus layer
       - Finalized
@@ -483,7 +483,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-04-09"
+        to: "2025-04-10"
       holesky:
         from: "2023-09-23"
         to: "2025-04-09"
@@ -531,7 +531,7 @@ tables:
         to: "2025-04-09"
       sepolia:
         from: "2024-01-30"
-        to: "2025-04-09"
+        to: "2025-04-10"
     tags:
       - Consensus layer
       - Finalized
@@ -609,7 +609,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "1866900"
+        to: "1868150"
       holesky:
         from: "0"
         to: "1922550"
@@ -635,7 +635,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2024-05-01"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2024-05-01"
         to: "2025-04-09"
@@ -656,7 +656,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2024-04-26"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2024-04-26"
         to: "2025-04-09"
@@ -677,7 +677,7 @@ tables:
         to: "2025-04-09"
       holesky:
         from: "2024-06-04"
-        to: "2025-04-09"
+        to: "2025-04-10"
       sepolia:
         from: "2024-06-04"
         to: "2025-04-09"
@@ -701,7 +701,7 @@ tables:
         to: "2025-04-09"
       sepolia:
         from: "2024-09-16"
-        to: "2025-04-09"
+        to: "2025-04-10"
     description: Contains MEV relay block bids data.
   - name: mev_relay_proposer_payload_delivered
     database: default
@@ -713,7 +713,7 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2025-04-09"
+        to: "2025-04-10"
       holesky:
         from: "2024-09-16"
         to: "2025-04-09"
@@ -757,7 +757,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22234000"
+        to: "22241000"
       holesky:
         from: "0"
         to: "3515000"
@@ -820,7 +820,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22234000"
+        to: "22241000"
       holesky:
         from: "0"
         to: "3515000"
@@ -927,7 +927,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22234000"
+        to: "22241000"
       holesky:
         from: "0"
         to: "3515000"
@@ -971,7 +971,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "22234000"
+        to: "22241000"
       holesky:
         from: "0"
         to: "3515000"
