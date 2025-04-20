@@ -381,7 +381,7 @@ tables:
         to: "2025-04-17"
       holesky:
         from: "2023-09-23"
-        to: "2025-04-17"
+        to: "2025-04-19"
       sepolia:
         from: "2022-06-22"
         to: "null"
