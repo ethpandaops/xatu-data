@@ -510,7 +510,7 @@ tables:
         to: "2025-04-17"
       sepolia:
         from: "2023-02-28"
-        to: "2025-04-17"
+        to: "2025-04-18"
     tags:
       - Consensus layer
       - Finalized
@@ -546,7 +546,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-04-17"
+        to: "2025-04-18"
       holesky:
         from: "2023-09-23"
         to: "2025-04-18"
@@ -713,7 +713,7 @@ tables:
     networks:
       mainnet:
         from: "2024-09-16"
-        to: "2025-04-17"
+        to: "2025-04-18"
       holesky:
         from: "2024-09-16"
         to: "2025-04-17"
