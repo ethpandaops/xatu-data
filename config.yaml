@@ -194,13 +194,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-30"
-        to: "2025-04-21"
+        to: "2025-04-22"
       holesky:
         from: "2023-12-05"
-        to: "2025-04-21"
+        to: "2025-04-22"
       sepolia:
         from: "2023-12-05"
-        to: "2025-04-21"
+        to: "2025-04-22"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
@@ -214,10 +214,10 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-04-21"
+        to: "2025-04-22"
       holesky:
         from: "2023-10-01"
-        to: "2025-04-21"
+        to: "2025-04-22"
       sepolia:
         from: "2023-10-01"
         to: "null"
@@ -234,13 +234,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2025-04-21"
+        to: "2025-04-22"
       holesky:
         from: "2023-12-24"
-        to: "2025-04-21"
+        to: "2025-04-22"
       sepolia:
         from: "2023-12-24"
-        to: "2025-04-21"
+        to: "2025-04-22"
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -680,7 +680,7 @@ tables:
         to: "2025-04-21"
       sepolia:
         from: "2024-06-04"
-        to: "2025-04-21"
+        to: "2025-04-22"
     tags:
       - Consensus layer
       - P2P
