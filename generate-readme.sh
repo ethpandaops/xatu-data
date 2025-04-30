@@ -51,6 +51,9 @@ generate_datasets_table() {
         if [ "${mode}" = "hugo" ]; then
             dataset_link="./schema/${dataset_prefix}"
         fi
+        if [ "${mode}" = "docusaurus" ]; then
+            dataset_link="./schema/${dataset_prefix}"
+        fi
         if [ "${mode}" = "" ]; then
             dataset_link="./schema/$dataset_prefix.md"
         fi

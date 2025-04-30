@@ -55,6 +55,11 @@ jobs:
           MODE: hugo
           SCHEMA: SCHEMA.hugo.md
         run: ./generate-schema.sh
+      - name: Run generate-schema.sh for SCHEMA.docusaurus.md
+        env:
+          MODE: docusaurus
+          SCHEMA: SCHEMA.docusaurus.md
+        run: ./generate-schema.sh
       - name: Run generate-schema.sh for SCHEMA.all.md
         env:
           MODE: all
@@ -66,6 +71,11 @@ jobs:
         env:
           MODE: hugo
           README: README.hugo.md
+        run: ./generate-readme.sh
+      - name: Run generate-readme.sh for README.docusaurus.md
+        env:
+          MODE: docusaurus
+          README: README.docusaurus.md
         run: ./generate-readme.sh
       - name: Run generate-bigquery.sh
         run: ./generate-bigquery.sh

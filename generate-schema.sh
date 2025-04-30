@@ -283,6 +283,9 @@ generate_datasets_table() {
         if [ "${mode}" = "hugo" ]; then
             dataset_link="./${dataset_prefix}"
         fi
+        if [ "${mode}" = "docusaurus" ]; then
+            dataset_link="./${dataset_prefix}"
+        fi
         if [ "${mode}" = "all" ]; then
             dataset_link="#${dataset_prefix}"
         fi
