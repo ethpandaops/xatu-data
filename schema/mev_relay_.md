@@ -23,7 +23,7 @@ Contains MEV relay block bids data.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-09-13` to `2025-04-28`
-- **holesky**: `2024-09-13` to `2025-04-28`
+- **holesky**: `2024-09-13` to `2025-04-29`
 - **sepolia**: `2024-09-13` to `2025-04-28`
 
 ### Examples
@@ -125,8 +125,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-04-30 06:19:37 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
-2025-04-30 06:19:37 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
+2025-04-30 18:04:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
+2025-04-30 18:04:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
 ## mev_relay_proposer_payload_delivered
 
 Contains MEV relay proposer payload delivered data.
@@ -135,7 +135,7 @@ Contains MEV relay proposer payload delivered data.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-09-16` to `2025-04-28`
-- **holesky**: `2024-09-16` to `2025-04-28`
+- **holesky**: `2024-09-16` to `2025-04-29`
 - **sepolia**: `2024-09-16` to `2025-04-28`
 
 ### Examples
@@ -230,8 +230,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-04-30 06:19:37 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
-2025-04-30 06:19:37 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
+2025-04-30 18:04:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
+2025-04-30 18:04:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
 ## mev_relay_validator_registration
 
 Contains MEV relay validator registrations data.
@@ -331,6 +331,6 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-04-30 06:19:37 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
-2025-04-30 06:19:37 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
+2025-04-30 18:04:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
+2025-04-30 18:04:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
 <!-- schema_end -->
