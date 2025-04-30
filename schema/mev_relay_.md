@@ -1,5 +1,6 @@
+# mev_relay_
 
-Events derived from MEV relays
+Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.
 
 ## Availability
 - Public Parquet Files
@@ -21,9 +22,9 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2025-03-11`
-- **holesky**: `2024-09-16` to `2025-03-11`
-- **sepolia**: `2024-09-16` to `2025-03-11`
+- **mainnet**: `2024-09-13` to `2025-04-28`
+- **holesky**: `2024-09-13` to `2025-04-28`
+- **sepolia**: `2024-09-13` to `2025-04-28`
 
 ### Examples
 
@@ -35,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/3/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/4/23.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -124,8 +125,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
 ## mev_relay_proposer_payload_delivered
 
 Contains MEV relay proposer payload delivered data.
@@ -133,9 +134,9 @@ Contains MEV relay proposer payload delivered data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2025-03-11`
-- **holesky**: `2024-09-16` to `2025-03-11`
-- **sepolia**: `2024-09-16` to `2025-03-11`
+- **mainnet**: `2024-09-16` to `2025-04-28`
+- **holesky**: `2024-09-16` to `2025-04-28`
+- **sepolia**: `2024-09-16` to `2025-04-28`
 
 ### Examples
 
@@ -147,7 +148,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/3/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/4/23.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -229,8 +230,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
 ## mev_relay_validator_registration
 
 Contains MEV relay validator registrations data.
@@ -238,9 +239,9 @@ Contains MEV relay validator registrations data.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2024-12-11` to `2025-03-11`
-- **holesky**: `2024-12-11` to `2025-03-11`
-- **sepolia**: `2024-12-11` to `2025-03-11`
+- **mainnet**: `2024-12-11` to `2025-04-28`
+- **holesky**: `2024-12-11` to `2025-04-27`
+- **sepolia**: `2024-12-11` to `2025-04-28`
 
 ### Examples
 
@@ -252,7 +253,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/3/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/4/23.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -330,6 +331,6 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
 <!-- schema_end -->

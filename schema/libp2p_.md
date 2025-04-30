@@ -1,5 +1,6 @@
+# libp2p_
 
-Events from the consensus layer p2p network
+Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.
 
 ## Availability
 - EthPandaOps Clickhouse
@@ -21,9 +22,9 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2025-03-11`
-- **holesky**: `2024-05-01` to `2025-03-11`
-- **sepolia**: `2024-05-01` to `2025-03-11`
+- **mainnet**: `2024-05-01` to `2025-04-28`
+- **holesky**: `2024-05-01` to `2025-04-27`
+- **sepolia**: `2024-05-01` to `2025-04-28`
 
 ### Examples
 
@@ -35,7 +36,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2025/3/6/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2025/4/23/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -128,8 +129,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
 ## libp2p_gossipsub_beacon_block
 
 Table for libp2p gossipsub beacon block data.
@@ -137,9 +138,9 @@ Table for libp2p gossipsub beacon block data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-26` to `2025-03-11`
-- **holesky**: `2024-04-26` to `2025-03-11`
-- **sepolia**: `2024-04-26` to `2025-03-11`
+- **mainnet**: `2020-12-01` to `2025-04-28`
+- **holesky**: `2024-04-26` to `2025-04-28`
+- **sepolia**: `2024-04-26` to `2025-04-28`
 
 ### Examples
 
@@ -151,7 +152,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2025/3/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_block/2025/4/23.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -235,8 +236,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
 ## libp2p_gossipsub_blob_sidecar
 
 Table for libp2p gossipsub blob sidecar data
@@ -244,9 +245,9 @@ Table for libp2p gossipsub blob sidecar data
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-06-04` to `2025-03-11`
-- **holesky**: `2024-06-04` to `2025-03-10`
-- **sepolia**: `2024-06-04` to `2025-03-11`
+- **mainnet**: `2020-12-01` to `2025-04-28`
+- **holesky**: `2024-06-03` to `2025-04-28`
+- **sepolia**: `2024-06-03` to `2025-04-28`
 
 ### Examples
 
@@ -258,7 +259,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2025/3/6.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_blob_sidecar/2025/4/23.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -344,6 +345,6 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-03-13 14:20:17 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
-2025-03-13 14:20:17 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
+2025-04-30 04:41:48 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
+2025-04-30 04:41:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
 <!-- schema_end -->
