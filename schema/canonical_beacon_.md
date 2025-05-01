@@ -143,8 +143,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_local.sql
-2025-05-01 00:59:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block.sql
+2025-05-01 06:04:18 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_local.sql
+2025-05-01 06:04:18 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block.sql
 ## canonical_beacon_committee
 
 Contains canonical beacon API /eth/v1/beacon/committees data.
@@ -242,8 +242,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee.sql
+2025-05-01 06:04:18 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee_local.sql
+2025-05-01 06:04:18 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee.sql
 ## canonical_beacon_block_attester_slashing
 
 Contains attester slashing from a beacon block.
@@ -359,8 +359,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing.sql
 ## canonical_beacon_block_proposer_slashing
 
 Contains proposer slashing from a beacon block.
@@ -470,8 +470,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing.sql
 ## canonical_beacon_block_bls_to_execution_change
 
 Contains bls to execution change from a beacon block.
@@ -573,8 +573,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change.sql
 ## canonical_beacon_block_execution_transaction
 
 Contains execution transaction from a beacon block.
@@ -690,8 +690,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction.sql
 ## canonical_beacon_block_voluntary_exit
 
 Contains a voluntary exit from a beacon block.
@@ -792,8 +792,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit.sql
 ## canonical_beacon_block_deposit
 
 Contains a deposit from a beacon block.
@@ -896,8 +896,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit.sql
 ## canonical_beacon_block_withdrawal
 
 Contains a withdrawal from a beacon block.
@@ -999,8 +999,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal.sql
 ## canonical_beacon_blob_sidecar
 
 Contains a blob sidecar from a beacon block.
@@ -1105,8 +1105,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar.sql
 ## canonical_beacon_proposer_duty
 
 Contains a proposer duty from a beacon block.
@@ -1204,8 +1204,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the even* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty.sql
 ## canonical_beacon_elaborated_attestation
 
 Contains elaborated attestations from beacon blocks.
@@ -1316,8 +1316,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation_local.sql
-2025-05-01 00:59:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation.sql
 ## canonical_beacon_validators
 
 Contains a validator state for an epoch.
@@ -1420,8 +1420,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_local.sql
-2025-05-01 00:59:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators.sql
+2025-05-01 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_local.sql
+2025-05-01 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators.sql
 ## canonical_beacon_validators_pubkeys
 
 Contains a validator state for an epoch.
@@ -1533,6 +1533,6 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-01 00:59:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys_local.sql
-2025-05-01 00:59:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys.sql
+2025-05-01 06:04:20 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys_local.sql
+2025-05-01 06:04:20 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys.sql
 <!-- schema_end -->

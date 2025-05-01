@@ -129,8 +129,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-01 00:59:55 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
-2025-05-01 00:59:55 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
+2025-05-01 06:04:21 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
+2025-05-01 06:04:21 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
 ## libp2p_gossipsub_beacon_block
 
 Table for libp2p gossipsub beacon block data.
@@ -236,8 +236,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-01 00:59:55 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
-2025-05-01 00:59:55 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
+2025-05-01 06:04:21 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
+2025-05-01 06:04:21 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
 ## libp2p_gossipsub_blob_sidecar
 
 Table for libp2p gossipsub blob sidecar data
@@ -345,6 +345,6 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-01 00:59:55 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
-2025-05-01 00:59:55 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
+2025-05-01 06:04:21 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
+2025-05-01 06:04:21 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
 <!-- schema_end -->
