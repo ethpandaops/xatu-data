@@ -284,7 +284,7 @@ generate_datasets_table() {
             dataset_link="./${dataset_prefix}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="./schema/${dataset_prefix}"
+            dataset_link="/data/xatu/schema/${dataset_prefix}/"
         fi
         if [ "${mode}" = "all" ]; then
             dataset_link="#${dataset_prefix}"
