@@ -119,6 +119,6 @@ echo """
 | **meta_execution_fork_id_next** | `LowCardinality(String)` | *The fork ID of the next planned Ethereum network upgrade* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-02 04:55:09 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
-2025-05-02 04:55:09 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
+2025-05-02 06:04:15 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
+2025-05-02 06:04:15 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
 <!-- schema_end -->

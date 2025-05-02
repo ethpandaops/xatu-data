@@ -125,8 +125,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-02 04:55:13 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
-2025-05-02 04:55:13 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
+2025-05-02 06:04:18 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
+2025-05-02 06:04:18 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
 ## mev_relay_proposer_payload_delivered
 
 Contains MEV relay proposer payload delivered data.
@@ -230,8 +230,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-02 04:55:13 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
-2025-05-02 04:55:13 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
+2025-05-02 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
+2025-05-02 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
 ## mev_relay_validator_registration
 
 Contains MEV relay validator registrations data.
@@ -331,6 +331,6 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-02 04:55:13 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
-2025-05-02 04:55:13 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
+2025-05-02 06:04:19 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
+2025-05-02 06:04:19 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
 <!-- schema_end -->
