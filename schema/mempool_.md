@@ -20,9 +20,9 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-03-03` to `2025-05-02`
-- **holesky**: `2024-01-08` to `2025-05-02`
-- **sepolia**: `2024-01-08` to `2025-05-02`
+- **mainnet**: `2023-03-03` to `2025-05-03`
+- **holesky**: `2024-01-08` to `2025-05-03`
+- **sepolia**: `2024-01-08` to `2025-05-03`
 
 ### Examples
 
@@ -119,6 +119,6 @@ echo """
 | **meta_execution_fork_id_next** | `LowCardinality(String)` | *The fork ID of the next planned Ethereum network upgrade* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-04 06:03:50 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
-2025-05-04 06:03:51 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
+2025-05-04 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
+2025-05-04 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
 <!-- schema_end -->
