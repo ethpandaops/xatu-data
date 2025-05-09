@@ -22,9 +22,9 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2025-05-07`
-- **holesky**: `2024-05-01` to `2025-05-07`
-- **sepolia**: `2024-05-01` to `2025-05-07`
+- **mainnet**: `2024-05-01` to `2025-05-08`
+- **holesky**: `2024-05-01` to `2025-05-08`
+- **sepolia**: `2024-05-01` to `2025-05-08`
 
 ### Examples
 
@@ -129,8 +129,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-09 06:04:02 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
-2025-05-09 06:04:02 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
+2025-05-09 18:03:29 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation_local.sql
+2025-05-09 18:03:29 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_attestation.sql
 ## libp2p_gossipsub_beacon_block
 
 Table for libp2p gossipsub beacon block data.
@@ -138,9 +138,9 @@ Table for libp2p gossipsub beacon block data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-07`
-- **holesky**: `2024-04-26` to `2025-05-07`
-- **sepolia**: `2024-04-26` to `2025-05-07`
+- **mainnet**: `2020-12-01` to `2025-05-08`
+- **holesky**: `2024-04-26` to `2025-05-08`
+- **sepolia**: `2024-04-26` to `2025-05-08`
 
 ### Examples
 
@@ -236,8 +236,8 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-09 06:04:02 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
-2025-05-09 06:04:02 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
+2025-05-09 18:03:29 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block_local.sql
+2025-05-09 18:03:29 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_beacon_block.sql
 ## libp2p_gossipsub_blob_sidecar
 
 Table for libp2p gossipsub blob sidecar data
@@ -245,9 +245,9 @@ Table for libp2p gossipsub blob sidecar data
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-07`
-- **holesky**: `2024-06-03` to `2025-05-07`
-- **sepolia**: `2024-06-03` to `2025-05-07`
+- **mainnet**: `2020-12-01` to `2025-05-08`
+- **holesky**: `2024-06-03` to `2025-05-08`
+- **sepolia**: `2024-06-03` to `2025-05-08`
 
 ### Examples
 
@@ -345,6 +345,6 @@ echo """
 | **meta_network_id** | `Int32` | *Network ID associated with the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
 
-2025-05-09 06:04:02 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
-2025-05-09 06:04:02 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
+2025-05-09 18:03:29 - Local table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar_local.sql
+2025-05-09 18:03:29 - Distributed table SQL DDL saved to ./schema/clickhouse/default/libp2p_gossipsub_blob_sidecar.sql
 <!-- schema_end -->
