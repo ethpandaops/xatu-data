@@ -3,3 +3,4 @@
 .cursorrules
 .DS_Store
 parquet-cache
+__pycache__
