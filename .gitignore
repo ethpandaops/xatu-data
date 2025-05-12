@@ -4,3 +4,4 @@
 .DS_Store
 parquet-cache
 __pycache__
+.ipynb_checkpoints
