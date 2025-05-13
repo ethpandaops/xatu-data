@@ -31,7 +31,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 <details>
 <summary>Parquet file</summary>
 
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_attestation/YYYY/MM/DD/HH.parquet
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_beacon_attestation/YYYY/M/D/H.parquet
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT

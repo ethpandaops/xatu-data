@@ -44,7 +44,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 <details>
 <summary>Parquet file</summary>
 
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/MM/DD/HH.parquet
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_beacon_committee/YYYY/M/D/H.parquet
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
@@ -144,7 +144,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 <details>
 <summary>Parquet file</summary>
 
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/MM/DD/HH.parquet
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_attestation/YYYY/M/D/H.parquet
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
