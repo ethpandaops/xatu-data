@@ -60,30 +60,48 @@ Xatu collects data from multiple sources across the Ethereum network:
 
 ## Access Methods
 
-### Parquet Files (Public)
-- URL pattern for datetime partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD.parquet`
-- URL pattern for datetime partitioning (hourly): `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD/HH.parquet`
-- URL pattern for integer partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/INTERVAL/CHUNK_NUMBER.parquet`
+Xatu data is available through two primary access methods:
 
-Where:
+### 🌐 Parquet Files (Public, No Authentication Required)
+
+Parquet files are publicly available without any authentication requirements. They are typically updated with a 1-3 day delay and have some columns redacted for privacy.
+
+**URL Patterns:**
+- Datetime partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD.parquet`
+- Datetime partitioning (hourly): `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD/HH.parquet`
+- Integer partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/INTERVAL/CHUNK_NUMBER.parquet`
+
+**Parameters:**
 - NETWORK: mainnet, holesky, sepolia, etc.
 - DATABASE: usually "default"
 - TABLE: the table name
 - INTERVAL: partitioning interval (e.g., 1000)
 - CHUNK_NUMBER: chunk number (e.g., 0, 1000, 2000)
 
-#### Accessing Parquet Files Directly
+**Example URL:**
+```
+https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet
+```
+
+**Using with Clickhouse:**
+```sql
+SELECT *
+FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+LIMIT 10
+```
+
+**Accessing Parquet Files Directly:**
 
 You can directly download and read parquet files using various libraries:
 
-##### Python with pandas
+**Python with pandas:**
 ```python
 import pandas as pd
 url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
 df = pd.read_parquet(url)
 ```
 
-##### Python with polars
+**Python with polars:**
 ```python
 import polars as pl
 url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
@@ -92,19 +110,112 @@ df = pl.read_parquet(url)
 lazy_df = pl.scan_parquet(url)
 ```
 
-##### R
+**R with arrow:**
 ```r
 library(arrow)
 url <- "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
 df <- read_parquet(url)
 ```
 
-### Clickhouse Database (Restricted)
-- Contact ethpandaops@ethereum.org for access credentials
-- Create tables using schema: `https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/DATABASE/TABLE_NAME.sql`
-- Import data using the `url` function to load from Parquet files
+**Command line with parquet-tools:**
+```bash
+pip install parquet-tools
+parquet-tools head https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet
+```
 
-#### Optimizing Clickhouse Queries
+### 🔒 Clickhouse Database (Restricted Access)
+
+The ethPandaOps Clickhouse database provides direct access to all Xatu data with lower latency and no redactions. This access method requires authentication.
+
+**Available Endpoints:**
+- 🌐 **Mainnet Endpoint:** `https://clickhouse.xatu.ethpandaops.io`
+  - Supported networks: Mainnet, Hoodi, Sepolia, Holesky
+- 🧪 **Experimental Endpoint:** `https://clickhouse.xatu-experimental.ethpandaops.io`
+  - Supported networks: Devnets, Experimental Networks
+
+**Authentication:**
+- Contact ethpandaops@ethereum.org for access credentials
+- You will receive a username and password to use with the API
+
+**Using with curl:**
+```bash
+# Replace with your actual credentials
+CLICKHOUSE_USER="your-username"
+CLICKHOUSE_PASSWORD="your-password"
+
+echo """
+    SELECT
+        *
+    FROM beacon_api_eth_v1_events_block
+    WHERE
+        slot_start_date_time > NOW() - INTERVAL '1 day'
+        AND meta_network_name = 'mainnet'
+    LIMIT 5
+    FORMAT JSON
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @- | jq
+```
+
+**Table Schemas:**
+- Create tables using schema: `https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/DATABASE/TABLE_NAME.sql`
+
+**Using with Jupyter Notebooks:**
+
+```python
+# Install dependencies
+# pip install jupysql clickhouse_sqlalchemy
+
+import os
+from sqlalchemy import create_engine
+
+# Set credentials (use environment variables for security)
+ENDPOINT = "clickhouse.xatu.ethpandaops.io"
+CLICKHOUSE_USER = os.environ.get("CLICKHOUSE_USER", "your-username")
+CLICKHOUSE_PASSWORD = os.environ.get("CLICKHOUSE_PASSWORD", "your-password")
+
+# Create connection string
+db_url = f"clickhouse+http://{CLICKHOUSE_USER}:{CLICKHOUSE_PASSWORD}@{ENDPOINT}:443/default?protocol=https"
+
+# Create engine and connect
+engine = create_engine(db_url)
+connection = engine.connect()
+
+# Execute query
+query = """
+    SELECT
+        *
+    FROM beacon_api_eth_v1_events_block FINAL
+    WHERE
+        slot_start_date_time BETWEEN toDateTime('2024-04-01') AND toDateTime('2024-04-02')
+        AND meta_network_name = 'mainnet'
+    LIMIT 10
+"""
+result = connection.execute(query)
+for row in result:
+    print(row)
+```
+
+**Jupyter with magic commands:**
+
+```python
+# Using JupySQL with magic commands
+%load_ext sql
+%sql clickhouse+http://{{CLICKHOUSE_USER}}:{{CLICKHOUSE_PASSWORD}}@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+
+%%sql
+SELECT
+    slot,
+    block_root,
+    meta_client_name,
+    propagation_slot_start_diff
+FROM
+    beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time > NOW() - INTERVAL '1 HOUR'
+    AND meta_network_name = 'mainnet'
+LIMIT 10
+```
+
+**Optimizing Clickhouse Queries:**
 When using Clickhouse, make sure to:
 
 1. Create tables with the correct schema before loading data
