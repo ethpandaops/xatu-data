@@ -467,6 +467,57 @@ EOF
   
   cat >> "$output_file" << 'EOF'
 
+<<<<<<< Updated upstream
+=======
+## Checking Data Availability
+
+```bash
+# Get the most recent table config
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
+  yq e '.tables[] | "# Table: " + .name +
+  "\n  Database: " + .database +
+  "\n  Partitioning: " + .partitioning.column + " (" + .partitioning.type + ") in chunks of " + .partitioning.interval +
+  "\n  Networks: " + (.networks | keys | join(", ")) +
+  "\n  Tags: " + (.tags | join(", "))'
+
+# Check networks for a specific table
+TABLE="beacon_api_eth_v1_events_head"
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
+  yq e '.tables[] | select(.name == "'$TABLE'") | "Networks: " + (.networks | keys | join(", "))'
+```
+
+## Table Listing
+
+The following tables are available in the Xatu dataset:
+
+EOF
+
+  # Generate and add the table listing with date ranges
+  log "Generating table listing with date ranges..."
+  yq e '.tables[] | "### " + .name +
+    "\n- **Database**: " + .database +
+    "\n- **Description**: " + .description +
+    "\n- **Partitioning**: " + .partitioning.column + " (" + .partitioning.type + "), " + .partitioning.interval +
+    "\n- **Networks**: " +
+    (.networks | to_entries | map(
+      .key + " (" + .value.from + " to " + .value.to + ")"
+    ) | join(", ")) +
+    "\n- **Tags**: " + (.tags | join(", "))' "$config_file" >> "$output_file"
+
+  cat >> "$output_file" << 'EOF'
+
+## Schema Documentation
+
+### Common Fields
+
+All tables include:
+- **meta_client_name**: Client that collected the data
+- **meta_client_id**: Unique Session ID
+- **meta_client_version**: Client version
+- **meta_network_name**: Network name
+- **event_date_time**: When the event was created
+
+>>>>>>> Stashed changes
 ## Schema Access
 
 To view table schemas:
