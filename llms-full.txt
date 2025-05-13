@@ -704,7 +704,6 @@ All tables include:
 - **meta_network_name**: Network name
 - **event_date_time**: When the event was created
 
->>>>>>> Stashed changes
 ## Schema Access
 
 To view table schemas:
