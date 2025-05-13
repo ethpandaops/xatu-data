@@ -1334,7 +1334,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 <details>
 <summary>Parquet file</summary>
 
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_validators/YYYY/MM/DD/HH.parquet
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_validators/YYYY/M/D/H.parquet
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT

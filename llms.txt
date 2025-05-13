@@ -1,28 +1,89 @@
-# Xatu Dataset Guide
+# Xatu Dataset
+> Comprehensive Ethereum network data collection focusing on blockchain metrics, client performance, and network analysis.
 
-Note: 
-## Dataset Overview
+## Overview
 
-Xatu data contains information about the Ethereum network, organized into different datasets.
-- Xatu is a data collection and processing pipeline for Ethereum network data.
-- Xatu contains multiple "modules" that each derive Ethereum data differently. This data is then forwarded on to a data pipeline, and stored in a Clickhouse database.
-- ethPandaOps runs all modules to hydrate the data pipeline. Community members also run some modules to contribute their data to the data pipeline.
-- All the data is then openly published to Parquet files with a 1 to 3 day delay with a few columns redacted for privacy.
+Xatu is a data collection and processing pipeline for Ethereum network data.
+- Xatu contains multiple "modules" that each derive Ethereum data differently
+- The data is stored in a Clickhouse database and published to Parquet files
+- ethPandaOps runs all modules, with community members also contributing data
+- Public Parquet files are available with a 1-3 day delay with some privacy redactions
 
-## Notes
+## ⚠️ Critical Usage Warning
 
-### Clickhouse
-When querying data via Parquet files:
-  - Data is partitioned differently for each table. Check the table config for the partitioning column and type.
-  - You should calculate the minimum and maximum values for the partitioning column to avoid querying too much data. Generally its better to request a little more data than you need and to then filter within the query.
-  - You MUST use the partitioning column as a filter to avoid querying too much data. 
-    - This is extremely important and can be the difference between a query that runs in seconds and one that runs for hours.
-    
-When loading Parquet files into Clickhouse, you should first create the table schema in Clickhouse, and then use the `url` function to load the data.
-  - Without this, Clickhouse will store the data sub-optimally resulting in significantly more disk space usage.
-  - The CREATE TABLE statement is available here: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/$DATABASE/$TABLE_NAME.sql
+**You MUST filter on the partitioning column when querying these datasets.**
+- Failure to do so will result in extremely slow queries that scan entire tables
+- This is especially important for large tables with billions of rows
+- Always check the table's partitioning column and type before querying
 
-## Datasets
+## Access Methods
+
+Xatu data is available through two primary access methods:
+
+### 🌐 Parquet Files (Public, No Authentication Required)
+
+Parquet files are publicly available without any authentication requirements. They are typically updated with a 1-3 day delay and have some columns redacted for privacy.
+
+**URL Patterns:**
+- Datetime partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/M/D.parquet`
+- Datetime partitioning (hourly): `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/M/D/H.parquet`
+- Integer partitioning: `https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/INTERVAL/CHUNK_NUMBER.parquet`
+
+**Parameters:**
+- NETWORK: mainnet, holesky, sepolia, etc.
+- DATABASE: usually "default"
+- TABLE: the table name
+- INTERVAL: partitioning interval (e.g., 1000)
+- CHUNK_NUMBER: chunk number (e.g., 0, 1000, 2000)
+
+**Example URL:**
+```
+https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet
+```
+
+**Using with Clickhouse:**
+```sql
+SELECT *
+FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+LIMIT 10
+```
+
+### 🔒 Clickhouse Database (Restricted Access)
+
+The ethPandaOps Clickhouse database provides direct access to all Xatu data with lower latency and no redactions. This access method requires authentication.
+
+**Available Endpoints:**
+- 🌐 **Mainnet Endpoint:** `https://clickhouse.xatu.ethpandaops.io`
+  - Supported networks: Mainnet, Hoodi, Sepolia, Holesky
+- 🧪 **Experimental Endpoint:** `https://clickhouse.xatu-experimental.ethpandaops.io`
+  - Supported networks: Devnets, Experimental Networks
+
+**Authentication:**
+- Contact ethpandaops@ethereum.org for access credentials
+- You will receive a username and password to use with the API
+
+**Using with curl:**
+```bash
+# Replace with your actual credentials
+CLICKHOUSE_USER="your-username"
+CLICKHOUSE_PASSWORD="your-password"
+
+echo """
+    SELECT
+        *
+    FROM beacon_api_eth_v1_events_block
+    WHERE
+        slot_start_date_time > NOW() - INTERVAL '1 day'
+        AND meta_network_name = 'mainnet'
+    LIMIT 5
+    FORMAT JSON
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @- | jq
+```
+
+**Table Schemas:**
+- Create tables using schema: `https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/DATABASE/TABLE_NAME.sql`
+
+## Core Datasets
 - **Beacon API Event Stream**: Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. These tables can be joined with the canonical tables to get a more complete view of the data. For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block. (Prefix: `beacon_api_`)
 - **Execution Layer P2P**: Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances. (Prefix: `mempool_`)
 - **Canonical Beacon**: Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information (Prefix: `canonical_beacon_`)
@@ -30,35 +91,9 @@ When loading Parquet files into Clickhouse, you should first create the table sc
 - **Consensus Layer P2P**: Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. (Prefix: `libp2p_`)
 - **MEV Relay**: Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances. (Prefix: `mev_relay_`)
 
-## Data Availability
-
-- **Public Parquet Files**: Available to everyone
-- **EthPandaOps Clickhouse**: Restricted access (contact ethpandaops@ethereum.org)
-
-
-## URL Patterns
-
-### Datetime partitioned tables:
-```
-https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD.parquet
-https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/MM/DD/HH.parquet
-```
-
-### Integer partitioned tables:
-```
-https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/INTERVAL/CHUNK_NUMBER.parquet
-```
-
-Where:
-- NETWORK: mainnet, holesky, sepolia, etc.
-- DATABASE: usually "default"
-- TABLE: the table name
-- INTERVAL: partitioning interval (e.g., 1000)
-- CHUNK_NUMBER: chunk number (e.g., 0, 1000, 2000)
-
 ## Query Examples
 
-### Using Clickhouse:
+### Using Clickhouse with Parquet:
 ```sql
 -- Single file query
 SELECT
@@ -71,7 +106,7 @@ GROUP BY date
 ORDER BY date
 
 -- Multiple files using glob pattern
---- With hourly partitioning
+--- With daily partitioning
 SELECT
     toDate(slot_start_date_time) AS date,
     count(*) AS event_count
@@ -83,341 +118,25 @@ ORDER BY date
 SELECT 
 COUNT(*) 
 FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{20000..20010}000.parquet', 'Parquet')
-LIMIT 10 FORMAT Pretty"
+LIMIT 10 FORMAT Pretty
 ```
 
-## Checking Data Availability
+## Schema Access
+
+To view table schemas:
 
 ```bash
-# Get the most recent table config
-curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
-  yq e '.tables[] | "# Table: " + .name + 
-  "\n  Database: " + .database + 
-  "\n  Partitioning: " + .partitioning.column + " (" + .partitioning.type + ") in chunks of " + .partitioning.interval + 
-  "\n  Networks: " + (.networks | keys | join(", ")) +
-  "\n  Tags: " + (.tags | join(", "))'
+# Get a specific table schema
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/TABLE_NAME.sql
 
-# Check networks for a specific table
-TABLE="beacon_api_eth_v1_events_head"
-curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
-  yq e '.tables[] | select(.name == "'$TABLE'") | "Networks: " + (.networks | keys | join(", "))'
+# Search within a schema for details
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/beacon_api_eth_v1_events_block.sql | grep -A 50 "CREATE TABLE"
 ```
 
-## Table Listing
+## Data Availability
 
-
-## Schema Documentation
-
-### Common Fields
-
-All tables include:
-- **meta_client_name**: Client that collected the data
-- **meta_client_id**: Unique Session ID
-- **meta_client_version**: Client version
-- **meta_network_name**: Network name
-- **event_date_time**: When the event was created
-
-### Tables
-# beacon_api_eth_v1_beacon_committee
-  - Database: default
-  - Description: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), hourly
-  - Networks: mainnet (2023-09-04 to 2025-05-10), holesky (2023-09-28 to 2025-05-10), sepolia (2022-06-25 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_attestation
-  - Database: default
-  - Description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), hourly
-  - Networks: mainnet (2023-06-01 to 2025-05-10), holesky (2023-09-18 to 2025-05-10), sepolia (2023-08-31 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_blob_sidecar
-  - Database: default
-  - Description: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-03-13 to 2025-05-10), holesky (2024-02-07 to 2025-05-10), sepolia (2024-01-30 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_block
-  - Database: default
-  - Description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-12-24 to 2025-05-10), sepolia (2023-12-24 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_chain_reorg
-  - Database: default
-  - Description: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2023-03-01 to 2025-05-10), holesky (2024-02-05 to 2025-05-10), sepolia (2023-12-30 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_contribution_and_proof
-  - Database: default
-  - Description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
-  - Partitioning: contribution_slot_start_date_time (datetime), daily
-  - Networks: mainnet (2023-08-31 to 2025-05-10), holesky (2023-12-24 to 2025-05-10), sepolia (2023-12-24 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_finalized_checkpoint
-  - Database: default
-  - Description: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
-  - Partitioning: epoch_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-03-26 to 2025-05-10), sepolia (2023-03-26 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_head
-  - Database: default
-  - Description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-12-05 to 2025-05-10), sepolia (2023-12-05 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_events_voluntary_exit
-  - Database: default
-  - Description: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
-  - Partitioning: wallclock_epoch_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-28 to 2025-05-10), sepolia (2023-10-01 to null)
-  - Tags: Consensus layer
-# beacon_api_eth_v1_validator_attestation_data
-  - Database: default
-  - Description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2023-08-31 to 2025-05-10), holesky (2023-12-24 to 2025-05-10), sepolia (2023-12-24 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v2_beacon_block
-  - Database: default
-  - Description: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-28 to 2025-05-10), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer
-# mempool_transaction
-  - Database: default
-  - Description: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
-  - Partitioning: event_date_time (datetime), daily
-  - Networks: mainnet (2023-03-03 to 2025-05-10), holesky (2024-01-08 to 2025-05-10), sepolia (2024-01-08 to 2025-05-10)
-  - Tags: Execution layer, Transaction, Mempool
-# beacon_api_eth_v1_proposer_duty
-  - Database: default
-  - Description: Contains a proposer duty from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-04-03 to 2025-05-10), holesky (2024-04-03 to 2025-05-10), sepolia (2024-04-03 to 2025-05-10)
-  - Tags: Consensus layer
-# beacon_api_eth_v3_validator_block
-  - Database: default
-  - Description: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-11-25 to 2025-05-10), holesky (2024-11-25 to 2025-05-10), sepolia (2024-11-25 to 2025-05-10)
-  - Tags: Consensus layer
-# canonical_beacon_block
-  - Database: default
-  - Description: Contains beacon block from a beacon node.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-05-10), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_committee
-  - Database: default
-  - Description: Contains canonical beacon API /eth/v1/beacon/committees data.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_attester_slashing
-  - Database: default
-  - Description: Contains attester slashing from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-04-29), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-22 to null)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_proposer_slashing
-  - Database: default
-  - Description: Contains proposer slashing from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-04-27), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-22 to null)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_bls_to_execution_change
-  - Database: default
-  - Description: Contains bls to execution change from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2023-04-12 to 2025-05-10), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_execution_transaction
-  - Database: default
-  - Description: Contains execution transaction from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2022-09-06 to 2025-05-10), holesky (2023-09-23 to 2025-05-10), sepolia (2022-06-22 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_voluntary_exit
-  - Database: default
-  - Description: Contains a voluntary exit from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-05-10), sepolia (2022-06-22 to 2025-04-27)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_deposit
-  - Database: default
-  - Description: Contains a deposit from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-22 to 2025-04-27)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_block_withdrawal
-  - Database: default
-  - Description: Contains a withdrawal from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2023-04-12 to 2025-05-10), holesky (2023-09-23 to 2025-05-10), sepolia (2023-02-28 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_blob_sidecar
-  - Database: default
-  - Description: Contains a blob sidecar from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-03-13 to 2025-05-10), holesky (2024-02-07 to 2025-05-10), sepolia (2024-01-30 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_proposer_duty
-  - Database: default
-  - Description: Contains a proposer duty from a beacon block.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_elaborated_attestation
-  - Database: default
-  - Description: Contains elaborated attestations from beacon blocks.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_validators
-  - Database: default
-  - Description: Contains a validator state for an epoch.
-  - Partitioning: epoch_start_date_time (datetime), hourly
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-10)
-  - Tags: Consensus layer, Finalized
-# canonical_beacon_validators_pubkeys
-  - Database: default
-  - Description: Contains a validator state for an epoch.
-  - Partitioning: index (integer), 50
-  - Networks: mainnet (0 to 1909700), holesky (0 to 1923750), sepolia (0 to 1900)
-  - Tags: Consensus layer, Finalized
-# libp2p_gossipsub_beacon_attestation
-  - Database: default
-  - Description: Table for libp2p gossipsub beacon attestation data.
-  - Partitioning: slot_start_date_time (datetime), hourly
-  - Networks: mainnet (2024-05-01 to 2025-05-10), holesky (2024-05-01 to 2025-05-10), sepolia (2024-05-01 to 2025-05-10)
-  - Tags: Consensus layer, P2P
-# libp2p_gossipsub_beacon_block
-  - Database: default
-  - Description: Table for libp2p gossipsub beacon block data.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2024-04-26 to 2025-05-10), sepolia (2024-04-26 to 2025-05-10)
-  - Tags: Consensus layer, P2P
-# libp2p_gossipsub_blob_sidecar
-  - Database: default
-  - Description: Table for libp2p gossipsub blob sidecar data
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2020-12-01 to 2025-05-10), holesky (2024-06-03 to 2025-05-10), sepolia (2024-06-03 to 2025-05-10)
-  - Tags: Consensus layer, P2P
-# mev_relay_bid_trace
-  - Database: default
-  - Description: Contains MEV relay block bids data.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-09-13 to 2025-05-10), holesky (2024-09-13 to 2025-05-10), sepolia (2024-09-13 to 2025-05-10)
-  - Tags: 
-# mev_relay_proposer_payload_delivered
-  - Database: default
-  - Description: Contains MEV relay proposer payload delivered data.
-  - Partitioning: slot_start_date_time (datetime), daily
-  - Networks: mainnet (2024-09-16 to 2025-05-10), holesky (2024-09-16 to 2025-05-10), sepolia (2024-09-16 to 2025-05-10)
-  - Tags: Consensus layer, Execution layer, MEV
-# mev_relay_validator_registration
-  - Database: default
-  - Description: Contains MEV relay validator registrations data.
-  - Partitioning: event_date_time (datetime), daily
-  - Networks: mainnet (2024-12-11 to 2025-05-10), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-05-10)
-  - Tags: Consensus layer, Execution layer, MEV
-# canonical_execution_block
-  - Database: default
-  - Description: Contains canonical execution block data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 8026000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_transaction
-  - Database: default
-  - Description: Contains canonical execution transaction data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_traces
-  - Database: default
-  - Description: Contains canonical execution traces data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_logs
-  - Database: default
-  - Description: Contains canonical execution logs data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_contracts
-  - Database: default
-  - Description: Contains canonical execution contract data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_four_byte_counts
-  - Database: default
-  - Description: Contains canonical execution four byte count data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_address_appearances
-  - Database: default
-  - Description: Contains canonical execution address appearance data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_balance_diffs
-  - Database: default
-  - Description: Contains canonical execution balance diff data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_balance_reads
-  - Database: default
-  - Description: Contains canonical execution balance read data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_erc20_transfers
-  - Database: default
-  - Description: Contains canonical execution erc20 transfer data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_erc721_transfers
-  - Database: default
-  - Description: Contains canonical execution erc721 transfer data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_native_transfers
-  - Database: default
-  - Description: Contains canonical execution native transfer data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_nonce_diffs
-  - Database: default
-  - Description: Contains canonical execution nonce diff data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_nonce_reads
-  - Database: default
-  - Description: Contains canonical execution nonce read data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_storage_diffs
-  - Database: default
-  - Description: Contains canonical execution storage diffs data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: mainnet (0 to 22455000), holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
-# canonical_execution_storage_reads
-  - Database: default
-  - Description: Contains canonical execution storage reads data.
-  - Partitioning: block_number (integer), 1000
-  - Networks: holesky (0 to 3815000), sepolia (0 to 7726000)
-  - Tags: Execution layer, Finalized
+- **Public Parquet Files**: Available to everyone
+- **EthPandaOps Clickhouse**: Restricted access (contact ethpandaops@ethereum.org)
 
 ## License
 
