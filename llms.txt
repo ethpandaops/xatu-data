@@ -339,6 +339,12 @@ The following tables are available in the Xatu dataset:
 - **Partitioning**: slot_start_date_time (datetime), daily
 - **Networks**: mainnet (2020-12-01 to 2025-05-11), holesky (2024-06-03 to 2025-05-11), sepolia (2024-06-03 to 2025-05-11)
 - **Tags**: Consensus layer, P2P
+### mev_relay_bid_trace
+- **Database**: default
+- **Description**: Contains MEV relay block bids data.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (2024-09-13 to 2025-05-11), holesky (2024-09-13 to 2025-05-11), sepolia (2024-09-13 to 2025-05-11)
+- **Tags**: 
 ### mev_relay_proposer_payload_delivered
 - **Database**: default
 - **Description**: Contains MEV relay proposer payload delivered data.
