@@ -79,6 +79,11 @@ generate_warnings_section() {
 - Failure to do so will result in extremely slow queries that scan entire tables
 - This is especially important for large tables with billions of rows
 - Always check the table's partitioning column and type before querying
+
+**⚠️ IMPORTANT: NEVER use wildcards (*) when looking up Parquet files!**
+- The data.ethpandaops.io endpoint is NOT S3-compatible
+- Wildcard queries like `*.parquet` will NOT work
+- Always use explicit paths or valid globbing patterns as shown in examples
 EOF
 
   if [ "$detail_level" = "detailed" ]; then
@@ -87,6 +92,7 @@ EOF
 - For integer partitioning, filter on the range: `block_number BETWEEN 1000 AND 2000`
 - When working with Parquet files, limit your query to specific date or range partitions in the URL pattern
 - Performance will be significantly better when you properly utilize partitioning
+- Use explicit globbing patterns like `{20,21,22}.parquet` or ranges like `{20000..20010}000.parquet`
 EOF
   fi
 }
@@ -270,11 +276,9 @@ LIMIT 10
 **Optimizing Clickhouse Queries:**
 When using Clickhouse, make sure to:
 
-1. Create tables with the correct schema before loading data
-2. Always use the partitioning column in your WHERE clauses
-3. Use the FINAL modifier for tables that use ReplacingMergeTree engine
-4. Take advantage of Clickhouse's vectorized query execution
-5. Consider using materialized views for common query patterns
+1. Always use the partitioning column in your WHERE clauses
+2. Use the FINAL modifier for tables that use ReplacingMergeTree engine
+3. Take advantage of Clickhouse's vectorized query execution
 EOF
   fi
 }
@@ -375,6 +379,12 @@ generate_examples_section() {
 ## Query Examples
 
 ### Using Clickhouse with Parquet:
+
+**⚠️ IMPORTANT NOTES:**
+- **NEVER use wildcards (*) when looking up Parquet files - they will not work!**
+- Always use explicit paths or valid globbing patterns with explicit ranges
+- Use CTEs when joining tables to avoid cross-shard issues
+
 ```sql
 -- Single file query
 SELECT
@@ -386,8 +396,8 @@ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_
 GROUP BY date
 ORDER BY date
 
--- Multiple files using glob pattern
---- With daily partitioning
+-- Multiple files using VALID glob patterns (NOT wildcards)
+--- With daily partitioning (explicit list in curly braces)
 SELECT
     toDate(slot_start_date_time) AS date,
     count(*) AS event_count
@@ -395,7 +405,7 @@ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_
 GROUP BY date
 ORDER BY date
 
---- With integer partitioning
+--- With integer partitioning (explicit range in curly braces)
 SELECT 
 COUNT(*) 
 FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{20000..20010}000.parquet', 'Parquet')
@@ -407,28 +417,47 @@ EOF
     cat >> "$output_file" << 'EOF'
 
 ### Joining Tables in Clickhouse:
+
+**⚠️ IMPORTANT: Always use CTEs when joining tables in Clickhouse to avoid cross-shard joins!**
+
 ```sql
--- Join block events with canonical blocks
+-- Join block events with canonical blocks (USING CTEs TO AVOID SHARD ISSUES)
+WITH 
+    blocks AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet')
+    ),
+    events AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+    )
 SELECT
     b.slot,
     b.block_root,
     e.meta_client_name,
     e.propagation_slot_start_diff
-FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet') b
-JOIN url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet') e
-ON b.slot = e.slot
+FROM blocks b
+JOIN events e ON b.slot = e.slot
 ORDER BY b.slot, e.propagation_slot_start_diff
 
--- Join execution and consensus data
+-- Join execution and consensus data (USING CTEs TO AVOID SHARD ISSUES)
+WITH
+    consensus_blocks AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet')
+    ),
+    execution_blocks AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/17000000.parquet', 'Parquet')
+    )
 SELECT
     cb.slot,
     cb.slot_start_date_time,
     ce.block_number,
     ce.block_hash,
     ce.transaction_count
-FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet') cb
-JOIN url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/17000000.parquet', 'Parquet') ce
-ON cb.execution_block_number = ce.block_number
+FROM consensus_blocks cb
+JOIN execution_blocks ce ON cb.execution_block_number = ce.block_number
 WHERE cb.execution_block_number > 0
 ORDER BY cb.slot
 LIMIT 10
@@ -447,16 +476,24 @@ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_
 GROUP BY slot
 ORDER BY slot
 
--- Find slow blocks
+-- Find slow blocks (USING CTEs TO AVOID SHARD ISSUES)
+WITH 
+    canonical_blocks AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet')
+    ),
+    block_events AS (
+        SELECT *
+        FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+    )
 SELECT
     b.slot,
     b.slot_start_date_time,
     b.proposer_index,
     MAX(e.propagation_slot_start_diff) as max_propagation_time,
     COUNT(DISTINCT e.meta_client_name) as observer_count
-FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet') b
-JOIN url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet') e
-ON b.slot = e.slot
+FROM canonical_blocks b
+JOIN block_events e ON b.slot = e.slot
 GROUP BY b.slot, b.slot_start_date_time, b.proposer_index
 HAVING max_propagation_time > 2000
 ORDER BY max_propagation_time DESC
@@ -467,8 +504,6 @@ EOF
   
   cat >> "$output_file" << 'EOF'
 
-<<<<<<< Updated upstream
-=======
 ## Checking Data Availability
 
 ```bash
@@ -619,6 +654,11 @@ generate_programmatic_section() {
 
 ## Programmatic Access Examples
 
+**⚠️ IMPORTANT: NEVER use wildcards (*) when accessing Parquet files!**
+- The data.ethpandaops.io endpoint is NOT S3-compatible
+- Wildcard queries like `*.parquet` will NOT work
+- Always use explicit paths or valid globbing patterns as shown in examples
+
 ### Python with Pandas
 ```python
 import pandas as pd
@@ -628,11 +668,13 @@ from datetime import datetime, timedelta
 start_date = datetime(2024, 4, 1)
 end_date = datetime(2024, 4, 2)
 
-# Generate URLs for the date range
+# Generate EXPLICIT URLs for the date range (NEVER USE WILDCARDS!)
 base_url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/"
 urls = [f"{base_url}{date.year}/{date.month}/{date.day}.parquet" 
         for date in (start_date + timedelta(days=n) 
                     for n in range((end_date - start_date).days + 1))]
+
+# IMPORTANT: Notice we are generating a SPECIFIC list of URLs, not using wildcards
 
 # Download and load data
 dfs = []
@@ -655,11 +697,13 @@ from datetime import datetime, timedelta
 start_date = datetime(2024, 4, 1)
 end_date = datetime(2024, 4, 2)
 
-# Generate URLs
+# Generate EXPLICIT URLs for the date range (NEVER USE WILDCARDS!)
 base_url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/"
 urls = [f"{base_url}{date.year}/{date.month}/{date.day}.parquet" 
         for date in (start_date + timedelta(days=n) 
                     for n in range((end_date - start_date).days + 1))]
+
+# IMPORTANT: Always create a specific list of URLs, not using wildcards or globs for HTTP
 
 # Create lazy DataFrames
 lazy_dfs = [pl.scan_parquet(url) for url in urls]
@@ -683,12 +727,15 @@ start_date <- as.Date("2024-04-01")
 end_date <- as.Date("2024-04-02")
 dates <- seq(start_date, end_date, by="day")
 
-# Generate URLs
+# Generate EXPLICIT URLs (NEVER USE WILDCARDS with data.ethpandaops.io!)
 base_url <- "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/"
 urls <- paste0(base_url, 
                format(dates, "%Y"), "/", 
                format(dates, "%m"), "/", 
                format(dates, "%d"), ".parquet")
+
+# IMPORTANT: Always create specific URLs rather than using wildcards
+# This is because the data.ethpandaops.io endpoint is not S3-compatible
 
 # Read and combine data
 df_list <- lapply(urls, read_parquet)
@@ -717,9 +764,12 @@ start_date = Date(2024, 4, 1)
 end_date = Date(2024, 4, 2)
 dates = start_date:Day(1):end_date
 
-# Generate URLs
+# Generate EXPLICIT URLs (NEVER USE WILDCARDS with data.ethpandaops.io!)
 base_url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/"
 urls = [string(base_url, year(d), "/", month(d), "/", day(d), ".parquet") for d in dates]
+
+# IMPORTANT: Always use explicit paths; the data.ethpandaops.io endpoint
+# is not S3-compatible and does not support wildcard operations
 
 # Read and combine data
 dfs = [DataFrame(read_parquet(url)) for url in urls]

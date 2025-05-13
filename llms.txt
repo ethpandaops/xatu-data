@@ -16,6 +16,11 @@ Xatu is a data collection and processing pipeline for Ethereum network data.
 - This is especially important for large tables with billions of rows
 - Always check the table's partitioning column and type before querying
 
+**⚠️ IMPORTANT: NEVER use wildcards (*) when looking up Parquet files!**
+- The data.ethpandaops.io endpoint is NOT S3-compatible
+- Wildcard queries like `*.parquet` will NOT work
+- Always use explicit paths or valid globbing patterns as shown in examples
+
 ## Access Methods
 
 Xatu data is available through two primary access methods:
@@ -94,6 +99,12 @@ echo """
 ## Query Examples
 
 ### Using Clickhouse with Parquet:
+
+**⚠️ IMPORTANT NOTES:**
+- **NEVER use wildcards (*) when looking up Parquet files - they will not work!**
+- Always use explicit paths or valid globbing patterns with explicit ranges
+- Use CTEs when joining tables to avoid cross-shard issues
+
 ```sql
 -- Single file query
 SELECT
@@ -105,8 +116,8 @@ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_
 GROUP BY date
 ORDER BY date
 
--- Multiple files using glob pattern
---- With daily partitioning
+-- Multiple files using VALID glob patterns (NOT wildcards)
+--- With daily partitioning (explicit list in curly braces)
 SELECT
     toDate(slot_start_date_time) AS date,
     count(*) AS event_count
@@ -114,15 +125,13 @@ FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_
 GROUP BY date
 ORDER BY date
 
---- With integer partitioning
+--- With integer partitioning (explicit range in curly braces)
 SELECT 
 COUNT(*) 
 FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{20000..20010}000.parquet', 'Parquet')
 LIMIT 10 FORMAT Pretty
 ```
 
-<<<<<<< Updated upstream
-=======
 ## Checking Data Availability
 
 ```bash
