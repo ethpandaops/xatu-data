@@ -7,6 +7,9 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 > [!IMPORTANT]  
 > Join the Xatu Data Telegram group to stay up to date: `https://t[dot]me/+JanoQFu_nO8yNzQ1`
 
+Information for LLMs can be found here:
+- [llms.txt](https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms.txt)
+- [llms-full.txt](https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms-full.txt)
 
 ## Table of contents
 
