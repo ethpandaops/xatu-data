@@ -156,7 +156,7 @@ def compare_networks_multi(metrics_dict):
         metrics_df = metrics_dict[network]
         if 'block_total_bytes' in metrics_df.columns:
             metrics_temp = metrics_df.copy()
-            metrics_temp['block_size_bin'] = pd.cut(metrics_temp['block_total_bytes'], 
+            metrics_temp.loc[:, 'block_size_bin'] = pd.cut(metrics_temp['block_total_bytes'], 
                                                   bins=size_bins, labels=size_labels)
             
             # Group by block size bin
@@ -164,8 +164,8 @@ def compare_networks_multi(metrics_dict):
                            'mean_arrival_time', 'p95_arrival_time', 'max_arrival_time',
                            'node_count']
             
-            by_size = metrics_temp.groupby('block_size_bin')[numeric_columns].mean().reset_index()
-            network_bin_stats[network] = by_size
+            by_size = metrics_temp.groupby('block_size_bin', observed=True)[numeric_columns].mean().reset_index()
+            network_bin_stats[network] = by_size.copy()
     
     # Find sizes present in any network
     all_size_bins = set()
