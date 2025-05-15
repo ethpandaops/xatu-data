@@ -81,20 +81,41 @@ def add_branding(fig, title=None, subtitle=None):
 
 def process_config(config):
     """Process the config dictionary to ensure all necessary keys are present."""
-    # Verify required keys
-    required_keys = ['before', 'after']
-    for key in required_keys:
-        if key not in config:
-            raise ValueError(f"Missing required key '{key}' in config")
+    # Check for either before/after structure or networks structure
+    if 'before' in config and 'after' in config:
+        # Before/after structure (original)
+        for key in ['before', 'after']:
+            # Verify sub-keys
+            for subkey in ['network', 'start_at_slot', 'finish_at_slot']:
+                if subkey not in config[key]:
+                    raise ValueError(f"Missing required key '{subkey}' in config['{key}']")
         
-        # Verify sub-keys
-        for subkey in ['network', 'start_at_slot', 'finish_at_slot']:
-            if subkey not in config[key]:
-                raise ValueError(f"Missing required key '{subkey}' in config['{key}']")
+        # Ensure slot ranges are valid
+        for period in ['before', 'after']:
+            if config[period]['start_at_slot'] >= config[period]['finish_at_slot']:
+                raise ValueError(f"start_at_slot must be less than finish_at_slot in config['{period}']")
+            
+            # Add display label if not present
+            if 'label' not in config[period]:
+                config[period]['label'] = config[period]['network']
     
-    # Ensure slot ranges are valid
-    for period in ['before', 'after']:
-        if config[period]['start_at_slot'] >= config[period]['finish_at_slot']:
-            raise ValueError(f"start_at_slot must be less than finish_at_slot in config['{period}']")
-
+    elif 'networks' in config:
+        # Multi-network structure
+        # Verify each network has required fields
+        for network_key, network_config in config['networks'].items():
+            for subkey in ['network', 'start_at_slot', 'finish_at_slot']:
+                if subkey not in network_config:
+                    raise ValueError(f"Missing required key '{subkey}' in config['networks']['{network_key}']")
+            
+            # Ensure slot ranges are valid
+            if network_config['start_at_slot'] >= network_config['finish_at_slot']:
+                raise ValueError(f"start_at_slot must be less than finish_at_slot in config['networks']['{network_key}']")
+            
+            # Add display label if not present
+            if 'label' not in network_config:
+                network_config['label'] = network_key
+    
+    else:
+        raise ValueError("Config must contain either 'before'/'after' keys or a 'networks' key")
+    
     return config
