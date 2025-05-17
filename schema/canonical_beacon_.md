@@ -33,9 +33,9 @@ Contains beacon block from a beacon node.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
-- **holesky**: `2023-09-23` to `2025-05-14`
-- **sepolia**: `2022-06-20` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
+- **holesky**: `2023-09-23` to `2025-05-15`
+- **sepolia**: `2022-06-20` to `2025-05-15`
 
 ### Examples
 
@@ -47,7 +47,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -143,8 +143,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:51 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_local.sql
-2025-05-16 06:03:51 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block.sql
 ## canonical_beacon_committee
 
 Contains canonical beacon API /eth/v1/beacon/committees data.
@@ -152,9 +152,9 @@ Contains canonical beacon API /eth/v1/beacon/committees data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-05-14`
+- **sepolia**: `2022-06-20` to `2025-05-15`
 
 ### Examples
 
@@ -166,7 +166,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -242,8 +242,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_committee.sql
 ## canonical_beacon_block_attester_slashing
 
 Contains attester slashing from a beacon block.
@@ -252,7 +252,7 @@ Contains attester slashing from a beacon block.
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2025-04-29`
-- **holesky**: `2023-09-23` to `2025-05-14`
+- **holesky**: `2023-09-23` to `2025-05-15`
 - **sepolia**: `2022-06-22` to `null`
 
 ### Examples
@@ -265,7 +265,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_attester_slashing/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -359,8 +359,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_attester_slashing.sql
 ## canonical_beacon_block_proposer_slashing
 
 Contains proposer slashing from a beacon block.
@@ -382,7 +382,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_proposer_slashing/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -470,8 +470,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_proposer_slashing.sql
 ## canonical_beacon_block_bls_to_execution_change
 
 Contains bls to execution change from a beacon block.
@@ -479,9 +479,9 @@ Contains bls to execution change from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2025-05-14`
+- **mainnet**: `2023-04-12` to `2025-05-15`
 - **holesky**: `2023-09-28` to `2025-05-09`
-- **sepolia**: `2022-06-22` to `2025-05-14`
+- **sepolia**: `2022-06-22` to `2025-05-15`
 
 ### Examples
 
@@ -493,7 +493,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -573,8 +573,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_bls_to_execution_change.sql
 ## canonical_beacon_block_execution_transaction
 
 Contains execution transaction from a beacon block.
@@ -582,9 +582,9 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2025-05-14`
-- **holesky**: `2023-09-23` to `2025-05-14`
-- **sepolia**: `2022-06-22` to `2025-05-14`
+- **mainnet**: `2022-09-06` to `2025-05-15`
+- **holesky**: `2023-09-23` to `2025-05-15`
+- **sepolia**: `2022-06-22` to `2025-05-15`
 
 ### Examples
 
@@ -596,7 +596,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -690,8 +690,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_execution_transaction.sql
 ## canonical_beacon_block_voluntary_exit
 
 Contains a voluntary exit from a beacon block.
@@ -699,7 +699,7 @@ Contains a voluntary exit from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
 - **holesky**: `2023-09-23` to `2025-05-12`
 - **sepolia**: `2022-06-22` to `2025-04-27`
 
@@ -713,7 +713,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -792,8 +792,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_voluntary_exit.sql
 ## canonical_beacon_block_deposit
 
 Contains a deposit from a beacon block.
@@ -815,7 +815,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_deposit/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -896,8 +896,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_deposit.sql
 ## canonical_beacon_block_withdrawal
 
 Contains a withdrawal from a beacon block.
@@ -905,9 +905,9 @@ Contains a withdrawal from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2025-05-14`
-- **holesky**: `2023-09-23` to `2025-05-14`
-- **sepolia**: `2023-02-28` to `2025-05-14`
+- **mainnet**: `2023-04-12` to `2025-05-15`
+- **holesky**: `2023-09-23` to `2025-05-15`
+- **sepolia**: `2023-02-28` to `2025-05-15`
 
 ### Examples
 
@@ -919,7 +919,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -999,8 +999,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_block_withdrawal.sql
 ## canonical_beacon_blob_sidecar
 
 Contains a blob sidecar from a beacon block.
@@ -1008,9 +1008,9 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2025-05-14`
-- **holesky**: `2024-02-07` to `2025-05-14`
-- **sepolia**: `2024-01-30` to `2025-05-14`
+- **mainnet**: `2024-03-13` to `2025-05-15`
+- **holesky**: `2024-02-07` to `2025-05-15`
+- **sepolia**: `2024-01-30` to `2025-05-15`
 
 ### Examples
 
@@ -1022,7 +1022,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1105,8 +1105,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar.sql
+2025-05-17 06:03:43 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar_local.sql
+2025-05-17 06:03:43 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_blob_sidecar.sql
 ## canonical_beacon_proposer_duty
 
 Contains a proposer duty from a beacon block.
@@ -1114,9 +1114,9 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-05-14`
+- **sepolia**: `2022-06-20` to `2025-05-15`
 
 ### Examples
 
@@ -1128,7 +1128,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1204,8 +1204,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the even* |
 
-2025-05-16 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty_local.sql
-2025-05-16 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty.sql
+2025-05-17 06:03:44 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty_local.sql
+2025-05-17 06:03:44 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_proposer_duty.sql
 ## canonical_beacon_elaborated_attestation
 
 Contains elaborated attestations from beacon blocks.
@@ -1213,9 +1213,9 @@ Contains elaborated attestations from beacon blocks.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
 - **holesky**: `2023-09-23` to `2025-04-27`
-- **sepolia**: `2022-06-20` to `2025-05-14`
+- **sepolia**: `2022-06-20` to `2025-05-15`
 
 ### Examples
 
@@ -1227,7 +1227,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2025/5/9.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2025/5/10.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1316,8 +1316,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation_local.sql
-2025-05-16 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation.sql
+2025-05-17 06:03:44 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation_local.sql
+2025-05-17 06:03:44 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_elaborated_attestation.sql
 ## canonical_beacon_validators
 
 Contains a validator state for an epoch.
@@ -1325,9 +1325,9 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2025-05-14`
+- **mainnet**: `2020-12-01` to `2025-05-15`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-05-14`
+- **sepolia**: `2022-06-20` to `2025-05-15`
 
 ### Examples
 
@@ -1339,7 +1339,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2025/5/9/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2025/5/10/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1420,8 +1420,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_local.sql
-2025-05-16 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators.sql
+2025-05-17 06:03:44 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_local.sql
+2025-05-17 06:03:44 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators.sql
 ## canonical_beacon_validators_pubkeys
 
 Contains a validator state for an epoch.
@@ -1432,7 +1432,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `1915200`
+- **mainnet**: `0` to `1916150`
 - **holesky**: `0` to `1923750`
 - **sepolia**: `0` to `1900`
 
@@ -1533,6 +1533,6 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-16 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys_local.sql
-2025-05-16 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys.sql
+2025-05-17 06:03:44 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys_local.sql
+2025-05-17 06:03:44 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_beacon_validators_pubkeys.sql
 <!-- schema_end -->
