@@ -402,103 +402,103 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-05-18), holesky (2023-09-28 to 2025-05-18), sepolia (2022-06-25 to 2025-05-18)
+- **Networks**: mainnet (2023-09-04 to 2025-05-19), holesky (2023-09-28 to 2025-05-19), sepolia (2022-06-25 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-05-18), holesky (2023-09-18 to 2025-05-18), sepolia (2023-08-31 to 2025-05-18)
+- **Networks**: mainnet (2023-06-01 to 2025-05-19), holesky (2023-09-18 to 2025-05-19), sepolia (2023-08-31 to 2025-05-18)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
 - **Description**: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-03-13 to 2025-05-18), holesky (2024-02-07 to 2025-05-18), sepolia (2024-01-30 to 2025-05-18)
+- **Networks**: mainnet (2024-03-13 to 2025-05-19), holesky (2024-02-07 to 2025-05-19), sepolia (2024-01-30 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_block
 - **Database**: default
 - **Description**: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-12-24 to 2025-05-18), sepolia (2023-12-24 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-12-24 to 2025-05-19), sepolia (2023-12-24 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_chain_reorg
 - **Database**: default
 - **Description**: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-03-01 to 2025-05-18), holesky (2024-02-05 to 2025-05-18), sepolia (2023-12-30 to 2025-05-18)
+- **Networks**: mainnet (2023-03-01 to 2025-05-19), holesky (2024-02-05 to 2025-05-19), sepolia (2023-12-30 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_contribution_and_proof
 - **Database**: default
 - **Description**: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 - **Partitioning**: contribution_slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-08-31 to 2025-05-18), holesky (2023-12-24 to 2025-05-18), sepolia (2023-12-24 to 2025-05-18)
+- **Networks**: mainnet (2023-08-31 to 2025-05-19), holesky (2023-12-24 to 2025-05-19), sepolia (2023-12-24 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_finalized_checkpoint
 - **Database**: default
 - **Description**: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 - **Partitioning**: epoch_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-03-26 to 2025-05-18), sepolia (2023-03-26 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-03-26 to 2025-05-19), sepolia (2023-03-26 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_head
 - **Database**: default
 - **Description**: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-12-05 to 2025-05-18), sepolia (2023-12-05 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-12-05 to 2025-05-19), sepolia (2023-12-05 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_voluntary_exit
 - **Database**: default
 - **Description**: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 - **Partitioning**: wallclock_epoch_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-28 to 2025-05-12), sepolia (2023-10-01 to null)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-28 to 2025-05-12), sepolia (2023-10-01 to null)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_validator_attestation_data
 - **Database**: default
 - **Description**: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-08-31 to 2025-05-18), holesky (2023-12-24 to 2025-05-18), sepolia (2023-12-24 to 2025-05-18)
+- **Networks**: mainnet (2023-08-31 to 2025-05-19), holesky (2023-12-24 to 2025-05-19), sepolia (2023-12-24 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v2_beacon_block
 - **Database**: default
 - **Description**: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-28 to 2025-05-18), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-28 to 2025-05-19), sepolia (2022-06-20 to 2025-05-19)
 - **Tags**: Consensus layer
 ### mempool_transaction
 - **Database**: default
 - **Description**: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2023-03-03 to 2025-05-18), holesky (2024-01-08 to 2025-05-18), sepolia (2024-01-08 to 2025-05-18)
+- **Networks**: mainnet (2023-03-03 to 2025-05-19), holesky (2024-01-08 to 2025-05-19), sepolia (2024-01-08 to 2025-05-19)
 - **Tags**: Execution layer, Transaction, Mempool
 ### beacon_api_eth_v1_proposer_duty
 - **Database**: default
 - **Description**: Contains a proposer duty from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-03 to 2025-05-18), holesky (2024-04-03 to 2025-05-18), sepolia (2024-04-03 to 2025-05-18)
+- **Networks**: mainnet (2024-04-03 to 2025-05-19), holesky (2024-04-03 to 2025-05-19), sepolia (2024-04-03 to 2025-05-19)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v3_validator_block
 - **Database**: default
 - **Description**: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-11-25 to 2025-05-18), holesky (2024-11-25 to 2025-05-18), sepolia (2024-11-25 to 2025-05-18)
+- **Networks**: mainnet (2024-11-25 to 2025-05-19), holesky (2024-11-25 to 2025-05-19), sepolia (2024-11-25 to 2025-05-19)
 - **Tags**: Consensus layer
 ### canonical_beacon_block
 - **Database**: default
 - **Description**: Contains beacon block from a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-05-18), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-05-19), sepolia (2022-06-20 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_committee
 - **Database**: default
 - **Description**: Contains canonical beacon API /eth/v1/beacon/committees data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_attester_slashing
 - **Database**: default
 - **Description**: Contains attester slashing from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-04-29), holesky (2023-09-23 to 2025-05-18), sepolia (2022-06-22 to null)
+- **Networks**: mainnet (2020-12-01 to 2025-04-29), holesky (2023-09-23 to 2025-05-19), sepolia (2022-06-22 to null)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_proposer_slashing
 - **Database**: default
@@ -510,19 +510,19 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains bls to execution change from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-04-12 to 2025-05-18), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-16)
+- **Networks**: mainnet (2023-04-12 to 2025-05-19), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-16)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_execution_transaction
 - **Database**: default
 - **Description**: Contains execution transaction from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2022-09-06 to 2025-05-18), holesky (2023-09-23 to 2025-05-18), sepolia (2022-06-22 to 2025-05-18)
+- **Networks**: mainnet (2022-09-06 to 2025-05-19), holesky (2023-09-23 to 2025-05-19), sepolia (2022-06-22 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_voluntary_exit
 - **Database**: default
 - **Description**: Contains a voluntary exit from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-05-12), sepolia (2022-06-22 to 2025-04-27)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-05-12), sepolia (2022-06-22 to 2025-04-27)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_deposit
 - **Database**: default
@@ -534,169 +534,169 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a withdrawal from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-04-12 to 2025-05-18), holesky (2023-09-23 to 2025-05-18), sepolia (2023-02-28 to 2025-05-18)
+- **Networks**: mainnet (2023-04-12 to 2025-05-19), holesky (2023-09-23 to 2025-05-19), sepolia (2023-02-28 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_blob_sidecar
 - **Database**: default
 - **Description**: Contains a blob sidecar from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-03-13 to 2025-05-18), holesky (2024-02-07 to 2025-05-18), sepolia (2024-01-30 to 2025-05-18)
+- **Networks**: mainnet (2024-03-13 to 2025-05-19), holesky (2024-02-07 to 2025-05-19), sepolia (2024-01-30 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_proposer_duty
 - **Database**: default
 - **Description**: Contains a proposer duty from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_elaborated_attestation
 - **Database**: default
 - **Description**: Contains elaborated attestations from beacon blocks.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-20 to 2025-05-19)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-18)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 1920800), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 1921250), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon attestation data.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2024-05-01 to 2025-05-18), holesky (2024-05-01 to 2025-05-12), sepolia (2024-05-01 to 2025-05-18)
+- **Networks**: mainnet (2024-05-01 to 2025-05-19), holesky (2024-05-01 to 2025-05-12), sepolia (2024-05-01 to 2025-05-19)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_beacon_block
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon block data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2024-04-26 to 2025-05-12), sepolia (2024-04-26 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2024-04-26 to 2025-05-12), sepolia (2024-04-26 to 2025-05-19)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_blob_sidecar
 - **Database**: default
 - **Description**: Table for libp2p gossipsub blob sidecar data
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-05-18), holesky (2024-06-03 to 2025-05-12), sepolia (2024-06-03 to 2025-05-18)
+- **Networks**: mainnet (2020-12-01 to 2025-05-19), holesky (2024-06-03 to 2025-05-12), sepolia (2024-06-03 to 2025-05-19)
 - **Tags**: Consensus layer, P2P
 ### mev_relay_bid_trace
 - **Database**: default
 - **Description**: Contains MEV relay block bids data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-09-13 to 2025-05-18), holesky (2024-09-13 to 2025-05-18), sepolia (2024-09-13 to 2025-05-18)
+- **Networks**: mainnet (2024-09-13 to 2025-05-19), holesky (2024-09-13 to 2025-05-19), sepolia (2024-09-13 to 2025-05-19)
 - **Tags**: 
 ### mev_relay_proposer_payload_delivered
 - **Database**: default
 - **Description**: Contains MEV relay proposer payload delivered data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-09-16 to 2025-05-18), holesky (2024-09-16 to 2025-05-18), sepolia (2024-09-16 to 2025-05-18)
+- **Networks**: mainnet (2024-09-16 to 2025-05-19), holesky (2024-09-16 to 2025-05-19), sepolia (2024-09-16 to 2025-05-19)
 - **Tags**: Consensus layer, Execution layer, MEV
 ### mev_relay_validator_registration
 - **Database**: default
 - **Description**: Contains MEV relay validator registrations data.
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-12-11 to 2025-05-18), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-05-18)
+- **Networks**: mainnet (2024-12-11 to 2025-05-19), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-05-19)
 - **Tags**: Consensus layer, Execution layer, MEV
 ### canonical_execution_block
 - **Database**: default
 - **Description**: Contains canonical execution block data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 8026000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 8026000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_transaction
 - **Database**: default
 - **Description**: Contains canonical execution transaction data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_traces
 - **Database**: default
 - **Description**: Contains canonical execution traces data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_logs
 - **Database**: default
 - **Description**: Contains canonical execution logs data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_contracts
 - **Database**: default
 - **Description**: Contains canonical execution contract data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_four_byte_counts
 - **Database**: default
 - **Description**: Contains canonical execution four byte count data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_address_appearances
 - **Database**: default
 - **Description**: Contains canonical execution address appearance data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_balance_diffs
 - **Database**: default
 - **Description**: Contains canonical execution balance diff data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_balance_reads
 - **Database**: default
 - **Description**: Contains canonical execution balance read data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_erc20_transfers
 - **Database**: default
 - **Description**: Contains canonical execution erc20 transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_erc721_transfers
 - **Database**: default
 - **Description**: Contains canonical execution erc721 transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_native_transfers
 - **Database**: default
 - **Description**: Contains canonical execution native transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_nonce_diffs
 - **Database**: default
 - **Description**: Contains canonical execution nonce diff data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_nonce_reads
 - **Database**: default
 - **Description**: Contains canonical execution nonce read data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_storage_diffs
 - **Database**: default
 - **Description**: Contains canonical execution storage diffs data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22512000), holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: mainnet (0 to 22520000), holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_storage_reads
 - **Database**: default
 - **Description**: Contains canonical execution storage reads data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: holesky (0 to 3857000), sepolia (0 to 7726000)
+- **Networks**: holesky (0 to 3863000), sepolia (0 to 7726000)
 - **Tags**: Execution layer, Finalized
 
 ## Schema Documentation
