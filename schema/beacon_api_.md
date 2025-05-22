@@ -49,7 +49,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2025/5/14/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2025/5/15/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -126,8 +126,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_beacon_committee_local.sql
-2025-05-21 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_beacon_committee.sql
+2025-05-22 06:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_beacon_committee_local.sql
+2025-05-22 06:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_beacon_committee.sql
 ## beacon_api_eth_v1_events_attestation
 
 Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -137,7 +137,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 
 - **mainnet**: `2023-06-01` to `2025-05-20`
 - **holesky**: `2023-09-18` to `2025-05-20`
-- **sepolia**: `2023-08-31` to `2025-05-19`
+- **sepolia**: `2023-08-31` to `2025-05-20`
 
 ### Examples
 
@@ -149,7 +149,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2025/5/14/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2025/5/15/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -231,8 +231,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_attestation_local.sql
-2025-05-21 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_attestation.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_attestation_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_attestation.sql
 ## beacon_api_eth_v1_events_blob_sidecar
 
 Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
@@ -254,7 +254,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_blob_sidecar/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -334,8 +334,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_blob_sidecar_local.sql
-2025-05-21 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_blob_sidecar.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_blob_sidecar_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_blob_sidecar.sql
 ## beacon_api_eth_v1_events_block
 
 Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -357,7 +357,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -435,8 +435,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_block_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_block.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_block_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_block.sql
 ## beacon_api_eth_v1_events_chain_reorg
 
 Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
@@ -458,7 +458,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -540,8 +540,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_chain_reorg_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_chain_reorg.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_chain_reorg_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_chain_reorg.sql
 ## beacon_api_eth_v1_events_contribution_and_proof
 
 Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -563,7 +563,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -646,8 +646,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_contribution_and_proof_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_contribution_and_proof.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_contribution_and_proof_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_contribution_and_proof.sql
 ## beacon_api_eth_v1_events_finalized_checkpoint
 
 Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
@@ -669,7 +669,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -745,8 +745,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_finalized_checkpoint_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_finalized_checkpoint.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_finalized_checkpoint_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_finalized_checkpoint.sql
 ## beacon_api_eth_v1_events_head
 
 Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
@@ -768,7 +768,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -849,8 +849,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_head_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_head.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_head_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_head.sql
 ## beacon_api_eth_v1_events_voluntary_exit
 
 Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
@@ -872,7 +872,7 @@ Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the fol
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -951,8 +951,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_voluntary_exit_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_voluntary_exit.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_voluntary_exit_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_events_voluntary_exit.sql
 ## beacon_api_eth_v1_validator_attestation_data
 
 Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -974,7 +974,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1060,8 +1060,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_validator_attestation_data_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_validator_attestation_data.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_validator_attestation_data_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_validator_attestation_data.sql
 ## beacon_api_eth_v2_beacon_block
 
 Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
@@ -1083,7 +1083,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1180,8 +1180,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v2_beacon_block_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v2_beacon_block.sql
+2025-05-22 06:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v2_beacon_block_local.sql
+2025-05-22 06:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v2_beacon_block.sql
 ## beacon_api_eth_v1_proposer_duty
 
 Contains a proposer duty from a beacon block.
@@ -1203,7 +1203,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1280,8 +1280,8 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_proposer_duty_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_proposer_duty.sql
+2025-05-22 06:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_proposer_duty_local.sql
+2025-05-22 06:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v1_proposer_duty.sql
 ## beacon_api_eth_v3_validator_block
 
 Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
@@ -1303,7 +1303,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v3_validator_block/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v3_validator_block/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1392,6 +1392,6 @@ echo """
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v3_validator_block_local.sql
-2025-05-21 18:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v3_validator_block.sql
+2025-05-22 06:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v3_validator_block_local.sql
+2025-05-22 06:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/beacon_api_eth_v3_validator_block.sql
 <!-- schema_end -->

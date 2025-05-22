@@ -36,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -125,8 +125,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
-2025-05-21 18:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
+2025-05-22 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace_local.sql
+2025-05-22 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_bid_trace.sql
 ## mev_relay_proposer_payload_delivered
 
 Contains MEV relay proposer payload delivered data.
@@ -148,7 +148,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -230,8 +230,8 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
-2025-05-21 18:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
+2025-05-22 06:03:52 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered_local.sql
+2025-05-22 06:03:52 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_proposer_payload_delivered.sql
 ## mev_relay_validator_registration
 
 Contains MEV relay validator registrations data.
@@ -253,7 +253,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/5/14.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/5/15.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -331,6 +331,6 @@ echo """
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-21 18:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
-2025-05-21 18:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
+2025-05-22 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration_local.sql
+2025-05-22 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mev_relay_validator_registration.sql
 <!-- schema_end -->
