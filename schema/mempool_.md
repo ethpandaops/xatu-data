@@ -20,9 +20,9 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-03-03` to `2025-05-22`
-- **holesky**: `2024-01-08` to `2025-05-22`
-- **sepolia**: `2024-01-08` to `2025-05-22`
+- **mainnet**: `2023-03-03` to `2025-05-23`
+- **holesky**: `2024-01-08` to `2025-05-23`
+- **sepolia**: `2024-01-08` to `2025-05-23`
 
 ### Examples
 
@@ -34,7 +34,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2025/5/17.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2025/5/18.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -119,6 +119,6 @@ echo """
 | **meta_execution_fork_id_next** | `LowCardinality(String)` | *The fork ID of the next planned Ethereum network upgrade* |
 | **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
-2025-05-24 06:03:30 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
-2025-05-24 06:03:30 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
+2025-05-25 06:03:49 - Local table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction_local.sql
+2025-05-25 06:03:49 - Distributed table SQL DDL saved to ./schema/clickhouse/default/mempool_transaction.sql
 <!-- schema_end -->
