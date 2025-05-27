@@ -119,8 +119,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_block_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_block.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_block_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_block.sql
 ## canonical_execution_transaction
 
 Contains canonical execution transaction data.
@@ -222,8 +222,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_transaction_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_transaction.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_transaction_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_transaction.sql
 ## canonical_execution_traces
 
 Contains canonical execution traces data.
@@ -327,8 +327,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_traces_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_traces.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_traces_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_traces.sql
 ## canonical_execution_logs
 
 Contains canonical execution logs data.
@@ -423,8 +423,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_logs_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_logs.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_logs_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_logs.sql
 ## canonical_execution_contracts
 
 Contains canonical execution contract data.
@@ -521,8 +521,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_contracts_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_contracts.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_contracts_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_contracts.sql
 ## canonical_execution_four_byte_counts
 
 Contains canonical execution four byte count data.
@@ -615,8 +615,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_four_byte_counts_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_four_byte_counts.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_four_byte_counts_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_four_byte_counts.sql
 ## canonical_execution_address_appearances
 
 Contains canonical execution address appearance data.
@@ -705,8 +705,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_address_appearances_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_address_appearances.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_address_appearances_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_address_appearances.sql
 ## canonical_execution_balance_diffs
 
 Contains canonical execution balance diff data.
@@ -797,8 +797,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_diffs_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_diffs.sql
+2025-05-27 06:03:53 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_diffs_local.sql
+2025-05-27 06:03:53 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_diffs.sql
 ## canonical_execution_balance_reads
 
 Contains canonical execution balance read data.
@@ -891,8 +891,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_reads_local.sql
-2025-05-26 18:03:47 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_reads.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_reads_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_balance_reads.sql
 ## canonical_execution_erc20_transfers
 
 Contains canonical execution erc20 transfer data.
@@ -985,8 +985,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:47 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc20_transfers_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc20_transfers.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc20_transfers_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc20_transfers.sql
 ## canonical_execution_erc721_transfers
 
 Contains canonical execution erc721 transfer data.
@@ -1079,8 +1079,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc721_transfers_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc721_transfers.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc721_transfers_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_erc721_transfers.sql
 ## canonical_execution_native_transfers
 
 Contains canonical execution native transfer data.
@@ -1172,8 +1172,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_native_transfers_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_native_transfers.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_native_transfers_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_native_transfers.sql
 ## canonical_execution_nonce_diffs
 
 Contains canonical execution nonce diff data.
@@ -1264,8 +1264,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_diffs_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_diffs.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_diffs_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_diffs.sql
 ## canonical_execution_nonce_reads
 
 Contains canonical execution nonce read data.
@@ -1358,8 +1358,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_reads_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_reads.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_reads_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_nonce_reads.sql
 ## canonical_execution_storage_diffs
 
 Contains canonical execution storage diffs data.
@@ -1451,8 +1451,8 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_diffs_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_diffs.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_diffs_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_diffs.sql
 ## canonical_execution_storage_reads
 
 Contains canonical execution storage reads data.
@@ -1545,6 +1545,6 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-2025-05-26 18:03:48 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_reads_local.sql
-2025-05-26 18:03:48 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_reads.sql
+2025-05-27 06:03:54 - Local table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_reads_local.sql
+2025-05-27 06:03:54 - Distributed table SQL DDL saved to ./schema/clickhouse/default/canonical_execution_storage_reads.sql
 <!-- schema_end -->
