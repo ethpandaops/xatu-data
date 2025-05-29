@@ -685,7 +685,7 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p gossipsub blob sidecar data
-  - name: libp2p_trace_connected
+  - name: libp2p_connected
     database: default
     excluded_columns: []
     partitioning:
@@ -705,8 +705,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace connected events
-  - name: libp2p_trace_disconnected
+    description: Table for libp2p connected events
+  - name: libp2p_disconnected
     database: default
     excluded_columns: []
     partitioning:
@@ -726,8 +726,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace disconnected events
-  - name: libp2p_trace_add_peer
+    description: Table for libp2p disconnected events
+  - name: libp2p_add_peer
     database: default
     excluded_columns: []
     partitioning:
@@ -747,8 +747,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace add peer events
-  - name: libp2p_trace_remove_peer
+    description: Table for libp2p add peer events
+  - name: libp2p_remove_peer
     database: default
     excluded_columns: []
     partitioning:
@@ -768,8 +768,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace remove peer events
-  - name: libp2p_trace_recv_rpc
+    description: Table for libp2p remove peer events
+  - name: libp2p_recv_rpc
     database: default
     excluded_columns: []
     partitioning:
@@ -789,8 +789,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace recv rpc events
-  - name: libp2p_trace_send_rpc
+    description: Table for libp2p recv rpc events
+  - name: libp2p_send_rpc
     database: default
     excluded_columns: []
     partitioning:
@@ -810,8 +810,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace send rpc events
-  - name: libp2p_trace_drop_rpc
+    description: Table for libp2p send rpc events
+  - name: libp2p_drop_rpc
     database: default
     excluded_columns: []
     partitioning:
@@ -831,8 +831,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace drop rpc events
-  - name: libp2p_trace_join
+    description: Table for libp2p drop rpc events
+  - name: libp2p_join
     database: default
     excluded_columns: []
     partitioning:
@@ -852,8 +852,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace join events
-  - name: libp2p_trace_leave
+    description: Table for libp2p join events
+  - name: libp2p_leave
     database: default
     excluded_columns: []
     partitioning:
@@ -873,8 +873,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace leave events
-  - name: libp2p_trace_graft
+    description: Table for libp2p leave events
+  - name: libp2p_graft
     database: default
     excluded_columns: []
     partitioning:
@@ -894,8 +894,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace graft events
-  - name: libp2p_trace_prune
+    description: Table for libp2p graft events
+  - name: libp2p_prune
     database: default
     excluded_columns: []
     partitioning:
@@ -915,8 +915,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace prune events
-  - name: libp2p_trace_publish_message
+    description: Table for libp2p prune events
+  - name: libp2p_publish_message
     database: default
     excluded_columns: []
     partitioning:
@@ -936,8 +936,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace publish message events
-  - name: libp2p_trace_reject_message
+    description: Table for libp2p publish message events
+  - name: libp2p_reject_message
     database: default
     excluded_columns: []
     partitioning:
@@ -957,8 +957,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace reject message events
-  - name: libp2p_trace_duplicate_message
+    description: Table for libp2p reject message events
+  - name: libp2p_duplicate_message
     database: default
     excluded_columns: []
     partitioning:
@@ -978,8 +978,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace duplicate message events
-  - name: libp2p_trace_deliver_message
+    description: Table for libp2p duplicate message events
+  - name: libp2p_deliver_message
     database: default
     excluded_columns: []
     partitioning:
@@ -999,8 +999,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace deliver message events
-  - name: libp2p_trace_handle_metadata
+    description: Table for libp2p deliver message events
+  - name: libp2p_handle_metadata
     database: default
     excluded_columns: []
     partitioning:
@@ -1020,8 +1020,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace handle metadata events
-  - name: libp2p_trace_handle_status
+    description: Table for libp2p handle metadata events
+  - name: libp2p_handle_status
     database: default
     excluded_columns: []
     partitioning:
@@ -1041,8 +1041,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace handle status events
-  - name: libp2p_trace_gossipsub_beacon_block
+    description: Table for libp2p handle status events
+  - name: libp2p_rpc_meta_control_ihave
     database: default
     excluded_columns: []
     partitioning:
@@ -1062,8 +1062,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace gossipsub beacon block events
-  - name: libp2p_trace_gossipsub_beacon_attestation
+    description: Table for libp2p rpc meta control ihave events
+  - name: libp2p_rpc_meta_control_iwant
     database: default
     excluded_columns: []
     partitioning:
@@ -1083,8 +1083,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace gossipsub beacon attestation events
-  - name: libp2p_trace_gossipsub_blob_sidecar
+    description: Table for libp2p rpc meta control iwant events
+  - name: libp2p_rpc_meta_control_idontwant
     database: default
     excluded_columns: []
     partitioning:
@@ -1104,8 +1104,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace gossipsub blob sidecar events
-  - name: libp2p_trace_rpc_meta_control_ihave
+    description: Table for libp2p rpc meta control idontwant events
+  - name: libp2p_rpc_meta_control_graft
     database: default
     excluded_columns: []
     partitioning:
@@ -1125,8 +1125,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace rpc meta control ihave events
-  - name: libp2p_trace_rpc_meta_control_iwant
+    description: Table for libp2p rpc meta control graft events
+  - name: libp2p_rpc_meta_control_prune
     database: default
     excluded_columns: []
     partitioning:
@@ -1146,8 +1146,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace rpc meta control iwant events
-  - name: libp2p_trace_rpc_meta_control_idontwant
+    description: Table for libp2p rpc meta control prune events
+  - name: libp2p_rpc_meta_subscription
     database: default
     excluded_columns: []
     partitioning:
@@ -1167,8 +1167,8 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace rpc meta control idontwant events
-  - name: libp2p_trace_rpc_meta_control_graft
+    description: Table for libp2p rpc meta subscription events
+  - name: libp2p_rpc_meta_message
     database: default
     excluded_columns: []
     partitioning:
@@ -1188,70 +1188,7 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p trace rpc meta control graft events
-  - name: libp2p_trace_rpc_meta_control_prune
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
-    tags:
-      - Consensus layer
-      - P2P
-    description: Table for libp2p trace rpc meta control prune events
-  - name: libp2p_trace_rpc_meta_subscription
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
-    tags:
-      - Consensus layer
-      - P2P
-    description: Table for libp2p trace rpc meta subscription events
-  - name: libp2p_trace_rpc_meta_message
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
-    tags:
-      - Consensus layer
-      - P2P
-    description: Table for libp2p trace rpc meta message events
+    description: Table for libp2p rpc meta message events
   - name: mev_relay_bid_trace
     database: default
     excluded_columns: []
