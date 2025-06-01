@@ -694,14 +694,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -715,14 +709,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -736,14 +724,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -757,14 +739,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -778,14 +754,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -799,14 +769,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -820,14 +784,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -841,14 +799,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -862,14 +814,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -883,14 +829,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -904,14 +844,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -925,14 +859,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -946,14 +874,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -967,14 +889,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -988,14 +904,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1009,14 +919,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1030,14 +934,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1051,14 +949,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1072,14 +964,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1093,14 +979,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1114,14 +994,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1135,14 +1009,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1156,14 +1024,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1177,14 +1039,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      holesky:
-        from: "2025-05-29"
-        to: "2025-05-29"
-      sepolia:
-        from: "2025-05-29"
-        to: "2025-05-29"
+        from: "2025-05-31"
+        to: "2025-05-31"
     tags:
       - Consensus layer
       - P2P
@@ -1198,14 +1054,8 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2024-09-13"
+        from: "2025-05-31"
         to: "2025-05-31"
-      holesky:
-        from: "2024-09-13"
-        to: "2025-05-31"
-      sepolia:
-        from: "2024-09-13"
-        to: "2025-05-26"
     description: Contains MEV relay block bids data.
   - name: mev_relay_proposer_payload_delivered
     database: default
