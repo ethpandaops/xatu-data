@@ -157,13 +157,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-05-31), holesky (2023-09-28 to 2025-05-30), sepolia (2022-06-25 to 2025-05-31)
+- **Networks**: mainnet (2023-09-04 to 2025-05-31), holesky (2023-09-28 to 2025-05-31), sepolia (2022-06-25 to 2025-05-31)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-05-30), holesky (2023-09-18 to 2025-05-31), sepolia (2023-08-31 to 2025-05-31)
+- **Networks**: mainnet (2023-06-01 to 2025-05-31), holesky (2023-09-18 to 2025-05-31), sepolia (2023-08-31 to 2025-05-31)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
@@ -313,13 +313,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-30)
+- **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-31)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 1939600), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 1940250), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
@@ -338,6 +338,150 @@ The following tables are available in the Xatu dataset:
 - **Description**: Table for libp2p gossipsub blob sidecar data
 - **Partitioning**: slot_start_date_time (datetime), daily
 - **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2024-06-03 to 2025-05-31), sepolia (2024-06-03 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_connected
+- **Database**: default
+- **Description**: Table for libp2p connected events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_disconnected
+- **Database**: default
+- **Description**: Table for libp2p disconnected events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_add_peer
+- **Database**: default
+- **Description**: Table for libp2p add peer events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_remove_peer
+- **Database**: default
+- **Description**: Table for libp2p remove peer events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_recv_rpc
+- **Database**: default
+- **Description**: Table for libp2p recv rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_send_rpc
+- **Database**: default
+- **Description**: Table for libp2p send rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_drop_rpc
+- **Database**: default
+- **Description**: Table for libp2p drop rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_join
+- **Database**: default
+- **Description**: Table for libp2p join events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_leave
+- **Database**: default
+- **Description**: Table for libp2p leave events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_graft
+- **Database**: default
+- **Description**: Table for libp2p graft events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_prune
+- **Database**: default
+- **Description**: Table for libp2p prune events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_publish_message
+- **Database**: default
+- **Description**: Table for libp2p publish message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_reject_message
+- **Database**: default
+- **Description**: Table for libp2p reject message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_duplicate_message
+- **Database**: default
+- **Description**: Table for libp2p duplicate message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_deliver_message
+- **Database**: default
+- **Description**: Table for libp2p deliver message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_handle_metadata
+- **Database**: default
+- **Description**: Table for libp2p handle metadata events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_handle_status
+- **Database**: default
+- **Description**: Table for libp2p handle status events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_ihave
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control ihave events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_iwant
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control iwant events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_idontwant
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control idontwant events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_graft
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control graft events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_prune
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control prune events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_subscription
+- **Database**: default
+- **Description**: Table for libp2p rpc meta subscription events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_message
+- **Database**: default
+- **Description**: Table for libp2p rpc meta message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
 - **Tags**: Consensus layer, P2P
 ### mev_relay_bid_trace
 - **Database**: default

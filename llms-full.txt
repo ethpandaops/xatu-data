@@ -402,13 +402,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-05-31), holesky (2023-09-28 to 2025-05-30), sepolia (2022-06-25 to 2025-05-31)
+- **Networks**: mainnet (2023-09-04 to 2025-05-31), holesky (2023-09-28 to 2025-05-31), sepolia (2022-06-25 to 2025-05-31)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-05-30), holesky (2023-09-18 to 2025-05-31), sepolia (2023-08-31 to 2025-05-31)
+- **Networks**: mainnet (2023-06-01 to 2025-05-31), holesky (2023-09-18 to 2025-05-31), sepolia (2023-08-31 to 2025-05-31)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
@@ -558,13 +558,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-30)
+- **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-05-31)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 1939600), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 1940250), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
@@ -583,6 +583,150 @@ The following tables are available in the Xatu dataset:
 - **Description**: Table for libp2p gossipsub blob sidecar data
 - **Partitioning**: slot_start_date_time (datetime), daily
 - **Networks**: mainnet (2020-12-01 to 2025-05-31), holesky (2024-06-03 to 2025-05-31), sepolia (2024-06-03 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_connected
+- **Database**: default
+- **Description**: Table for libp2p connected events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_disconnected
+- **Database**: default
+- **Description**: Table for libp2p disconnected events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_add_peer
+- **Database**: default
+- **Description**: Table for libp2p add peer events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_remove_peer
+- **Database**: default
+- **Description**: Table for libp2p remove peer events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_recv_rpc
+- **Database**: default
+- **Description**: Table for libp2p recv rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_send_rpc
+- **Database**: default
+- **Description**: Table for libp2p send rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_drop_rpc
+- **Database**: default
+- **Description**: Table for libp2p drop rpc events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_join
+- **Database**: default
+- **Description**: Table for libp2p join events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_leave
+- **Database**: default
+- **Description**: Table for libp2p leave events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_graft
+- **Database**: default
+- **Description**: Table for libp2p graft events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_prune
+- **Database**: default
+- **Description**: Table for libp2p prune events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_publish_message
+- **Database**: default
+- **Description**: Table for libp2p publish message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_reject_message
+- **Database**: default
+- **Description**: Table for libp2p reject message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_duplicate_message
+- **Database**: default
+- **Description**: Table for libp2p duplicate message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_deliver_message
+- **Database**: default
+- **Description**: Table for libp2p deliver message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_handle_metadata
+- **Database**: default
+- **Description**: Table for libp2p handle metadata events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_handle_status
+- **Database**: default
+- **Description**: Table for libp2p handle status events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_ihave
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control ihave events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_iwant
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control iwant events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_idontwant
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control idontwant events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_graft
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control graft events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_control_prune
+- **Database**: default
+- **Description**: Table for libp2p rpc meta control prune events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_subscription
+- **Database**: default
+- **Description**: Table for libp2p rpc meta subscription events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
+- **Tags**: Consensus layer, P2P
+### libp2p_rpc_meta_message
+- **Database**: default
+- **Description**: Table for libp2p rpc meta message events
+- **Partitioning**: event_date_time (datetime), daily
+- **Networks**: mainnet (2025-05-31 to 2025-05-31)
 - **Tags**: Consensus layer, P2P
 ### mev_relay_bid_trace
 - **Database**: default
@@ -2365,6 +2509,240 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_transaction_lo
 COMMENT 'Contains canonical execution transaction data.'
 ```
 
+##### Table: libp2p_add_peer
+
+```sql
+CREATE TABLE default.libp2p_add_peer
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer',
+    `protocol` LowCardinality(String) COMMENT 'Protocol used by the peer',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_add_peer_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key))
+COMMENT 'Contains the details of the peers added to the libp2p client.'
+```
+
+##### Table: libp2p_connected
+
+```sql
+CREATE TABLE default.libp2p_connected
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `remote_peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the remote peer',
+    `remote_protocol` LowCardinality(String) COMMENT 'Protocol of the remote peer',
+    `remote_transport_protocol` LowCardinality(String) COMMENT 'Transport protocol of the remote peer',
+    `remote_port` UInt16 COMMENT 'Port of the remote peer' CODEC(ZSTD(1)),
+    `remote_ip` Nullable(IPv6) COMMENT 'IP address of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_city` LowCardinality(String) COMMENT 'City of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_country` LowCardinality(String) COMMENT 'Country of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_country_code` LowCardinality(String) COMMENT 'Country code of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_agent_implementation` LowCardinality(String) COMMENT 'Implementation of the remote peer',
+    `remote_agent_version` LowCardinality(String) COMMENT 'Version of the remote peer',
+    `remote_agent_version_major` LowCardinality(String) COMMENT 'Major version of the remote peer',
+    `remote_agent_version_minor` LowCardinality(String) COMMENT 'Minor version of the remote peer',
+    `remote_agent_version_patch` LowCardinality(String) COMMENT 'Patch version of the remote peer',
+    `remote_agent_platform` LowCardinality(String) COMMENT 'Platform of the remote peer',
+    `direction` LowCardinality(String) COMMENT 'Connection direction',
+    `opened` DateTime COMMENT 'Timestamp when the connection was opened' CODEC(DoubleDelta, ZSTD(1)),
+    `transient` Bool COMMENT 'Whether the connection is transient',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_connected_local', cityHash64(event_date_time, meta_network_name, meta_client_name, remote_peer_id_unique_key, direction, opened))
+COMMENT 'Contains the details of the CONNECTED events from the libp2p client.'
+```
+
+##### Table: libp2p_deliver_message
+
+```sql
+CREATE TABLE default.libp2p_deliver_message
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `seq_number` UInt64 COMMENT 'A linearly increasing number that is unique among messages originating from the given peer' CODEC(DoubleDelta, ZSTD(1)),
+    `local_delivery` Bool COMMENT 'Indicates if the message was delivered to in-process subscribers only',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that delivered the message',
+    `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `message_size` UInt32 COMMENT 'Size of the message in bytes' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_deliver_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name, message_id, seq_number))
+COMMENT 'Contains the details of the DELIVER_MESSAGE events from the libp2p client.'
+```
+
+##### Table: libp2p_disconnected
+
+```sql
+CREATE TABLE default.libp2p_disconnected
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `remote_peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the remote peer',
+    `remote_protocol` LowCardinality(String) COMMENT 'Protocol of the remote peer',
+    `remote_transport_protocol` LowCardinality(String) COMMENT 'Transport protocol of the remote peer',
+    `remote_port` UInt16 COMMENT 'Port of the remote peer' CODEC(ZSTD(1)),
+    `remote_ip` Nullable(IPv6) COMMENT 'IP address of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_city` LowCardinality(String) COMMENT 'City of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_country` LowCardinality(String) COMMENT 'Country of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_country_code` LowCardinality(String) COMMENT 'Country code of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the remote peer that generated the event' CODEC(ZSTD(1)),
+    `remote_agent_implementation` LowCardinality(String) COMMENT 'Implementation of the remote peer',
+    `remote_agent_version` LowCardinality(String) COMMENT 'Version of the remote peer',
+    `remote_agent_version_major` LowCardinality(String) COMMENT 'Major version of the remote peer',
+    `remote_agent_version_minor` LowCardinality(String) COMMENT 'Minor version of the remote peer',
+    `remote_agent_version_patch` LowCardinality(String) COMMENT 'Patch version of the remote peer',
+    `remote_agent_platform` LowCardinality(String) COMMENT 'Platform of the remote peer',
+    `direction` LowCardinality(String) COMMENT 'Connection direction',
+    `opened` DateTime COMMENT 'Timestamp when the connection was opened' CODEC(DoubleDelta, ZSTD(1)),
+    `transient` Bool COMMENT 'Whether the connection is transient',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_disconnected_local', cityHash64(event_date_time, meta_network_name, meta_client_name, remote_peer_id_unique_key, direction, opened))
+COMMENT 'Contains the details of the DISCONNECTED events from the libp2p client.'
+```
+
+##### Table: libp2p_drop_rpc
+
+```sql
+CREATE TABLE default.libp2p_drop_rpc
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer receiver',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_drop_rpc_local', unique_key)
+COMMENT 'Contains the details of the RPC messages dropped by the peer.'
+```
+
+##### Table: libp2p_duplicate_message
+
+```sql
+CREATE TABLE default.libp2p_duplicate_message
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `seq_number` UInt64 COMMENT 'A linearly increasing number that is unique among messages originating from the given peer' CODEC(DoubleDelta, ZSTD(1)),
+    `local_delivery` Bool COMMENT 'Indicates if the message was duplicated locally',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that sent the duplicate message',
+    `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `message_size` UInt32 COMMENT 'Size of the message in bytes' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_duplicate_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name, message_id, seq_number))
+COMMENT 'Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.'
+```
+
 ##### Table: libp2p_gossipsub_beacon_attestation
 
 ```sql
@@ -2515,6 +2893,629 @@ CREATE TABLE default.libp2p_gossipsub_blob_sidecar
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_gossipsub_blob_sidecar_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id))
 COMMENT 'Table for libp2p gossipsub blob sidecar data'
+```
+
+##### Table: libp2p_graft
+
+```sql
+CREATE TABLE default.libp2p_graft
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that initiated the GRAFT (eg joined the mesh for this topic) identifies mesh membership changes per peer.',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_graft_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name))
+COMMENT 'Contains the details of the GRAFT events from the libp2p client.'
+```
+
+##### Table: libp2p_handle_metadata
+
+```sql
+CREATE TABLE default.libp2p_handle_metadata
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the RPC',
+    `error` Nullable(String) COMMENT 'Error message if the metadata handling failed' CODEC(ZSTD(1)),
+    `protocol` LowCardinality(String) COMMENT 'The protocol of the metadata handling event',
+    `attnets` String COMMENT 'Attestation subnets the peer is subscribed to' CODEC(ZSTD(1)),
+    `seq_number` UInt64 COMMENT 'Sequence number of the metadata' CODEC(DoubleDelta, ZSTD(1)),
+    `syncnets` String COMMENT 'Sync subnets the peer is subscribed to' CODEC(ZSTD(1)),
+    `latency_milliseconds` Decimal(10, 3) COMMENT 'How long it took to handle the metadata request in milliseconds' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_handle_metadata_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, attnets, seq_number, syncnets, latency_milliseconds))
+COMMENT 'Contains the metadata handling events for libp2p peers.'
+```
+
+##### Table: libp2p_handle_status
+
+```sql
+CREATE TABLE default.libp2p_handle_status
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer',
+    `error` Nullable(String) COMMENT 'Error message if the status handling failed' CODEC(ZSTD(1)),
+    `protocol` LowCardinality(String) COMMENT 'The protocol of the status handling event',
+    `request_finalized_epoch` Nullable(UInt32) COMMENT 'Requested finalized epoch' CODEC(DoubleDelta, ZSTD(1)),
+    `request_finalized_root` Nullable(String) COMMENT 'Requested finalized root',
+    `request_fork_digest` LowCardinality(String) COMMENT 'Requested fork digest',
+    `request_head_root` Nullable(FixedString(66)) COMMENT 'Requested head root' CODEC(ZSTD(1)),
+    `request_head_slot` Nullable(UInt32) COMMENT 'Requested head slot' CODEC(ZSTD(1)),
+    `response_finalized_epoch` Nullable(UInt32) COMMENT 'Response finalized epoch' CODEC(DoubleDelta, ZSTD(1)),
+    `response_finalized_root` Nullable(FixedString(66)) COMMENT 'Response finalized root' CODEC(ZSTD(1)),
+    `response_fork_digest` LowCardinality(String) COMMENT 'Response fork digest',
+    `response_head_root` Nullable(FixedString(66)) COMMENT 'Response head root' CODEC(ZSTD(1)),
+    `response_head_slot` Nullable(UInt32) COMMENT 'Response head slot' CODEC(DoubleDelta, ZSTD(1)),
+    `latency_milliseconds` Decimal(10, 3) COMMENT 'How long it took to handle the status request in milliseconds' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_handle_status_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, latency_milliseconds))
+COMMENT 'Contains the status handling events for libp2p peers.'
+```
+
+##### Table: libp2p_join
+
+```sql
+CREATE TABLE default.libp2p_join
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer that joined the topic',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_join_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name))
+COMMENT 'Contains the details of the JOIN events from the libp2p client.'
+```
+
+##### Table: libp2p_leave
+
+```sql
+CREATE TABLE default.libp2p_leave
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer that left the topic',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_leave_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name))
+COMMENT 'Contains the details of the LEAVE events from the libp2p client.'
+```
+
+##### Table: libp2p_prune
+
+```sql
+CREATE TABLE default.libp2p_prune
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that was PRUNED (eg removed from the mesh for this topic) identifies mesh membership changes per peer.',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_prune_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name))
+COMMENT 'Contains the details of the PRUNE events from the libp2p client.'
+```
+
+##### Table: libp2p_publish_message
+
+```sql
+CREATE TABLE default.libp2p_publish_message
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_publish_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, topic_fork_digest_value, topic_name, message_id))
+COMMENT 'Contains the details of the PUBLISH_MESSAGE events from the libp2p client.'
+```
+
+##### Table: libp2p_recv_rpc
+
+```sql
+CREATE TABLE default.libp2p_recv_rpc
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer sender',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_recv_rpc_local', unique_key)
+COMMENT 'Contains the details of the RPC messages received by the peer.'
+```
+
+##### Table: libp2p_reject_message
+
+```sql
+CREATE TABLE default.libp2p_reject_message
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `seq_number` UInt64 COMMENT 'A linearly increasing number that is unique among messages originating from the given peer' CODEC(DoubleDelta, ZSTD(1)),
+    `local_delivery` Bool COMMENT 'Indicates if the message was rejected by local subscriber',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that rejected the message',
+    `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `message_size` UInt32 COMMENT 'Size of the message in bytes' CODEC(ZSTD(1)),
+    `reason` String COMMENT 'Reason for message rejection' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_reject_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name, message_id, seq_number))
+COMMENT 'Contains the details of the REJECT_MESSAGE events from the libp2p client.'
+```
+
+##### Table: libp2p_remove_peer
+
+```sql
+CREATE TABLE default.libp2p_remove_peer
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_remove_peer_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key))
+COMMENT 'Contains the details of the peers removed from the libp2p client.'
+```
+
+##### Table: libp2p_rpc_meta_control_graft
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_control_graft
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each "Graft" control record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the "Graft" control record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the "Graft" control event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta control GRAFT array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the "Graft" control metadata',
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the Graft control',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_graft_local', unique_key)
+COMMENT 'Contains the details of the "Graft" control messages from the peer.'
+```
+
+##### Table: libp2p_rpc_meta_control_idontwant
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_control_idontwant
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each IDONTWANT control record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the IDONTWANT control record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the IDONTWANT control event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta control idontwant array' CODEC(DoubleDelta, ZSTD(1)),
+    `message_index` Int32 COMMENT 'Position in the RPC meta control idontwant message_ids array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the IDONTWANT control metadata',
+    `message_id` String COMMENT 'Identifier of the message associated with the IDONTWANT control' CODEC(ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the IDONTWANT control',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_idontwant_local', unique_key)
+COMMENT 'Contains the details of the IDONTWANT control messages from the peer.'
+```
+
+##### Table: libp2p_rpc_meta_control_ihave
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_control_ihave
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each "I have" control record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the "I have" control record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the "I have" control event' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the "I have" control metadata',
+    `message_index` Int32 COMMENT 'Position in the RPC meta control IWANT message_ids array' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta control IWANT array' CODEC(DoubleDelta, ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `message_id` String COMMENT 'Identifier of the message associated with the "I have" control' CODEC(ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the I have control',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_ihave_local', unique_key)
+COMMENT 'Contains the details of the "I have" control messages from the peer.'
+```
+
+##### Table: libp2p_rpc_meta_control_iwant
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_control_iwant
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each "I want" control record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the "I want" control record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the "I want" control event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta control IWANT array' CODEC(DoubleDelta, ZSTD(1)),
+    `message_index` Int32 COMMENT 'Position in the RPC meta control IWANT message_ids array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the "I want" control metadata',
+    `message_id` String COMMENT 'Identifier of the message associated with the "I want" control' CODEC(ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the I want control',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_iwant_local', unique_key)
+COMMENT 'Contains the details of the "I want" control messages from the peer.'
+```
+
+##### Table: libp2p_rpc_meta_control_prune
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_control_prune
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each "Prune" control record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the "Prune" control record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the "Prune" control event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta control PRUNE array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the "Prune" control metadata',
+    `peer_id_index` Int32 CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the Prune control',
+    `graft_peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the graft peer involved in the Prune control',
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_prune_local', unique_key)
+COMMENT 'Contains the details of the "Prune" control messages from the peer.'
+```
+
+##### Table: libp2p_rpc_meta_message
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_message
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each RPC message record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the RPC message record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the RPC event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta message array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the RPC metadata',
+    `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the RPC',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_message_local', unique_key)
+COMMENT 'Contains the details of the RPC meta messages from the peer'
+```
+
+##### Table: libp2p_rpc_meta_subscription
+
+```sql
+CREATE TABLE default.libp2p_rpc_meta_subscription
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each RPC subscription record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the RPC subscription record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the RPC subscription event' CODEC(DoubleDelta, ZSTD(1)),
+    `control_index` Int32 COMMENT 'Position in the RPC meta subscription array' CODEC(DoubleDelta, ZSTD(1)),
+    `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the RPC subscription metadata',
+    `subscribe` Bool COMMENT 'Boolean indicating if it is a subscription or unsubscription',
+    `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
+    `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
+    `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
+    `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the subscription',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_subscription_local', unique_key)
+COMMENT 'Contains the details of the RPC subscriptions from the peer.'
+```
+
+##### Table: libp2p_send_rpc
+
+```sql
+CREATE TABLE default.libp2p_send_rpc
+(
+    `unique_key` Int64 COMMENT 'Unique identifier for each record',
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer receiver',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+)
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_send_rpc_local', unique_key)
+COMMENT 'Contains the details of the RPC messages sent by the peer.'
 ```
 
 ##### Table: mempool_transaction
