@@ -694,8 +694,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -709,8 +715,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -724,8 +736,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -739,8 +757,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -754,8 +778,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -769,8 +799,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -784,8 +820,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -799,8 +841,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -814,8 +862,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -829,8 +883,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -844,8 +904,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -859,8 +925,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -874,8 +946,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -889,8 +967,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -904,8 +988,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -919,8 +1009,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -934,8 +1030,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -949,8 +1051,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -964,8 +1072,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -979,8 +1093,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -994,8 +1114,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -1009,8 +1135,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -1024,8 +1156,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
@@ -1039,8 +1177,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-05-31"
-        to: "2025-05-31"
+        from: "2025-06-01"
+        to: "2025-06-01"
+      hoodi:
+        from: "2025-06-01"
+        to: "2025-06-01"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-06-01"
     tags:
       - Consensus layer
       - P2P
