@@ -50,11 +50,17 @@ generate_table_schema() {
     local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
     local partition_interval=$(echo "$table_config" | yq e '.partitioning.interval' -)
+    local mainnet_to_date=$(echo "$table_config" | yq e '.networks.mainnet.to' -)
     local formated_url=""
     local example_url=""
 
     if [ "$partition_type" = "datetime" ]; then
-        local example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
+        # Use mainnet 'to' date if available, otherwise fall back to "1 week ago"
+        if [ -n "$mainnet_to_date" ] && [ "$mainnet_to_date" != "null" ]; then
+            local example_date=$(date -d "$mainnet_to_date" +"%Y/%-m/%-d")
+        else
+            local example_date=$(date -d "1 week ago" +"%Y/%-m/%-d")
+        fi
         if [ "$partition_interval" = "daily" ]; then
             formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/YYYY/MM/DD.parquet"
             example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${example_date}.parquet"
