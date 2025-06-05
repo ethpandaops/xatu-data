@@ -68,7 +68,7 @@ generate_table_schema() {
         formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/${partition_interval}/CHUNK_NUMBER.parquet"
         example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{$(( partition_interval * 50 / partition_interval ))..$(( partition_interval * 51 / partition_interval ))}000.parquet"
     fi
-    
+
     local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
     local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
     local should_use_final=false
@@ -183,37 +183,35 @@ generate_table_schema() {
     echo "### Columns"
     echo "| Name | Type | Description |"
     echo "|--------|------|-------------|"
-    
+
     echo "$schema" | while IFS=$'\t' read -r name type comment; do
         if [[ ! " $excluded_columns " =~ " $name " ]]; then
             echo "| **$name** | \`$type\` | *$comment* |"
         fi
     done
-    
+
     echo
 
     # Create directory for SQL files
     mkdir -p "./schema/clickhouse/${database}"
-    
+
     # Get the _local table definition
     local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
-    
+
     # Replace escaped newlines with actual newlines and fix escaped quotes
     sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
-    
+
     # Save the _local table definition
     echo "$sql_ddl_local" > "./schema/clickhouse/${database}/${table_name}_local.sql"
-    log "Local table SQL DDL saved to ./schema/clickhouse/${database}/${table_name}_local.sql"
-    
+
     # Get the distributed table definition
     local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
-    
+
     # Replace escaped newlines with actual newlines and fix escaped quotes
     sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
-    
+
     # Save the distributed table definition
     echo "$sql_ddl_distributed" > "./schema/clickhouse/${database}/${table_name}.sql"
-    log "Distributed table SQL DDL saved to ./schema/clickhouse/${database}/${table_name}.sql"
 }
 
 # Generate schema for each dataset
@@ -300,7 +298,7 @@ generate_datasets_table() {
                 echo -n " ❌ |"
             fi
         done
-        echo 
+        echo
     done
 }
 
@@ -315,7 +313,7 @@ echo "$schema_toc"
 # update ToC
 {
     awk '/<!-- schema_toc_start -->/{exit}1' "$main_schema_file"
-    
+
     echo "<!-- schema_toc_start -->"
     echo "$schema_toc"
     echo "<!-- schema_toc_end -->"
@@ -336,7 +334,7 @@ if [ "${mode}" = "all" ]; then
     # Update Schema.all.md
     {
         awk '/<!-- schema_start -->/{exit}1' "$main_schema_file"
-    
+
         echo "<!-- schema_start -->"
         cat "$temp_schema_file_all"
         echo "<!-- schema_end -->"
