@@ -313,13 +313,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-06-09), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-06-08)
+- **Networks**: mainnet (2020-12-01 to 2025-06-09), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-06-09)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 1953650), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 1954100), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
