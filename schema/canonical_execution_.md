@@ -11,6 +11,7 @@ Data extracted from the execution layer. This data is only derived by a single i
 <!-- schema_toc_start -->
 - [`canonical_execution_block`](#canonical_execution_block)
 - [`canonical_execution_transaction`](#canonical_execution_transaction)
+- [`canonical_execution_transaction_structlog`](#canonical_execution_transaction_structlog)
 - [`canonical_execution_traces`](#canonical_execution_traces)
 - [`canonical_execution_logs`](#canonical_execution_logs)
 - [`canonical_execution_contracts`](#canonical_execution_contracts)
@@ -217,6 +218,102 @@ echo """
 | **n_input_bytes** | `UInt32` | *The transaction input bytes* |
 | **n_input_zero_bytes** | `UInt32` | *The transaction input zero bytes* |
 | **n_input_nonzero_bytes** | `UInt32` | *The transaction input nonzero bytes* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_execution_transaction_structlog
+
+Contains canonical execution transaction structlog data.
+
+### Availability
+Data is partitioned in chunks of **1000** on **block_number** for the following networks:
+
+- **mainnet**: `22627801` to `22694414`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog/1000/CHUNK_NUMBER.parquet
+
+To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `1000`. Take the following examples;
+
+Contains `block_number` between `0` and `999`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/0.parquet
+
+Contains `block_number` between `50000` and `50999`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/50000.parquet
+
+Contains `block_number` between `1000000` and `1001999`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/{1000..1001}000.parquet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/{50..51}000.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog FINAL
+    WHERE
+        block_number BETWEEN 50000 AND 51000
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog FINAL
+    WHERE
+        block_number BETWEEN 50000 AND 51000
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash* |
+| **transaction_index** | `UInt32` | *The transaction position in the block* |
+| **transaction_gas** | `UInt64` | *The transaction gas* |
+| **transaction_failed** | `Bool` | *The transaction failed* |
+| **transaction_return_value** | `Nullable(String)` | *The transaction return value* |
+| **index** | `UInt32` | *The index of this structlog in this transaction* |
+| **program_counter** | `UInt32` | *The program counter* |
+| **operation** | `LowCardinality(String)` | *The operation* |
+| **gas** | `UInt64` | *The gas* |
+| **gas_cost** | `UInt64` | *The gas cost* |
+| **depth** | `UInt64` | *The depth* |
+| **return_data** | `Nullable(String)` | *The return data* |
+| **refund** | `Nullable(UInt64)` | *The refund* |
+| **error** | `Nullable(String)` | *The error* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 

@@ -513,6 +513,12 @@ The following tables are available in the Xatu dataset:
 - **Partitioning**: block_number (integer), 1000
 - **Networks**: mainnet (0 to 22626000), holesky (0 to 3943000), sepolia (0 to 8481000)
 - **Tags**: Execution layer, Finalized
+### canonical_execution_transaction_structlog
+- **Database**: default
+- **Description**: Contains canonical execution transaction structlog data.
+- **Partitioning**: block_number (integer), 1000
+- **Networks**: mainnet (22627801 to 22694414)
+- **Tags**: Execution layer, Finalized
 ### canonical_execution_traces
 - **Database**: default
 - **Description**: Contains canonical execution traces data.
