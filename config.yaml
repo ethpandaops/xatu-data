@@ -1293,6 +1293,21 @@ tables:
       - Execution layer
       - Finalized
     description: Contains canonical execution transaction data.
+  - name: canonical_execution_transaction_structlog
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 1000
+    networks:
+      mainnet:
+        from: "22627801"
+        to: "22694414"
+    tags:
+      - Execution layer
+      - Finalized
+    description: Contains canonical execution transaction structlog data.
   - name: canonical_execution_traces
     database: default
     excluded_columns: []
