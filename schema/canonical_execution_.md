@@ -36,9 +36,9 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22705000`
-- **holesky**: `0` to `4003000`
-- **sepolia**: `0` to `8550000`
+- **mainnet**: `0` to `22712000`
+- **holesky**: `0` to `4009000`
+- **sepolia**: `0` to `8557000`
 
 ### Examples
 
@@ -620,9 +620,9 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22705000`
-- **holesky**: `0` to `4003000`
-- **sepolia**: `0` to `8550000`
+- **mainnet**: `0` to `22712000`
+- **holesky**: `0` to `4009000`
+- **sepolia**: `0` to `8557000`
 
 ### Examples
 
@@ -710,7 +710,7 @@ Contains canonical execution address appearance data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `22633000`
-- **holesky**: `0` to `3974000`
+- **holesky**: `0` to `4007000`
 - **sepolia**: `0` to `8470000`
 
 ### Examples
@@ -890,8 +890,8 @@ Contains canonical execution balance read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22705000`
-- **holesky**: `0` to `4003000`
+- **mainnet**: `0` to `22712000`
+- **holesky**: `0` to `4009000`
 - **sepolia**: `0` to `8327000`
 
 ### Examples
@@ -1347,9 +1347,9 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22705000`
-- **holesky**: `0` to `4003000`
-- **sepolia**: `0` to `8550000`
+- **mainnet**: `0` to `22712000`
+- **holesky**: `0` to `4009000`
+- **sepolia**: `0` to `8557000`
 
 ### Examples
 
@@ -1530,8 +1530,8 @@ Contains canonical execution storage reads data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **holesky**: `0` to `4003000`
-- **sepolia**: `0` to `8550000`
+- **holesky**: `0` to `4009000`
+- **sepolia**: `0` to `8557000`
 
 ### Examples
 
