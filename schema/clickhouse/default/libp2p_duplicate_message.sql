@@ -1,4 +1,4 @@
-CREATE TABLE default.libp2p_publish_message
+CREATE TABLE default.libp2p_duplicate_message
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
     `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
@@ -6,7 +6,11 @@ CREATE TABLE default.libp2p_publish_message
     `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
     `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
     `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
+    `seq_number` UInt64 COMMENT 'A linearly increasing number that is unique among messages originating from the given peer' CODEC(DoubleDelta, ZSTD(1)),
+    `local_delivery` Bool COMMENT 'Indicates if the message was duplicated locally',
+    `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that sent the duplicate message',
     `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
+    `message_size` UInt32 COMMENT 'Size of the message in bytes' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
@@ -24,5 +28,5 @@ CREATE TABLE default.libp2p_publish_message
     `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'libp2p_publish_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, topic_fork_digest_value, topic_name, message_id))
-COMMENT 'Contains the details of the PUBLISH_MESSAGE events from the libp2p client.'
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_duplicate_message_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name, message_id, seq_number))
+COMMENT 'Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.'

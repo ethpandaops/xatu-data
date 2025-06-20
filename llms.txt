@@ -405,11 +405,11 @@ The following tables are available in the Xatu dataset:
 - **Partitioning**: event_date_time (datetime), daily
 - **Networks**: mainnet (2025-05-30 to 2025-06-18), hoodi (2025-05-29 to 2025-06-18), sepolia (2025-05-29 to 2025-06-18)
 - **Tags**: Consensus layer, P2P
-### libp2p_publish_message
+### libp2p_duplicate_message
 - **Database**: default
-- **Description**: Table for libp2p publish message events
+- **Description**: Table for libp2p duplicate message events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-06-01 to 2025-06-01), hoodi (2025-06-01 to 2025-06-01), sepolia (2025-06-01 to 2025-06-01)
+- **Networks**: mainnet (2025-05-30 to 2025-06-18), hoodi (2025-05-29 to 2025-06-18), sepolia (2025-05-29 to 2025-06-18)
 - **Tags**: Consensus layer, P2P
 ### libp2p_deliver_message
 - **Database**: default
@@ -427,7 +427,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Table for libp2p handle status events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-06-19), hoodi (2025-06-01 to 2025-06-01), sepolia (2025-06-01 to 2025-06-01)
+- **Networks**: mainnet (2024-04-24 to 2025-06-19), hoodi (2025-03-17 to 2025-06-19), sepolia (2025-06-01 to 2025-06-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_ihave
 - **Database**: default
