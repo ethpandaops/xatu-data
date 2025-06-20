@@ -24,8 +24,6 @@ Events from the consensus layer p2p network. This data is usually useful for 'ti
 - [`libp2p_graft`](#libp2p_graft)
 - [`libp2p_prune`](#libp2p_prune)
 - [`libp2p_publish_message`](#libp2p_publish_message)
-- [`libp2p_reject_message`](#libp2p_reject_message)
-- [`libp2p_duplicate_message`](#libp2p_duplicate_message)
 - [`libp2p_deliver_message`](#libp2p_deliver_message)
 - [`libp2p_handle_metadata`](#libp2p_handle_metadata)
 - [`libp2p_handle_status`](#libp2p_handle_status)
@@ -1209,9 +1207,9 @@ Contains the details of the GRAFT events from the libp2p client.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-06-01` to `2025-06-01`
-- **hoodi**: `2025-06-01` to `2025-06-01`
-- **sepolia**: `2025-06-01` to `2025-06-01`
+- **mainnet**: `2025-05-30` to `2025-06-19`
+- **hoodi**: `2025-05-29` to `2025-06-19`
+- **sepolia**: `2025-05-29` to `2025-06-19`
 
 ### Examples
 
@@ -1223,7 +1221,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_graft/2025/6/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_graft/2025/6/19.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1475,197 +1473,6 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-## libp2p_reject_message
-
-Contains the details of the REJECT_MESSAGE events from the libp2p client.
-
-### Availability
-Data is partitioned **daily** on **event_date_time** for the following networks:
-
-- **mainnet**: `2025-06-01` to `2025-06-01`
-- **hoodi**: `2025-06-01` to `2025-06-01`
-- **sepolia**: `2025-06-01` to `2025-06-01`
-
-### Examples
-
-<details>
-<summary>Parquet file</summary>
-
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_reject_message/YYYY/MM/DD.parquet
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
-    SELECT
-        *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_reject_message/2025/6/1.parquet', 'Parquet')
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM default.libp2p_reject_message FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM default.libp2p_reject_message FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the event* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **seq_number** | `UInt64` | *A linearly increasing number that is unique among messages originating from the given peer* |
-| **local_delivery** | `Bool` | *Indicates if the message was rejected by local subscriber* |
-| **peer_id_unique_key** | `Int64` | *Unique key for the peer that rejected the message* |
-| **message_id** | `String` | *Identifier of the message* |
-| **message_size** | `UInt32` | *Size of the message in bytes* |
-| **reason** | `String` | *Reason for message rejection* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
-## libp2p_duplicate_message
-
-Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.
-
-### Availability
-Data is partitioned **daily** on **event_date_time** for the following networks:
-
-- **mainnet**: `2025-05-30` to `2025-06-18`
-- **hoodi**: `2025-05-29` to `2025-06-18`
-- **sepolia**: `2025-05-29` to `2025-06-18`
-
-### Examples
-
-<details>
-<summary>Parquet file</summary>
-
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_duplicate_message/YYYY/MM/DD.parquet
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
-    SELECT
-        *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_duplicate_message/2025/6/18.parquet', 'Parquet')
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM default.libp2p_duplicate_message FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM default.libp2p_duplicate_message FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the event* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **seq_number** | `UInt64` | *A linearly increasing number that is unique among messages originating from the given peer* |
-| **local_delivery** | `Bool` | *Indicates if the message was duplicated locally* |
-| **peer_id_unique_key** | `Int64` | *Unique key for the peer that sent the duplicate message* |
-| **message_id** | `String` | *Identifier of the message* |
-| **message_size** | `UInt32` | *Size of the message in bytes* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
 ## libp2p_deliver_message
 
 Contains the details of the DELIVER_MESSAGE events from the libp2p client.
@@ -1861,7 +1668,7 @@ Contains the status handling events for libp2p peers.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-06-01` to `2025-06-01`
+- **mainnet**: `2024-04-24` to `2025-06-19`
 - **hoodi**: `2025-06-01` to `2025-06-01`
 - **sepolia**: `2025-06-01` to `2025-06-01`
 
@@ -1875,7 +1682,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2025/6/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2025/6/19.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
