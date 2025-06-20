@@ -916,50 +916,50 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p prune events
-# Hermes is a passive observer. Reject + Publish messages only fire on msg validation or publish participation.
-#
-#  - name: libp2p_publish_message
-#    database: default
-#    excluded_columns: []
-#    partitioning:
-#      type: datetime
-#      column: event_date_time
-#      interval: daily
-#    networks:
-#      mainnet:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#      hoodi:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#      sepolia:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#    tags:
-#      - Consensus layer
-#      - P2P
-#    description: Table for libp2p publish message events
-#  - name: libp2p_reject_message
-#    database: default
-#    excluded_columns: []
-#    partitioning:
-#      type: datetime
-#      column: event_date_time
-#      interval: daily
-#    networks:
-#      mainnet:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#      hoodi:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#      sepolia:
-#        from: "2025-06-01"
-#        to: "2025-06-01"
-#    tags:
-#      - Consensus layer
-#      - P2P
-#    description: Table for libp2p reject message events
+    # Hermes is a passive observer. Reject + Publish messages only fire on msg validation or publish participation.
+    #
+    #  - name: libp2p_publish_message
+    #    database: default
+    #    excluded_columns: []
+    #    partitioning:
+    #      type: datetime
+    #      column: event_date_time
+    #      interval: daily
+    #    networks:
+    #      mainnet:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #      hoodi:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #      sepolia:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #    tags:
+    #      - Consensus layer
+    #      - P2P
+    #    description: Table for libp2p publish message events
+    #  - name: libp2p_reject_message
+    #    database: default
+    #    excluded_columns: []
+    #    partitioning:
+    #      type: datetime
+    #      column: event_date_time
+    #      interval: daily
+    #    networks:
+    #      mainnet:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #      hoodi:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #      sepolia:
+    #        from: "2025-06-01"
+    #        to: "2025-06-01"
+    #    tags:
+    #      - Consensus layer
+    #      - P2P
+    #    description: Table for libp2p reject message events
   - name: libp2p_duplicate_message
     database: default
     excluded_columns: []
@@ -1035,8 +1035,8 @@ tables:
         from: "2024-04-24"
         to: "2025-06-19"
       hoodi:
-        from: "2025-06-01"
-        to: "2025-06-01"
+        from: "2025-03-17"
+        to: "2025-06-19"
       sepolia:
         from: "2025-06-01"
         to: "2025-06-01"
