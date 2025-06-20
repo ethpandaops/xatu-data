@@ -2213,7 +2213,7 @@ echo """
 | **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "Prune" control metadata* |
 | **peer_id_index** | `Int32` | ** |
 | **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the Prune control* |
-| **graft_peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the graft peer involved in the Prune control* |
+| **graft_peer_id_unique_key** | `Nullable(Int64)` | *Unique key associated with the identifier of the graft peer involved in the Prune control* |
 | **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
 | **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
 | **topic_name** | `LowCardinality(String)` | *Name of the topic* |

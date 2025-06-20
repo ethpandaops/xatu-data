@@ -3339,7 +3339,7 @@ CREATE TABLE default.libp2p_rpc_meta_control_prune
     `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the "Prune" control metadata',
     `peer_id_index` Int32 CODEC(DoubleDelta, ZSTD(1)),
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the Prune control',
-    `graft_peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the graft peer involved in the Prune control',
+    `graft_peer_id_unique_key` Nullable(Int64) COMMENT 'Unique key associated with the identifier of the graft peer involved in the Prune control',
     `topic_layer` LowCardinality(String) COMMENT 'Layer of the topic',
     `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
     `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
