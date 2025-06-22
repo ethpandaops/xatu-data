@@ -226,6 +226,7 @@ generate_dataset_schema() {
     local dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
     local dataset_description=$(echo "$dataset_config" | yq e '.description' -)
     local table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
+    local quirks=$(echo "$dataset_config" | yq e '.quirks' -)
 
     # Start writing to the schema file
     if [ "$mode" = "all" ]; then
@@ -234,6 +235,11 @@ generate_dataset_schema() {
     echo
     echo "$dataset_description"
     echo
+    if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
+        echo ""
+        echo "> $quirks"
+        echo ""
+    fi
     echo "## Availability"
     echo "$dataset_config" | yq e '.availability[]' - | while read -r availability; do
         echo "- $(get_availability_override $availability)"

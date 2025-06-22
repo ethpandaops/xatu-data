@@ -29,6 +29,8 @@ datasets:
       - public
   - name: "Consensus Layer P2P"
     description: "Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances."
+    quirks: >-
+      Data is sampled by MessageID due to event volume, so not all messages are captured—especially for high-volume topics.
     tables:
       prefix: libp2p_
     availability:
