@@ -2,6 +2,69 @@
 
 Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.
 
+
+The libp2p dataset captures peer-to-peer network events from the consensus layer, however due to the large volume of network traffic, data is sampled using a sharding strategy. This ensures manageable data sizes while maintaining significance. Not all events are captured - the sampling rate varies by event type and topic, with high-volume topics being more aggressively sampled.
+
+## Event Categorization
+
+Events are categorized into four groups based on their available sharding keys:
+
+### Group A: Topic + MsgID Events
+Events with both topic and message ID, enabling full sharding flexibility:
+- `PUBLISH_MESSAGE`, `DELIVER_MESSAGE`, `DUPLICATE_MESSAGE`, `REJECT_MESSAGE`
+- `GOSSIPSUB_BEACON_BLOCK`, `GOSSIPSUB_BEACON_ATTESTATION`, `GOSSIPSUB_BLOB_SIDECAR`
+- `RPC_META_MESSAGE`, `RPC_META_CONTROL_IHAVE`
+
+**Sharding**: Uses message ID for sharding, with topic-based configuration
+
+### Group B: Topic-Only Events
+Events with only topic information:
+- `JOIN`, `LEAVE`, `GRAFT`, `PRUNE`
+- `RPC_META_CONTROL_GRAFT`, `RPC_META_CONTROL_PRUNE`, `RPC_META_SUBSCRIPTION`
+
+**Sharding**: Uses topic hash for sharding decisions
+
+### Group C: MsgID-Only Events
+Events with only message ID:
+- `RPC_META_CONTROL_IWANT`, `RPC_META_CONTROL_IDONTWANT`
+
+**Sharding**: Uses message ID with default configuration
+
+### Group D: No Sharding Key Events
+Events without sharding keys:
+- `ADD_PEER`, `REMOVE_PEER`, `CONNECTED`, `DISCONNECTED`
+- `RECV_RPC`, `SEND_RPC`, `DROP_RPC` (parent events only)
+- `HANDLE_METADATA`, `HANDLE_STATUS`
+
+**Sharding**: All-or-nothing based on configuration
+
+### Sharding Decision Flow
+```
+┌─────────────┐
+│Event Arrives│
+└──────┬──────┘
+       │
+       ▼
+┌──────────────┐     ┌─────────────────┐
+│Get Event Info├────►│ Event Category? │
+└──────────────┘     └────────┬────────┘
+                              │
+        ┌─────────────────────┼─────────────────────┬─────────────────────┐
+        ▼                     ▼                     ▼                     ▼
+   ┌─────────┐         ┌─────────┐           ┌─────────┐           ┌─────────┐
+   │ Group A │         │ Group B │           │ Group C │           │ Group D │
+   │Topic+Msg│         │Topic Only│          │Msg Only │           │ No Keys │
+   └────┬────┘         └────┬────┘           └────┬────┘           └────┬────┘
+        │                   │                     │                     │
+        ▼                   ▼                     ▼                     ▼
+   Topic Config?       Topic Config?         Default Shard         Enabled?
+        │                   │                     │                     │
+     Yes/No              Yes/No                   │                  Yes/No
+        │                   │                     │                     │
+        ▼                   ▼                     ▼                     ▼
+   Shard by Msg       Shard by Topic        Shard by Msg         Process/Drop
+```
+
 ## Availability
 - EthPandaOps Clickhouse
 - Public Parquet Files
