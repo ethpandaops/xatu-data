@@ -46,7 +46,7 @@ generate_table_schema() {
     local table_name=$1
     local table_config=$(yq e ".tables[] | select(.name == \"$table_name\")" "$config_file")
     local database=$(echo "$table_config" | yq e '.database' -)
-    local quirks=$(echo "$table_config" | yq e '.quirks' -)
+    local additional_info=$(echo "$table_config" | yq e '.additional_info' -)
     local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
     local partition_interval=$(echo "$table_config" | yq e '.partitioning.interval' -)
@@ -90,9 +90,9 @@ generate_table_schema() {
     echo "$table_description"
     echo ""
 
-    if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
+    if [ ! -z "$additional_info" ] && [ "$additional_info" != "null" ]; then
         echo ""
-        echo "> $quirks"
+        echo "$additional_info"
         echo ""
     fi
     echo "### Availability"
@@ -226,7 +226,7 @@ generate_dataset_schema() {
     local dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
     local dataset_description=$(echo "$dataset_config" | yq e '.description' -)
     local table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
-    local quirks=$(echo "$dataset_config" | yq e '.quirks' -)
+    local quirks=$(echo "$dataset_config" | yq e '.additional_info' -)
 
     # Start writing to the schema file
     if [ "$mode" = "all" ]; then
