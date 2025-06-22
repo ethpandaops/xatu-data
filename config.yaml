@@ -123,7 +123,7 @@ tables:
         to: "2025-06-20"
     tags:
       - Consensus layer
-    additional_info: >-
+    quirks: >-
       Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
     description: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_attestation
@@ -681,7 +681,7 @@ tables:
     tags:
       - Consensus layer
       - Finalized
-    additional_info: >-
+    quirks: >-
       A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
     description: Contains a validator state for an epoch.
   - name: libp2p_gossipsub_beacon_attestation
@@ -1455,7 +1455,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    additional_info: >-
+    quirks: >-
       Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution four byte count data.
   - name: canonical_execution_address_appearances
@@ -1520,7 +1520,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    additional_info: >-
+    quirks: >-
       Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution balance read data.
   - name: canonical_execution_erc20_transfers
@@ -1627,7 +1627,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    additional_info: >-
+    quirks: >-
       Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution nonce read data.
   - name: canonical_execution_storage_diffs
@@ -1671,6 +1671,6 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    additional_info: >-
+    quirks: >-
       Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution storage reads data.
