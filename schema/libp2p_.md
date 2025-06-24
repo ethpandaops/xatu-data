@@ -107,9 +107,9 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2025-06-22`
-- **holesky**: `2024-05-01` to `2025-06-22`
-- **sepolia**: `2024-05-01` to `2025-06-22`
+- **mainnet**: `2024-05-01` to `2025-06-23`
+- **holesky**: `2024-05-01` to `2025-06-23`
+- **sepolia**: `2024-05-01` to `2025-06-23`
 
 ### Examples
 
@@ -121,7 +121,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2025/6/22/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2025/6/23/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
