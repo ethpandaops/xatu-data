@@ -1199,14 +1199,14 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-06-01"
-        to: "2025-06-01"
+        from: "2025-06-23"
+        to: "2025-06-24"
       hoodi:
-        from: "2025-06-01"
-        to: "2025-06-01"
+        from: "2025-06-23"
+        to: "2025-06-24"
       sepolia:
-        from: "2025-06-01"
-        to: "2025-06-01"
+        from: "2025-06-23"
+        to: "2025-06-24"
     tags:
       - Consensus layer
       - P2P
