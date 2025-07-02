@@ -182,7 +182,7 @@ tables:
         to: "2025-06-30"
       sepolia:
         from: "2023-12-24"
-        to: "2025-06-30"
+        to: "2025-07-01"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -216,13 +216,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-12-24"
-        to: "2025-06-30"
+        to: "2025-07-01"
       sepolia:
         from: "2023-12-24"
-        to: "2025-06-30"
+        to: "2025-07-01"
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -256,7 +256,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-12-05"
         to: "2025-06-30"
@@ -296,13 +296,13 @@ tables:
     networks:
       mainnet:
         from: "2023-08-31"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-12-24"
-        to: "2025-06-30"
+        to: "2025-07-01"
       sepolia:
         from: "2023-12-24"
-        to: "2025-06-30"
+        to: "2025-07-01"
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -339,7 +339,7 @@ tables:
         to: "2025-06-30"
       holesky:
         from: "2024-01-08"
-        to: "2025-06-30"
+        to: "2025-07-01"
       sepolia:
         from: "2024-01-08"
         to: "2025-06-30"
@@ -398,7 +398,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-09-23"
         to: "2025-06-30"
@@ -419,7 +419,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-09-23"
         to: "2025-04-29"
@@ -440,7 +440,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-09-23"
         to: "2025-05-20"
@@ -587,13 +587,13 @@ tables:
     networks:
       mainnet:
         from: "2024-03-13"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2024-02-07"
-        to: "2025-06-30"
+        to: "2025-07-01"
       sepolia:
         from: "2024-01-30"
-        to: "2025-06-30"
+        to: "2025-07-01"
     tags:
       - Consensus layer
       - Finalized
@@ -629,7 +629,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-06-30"
+        to: "2025-07-01"
       holesky:
         from: "2023-09-23"
         to: "2025-04-27"
@@ -1206,7 +1206,7 @@ tables:
         to: "2025-06-24"
       sepolia:
         from: "2025-06-23"
-        to: "2025-06-24"
+        to: "2025-06-30"
     tags:
       - Consensus layer
       - P2P
