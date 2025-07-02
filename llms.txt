@@ -157,13 +157,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-06-30), holesky (2023-09-28 to 2025-06-30), sepolia (2022-06-25 to 2025-06-30)
+- **Networks**: mainnet (2023-09-04 to 2025-07-01), holesky (2023-09-28 to 2025-06-30), sepolia (2022-06-25 to 2025-07-01)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-06-30), holesky (2023-09-18 to 2025-06-30), sepolia (2023-08-31 to 2025-06-30)
+- **Networks**: mainnet (2023-06-01 to 2025-07-01), holesky (2023-09-18 to 2025-07-01), sepolia (2023-08-31 to 2025-06-30)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
@@ -271,7 +271,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains execution transaction from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2022-09-06 to 2025-07-01), holesky (2023-09-23 to 2025-06-30), sepolia (2022-06-22 to 2025-06-30)
+- **Networks**: mainnet (2022-09-06 to 2025-07-01), holesky (2023-09-23 to 2025-07-01), sepolia (2022-06-22 to 2025-07-01)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_voluntary_exit
 - **Database**: default
@@ -313,31 +313,31 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-06-30), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-06-30)
+- **Networks**: mainnet (2020-12-01 to 2025-07-01), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-06-30)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 1989000), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 1989950), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon attestation data.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2024-05-01 to 2025-06-30), holesky (2024-05-01 to 2025-06-30), sepolia (2024-05-01 to 2025-06-30)
+- **Networks**: mainnet (2024-05-01 to 2025-07-01), holesky (2024-05-01 to 2025-07-01), sepolia (2024-05-01 to 2025-07-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_beacon_block
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon block data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-06-30), holesky (2024-04-26 to 2025-06-30), sepolia (2024-04-26 to 2025-06-30)
+- **Networks**: mainnet (2020-12-01 to 2025-07-01), holesky (2024-04-26 to 2025-07-01), sepolia (2024-04-26 to 2025-07-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_blob_sidecar
 - **Database**: default
 - **Description**: Table for libp2p gossipsub blob sidecar data
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-06-30), holesky (2024-06-03 to 2025-06-30), sepolia (2024-06-03 to 2025-06-30)
+- **Networks**: mainnet (2020-12-01 to 2025-07-01), holesky (2024-06-03 to 2025-07-01), sepolia (2024-06-03 to 2025-07-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_connected
 - **Database**: default
@@ -355,7 +355,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Table for libp2p add peer events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-06-30), hoodi (2025-03-17 to 2025-07-01), sepolia (2024-04-22 to 2025-07-01)
+- **Networks**: mainnet (2024-04-24 to 2025-07-01), hoodi (2025-03-17 to 2025-07-01), sepolia (2024-04-22 to 2025-07-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_remove_peer
 - **Database**: default
