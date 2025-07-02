@@ -1199,11 +1199,11 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: "2025-06-23"
-        to: "2025-06-24"
+        from: "2025-07-02"
+        to: "2025-07-02"
       hoodi:
         from: "2025-06-23"
-        to: "2025-06-24"
+        to: "2025-07-02"
       sepolia:
         from: "2025-06-23"
         to: "2025-06-30"
