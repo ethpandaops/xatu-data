@@ -22,9 +22,9 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-13` to `2025-07-10`
-- **holesky**: `2024-09-13` to `2025-07-10`
-- **sepolia**: `2024-09-13` to `2025-07-10`
+- **mainnet**: `2024-09-13` to `2025-07-11`
+- **holesky**: `2024-09-13` to `2025-07-11`
+- **sepolia**: `2024-09-13` to `2025-07-11`
 
 ### Examples
 
@@ -36,7 +36,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/7/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2025/7/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -132,9 +132,9 @@ Contains MEV relay proposer payload delivered data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-16` to `2025-07-10`
-- **holesky**: `2024-09-16` to `2025-07-10`
-- **sepolia**: `2024-09-16` to `2025-06-26`
+- **mainnet**: `2024-09-16` to `2025-07-11`
+- **holesky**: `2024-09-16` to `2025-07-11`
+- **sepolia**: `2024-09-16` to `2025-07-11`
 
 ### Examples
 
@@ -146,7 +146,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/7/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2025/7/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -235,9 +235,9 @@ Contains MEV relay validator registrations data.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2024-12-11` to `2025-07-10`
+- **mainnet**: `2024-12-11` to `2025-07-11`
 - **holesky**: `2024-12-11` to `2025-04-27`
-- **sepolia**: `2024-12-11` to `2025-07-10`
+- **sepolia**: `2024-12-11` to `2025-07-11`
 
 ### Examples
 
@@ -249,7 +249,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/7/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2025/7/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
