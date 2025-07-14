@@ -747,6 +747,27 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p gossipsub blob sidecar data
+  - name: libp2p_gossipsub_aggregate_and_proof
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: "2025-07-12"
+        to: "2025-07-13"
+      holesky:
+        from: "2025-07-12"
+        to: "2025-07-13"
+      sepolia:
+        from: "2025-07-12"
+        to: "2025-07-13"
+    tags:
+      - Consensus layer
+      - P2P
+    description: Table for libp2p gossipsub aggregate and proof attestation data
   - name: libp2p_connected
     database: default
     excluded_columns: []
