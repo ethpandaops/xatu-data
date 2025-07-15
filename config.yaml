@@ -967,7 +967,7 @@ tables:
     networks:
       mainnet:
         from: "2025-05-30"
-        to: "2025-06-29"
+        to: "2025-07-14"
       hoodi:
         from: "2025-05-29"
         to: "2025-07-14"
@@ -988,7 +988,7 @@ tables:
     networks:
       mainnet:
         from: "2025-05-30"
-        to: "2025-06-29"
+        to: "2025-07-14"
       hoodi:
         from: "2025-05-29"
         to: "2025-07-14"
@@ -1200,7 +1200,7 @@ tables:
     networks:
       mainnet:
         from: "2025-05-30"
-        to: "2025-06-29"
+        to: "2025-07-14"
       hoodi:
         from: "2025-05-29"
         to: "2025-07-14"
