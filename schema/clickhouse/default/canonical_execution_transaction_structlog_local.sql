@@ -16,6 +16,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `return_data` Nullable(String) COMMENT 'The return data' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'The error' CODEC(ZSTD(1)),
+    `call_to_address` Nullable(String) COMMENT 'Address of a CALL operation' CODEC(ZSTD(1)),
     `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )

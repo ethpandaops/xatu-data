@@ -314,6 +314,7 @@ echo """
 | **return_data** | `Nullable(String)` | *The return data* |
 | **refund** | `Nullable(UInt64)` | *The refund* |
 | **error** | `Nullable(String)` | *The error* |
+| **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 

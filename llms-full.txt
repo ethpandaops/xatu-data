@@ -402,13 +402,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-07-13), holesky (2023-09-28 to 2025-07-12), sepolia (2022-06-25 to 2025-07-13)
+- **Networks**: mainnet (2023-09-04 to 2025-07-13), holesky (2023-09-28 to 2025-07-13), sepolia (2022-06-25 to 2025-07-13)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-07-13), holesky (2023-09-18 to 2025-07-13), sepolia (2023-08-31 to 2025-07-12)
+- **Networks**: mainnet (2023-06-01 to 2025-07-13), holesky (2023-09-18 to 2025-07-13), sepolia (2023-08-31 to 2025-07-13)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
@@ -558,19 +558,19 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-07-13), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-07-12)
+- **Networks**: mainnet (2020-12-01 to 2025-07-13), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-07-13)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 2009200), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 2010150), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon attestation data.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2024-05-01 to 2025-07-13), holesky (2024-05-01 to 2025-07-13), sepolia (2024-05-01 to 2025-07-12)
+- **Networks**: mainnet (2024-05-01 to 2025-07-13), holesky (2024-05-01 to 2025-07-13), sepolia (2024-05-01 to 2025-07-13)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_beacon_block
 - **Database**: default
@@ -2530,6 +2530,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog
     `return_data` Nullable(String) COMMENT 'The return data' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'The error' CODEC(ZSTD(1)),
+    `call_to_address` Nullable(String) COMMENT 'Address of a CALL operation' CODEC(ZSTD(1)),
     `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
