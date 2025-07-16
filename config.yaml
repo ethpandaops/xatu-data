@@ -925,7 +925,7 @@ tables:
     networks:
       mainnet:
         from: "2024-05-01"
-        to: "2025-06-23"
+        to: "2025-07-14"
       hoodi:
         from: "2025-03-17"
         to: "2025-07-14"
