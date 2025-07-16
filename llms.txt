@@ -391,7 +391,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Table for libp2p join events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-05-01 to 2025-06-23), hoodi (2025-03-17 to 2025-07-14), sepolia (2024-05-01 to 2025-07-14)
+- **Networks**: mainnet (2024-05-01 to 2025-07-14), hoodi (2025-03-17 to 2025-07-14), sepolia (2024-05-01 to 2025-07-14)
 - **Tags**: Consensus layer, P2P
 ### libp2p_leave
 - **Database**: default
@@ -403,13 +403,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Table for libp2p graft events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-06-29), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
+- **Networks**: mainnet (2025-05-30 to 2025-07-14), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
 - **Tags**: Consensus layer, P2P
 ### libp2p_prune
 - **Database**: default
 - **Description**: Table for libp2p prune events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-06-29), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
+- **Networks**: mainnet (2025-05-30 to 2025-07-14), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
 - **Tags**: Consensus layer, P2P
 ### libp2p_duplicate_message
 - **Database**: default
@@ -457,7 +457,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control graft events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-06-29), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
+- **Networks**: mainnet (2025-05-30 to 2025-07-14), hoodi (2025-05-29 to 2025-07-14), sepolia (2025-05-29 to 2025-07-14)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_prune
 - **Database**: default
