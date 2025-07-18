@@ -36,7 +36,7 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-09-04` to `2025-07-16`
-- **holesky**: `2023-09-28` to `2025-07-15`
+- **holesky**: `2023-09-28` to `2025-07-16`
 - **sepolia**: `2022-06-25` to `2025-07-16`
 
 ### Examples
@@ -135,7 +135,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 
 - **mainnet**: `2023-06-01` to `2025-07-16`
 - **holesky**: `2023-09-18` to `2025-07-16`
-- **sepolia**: `2023-08-31` to `2025-07-15`
+- **sepolia**: `2023-08-31` to `2025-07-16`
 
 ### Examples
 
