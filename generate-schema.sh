@@ -72,7 +72,10 @@ generate_table_schema() {
 
     if [ "$partition_type" = "integer" ]; then
         formated_url="https://data.ethpandaops.io/xatu/NETWORK/databases/${database}/${table_name}/${partition_interval}/CHUNK_NUMBER.parquet"
-        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{$(( partition_interval * 50 / partition_interval ))..$(( partition_interval * 51 / partition_interval ))}000.parquet"
+        # Calculate the number of zeros based on partition_interval
+        local zeros_count=$((${#partition_interval} - 1))
+        local zeros=$(printf '%0*d' $zeros_count 0)
+        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{50..51}${zeros}.parquet"
     fi
 
     local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
@@ -116,14 +119,14 @@ generate_table_schema() {
         echo ""
         echo "To find the parquet file with the \`${partition_column}\` you're looking for, you need the correct \`CHUNK_NUMBER\` which is in intervals of \`${partition_interval}\`. Take the following examples;"
         echo ""
-        echo "Contains \`${partition_column}\` between \`0\` and \`999\`:"
+        echo "Contains \`${partition_column}\` between \`0\` and \`$(( partition_interval - 1 ))\`:"
         echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
         echo ""
-        echo "Contains \`${partition_column}\` between \`50000\` and \`50999\`:"
-        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/50000.parquet"
+        echo "Contains \`${partition_column}\` between \`$(( partition_interval * 50 ))\` and \`$(( partition_interval * 50 + partition_interval - 1 ))\`:"
+        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/50${zeros}.parquet"
         echo ""
-        echo "Contains \`${partition_column}\` between \`1000000\` and \`1001999\`:"
-        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}000.parquet"
+        echo "Contains \`${partition_column}\` between \`$(( partition_interval * 1000 ))\` and \`$(( partition_interval * 1000 + 2 * partition_interval - 1 ))\`:"
+        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}${zeros}.parquet"
         echo ""
     fi
     echo "\`\`\`bash"
