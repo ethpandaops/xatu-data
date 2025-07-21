@@ -1303,7 +1303,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2025-07-19`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-07-18`
+- **sepolia**: `2022-06-20` to `2025-07-19`
 
 ### Examples
 
@@ -1406,7 +1406,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2018900`
+- **mainnet**: `0` to `2020050`
 - **holesky**: `0` to `1923750`
 - **sepolia**: `0` to `1900`
 
@@ -1419,20 +1419,20 @@ Data is partitioned in chunks of **50** on **index** for the following networks:
 
 To find the parquet file with the `index` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `50`. Take the following examples;
 
-Contains `index` between `0` and `999`:
+Contains `index` between `0` and `49`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/0.parquet
 
-Contains `index` between `50000` and `50999`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/50000.parquet
+Contains `index` between `2500` and `2549`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/500.parquet
 
-Contains `index` between `1000000` and `1001999`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/{1000..1001}000.parquet
+Contains `index` between `50000` and `50099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/{1000..1001}0.parquet
 
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/{50..51}000.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators_pubkeys/50/{50..51}0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

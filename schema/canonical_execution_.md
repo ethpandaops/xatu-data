@@ -26,6 +26,7 @@ Data extracted from the execution layer. This data is only derived by a single i
 - [`canonical_execution_nonce_reads`](#canonical_execution_nonce_reads)
 - [`canonical_execution_storage_diffs`](#canonical_execution_storage_diffs)
 - [`canonical_execution_storage_reads`](#canonical_execution_storage_reads)
+- [`canonical_execution_transaction_structlog`](#canonical_execution_transaction_structlog)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -226,33 +227,33 @@ echo """
 Contains canonical execution transaction structlog data.
 
 ### Availability
-Data is partitioned in chunks of **1000** on **block_number** for the following networks:
+Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
-- **mainnet**: `22627801` to `22694414`
+- **mainnet**: `22794000` to `22964000`
 
 ### Examples
 
 <details>
 <summary>Parquet file</summary>
 
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog/1000/CHUNK_NUMBER.parquet
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog/100/CHUNK_NUMBER.parquet
 
-To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `1000`. Take the following examples;
+To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `100`. Take the following examples;
 
-Contains `block_number` between `0` and `999`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/0.parquet
+Contains `block_number` between `0` and `99`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
 
-Contains `block_number` between `50000` and `50999`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/50000.parquet
+Contains `block_number` between `5000` and `5099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/5000.parquet
 
-Contains `block_number` between `1000000` and `1001999`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/{1000..1001}000.parquet
+Contains `block_number` between `100000` and `100199`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
 
 ```bash
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/1000/{50..51}000.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{50..51}00.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -270,7 +271,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
         *
     FROM default.canonical_execution_transaction_structlog FINAL
     WHERE
-        block_number BETWEEN 50000 AND 51000
+        block_number BETWEEN 5000 AND 5100
     LIMIT 10
     FORMAT Pretty
 """
@@ -288,7 +289,7 @@ echo """
         *
     FROM default.canonical_execution_transaction_structlog FINAL
     WHERE
-        block_number BETWEEN 50000 AND 51000
+        block_number BETWEEN 5000 AND 5100
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1610,6 +1611,103 @@ echo """
 | **contract_address** | `String` | *The contract address associated with the storage read* |
 | **slot** | `String` | *The storage slot key* |
 | **value** | `String` | *The value read from the storage slot* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_execution_transaction_structlog
+
+Contains canonical execution transaction structlog data.
+
+### Availability
+Data is partitioned in chunks of **100** on **block_number** for the following networks:
+
+- **mainnet**: `22794000` to `22964000`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog/100/CHUNK_NUMBER.parquet
+
+To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `100`. Take the following examples;
+
+Contains `block_number` between `0` and `99`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
+
+Contains `block_number` between `5000` and `5099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/5000.parquet
+
+Contains `block_number` between `100000` and `100199`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{50..51}00.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog FINAL
+    WHERE
+        block_number BETWEEN 5000 AND 5100
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog FINAL
+    WHERE
+        block_number BETWEEN 5000 AND 5100
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash* |
+| **transaction_index** | `UInt32` | *The transaction position in the block* |
+| **transaction_gas** | `UInt64` | *The transaction gas* |
+| **transaction_failed** | `Bool` | *The transaction failed* |
+| **transaction_return_value** | `Nullable(String)` | *The transaction return value* |
+| **index** | `UInt32` | *The index of this structlog in this transaction* |
+| **program_counter** | `UInt32` | *The program counter* |
+| **operation** | `LowCardinality(String)` | *The operation* |
+| **gas** | `UInt64` | *The gas* |
+| **gas_cost** | `UInt64` | *The gas cost* |
+| **depth** | `UInt64` | *The depth* |
+| **return_data** | `Nullable(String)` | *The return data* |
+| **refund** | `Nullable(UInt64)` | *The refund* |
+| **error** | `Nullable(String)` | *The error* |
+| **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
