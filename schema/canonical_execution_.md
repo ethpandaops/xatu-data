@@ -243,8 +243,8 @@ To find the parquet file with the `block_number` you're looking for, you need th
 Contains `block_number` between `0` and `99`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
 
-Contains `block_number` between `5000` and `5099`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/5000.parquet
+Contains `block_number` between `22794000` and `22794099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/22794000.parquet
 
 Contains `block_number` between `100000` and `100199`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
@@ -253,7 +253,7 @@ Contains `block_number` between `100000` and `100199`:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{50..51}00.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{227940..227941}00.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1635,8 +1635,8 @@ To find the parquet file with the `block_number` you're looking for, you need th
 Contains `block_number` between `0` and `99`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
 
-Contains `block_number` between `5000` and `5099`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/5000.parquet
+Contains `block_number` between `22794000` and `22794099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/22794000.parquet
 
 Contains `block_number` between `100000` and `100199`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
@@ -1645,7 +1645,7 @@ Contains `block_number` between `100000` and `100199`:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{50..51}00.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{227940..227941}00.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
