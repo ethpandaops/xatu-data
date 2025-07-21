@@ -51,6 +51,7 @@ generate_table_schema() {
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
     local partition_interval=$(echo "$table_config" | yq e '.partitioning.interval' -)
     local mainnet_to_date=$(echo "$table_config" | yq e '.networks.mainnet.to' -)
+    local mainnet_from=$(echo "$table_config" | yq e '.networks.mainnet.from' -)
     local formated_url=""
     local example_url=""
 
@@ -75,7 +76,16 @@ generate_table_schema() {
         # Calculate the number of zeros based on partition_interval
         local zeros_count=$((${#partition_interval} - 1))
         local zeros=$(printf '%0*d' $zeros_count 0)
-        example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{50..51}${zeros}.parquet"
+
+        # Use mainnet_from if available and greater than 0, otherwise default to 50..51
+        if [ -n "$mainnet_from" ] && [ "$mainnet_from" != "null" ] && [ "$mainnet_from" -gt 0 ]; then
+            # Calculate the chunk numbers based on mainnet_from
+            local start_chunk=$(( mainnet_from / partition_interval ))
+            local end_chunk=$(( start_chunk + 1 ))
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{${start_chunk}..${end_chunk}}${zeros}.parquet"
+        else
+            example_url="https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{50..51}${zeros}.parquet"
+        fi
     fi
 
     local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
@@ -119,14 +129,28 @@ generate_table_schema() {
         echo ""
         echo "To find the parquet file with the \`${partition_column}\` you're looking for, you need the correct \`CHUNK_NUMBER\` which is in intervals of \`${partition_interval}\`. Take the following examples;"
         echo ""
-        echo "Contains \`${partition_column}\` between \`0\` and \`$(( partition_interval - 1 ))\`:"
-        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
-        echo ""
-        echo "Contains \`${partition_column}\` between \`$(( partition_interval * 50 ))\` and \`$(( partition_interval * 50 + partition_interval - 1 ))\`:"
-        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/50${zeros}.parquet"
-        echo ""
-        echo "Contains \`${partition_column}\` between \`$(( partition_interval * 1000 ))\` and \`$(( partition_interval * 1000 + 2 * partition_interval - 1 ))\`:"
-        echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}${zeros}.parquet"
+
+        # Use mainnet_from if available and greater than 0 for the middle example
+        if [ -n "$mainnet_from" ] && [ "$mainnet_from" != "null" ] && [ "$mainnet_from" -gt 0 ]; then
+            local example_chunk=$(( mainnet_from / partition_interval ))
+            echo "Contains \`${partition_column}\` between \`0\` and \`$(( partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
+            echo ""
+            echo "Contains \`${partition_column}\` between \`$(( example_chunk * partition_interval ))\` and \`$(( example_chunk * partition_interval + partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/${example_chunk}${zeros}.parquet"
+            echo ""
+            echo "Contains \`${partition_column}\` between \`$(( partition_interval * 1000 ))\` and \`$(( partition_interval * 1000 + 2 * partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}${zeros}.parquet"
+        else
+            echo "Contains \`${partition_column}\` between \`0\` and \`$(( partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/0.parquet"
+            echo ""
+            echo "Contains \`${partition_column}\` between \`$(( partition_interval * 50 ))\` and \`$(( partition_interval * 50 + partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/50${zeros}.parquet"
+            echo ""
+            echo "Contains \`${partition_column}\` between \`$(( partition_interval * 1000 ))\` and \`$(( partition_interval * 1000 + 2 * partition_interval - 1 ))\`:"
+            echo "> https://data.ethpandaops.io/xatu/mainnet/databases/${database}/${table_name}/${partition_interval}/{1000..1001}${zeros}.parquet"
+        fi
         echo ""
     fi
     echo "\`\`\`bash"
