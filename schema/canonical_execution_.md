@@ -11,7 +11,6 @@ Data extracted from the execution layer. This data is only derived by a single i
 <!-- schema_toc_start -->
 - [`canonical_execution_block`](#canonical_execution_block)
 - [`canonical_execution_transaction`](#canonical_execution_transaction)
-- [`canonical_execution_transaction_structlog`](#canonical_execution_transaction_structlog)
 - [`canonical_execution_traces`](#canonical_execution_traces)
 - [`canonical_execution_logs`](#canonical_execution_logs)
 - [`canonical_execution_contracts`](#canonical_execution_contracts)
@@ -37,9 +36,9 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -128,9 +127,9 @@ Contains canonical execution transaction data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22677000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -222,103 +221,6 @@ echo """
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
-## canonical_execution_transaction_structlog
-
-Contains canonical execution transaction structlog data.
-
-### Availability
-Data is partitioned in chunks of **100** on **block_number** for the following networks:
-
-- **mainnet**: `22794000` to `22964000`
-
-### Examples
-
-<details>
-<summary>Parquet file</summary>
-
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog/100/CHUNK_NUMBER.parquet
-
-To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `100`. Take the following examples;
-
-Contains `block_number` between `0` and `99`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
-
-Contains `block_number` between `22794000` and `22794099`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/22794000.parquet
-
-Contains `block_number` between `100000` and `100199`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
-
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
-    SELECT
-        *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{227940..227941}00.parquet', 'Parquet')
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM default.canonical_execution_transaction_structlog FINAL
-    WHERE
-        block_number BETWEEN 5000 AND 5100
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM default.canonical_execution_transaction_structlog FINAL
-    WHERE
-        block_number BETWEEN 5000 AND 5100
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt64` | *The block number* |
-| **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **transaction_index** | `UInt32` | *The transaction position in the block* |
-| **transaction_gas** | `UInt64` | *The transaction gas* |
-| **transaction_failed** | `Bool` | *The transaction failed* |
-| **transaction_return_value** | `Nullable(String)` | *The transaction return value* |
-| **index** | `UInt32` | *The index of this structlog in this transaction* |
-| **program_counter** | `UInt32` | *The program counter* |
-| **operation** | `LowCardinality(String)` | *The operation* |
-| **gas** | `UInt64` | *The gas* |
-| **gas_cost** | `UInt64` | *The gas cost* |
-| **depth** | `UInt64` | *The depth* |
-| **return_data** | `Nullable(String)` | *The return data* |
-| **refund** | `Nullable(UInt64)` | *The refund* |
-| **error** | `Nullable(String)` | *The error* |
-| **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
 ## canonical_execution_traces
 
 Contains canonical execution traces data.
@@ -328,7 +230,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `22627000`
 - **holesky**: `0` to `3943000`
-- **sepolia**: `0` to `8800000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -429,9 +331,9 @@ Contains canonical execution logs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8833000`
 
 ### Examples
 
@@ -523,9 +425,9 @@ Contains canonical execution contract data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22780000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -622,9 +524,9 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -711,9 +613,9 @@ Contains canonical execution address appearance data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8833000`
 
 ### Examples
 
@@ -799,8 +701,8 @@ Contains canonical execution balance diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
 - **sepolia**: `0` to `8700000`
 
 ### Examples
@@ -892,9 +794,9 @@ Contains canonical execution balance read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -981,9 +883,9 @@ Contains canonical execution erc20 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1073,9 +975,9 @@ Contains canonical execution erc721 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1165,9 +1067,9 @@ Contains canonical execution native transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22782000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1256,9 +1158,9 @@ Contains canonical execution nonce diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22992000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1349,9 +1251,9 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22990000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1438,9 +1340,9 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `22956000`
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **mainnet**: `0` to `22993000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8836000`
 
 ### Examples
 
@@ -1532,8 +1434,8 @@ Contains canonical execution storage reads data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **holesky**: `0` to `4193000`
-- **sepolia**: `0` to `8800000`
+- **holesky**: `0` to `4219000`
+- **sepolia**: `0` to `8835000`
 
 ### Examples
 
@@ -1621,7 +1523,7 @@ Contains canonical execution transaction structlog data.
 ### Availability
 Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
-- **mainnet**: `22794000` to `22964000`
+- **mainnet**: `22731300` to `22986600`
 
 ### Examples
 
@@ -1635,8 +1537,8 @@ To find the parquet file with the `block_number` you're looking for, you need th
 Contains `block_number` between `0` and `99`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/0.parquet
 
-Contains `block_number` between `22794000` and `22794099`:
-> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/22794000.parquet
+Contains `block_number` between `22731300` and `22731399`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/22731300.parquet
 
 Contains `block_number` between `100000` and `100199`:
 > https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{1000..1001}00.parquet
@@ -1645,7 +1547,7 @@ Contains `block_number` between `100000` and `100199`:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{227940..227941}00.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog/100/{227313..227314}00.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
