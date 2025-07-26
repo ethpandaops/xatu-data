@@ -1303,7 +1303,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2025-07-24`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-07-23`
+- **sepolia**: `2022-06-20` to `2025-07-24`
 
 ### Examples
 
