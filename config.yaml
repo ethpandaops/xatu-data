@@ -186,6 +186,26 @@ tables:
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+  - name: beacon_api_eth_v1_events_block_gossip
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: "2025-06-01"
+        to: "2025-07-26"
+      holesky:
+        from: "2025-06-01"
+        to: "2025-07-26"
+      sepolia:
+        from: "2025-06-01"
+        to: "2025-07-26"
+    tags:
+      - Consensus layer
+    description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
