@@ -110,7 +110,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 
 - **mainnet**: `2024-05-01` to `2025-07-26`
 - **holesky**: `2024-05-01` to `2025-07-26`
-- **sepolia**: `2024-05-01` to `2025-07-25`
+- **sepolia**: `2024-05-01` to `2025-07-26`
 
 ### Examples
 
