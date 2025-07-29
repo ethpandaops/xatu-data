@@ -13,6 +13,7 @@ Events derived from the Beacon API event stream. This data is usually useful for
 - [`beacon_api_eth_v1_events_attestation`](#beacon_api_eth_v1_events_attestation)
 - [`beacon_api_eth_v1_events_blob_sidecar`](#beacon_api_eth_v1_events_blob_sidecar)
 - [`beacon_api_eth_v1_events_block`](#beacon_api_eth_v1_events_block)
+- [`beacon_api_eth_v1_events_block_gossip`](#beacon_api_eth_v1_events_block_gossip)
 - [`beacon_api_eth_v1_events_chain_reorg`](#beacon_api_eth_v1_events_chain_reorg)
 - [`beacon_api_eth_v1_events_contribution_and_proof`](#beacon_api_eth_v1_events_contribution_and_proof)
 - [`beacon_api_eth_v1_events_finalized_checkpoint`](#beacon_api_eth_v1_events_finalized_checkpoint)
@@ -37,7 +38,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 
 - **mainnet**: `2023-09-04` to `2025-07-27`
 - **holesky**: `2023-09-28` to `2025-07-27`
-- **sepolia**: `2022-06-25` to `2025-07-26`
+- **sepolia**: `2022-06-25` to `2025-07-27`
 
 ### Examples
 
@@ -134,8 +135,8 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-06-01` to `2025-07-27`
-- **holesky**: `2023-09-18` to `2025-07-26`
-- **sepolia**: `2023-08-31` to `2025-07-26`
+- **holesky**: `2023-09-18` to `2025-07-27`
+- **sepolia**: `2023-08-31` to `2025-07-27`
 
 ### Examples
 
@@ -406,6 +407,104 @@ echo """
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **execution_optimistic** | `Bool` | *If the attached beacon node is running in execution optimistic mode* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version that generated the event* |
+| **meta_consensus_version_major** | `LowCardinality(String)` | *Ethereum consensus client major version that generated the event* |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## beacon_api_eth_v1_events_block_gossip
+
+Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **mainnet**: `2025-05-14` to `2025-07-27`
+- **holesky**: `2025-05-14` to `2025-07-27`
+- **sepolia**: `2025-05-14` to `2025-07-27`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/beacon_api_eth_v1_events_block_gossip/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block_gossip/2025/7/27.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_block_gossip FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.beacon_api_eth_v1_events_block_gossip FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
+| **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **block** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
+| **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
