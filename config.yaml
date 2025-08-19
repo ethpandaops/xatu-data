@@ -691,7 +691,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "2060600"
+        to: "2061250"
       holesky:
         from: "0"
         to: "1923750"
