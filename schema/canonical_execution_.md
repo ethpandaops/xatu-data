@@ -1435,7 +1435,7 @@ Contains canonical execution storage reads data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **holesky**: `0` to `4219000`
-- **sepolia**: `0` to `9107000`
+- **sepolia**: `0` to `9114000`
 
 ### Examples
 

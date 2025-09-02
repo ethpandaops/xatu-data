@@ -109,8 +109,8 @@ Table for libp2p gossipsub beacon attestation data.
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2024-05-01` to `2025-09-01`
-- **holesky**: `2024-05-01` to `2025-08-31`
-- **sepolia**: `2024-05-01` to `2025-08-31`
+- **holesky**: `2024-05-01` to `2025-09-01`
+- **sepolia**: `2024-05-01` to `2025-09-01`
 
 ### Examples
 
