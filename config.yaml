@@ -120,7 +120,7 @@ tables:
         to: "2025-09-01"
       sepolia:
         from: "2022-06-25"
-        to: "2025-08-31"
+        to: "2025-09-01"
     tags:
       - Consensus layer
     quirks: >-
@@ -136,7 +136,7 @@ tables:
     networks:
       mainnet:
         from: "2023-06-01"
-        to: "2025-08-31"
+        to: "2025-09-01"
       holesky:
         from: "2023-09-18"
         to: "2025-09-01"
@@ -670,7 +670,7 @@ tables:
     networks:
       mainnet:
         from: "2020-12-01"
-        to: "2025-08-31"
+        to: "2025-09-01"
       holesky:
         from: "2023-09-23"
         to: "2025-04-29"
@@ -691,7 +691,7 @@ tables:
     networks:
       mainnet:
         from: "0"
-        to: "2076150"
+        to: "2076200"
       holesky:
         from: "0"
         to: "1923750"
@@ -717,10 +717,10 @@ tables:
         to: "2025-09-01"
       holesky:
         from: "2024-05-01"
-        to: "2025-08-31"
+        to: "2025-09-01"
       sepolia:
         from: "2024-05-01"
-        to: "2025-08-31"
+        to: "2025-09-01"
     tags:
       - Consensus layer
       - P2P
@@ -1693,7 +1693,7 @@ tables:
         to: "4219000"
       sepolia:
         from: "0"
-        to: "9107000"
+        to: "9114000"
     tags:
       - Execution layer
       - Finalized
