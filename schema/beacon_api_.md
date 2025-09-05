@@ -134,7 +134,7 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-06-01` to `2025-09-02`
+- **mainnet**: `2023-06-01` to `2025-09-03`
 - **holesky**: `2023-09-18` to `2025-09-03`
 - **sepolia**: `2023-08-31` to `2025-09-03`
 
@@ -148,7 +148,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2025/9/2/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2025/9/3/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
