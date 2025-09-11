@@ -135,7 +135,7 @@ Contains beacon API eventstream "attestation" data from each sentry client attac
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-06-01` to `2025-09-09`
-- **holesky**: `2023-09-18` to `2025-09-08`
+- **holesky**: `2023-09-18` to `2025-09-09`
 - **sepolia**: `2023-08-31` to `2025-09-09`
 
 ### Examples
