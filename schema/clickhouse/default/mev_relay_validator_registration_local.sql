@@ -32,7 +32,7 @@ CREATE TABLE default.mev_relay_validator_registration_local
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/mev_relay_validator_registration_local-v2/{shard}', '{replica}', updated_date_time)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/mev_relay_validator_registration_local/{shard}', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(event_date_time)
 ORDER BY (event_date_time, meta_network_name, meta_client_name, relay_name, validator_index, timestamp)
 SETTINGS index_granularity = 8192
