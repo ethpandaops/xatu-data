@@ -401,6 +401,7 @@ echo """
 | **propagation_slot_start_diff** | `UInt32` | *Difference in slot start time for propagation* |
 | **proposer_index** | `UInt32` | *The proposer index of the beacon block* |
 | **blob_index** | `UInt32` | *Blob index associated with the record* |
+| **beacon_block_root** | `FixedString(66)` | ** |
 | **parent_root** | `FixedString(66)` | *Parent root of the beacon block* |
 | **state_root** | `FixedString(66)` | *State root of the beacon block* |
 | **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |

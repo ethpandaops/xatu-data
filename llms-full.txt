@@ -408,7 +408,7 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-09-22), holesky (2023-09-18 to 2025-09-22), sepolia (2023-08-31 to 2025-09-21)
+- **Networks**: mainnet (2023-06-01 to 2025-09-22), holesky (2023-09-18 to 2025-09-22), sepolia (2023-08-31 to 2025-09-22)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
@@ -564,13 +564,13 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-09-22), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-09-21)
+- **Networks**: mainnet (2020-12-01 to 2025-09-22), holesky (2023-09-23 to 2025-04-29), sepolia (2022-06-20 to 2025-09-22)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 2086100), holesky (0 to 1923750), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 2086950), holesky (0 to 1923750), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
@@ -2993,6 +2993,7 @@ CREATE TABLE default.libp2p_gossipsub_blob_sidecar
     `propagation_slot_start_diff` UInt32 COMMENT 'Difference in slot start time for propagation' CODEC(ZSTD(1)),
     `proposer_index` UInt32 COMMENT 'The proposer index of the beacon block' CODEC(ZSTD(1)),
     `blob_index` UInt32 COMMENT 'Blob index associated with the record' CODEC(ZSTD(1)),
+    `beacon_block_root` FixedString(66) CODEC(ZSTD(1)),
     `parent_root` FixedString(66) COMMENT 'Parent root of the beacon block' CODEC(ZSTD(1)),
     `state_root` FixedString(66) COMMENT 'State root of the beacon block' CODEC(ZSTD(1)),
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer',

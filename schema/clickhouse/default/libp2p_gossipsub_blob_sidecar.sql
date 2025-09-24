@@ -14,6 +14,7 @@ CREATE TABLE default.libp2p_gossipsub_blob_sidecar
     `propagation_slot_start_diff` UInt32 COMMENT 'Difference in slot start time for propagation' CODEC(ZSTD(1)),
     `proposer_index` UInt32 COMMENT 'The proposer index of the beacon block' CODEC(ZSTD(1)),
     `blob_index` UInt32 COMMENT 'Blob index associated with the record' CODEC(ZSTD(1)),
+    `beacon_block_root` FixedString(66) CODEC(ZSTD(1)),
     `parent_root` FixedString(66) COMMENT 'Parent root of the beacon block' CODEC(ZSTD(1)),
     `state_root` FixedString(66) COMMENT 'State root of the beacon block' CODEC(ZSTD(1)),
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer',
