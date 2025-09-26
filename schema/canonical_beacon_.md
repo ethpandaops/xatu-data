@@ -1303,7 +1303,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2025-09-24`
 - **holesky**: `2023-09-23` to `2025-04-29`
-- **sepolia**: `2022-06-20` to `2025-09-23`
+- **sepolia**: `2022-06-20` to `2025-09-24`
 
 ### Examples
 
@@ -1406,7 +1406,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2089150`
+- **mainnet**: `0` to `2089700`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
