@@ -1820,9 +1820,11 @@ echo """
 | **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the RPC* |
 | **error** | `Nullable(String)` | *Error message if the metadata handling failed* |
 | **protocol** | `LowCardinality(String)` | *The protocol of the metadata handling event* |
+| **direction** | `LowCardinality(Nullable(String))` | *Direction of the RPC request (inbound or outbound)* |
 | **attnets** | `String` | *Attestation subnets the peer is subscribed to* |
 | **seq_number** | `UInt64` | *Sequence number of the metadata* |
 | **syncnets** | `String` | *Sync subnets the peer is subscribed to* |
+| **custody_group_count** | `Nullable(UInt8)` | *Number of custody groups (0-127)* |
 | **latency_milliseconds** | `Decimal(10, 3)` | *How long it took to handle the metadata request in milliseconds* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
@@ -1913,16 +1915,19 @@ echo """
 | **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |
 | **error** | `Nullable(String)` | *Error message if the status handling failed* |
 | **protocol** | `LowCardinality(String)` | *The protocol of the status handling event* |
+| **direction** | `LowCardinality(Nullable(String))` | *Direction of the RPC request (inbound or outbound)* |
 | **request_finalized_epoch** | `Nullable(UInt32)` | *Requested finalized epoch* |
 | **request_finalized_root** | `Nullable(String)` | *Requested finalized root* |
 | **request_fork_digest** | `LowCardinality(String)` | *Requested fork digest* |
 | **request_head_root** | `Nullable(FixedString(66))` | *Requested head root* |
 | **request_head_slot** | `Nullable(UInt32)` | *Requested head slot* |
+| **request_earliest_available_slot** | `Nullable(UInt32)` | *Requested earliest available slot* |
 | **response_finalized_epoch** | `Nullable(UInt32)` | *Response finalized epoch* |
 | **response_finalized_root** | `Nullable(FixedString(66))` | *Response finalized root* |
 | **response_fork_digest** | `LowCardinality(String)` | *Response fork digest* |
 | **response_head_root** | `Nullable(FixedString(66))` | *Response head root* |
 | **response_head_slot** | `Nullable(UInt32)` | *Response head slot* |
+| **response_earliest_available_slot** | `Nullable(UInt32)` | *Response earliest available slot* |
 | **latency_milliseconds** | `Decimal(10, 3)` | *How long it took to handle the status request in milliseconds* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
