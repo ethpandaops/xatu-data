@@ -12,6 +12,76 @@ llms_full_txt_file="llms-full.txt"
 config_file="config.yaml"
 github_config_url="https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml"
 schema_dir="./schema/clickhouse"
+clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
+
+# Auto-discover CBT tables from ClickHouse
+discover_cbt_tables() {
+    local cbt_database="mainnet"
+
+    # Get all tables from mainnet database, excluding views, admin tables, and schema_migrations
+    curl -s "$clickhouse_host" --data "
+        SELECT name
+        FROM system.tables
+        WHERE database = '$cbt_database'
+          AND engine NOT LIKE '%View%'
+          AND name NOT LIKE 'admin_%'
+          AND name NOT IN ('schema_migrations', 'schema_migrations_local')
+          AND name NOT LIKE '%_local'
+        ORDER BY name
+        FORMAT TabSeparated
+    "
+}
+
+# Get CBT table info for llms.txt
+get_cbt_table_info() {
+    local table_name=$1
+    local cbt_database="mainnet"
+
+    # Get table description
+    local description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+
+    # Get ORDER BY clause
+    local sorting_key=$(curl -s "$clickhouse_host" --data "SELECT sorting_key FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+
+    # Extract first column from ORDER BY
+    local partition_column=$(echo "$sorting_key" | sed 's/,.*//; s/^[[:space:]]*//; s/[[:space:]]*$//')
+
+    # Get column type to determine partition type
+    local column_type=$(curl -s "$clickhouse_host" --data "SELECT type FROM system.columns WHERE database = '$cbt_database' AND table = '${table_name}_local' AND name = '$partition_column' FORMAT TabSeparated")
+
+    # Determine partition type based on column type
+    local partition_type="none"
+    local partition_interval=""
+    if [[ "$column_type" =~ ^DateTime || "$column_type" =~ ^Date ]]; then
+        partition_type="datetime"
+        partition_interval="daily"
+    elif [[ "$column_type" =~ ^UInt || "$column_type" =~ ^Int ]]; then
+        partition_type="integer"
+        partition_interval="1000"
+    fi
+
+    # Output in the format expected by llms.txt generation
+    echo "### $table_name"
+    echo "- **Database**: cbt"
+    echo "- **Description**: $description"
+    echo "- **Partitioning**: $partition_column ($partition_type), $partition_interval"
+    echo "- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)"
+    echo "- **Tags**: "
+}
+
+# Check if ClickHouse is available for CBT auto-discovery
+cbt_discovery_enabled=false
+if curl -s "$clickhouse_host" --data "SELECT 1 FORMAT TabSeparated" > /dev/null 2>&1; then
+    # Check if mainnet database exists
+    if curl -s "$clickhouse_host" --data "SELECT 1 FROM system.databases WHERE name = 'mainnet' FORMAT TabSeparated" | grep -q "1"; then
+        cbt_discovery_enabled=true
+        log "CBT auto-discovery enabled (ClickHouse mainnet database found)"
+    else
+        log "CBT auto-discovery disabled (mainnet database not found)"
+    fi
+else
+    log "CBT auto-discovery disabled (ClickHouse not available at $clickhouse_host)"
+fi
 
 # Show help information
 show_help() {
@@ -539,26 +609,41 @@ EOF
     ) | join(", ")) +
     "\n- **Tags**: " + (.tags | join(", "))' "$config_file" >> "$output_file"
 
+  # Add auto-discovered CBT tables if available
+  if [ "$cbt_discovery_enabled" = true ]; then
+    log "Adding auto-discovered CBT tables..."
+    for table_name in $(discover_cbt_tables); do
+      get_cbt_table_info "$table_name" >> "$output_file"
+    done
+  else
+    log "Skipping CBT tables (auto-discovery disabled)"
+  fi
+
   cat >> "$output_file" << 'EOF'
 
 ## Schema Documentation
 
 ### Common Fields
 
-All tables include:
+Most tables include standard metadata fields:
 - **meta_client_name**: Client that collected the data
 - **meta_client_id**: Unique Session ID
 - **meta_client_version**: Client version
 - **meta_network_name**: Network name
 - **event_date_time**: When the event was created
 
+**Note:** CBT (ClickHouse Build Tools) tables are pre-aggregated analytical tables and do not include these metadata fields. Network selection for CBT tables is done via database targeting (e.g., `mainnet.table_name`).
+
 ## Schema Access
 
 To view table schemas:
 
 ```bash
-# Get a specific table schema
+# Get a specific table schema (default database)
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/TABLE_NAME.sql
+
+# Get a CBT table schema
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/cbt/TABLE_NAME.sql
 
 # Search within a schema for details
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/beacon_api_eth_v1_events_block.sql | grep -A 50 "CREATE TABLE"
@@ -572,10 +657,13 @@ EOF
 To get a list of all available tables, you can use:
 
 ```bash
-# List all schemas
+# List all default database schemas
 curl -s https://api.github.com/repos/ethpandaops/xatu-data/contents/schema/clickhouse/default | jq -r '.[].name'
 
-# Get table details from config
+# List all CBT table schemas
+curl -s https://api.github.com/repos/ethpandaops/xatu-data/contents/schema/clickhouse/cbt | jq -r '.[].name'
+
+# Get table details from config (excludes auto-discovered CBT tables)
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
   yq e '.tables[] | "Table: " + .name + ", Partition: " + .partitioning.column + " (" + .partitioning.type + ")"'
 ```

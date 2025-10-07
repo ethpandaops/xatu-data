@@ -13,42 +13,22 @@ jobs:
     steps:
       - name: Checkout local repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - name: Checkout remote repository
+      - name: Checkout xatu-cbt repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          repository: "ethpandaops/xatu"
-          path: "xatu"
+          repository: "ethpandaops/xatu-cbt"
+          path: "xatu-cbt"
+      - name: Setup Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+        with:
+          go-version: '1.25'
       - name: Setup Docker
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
-      - name: Run Docker Compose in remote repo
-        # Until https://github.com/ClickHouse/ClickHouse/issues/86434 is resolved, dont use latest.
-        env:
-          CHVER: 25.6.3.116
+      - name: Setup xatu-cbt and spin up infrastructure
         run: |
-          cd xatu
-          docker compose --profile clickhouse up -d
-      - name: Wait for service on port 8123 to be up
-        run: |
-          timeout=60 # wait for up to 60 seconds
-          while ! curl --output /dev/null --silent --head --fail http://localhost:8123; do
-            printf '.'
-            timeout=$((timeout-1))
-            if [ "$timeout" -le 0 ]; then
-              echo "Service did not become available on port 8123 in time"
-              exit 1
-            fi
-            sleep 1
-          done
-          echo "Service is up on port 8123"
-      - name: Wait for docker container xatu-clickhouse-migrator to exit 0
-        run: |
-          set -e # This will cause the script to exit on the first error
-          EXIT_CODE=$(docker wait xatu-clickhouse-migrator)
-          echo "Exit code: $EXIT_CODE"
-          if [ "$EXIT_CODE" != "0" ]; then
-            echo "Container exited with code $EXIT_CODE, failing the job."
-            exit 1
-          fi
+          cd xatu-cbt
+          cp example.env .env
+          go run ./cmd/xatu-cbt infra setup --clean
       - name: Go to root directory
         run: cd ..
       - name: Run generate-schema.sh for SCHEMA.md
@@ -63,11 +43,11 @@ jobs:
           MODE: docusaurus
           SCHEMA: SCHEMA.docusaurus.md
         run: ./generate-schema.sh
-      - name: Run generate-schema.sh for SCHEMA.all.md
-        env:
-          MODE: all
-          SCHEMA: SCHEMA.all.md
-        run: ./generate-schema.sh
+      # - name: Run generate-schema.sh for SCHEMA.all.md
+      #   env:
+      #     MODE: all
+      #     SCHEMA: SCHEMA.all.md
+      #   run: ./generate-schema.sh
       - name: Run generate-readme.sh for README.md
         run: ./generate-readme.sh
       - name: Run generate-readme.sh for README.hugo.md
@@ -86,10 +66,10 @@ jobs:
         run: ./generate-llmstxt.sh
       - name: Cleanup before commit
         run: |
-          cd xatu
-          docker compose down
+          cd xatu-cbt
+          go run ./cmd/xatu-cbt infra teardown
           cd ..
-          rm -rf xatu
+          rm -rf xatu-cbt
       - name: Git diff
         run: |
           git diff --exit-code || echo "No changes to commit"
