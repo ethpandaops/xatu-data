@@ -215,7 +215,12 @@ generate_table_schema() {
     echo "docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query=\"\"\""
     echo "    SELECT"
     echo "        *"
-    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    # For CBT tables, always use mainnet as example database
+    local example_database="${database}"
+    if [ "$is_cbt_table" = "true" ]; then
+        example_database="mainnet"
+    fi
+    echo "    FROM ${example_database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
     if [ "$is_cbt_table" != "true" ]; then
         echo "    WHERE"
         if [ "$partition_type" = "datetime" ]; then
@@ -242,7 +247,7 @@ generate_table_schema() {
     echo "echo \"\"\""
     echo "    SELECT"
     echo "        *"
-    echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    echo "    FROM ${example_database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
     if [ "$is_cbt_table" != "true" ]; then
         echo "    WHERE"
         if [ "$partition_type" = "datetime" ]; then
