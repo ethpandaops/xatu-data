@@ -1,4 +1,3 @@
-# canonical_beacon_
 
 Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information
 

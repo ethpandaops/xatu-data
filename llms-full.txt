@@ -1360,21 +1360,42 @@ ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_first_seen_chunked
 COMMENT 'Attestations first seen on the unfinalized chain broken down by 50ms chunks. Only includes attestations that were seen within 12000ms of the slot start time. There can be multiple block roots + chunk_slot_start_diff for the same slot, it most likely means votes for prior slot blocks'
 ```
 
-##### Table: fct_block_blob_count_head
+##### Table: fct_block
 
 ```sql
-CREATE TABLE mainnet.fct_block_blob_count_head
+CREATE TABLE mainnet.fct_block
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
-    `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1))
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload',
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block',
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block',
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block',
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
+    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
+    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
+    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` FixedString(66) COMMENT 'The state root of the execution payload',
+    `execution_payload_parent_hash` FixedString(66) COMMENT 'The parent hash of the execution payload',
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy',
+    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
 )
-ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_count_head_local', cityHash64(slot_start_date_time, block_root))
-COMMENT 'Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Block details for the finalized chain including orphaned blocks'
 ```
 
 ##### Table: fct_block_blob_count
@@ -1393,6 +1414,23 @@ CREATE TABLE mainnet.fct_block_blob_count
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_count_local', cityHash64(slot_start_date_time, block_root))
 COMMENT 'Blob count of a block for the finalized chain'
+```
+
+##### Table: fct_block_blob_count_head
+
+```sql
+CREATE TABLE mainnet.fct_block_blob_count_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_count_head_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
 ```
 
 ##### Table: fct_block_blob_first_seen_by_node
@@ -1501,6 +1539,35 @@ ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_head_local', cityHash64(
 COMMENT 'Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
 ```
 
+##### Table: fct_block_mev
+
+```sql
+CREATE TABLE mainnet.fct_block_mev
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `earliest_bid_date_time` Nullable(DateTime64(3)) COMMENT 'The earliest timestamp of the accepted bid in milliseconds' CODEC(ZSTD(1)),
+    `relay_names` Array(String) COMMENT 'The relay names that delivered the proposer payload' CODEC(ZSTD(1)),
+    `parent_hash` FixedString(66) COMMENT 'The parent hash of the proposer payload' CODEC(ZSTD(1)),
+    `block_number` UInt64 COMMENT 'The block number of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'The block hash of the proposer payload' CODEC(ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The builder pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The proposer pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the proposer payload' CODEC(ZSTD(1)),
+    `gas_limit` UInt64 COMMENT 'The gas limit of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `gas_used` UInt64 COMMENT 'The gas used of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `value` Nullable(UInt128) COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
+    `transaction_count` UInt32 COMMENT 'The number of transactions in the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_mev_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks'
+```
+
 ##### Table: fct_block_mev_head
 
 ```sql
@@ -1529,33 +1596,23 @@ ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_mev_head_local', cityHas
 COMMENT 'MEV relay proposer payload delivered for a block on the unfinalized chain'
 ```
 
-##### Table: fct_block_mev
+##### Table: fct_block_proposer
 
 ```sql
-CREATE TABLE mainnet.fct_block_mev
+CREATE TABLE mainnet.fct_block_proposer
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'Slot number within the block proposer payload' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
-    `block_root` String COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
-    `earliest_bid_date_time` Nullable(DateTime64(3)) COMMENT 'The earliest timestamp of the accepted bid in milliseconds' CODEC(ZSTD(1)),
-    `relay_names` Array(String) COMMENT 'The relay names that delivered the proposer payload' CODEC(ZSTD(1)),
-    `parent_hash` FixedString(66) COMMENT 'The parent hash of the proposer payload' CODEC(ZSTD(1)),
-    `block_number` UInt64 COMMENT 'The block number of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
-    `block_hash` FixedString(66) COMMENT 'The block hash of the proposer payload' CODEC(ZSTD(1)),
-    `builder_pubkey` String COMMENT 'The builder pubkey of the proposer payload' CODEC(ZSTD(1)),
-    `proposer_pubkey` String COMMENT 'The proposer pubkey of the proposer payload' CODEC(ZSTD(1)),
-    `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the proposer payload' CODEC(ZSTD(1)),
-    `gas_limit` UInt64 COMMENT 'The gas limit of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
-    `gas_used` UInt64 COMMENT 'The gas used of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
-    `value` Nullable(UInt128) COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
-    `transaction_count` UInt32 COMMENT 'The number of transactions in the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
-    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash. Null if a block was never seen by a sentry, aka "missed"' CODEC(ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical", "orphaned" or "missed"'
 )
-ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_mev_local', cityHash64(slot_start_date_time, block_root))
-COMMENT 'MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks'
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_local', cityHash64(slot_start_date_time))
+COMMENT 'Block proposers for the finalized chain including orphaned blocks'
 ```
 
 ##### Table: fct_block_proposer_entity
@@ -1590,63 +1647,6 @@ CREATE TABLE mainnet.fct_block_proposer_head
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_head_local', cityHash64(slot_start_date_time, proposer_validator_index))
 COMMENT 'Block proposers for the unfinalized chain'
-```
-
-##### Table: fct_block_proposer
-
-```sql
-CREATE TABLE mainnet.fct_block_proposer
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
-    `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
-    `block_root` Nullable(String) COMMENT 'The beacon block root hash. Null if a block was never seen by a sentry, aka "missed"' CODEC(ZSTD(1)),
-    `status` LowCardinality(String) COMMENT 'Can be "canonical", "orphaned" or "missed"'
-)
-ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_local', cityHash64(slot_start_date_time))
-COMMENT 'Block proposers for the finalized chain including orphaned blocks'
-```
-
-##### Table: fct_block
-
-```sql
-CREATE TABLE mainnet.fct_block
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'The slot number from beacon block payload',
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
-    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
-    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block',
-    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
-    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
-    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
-    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block',
-    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block',
-    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
-    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
-    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
-    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
-    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
-    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
-    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
-    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_state_root` FixedString(66) COMMENT 'The state root of the execution payload',
-    `execution_payload_parent_hash` FixedString(66) COMMENT 'The parent hash of the execution payload',
-    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
-    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
-    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy',
-    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
-)
-ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_local', cityHash64(slot_start_date_time, block_root))
-COMMENT 'Block details for the finalized chain including orphaned blocks'
 ```
 
 ##### Table: fct_mev_bid_count_by_builder
@@ -2153,46 +2153,6 @@ ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_blob_side
 COMMENT 'Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.'
 ```
 
-##### Table: beacon_api_eth_v1_events_block_gossip
-
-```sql
-CREATE TABLE default.beacon_api_eth_v1_events_block_gossip
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
-    `block` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_gossip_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
-COMMENT 'Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.'
-```
-
 ##### Table: beacon_api_eth_v1_events_block
 
 ```sql
@@ -2232,6 +2192,46 @@ CREATE TABLE default.beacon_api_eth_v1_events_block
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
 COMMENT 'Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.'
+```
+
+##### Table: beacon_api_eth_v1_events_block_gossip
+
+```sql
+CREATE TABLE default.beacon_api_eth_v1_events_block_gossip
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
+    `block` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_gossip_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
+COMMENT 'Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.'
 ```
 
 ##### Table: beacon_api_eth_v1_events_chain_reorg
@@ -2697,6 +2697,65 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_blob_sidecar_loca
 COMMENT 'Contains a blob sidecar from a beacon block.'
 ```
 
+##### Table: canonical_beacon_block
+
+```sql
+CREATE TABLE default.canonical_beacon_block
+(
+    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload' CODEC(ZSTD(1)),
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy' CODEC(ZSTD(1)),
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block' CODEC(ZSTD(1)),
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block' CODEC(ZSTD(1)),
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block' CODEC(ZSTD(1)),
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block' CODEC(ZSTD(1)),
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block' CODEC(ZSTD(1)),
+    `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload' CODEC(ZSTD(1)),
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` Nullable(FixedString(66)) COMMENT 'The state root of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_parent_hash` Nullable(FixedString(66)) COMMENT 'The parent hash of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_local', cityHash64(slot_start_date_time, meta_network_name))
+COMMENT 'Contains beacon block from a beacon node.'
+```
+
 ##### Table: canonical_beacon_block_attester_slashing
 
 ```sql
@@ -2949,65 +3008,6 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_proposer_sl
 COMMENT 'Contains proposer slashing from a beacon block.'
 ```
 
-##### Table: canonical_beacon_block
-
-```sql
-CREATE TABLE default.canonical_beacon_block
-(
-    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'The slot number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
-    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
-    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload' CODEC(ZSTD(1)),
-    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy' CODEC(ZSTD(1)),
-    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block' CODEC(ZSTD(1)),
-    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block' CODEC(ZSTD(1)),
-    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block' CODEC(ZSTD(1)),
-    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block' CODEC(ZSTD(1)),
-    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block' CODEC(ZSTD(1)),
-    `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload' CODEC(DoubleDelta, ZSTD(1)),
-    `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload' CODEC(ZSTD(1)),
-    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
-    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_state_root` Nullable(FixedString(66)) COMMENT 'The state root of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_parent_hash` Nullable(FixedString(66)) COMMENT 'The parent hash of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_local', cityHash64(slot_start_date_time, meta_network_name))
-COMMENT 'Contains beacon block from a beacon node.'
-```
-
 ##### Table: canonical_beacon_block_voluntary_exit
 
 ```sql
@@ -3223,44 +3223,6 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_proposer_duty_loc
 COMMENT 'Contains a proposer duty from a beacon block.'
 ```
 
-##### Table: canonical_beacon_validators_pubkeys
-
-```sql
-CREATE TABLE default.canonical_beacon_validators_pubkeys
-(
-    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `version` UInt32 DEFAULT 4294967295 - toUnixTimestamp(epoch_start_date_time) COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but earliest epoch_start_date_time the pubkey was seen' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `index` UInt32 COMMENT 'The index of the validator' CODEC(ZSTD(1)),
-    `pubkey` String COMMENT 'The public key of the validator' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_pubkeys_local', cityHash64(index, meta_network_name))
-COMMENT 'Contains a validator pubkeys for an epoch.'
-```
-
 ##### Table: canonical_beacon_validators
 
 ```sql
@@ -3303,6 +3265,44 @@ CREATE TABLE default.canonical_beacon_validators
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_local', cityHash64(epoch_start_date_time, meta_network_name, index, status))
 COMMENT 'Contains a validator state for an epoch.'
+```
+
+##### Table: canonical_beacon_validators_pubkeys
+
+```sql
+CREATE TABLE default.canonical_beacon_validators_pubkeys
+(
+    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `version` UInt32 DEFAULT 4294967295 - toUnixTimestamp(epoch_start_date_time) COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but earliest epoch_start_date_time the pubkey was seen' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `index` UInt32 COMMENT 'The index of the validator' CODEC(ZSTD(1)),
+    `pubkey` String COMMENT 'The public key of the validator' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_pubkeys_local', cityHash64(index, meta_network_name))
+COMMENT 'Contains a validator pubkeys for an epoch.'
 ```
 
 ##### Table: canonical_execution_address_appearances

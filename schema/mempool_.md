@@ -1,4 +1,3 @@
-# mempool_
 
 Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances.
 

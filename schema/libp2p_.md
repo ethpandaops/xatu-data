@@ -1,4 +1,3 @@
-# libp2p_
 
 Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.
 

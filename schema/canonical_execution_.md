@@ -1,4 +1,3 @@
-# canonical_execution_
 
 Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information
 

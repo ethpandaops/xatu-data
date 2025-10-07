@@ -1,4 +1,3 @@
-# mev_relay_
 
 Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.
 
