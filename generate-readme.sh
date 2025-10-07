@@ -48,14 +48,21 @@ generate_datasets_table() {
         dataset_name=$(echo "$dataset_config" | jq -r '.name')
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
+
+        # Handle empty prefix (CBT dataset) - use 'cbt' as the filename
+        schema_file="$dataset_prefix"
+        if [ -z "$dataset_prefix" ] || [ "$dataset_prefix" = "null" ]; then
+            schema_file="cbt"
+        fi
+
         if [ "${mode}" = "hugo" ]; then
-            dataset_link="./schema/${dataset_prefix}"
+            dataset_link="./schema/${schema_file}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="/data/xatu/schema/${dataset_prefix}/"
+            dataset_link="/data/xatu/schema/${schema_file}/"
         fi
         if [ "${mode}" = "" ]; then
-            dataset_link="./schema/$dataset_prefix.md"
+            dataset_link="./schema/${schema_file}.md"
         fi
         echo -n "| **$dataset_name** | [Schema]($dataset_link) | $dataset_description | $dataset_prefix |"
         for option in $dataset_availability_options; do
