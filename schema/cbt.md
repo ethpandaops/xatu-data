@@ -86,7 +86,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.dim_node FINAL
+    FROM mainnet.dim_node FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -102,7 +102,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.dim_node FINAL
+    FROM mainnet.dim_node FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -145,7 +145,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_access_chunked_10000 FINAL
+    FROM mainnet.fct_address_access_chunked_10000 FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -161,7 +161,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_access_chunked_10000 FINAL
+    FROM mainnet.fct_address_access_chunked_10000 FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -201,7 +201,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_access_total FINAL
+    FROM mainnet.fct_address_access_total FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -217,7 +217,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_access_total FINAL
+    FROM mainnet.fct_address_access_total FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -258,7 +258,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_chunked_10000 FINAL
+    FROM mainnet.fct_address_storage_slot_chunked_10000 FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -274,7 +274,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_chunked_10000 FINAL
+    FROM mainnet.fct_address_storage_slot_chunked_10000 FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -314,7 +314,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_expired_top_100_by_contract FINAL
+    FROM mainnet.fct_address_storage_slot_expired_top_100_by_contract FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -330,7 +330,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_expired_top_100_by_contract FINAL
+    FROM mainnet.fct_address_storage_slot_expired_top_100_by_contract FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -370,7 +370,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_top_100_by_contract FINAL
+    FROM mainnet.fct_address_storage_slot_top_100_by_contract FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -386,7 +386,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_top_100_by_contract FINAL
+    FROM mainnet.fct_address_storage_slot_top_100_by_contract FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -426,7 +426,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_total FINAL
+    FROM mainnet.fct_address_storage_slot_total FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -442,7 +442,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_address_storage_slot_total FINAL
+    FROM mainnet.fct_address_storage_slot_total FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -481,7 +481,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_by_validator_canonical FINAL
+    FROM mainnet.fct_attestation_correctness_by_validator_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -497,7 +497,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_by_validator_canonical FINAL
+    FROM mainnet.fct_attestation_correctness_by_validator_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -543,7 +543,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_by_validator_head FINAL
+    FROM mainnet.fct_attestation_correctness_by_validator_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -559,7 +559,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_by_validator_head FINAL
+    FROM mainnet.fct_attestation_correctness_by_validator_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -604,7 +604,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_canonical FINAL
+    FROM mainnet.fct_attestation_correctness_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -620,7 +620,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_canonical FINAL
+    FROM mainnet.fct_attestation_correctness_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -665,7 +665,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_head FINAL
+    FROM mainnet.fct_attestation_correctness_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -681,7 +681,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_attestation_correctness_head FINAL
+    FROM mainnet.fct_attestation_correctness_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -726,7 +726,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_attestation_first_seen_chunked_50ms FINAL
+    FROM mainnet.fct_attestation_first_seen_chunked_50ms FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -742,7 +742,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_attestation_first_seen_chunked_50ms FINAL
+    FROM mainnet.fct_attestation_first_seen_chunked_50ms FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -786,7 +786,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block FINAL
+    FROM mainnet.fct_block FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -802,7 +802,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block FINAL
+    FROM mainnet.fct_block FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -866,7 +866,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_blob_count FINAL
+    FROM mainnet.fct_block_blob_count FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -882,7 +882,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_blob_count FINAL
+    FROM mainnet.fct_block_blob_count FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -926,7 +926,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_blob_count_head FINAL
+    FROM mainnet.fct_block_blob_count_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -942,7 +942,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_blob_count_head FINAL
+    FROM mainnet.fct_block_blob_count_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -985,7 +985,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_blob_first_seen_by_node FINAL
+    FROM mainnet.fct_block_blob_first_seen_by_node FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1001,7 +1001,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_blob_first_seen_by_node FINAL
+    FROM mainnet.fct_block_blob_first_seen_by_node FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1062,7 +1062,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_first_seen_by_node FINAL
+    FROM mainnet.fct_block_first_seen_by_node FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1078,7 +1078,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_first_seen_by_node FINAL
+    FROM mainnet.fct_block_first_seen_by_node FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1138,7 +1138,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_head FINAL
+    FROM mainnet.fct_block_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1154,7 +1154,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_head FINAL
+    FROM mainnet.fct_block_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1217,7 +1217,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_mev FINAL
+    FROM mainnet.fct_block_mev FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1233,7 +1233,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_mev FINAL
+    FROM mainnet.fct_block_mev FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1288,7 +1288,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_mev_head FINAL
+    FROM mainnet.fct_block_mev_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1304,7 +1304,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_mev_head FINAL
+    FROM mainnet.fct_block_mev_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1358,7 +1358,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_proposer FINAL
+    FROM mainnet.fct_block_proposer FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1374,7 +1374,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_proposer FINAL
+    FROM mainnet.fct_block_proposer FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1419,7 +1419,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_proposer_entity FINAL
+    FROM mainnet.fct_block_proposer_entity FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1435,7 +1435,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_proposer_entity FINAL
+    FROM mainnet.fct_block_proposer_entity FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1477,7 +1477,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_block_proposer_head FINAL
+    FROM mainnet.fct_block_proposer_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1493,7 +1493,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_block_proposer_head FINAL
+    FROM mainnet.fct_block_proposer_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1537,7 +1537,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_mev_bid_count_by_builder FINAL
+    FROM mainnet.fct_mev_bid_count_by_builder FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1553,7 +1553,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_mev_bid_count_by_builder FINAL
+    FROM mainnet.fct_mev_bid_count_by_builder FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1596,7 +1596,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_mev_bid_count_by_relay FINAL
+    FROM mainnet.fct_mev_bid_count_by_relay FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1612,7 +1612,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_mev_bid_count_by_relay FINAL
+    FROM mainnet.fct_mev_bid_count_by_relay FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1655,7 +1655,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_mev_bid_highest_value_by_builder_chunked_50ms FINAL
+    FROM mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1671,7 +1671,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_mev_bid_highest_value_by_builder_chunked_50ms FINAL
+    FROM mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1718,7 +1718,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_node_active_last_24h FINAL
+    FROM mainnet.fct_node_active_last_24h FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1734,7 +1734,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_node_active_last_24h FINAL
+    FROM mainnet.fct_node_active_last_24h FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1788,7 +1788,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.fct_prepared_block FINAL
+    FROM mainnet.fct_prepared_block FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1804,7 +1804,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.fct_prepared_block FINAL
+    FROM mainnet.fct_prepared_block FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1862,7 +1862,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_address_first_access FINAL
+    FROM mainnet.int_address_first_access FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1878,7 +1878,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_address_first_access FINAL
+    FROM mainnet.int_address_first_access FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1917,7 +1917,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_address_last_access FINAL
+    FROM mainnet.int_address_last_access FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1933,7 +1933,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_address_last_access FINAL
+    FROM mainnet.int_address_last_access FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1971,7 +1971,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_address_storage_slot_first_access FINAL
+    FROM mainnet.int_address_storage_slot_first_access FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -1987,7 +1987,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_address_storage_slot_first_access FINAL
+    FROM mainnet.int_address_storage_slot_first_access FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2028,7 +2028,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_address_storage_slot_last_access FINAL
+    FROM mainnet.int_address_storage_slot_last_access FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2044,7 +2044,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_address_storage_slot_last_access FINAL
+    FROM mainnet.int_address_storage_slot_last_access FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2084,7 +2084,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_attestation_attested_canonical FINAL
+    FROM mainnet.int_attestation_attested_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2100,7 +2100,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_attestation_attested_canonical FINAL
+    FROM mainnet.int_attestation_attested_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2150,7 +2150,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_attestation_attested_head FINAL
+    FROM mainnet.int_attestation_attested_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2166,7 +2166,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_attestation_attested_head FINAL
+    FROM mainnet.int_attestation_attested_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2216,7 +2216,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_attestation_first_seen FINAL
+    FROM mainnet.int_attestation_first_seen FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2232,7 +2232,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_attestation_first_seen FINAL
+    FROM mainnet.int_attestation_first_seen FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2294,7 +2294,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_beacon_committee_head FINAL
+    FROM mainnet.int_beacon_committee_head FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2310,7 +2310,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_beacon_committee_head FINAL
+    FROM mainnet.int_beacon_committee_head FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2353,7 +2353,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_block_blob_count_canonical FINAL
+    FROM mainnet.int_block_blob_count_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2369,7 +2369,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_block_blob_count_canonical FINAL
+    FROM mainnet.int_block_blob_count_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2412,7 +2412,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_block_canonical FINAL
+    FROM mainnet.int_block_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2428,7 +2428,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_block_canonical FINAL
+    FROM mainnet.int_block_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2491,7 +2491,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_block_mev_canonical FINAL
+    FROM mainnet.int_block_mev_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2507,7 +2507,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_block_mev_canonical FINAL
+    FROM mainnet.int_block_mev_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2561,7 +2561,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM cbt.int_block_proposer_canonical FINAL
+    FROM mainnet.int_block_proposer_canonical FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -2577,7 +2577,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cbt.int_block_proposer_canonical FINAL
+    FROM mainnet.int_block_proposer_canonical FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
