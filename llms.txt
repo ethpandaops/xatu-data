@@ -484,6 +484,12 @@ The following tables are available in the Xatu dataset:
 - **Partitioning**: event_date_time (datetime), daily
 - **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
+### mev_relay_bid_trace
+- **Database**: default
+- **Description**: Contains MEV relay block bids data.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (2024-09-13 to 2025-10-05), holesky (2024-09-13 to 2025-10-05), sepolia (2024-09-13 to 2025-10-05)
+- **Tags**: 
 ### mev_relay_proposer_payload_delivered
 - **Database**: default
 - **Description**: Contains MEV relay proposer payload delivered data.
@@ -599,244 +605,244 @@ The following tables are available in the Xatu dataset:
 - **Networks**: mainnet (22731300 to 23514400)
 - **Tags**: Execution layer, Finalized
 ### dim_node
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Node information for validators
 - **Partitioning**: validator_index (integer), 1000
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.dim_node`), sepolia (`sepolia.dim_node`), holesky (`holesky.dim_node`), hoodi (`hoodi.dim_node`)
 - **Tags**: 
 ### fct_address_access_chunked_10000
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Address access totals chunked by 10000 blocks
 - **Partitioning**: chunk_start_block_number (integer), 1000
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_access_chunked_10000`), sepolia (`sepolia.fct_address_access_chunked_10000`), holesky (`holesky.fct_address_access_chunked_10000`), hoodi (`hoodi.fct_address_access_chunked_10000`)
 - **Tags**: 
 ### fct_address_access_total
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Address access totals and expiry statistics
 - **Partitioning**: updated_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_access_total`), sepolia (`sepolia.fct_address_access_total`), holesky (`holesky.fct_address_access_total`), hoodi (`hoodi.fct_address_access_total`)
 - **Tags**: 
 ### fct_address_storage_slot_chunked_10000
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Storage slot totals chunked by 10000 blocks
 - **Partitioning**: chunk_start_block_number (integer), 1000
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_chunked_10000`), sepolia (`sepolia.fct_address_storage_slot_chunked_10000`), holesky (`holesky.fct_address_storage_slot_chunked_10000`), hoodi (`hoodi.fct_address_storage_slot_chunked_10000`)
 - **Tags**: 
 ### fct_address_storage_slot_expired_top_100_by_contract
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Top 100 contracts by expired storage slots (not accessed in last 365 days)
 - **Partitioning**: rank (integer), 1000
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_expired_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_expired_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_expired_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_expired_top_100_by_contract`)
 - **Tags**: 
 ### fct_address_storage_slot_top_100_by_contract
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Top 100 contracts by storage slots
 - **Partitioning**: rank (integer), 1000
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_top_100_by_contract`)
 - **Tags**: 
 ### fct_address_storage_slot_total
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Storage slot totals and expiry statistics
 - **Partitioning**: updated_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_total`), sepolia (`sepolia.fct_address_storage_slot_total`), holesky (`holesky.fct_address_storage_slot_total`), hoodi (`hoodi.fct_address_storage_slot_total`)
 - **Tags**: 
 ### fct_attestation_correctness_by_validator_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attestation correctness by validator for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_canonical`), sepolia (`sepolia.fct_attestation_correctness_by_validator_canonical`), holesky (`holesky.fct_attestation_correctness_by_validator_canonical`), hoodi (`hoodi.fct_attestation_correctness_by_validator_canonical`)
 - **Tags**: 
 ### fct_attestation_correctness_by_validator_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attestation correctness by validator for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_head`), sepolia (`sepolia.fct_attestation_correctness_by_validator_head`), holesky (`holesky.fct_attestation_correctness_by_validator_head`), hoodi (`hoodi.fct_attestation_correctness_by_validator_head`)
 - **Tags**: 
 ### fct_attestation_correctness_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attestation correctness of a block for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_canonical`), sepolia (`sepolia.fct_attestation_correctness_canonical`), holesky (`holesky.fct_attestation_correctness_canonical`), hoodi (`hoodi.fct_attestation_correctness_canonical`)
 - **Tags**: 
 ### fct_attestation_correctness_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attestation correctness of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_head`), sepolia (`sepolia.fct_attestation_correctness_head`), holesky (`holesky.fct_attestation_correctness_head`), hoodi (`hoodi.fct_attestation_correctness_head`)
 - **Tags**: 
 ### fct_attestation_first_seen_chunked_50ms
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attestations first seen on the unfinalized chain broken down by 50ms chunks. Only includes attestations that were seen within 12000ms of the slot start time. There can be multiple block roots + chunk_slot_start_diff for the same slot, it most likely means votes for prior slot blocks
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_attestation_first_seen_chunked_50ms`), sepolia (`sepolia.fct_attestation_first_seen_chunked_50ms`), holesky (`holesky.fct_attestation_first_seen_chunked_50ms`), hoodi (`hoodi.fct_attestation_first_seen_chunked_50ms`)
 - **Tags**: 
 ### fct_block
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block details for the finalized chain including orphaned blocks
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block`), sepolia (`sepolia.fct_block`), holesky (`holesky.fct_block`), hoodi (`hoodi.fct_block`)
 - **Tags**: 
 ### fct_block_blob_count
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Blob count of a block for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_blob_count`), sepolia (`sepolia.fct_block_blob_count`), holesky (`holesky.fct_block_blob_count`), hoodi (`hoodi.fct_block_blob_count`)
 - **Tags**: 
 ### fct_block_blob_count_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_blob_count_head`), sepolia (`sepolia.fct_block_blob_count_head`), holesky (`holesky.fct_block_blob_count_head`), hoodi (`hoodi.fct_block_blob_count_head`)
 - **Tags**: 
 ### fct_block_blob_first_seen_by_node
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: When the block was first seen on the network by a sentry node
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_blob_first_seen_by_node`), sepolia (`sepolia.fct_block_blob_first_seen_by_node`), holesky (`holesky.fct_block_blob_first_seen_by_node`), hoodi (`hoodi.fct_block_blob_first_seen_by_node`)
 - **Tags**: 
 ### fct_block_first_seen_by_node
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: When the block was first seen on the network by a sentry node
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_first_seen_by_node`), sepolia (`sepolia.fct_block_first_seen_by_node`), holesky (`holesky.fct_block_first_seen_by_node`), hoodi (`hoodi.fct_block_first_seen_by_node`)
 - **Tags**: 
 ### fct_block_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_head`), sepolia (`sepolia.fct_block_head`), holesky (`holesky.fct_block_head`), hoodi (`hoodi.fct_block_head`)
 - **Tags**: 
 ### fct_block_mev
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_mev`), sepolia (`sepolia.fct_block_mev`), holesky (`holesky.fct_block_mev`), hoodi (`hoodi.fct_block_mev`)
 - **Tags**: 
 ### fct_block_mev_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: MEV relay proposer payload delivered for a block on the unfinalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_mev_head`), sepolia (`sepolia.fct_block_mev_head`), holesky (`holesky.fct_block_mev_head`), hoodi (`hoodi.fct_block_mev_head`)
 - **Tags**: 
 ### fct_block_proposer
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block proposers for the finalized chain including orphaned blocks
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_proposer`), sepolia (`sepolia.fct_block_proposer`), holesky (`holesky.fct_block_proposer`), hoodi (`hoodi.fct_block_proposer`)
 - **Tags**: 
 ### fct_block_proposer_entity
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block proposer entity for the unfinalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_proposer_entity`), sepolia (`sepolia.fct_block_proposer_entity`), holesky (`holesky.fct_block_proposer_entity`), hoodi (`hoodi.fct_block_proposer_entity`)
 - **Tags**: 
 ### fct_block_proposer_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block proposers for the unfinalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_block_proposer_head`), sepolia (`sepolia.fct_block_proposer_head`), holesky (`holesky.fct_block_proposer_head`), hoodi (`hoodi.fct_block_proposer_head`)
 - **Tags**: 
 ### fct_mev_bid_count_by_builder
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Total number of MEV builder bids for a slot
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_builder`), sepolia (`sepolia.fct_mev_bid_count_by_builder`), holesky (`holesky.fct_mev_bid_count_by_builder`), hoodi (`hoodi.fct_mev_bid_count_by_builder`)
 - **Tags**: 
 ### fct_mev_bid_count_by_relay
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Total number of MEV relay bids for a slot by relay
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_relay`), sepolia (`sepolia.fct_mev_bid_count_by_relay`), holesky (`holesky.fct_mev_bid_count_by_relay`), hoodi (`hoodi.fct_mev_bid_count_by_relay`)
 - **Tags**: 
 ### fct_mev_bid_highest_value_by_builder_chunked_50ms
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Highest value bid from each builder per slot broken down by 50ms chunks. Each block_hash appears in the chunk determined by its earliest bid timestamp. Only includes bids within -12000ms to +12000ms of slot start time
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms`), sepolia (`sepolia.fct_mev_bid_highest_value_by_builder_chunked_50ms`), holesky (`holesky.fct_mev_bid_highest_value_by_builder_chunked_50ms`), hoodi (`hoodi.fct_mev_bid_highest_value_by_builder_chunked_50ms`)
 - **Tags**: 
 ### fct_node_active_last_24h
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Active nodes for the network
 - **Partitioning**: meta_client_name (none), 
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_node_active_last_24h`), sepolia (`sepolia.fct_node_active_last_24h`), holesky (`holesky.fct_node_active_last_24h`), hoodi (`hoodi.fct_node_active_last_24h`)
 - **Tags**: 
 ### fct_prepared_block
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Prepared block proposals showing what would have been built if the validator had been selected as proposer
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.fct_prepared_block`), sepolia (`sepolia.fct_prepared_block`), holesky (`holesky.fct_prepared_block`), hoodi (`hoodi.fct_prepared_block`)
 - **Tags**: 
 ### int_address_first_access
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Table for accounts first access data
 - **Partitioning**: address (none), 
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_address_first_access`), sepolia (`sepolia.int_address_first_access`), holesky (`holesky.int_address_first_access`), hoodi (`hoodi.int_address_first_access`)
 - **Tags**: 
 ### int_address_last_access
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Table for accounts last access data
 - **Partitioning**: address (none), 
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_address_last_access`), sepolia (`sepolia.int_address_last_access`), holesky (`holesky.int_address_last_access`), hoodi (`hoodi.int_address_last_access`)
 - **Tags**: 
 ### int_address_storage_slot_first_access
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Table for storage first access data
 - **Partitioning**: address (none), 
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_first_access`), sepolia (`sepolia.int_address_storage_slot_first_access`), holesky (`holesky.int_address_storage_slot_first_access`), hoodi (`hoodi.int_address_storage_slot_first_access`)
 - **Tags**: 
 ### int_address_storage_slot_last_access
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Table for storage last access data
 - **Partitioning**: address (none), 
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_last_access`), sepolia (`sepolia.int_address_storage_slot_last_access`), holesky (`holesky.int_address_storage_slot_last_access`), hoodi (`hoodi.int_address_storage_slot_last_access`)
 - **Tags**: 
 ### int_attestation_attested_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attested head of a block for the unfinalized chain.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_attestation_attested_canonical`), sepolia (`sepolia.int_attestation_attested_canonical`), holesky (`holesky.int_attestation_attested_canonical`), hoodi (`hoodi.int_attestation_attested_canonical`)
 - **Tags**: 
 ### int_attestation_attested_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Attested head of a block for the unfinalized chain.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_attestation_attested_head`), sepolia (`sepolia.int_attestation_attested_head`), holesky (`holesky.int_attestation_attested_head`), hoodi (`hoodi.int_attestation_attested_head`)
 - **Tags**: 
 ### int_attestation_first_seen
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: When the attestation was first seen on the network by a sentry node
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_attestation_first_seen`), sepolia (`sepolia.int_attestation_first_seen`), holesky (`holesky.int_attestation_first_seen`), hoodi (`hoodi.int_attestation_first_seen`)
 - **Tags**: 
 ### int_beacon_committee_head
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Beacon committee head for the unfinalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_beacon_committee_head`), sepolia (`sepolia.int_beacon_committee_head`), holesky (`holesky.int_beacon_committee_head`), hoodi (`hoodi.int_beacon_committee_head`)
 - **Tags**: 
 ### int_block_blob_count_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Blob count of a block for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_block_blob_count_canonical`), sepolia (`sepolia.int_block_blob_count_canonical`), holesky (`holesky.int_block_blob_count_canonical`), hoodi (`hoodi.int_block_blob_count_canonical`)
 - **Tags**: 
 ### int_block_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block details for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_block_canonical`), sepolia (`sepolia.int_block_canonical`), holesky (`holesky.int_block_canonical`), hoodi (`hoodi.int_block_canonical`)
 - **Tags**: 
 ### int_block_mev_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: MEV relay proposer payload delivered for a block on the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_block_mev_canonical`), sepolia (`sepolia.int_block_mev_canonical`), holesky (`holesky.int_block_mev_canonical`), hoodi (`hoodi.int_block_mev_canonical`)
 - **Tags**: 
 ### int_block_proposer_canonical
-- **Database**: cbt
+- **Database**: Network-specific (see Networks below)
 - **Description**: Block proposers for the finalized chain
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)
+- **Networks**: mainnet (`mainnet.int_block_proposer_canonical`), sepolia (`sepolia.int_block_proposer_canonical`), holesky (`holesky.int_block_proposer_canonical`), hoodi (`hoodi.int_block_proposer_canonical`)
 - **Tags**: 
 
 ## Schema Documentation

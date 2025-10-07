@@ -62,10 +62,10 @@ get_cbt_table_info() {
 
     # Output in the format expected by llms.txt generation
     echo "### $table_name"
-    echo "- **Database**: cbt"
+    echo "- **Database**: Network-specific (see Networks below)"
     echo "- **Description**: $description"
     echo "- **Partitioning**: $partition_column ($partition_type), $partition_interval"
-    echo "- **Networks**: mainnet (available), sepolia (available), holesky (available), hoodi (available)"
+    echo "- **Networks**: mainnet (\`mainnet.$table_name\`), sepolia (\`sepolia.$table_name\`), holesky (\`holesky.$table_name\`), hoodi (\`hoodi.$table_name\`)"
     echo "- **Tags**: "
 }
 
@@ -607,7 +607,7 @@ EOF
     (.networks | to_entries | map(
       .key + " (" + .value.from + " to " + .value.to + ")"
     ) | join(", ")) +
-    "\n- **Tags**: " + (.tags | join(", "))' "$config_file" >> "$output_file"
+    "\n- **Tags**: " + ((.tags // []) | join(", "))' "$config_file" >> "$output_file"
 
   # Add auto-discovered CBT tables if available
   if [ "$cbt_discovery_enabled" = true ]; then
