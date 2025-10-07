@@ -44,9 +44,15 @@ get_availability_override() {
 generate_table_schema() {
     set -e;
     local table_name=$1
-    local table_config=$(yq e ".tables[] | select(.name == \"$table_name\")" "$config_file")
+    local table_config="$2"
+
+    # If table_config not provided, try to get it from config file
+    if [ -z "$table_config" ] || [ "$table_config" = "" ]; then
+        table_config=$(yq e ".tables[] | select(.name == \"$table_name\")" "$config_file")
+    fi
     local database=$(echo "$table_config" | yq e '.database' -)
     local quirks=$(echo "$table_config" | yq e '.quirks' -)
+    local is_cbt_table=$(echo "$table_config" | yq e '.cbt_table // false' -)
     local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
     local partition_interval=$(echo "$table_config" | yq e '.partitioning.interval' -)
@@ -88,15 +94,31 @@ generate_table_schema() {
         fi
     fi
 
-    local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
-    local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+    # For CBT tables, query from mainnet database (use mainnet as reference)
+    if [ "$is_cbt_table" = "true" ]; then
+        local actual_database="mainnet"  # Always query from mainnet for CBT tables
+        local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+        local partition_key=$(curl -s "$clickhouse_host" --data "SELECT partition_key FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+    else
+        local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+    fi
+
     local should_use_final=false
     if [[ "$table_engine" =~ "Replacing" ]]; then
         should_use_final=true
     fi
 
     local excluded_columns=$(echo "$table_config" | yq e '.excluded_columns[]' - | tr '\n' ' ')
-    local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE table = '$table_name' FORMAT TabSeparated")
+
+    # For CBT tables, query schema from mainnet database
+    if [ "$is_cbt_table" = "true" ]; then
+        local actual_database="mainnet"  # Always query from mainnet for CBT tables
+        local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${actual_database}' AND table = '$table_name' FORMAT TabSeparated")
+    else
+        local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${database}' AND table = '$table_name' FORMAT TabSeparated")
+    fi
 
     echo "## $table_name"
     echo ""
@@ -109,20 +131,36 @@ generate_table_schema() {
         echo ""
     fi
     echo "### Availability"
-    if [ "$partition_type" = "datetime" ]; then
-        echo "Data is partitioned **$partition_interval** on **$partition_column** for the following networks:"
-    elif [ "$partition_type" = "integer" ]; then
-        echo "Data is partitioned in chunks of **$partition_interval** on **$partition_column** for the following networks:"
+    if [ "$is_cbt_table" = "true" ]; then
+        # CBT tables use network-specific databases
+        if [ ! -z "$partition_key" ] && [ "$partition_key" != "tuple()" ]; then
+            echo "Data is partitioned by **$partition_key**."
+        else
+            echo "This table has no partitioning."
+        fi
+        echo ""
+        echo "Available in the following network-specific databases:"
+        echo ""
+        echo "$table_config" | yq e '.networks | to_entries[] | "**" + .key + "**: `" + .key + "." + "'"$table_name"'" + "`"' - | while read -r network_info; do
+            echo "- $network_info"
+        done
+    else
+        if [ "$partition_type" = "datetime" ]; then
+            echo "Data is partitioned **$partition_interval** on **$partition_column** for the following networks:"
+        elif [ "$partition_type" = "integer" ]; then
+            echo "Data is partitioned in chunks of **$partition_interval** on **$partition_column** for the following networks:"
+        fi
+        echo ""
+        echo "$table_config" | yq e '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' - | while read -r network_info; do
+            echo "- $network_info"
+        done
     fi
-    echo ""
-    echo "$table_config" | yq e '.networks | to_entries[] | "**" + .key + "**: `" + .value.from + "` to `" + .value.to + "`"' - | while read -r network_info; do
-        echo "- $network_info"
-    done
     echo ""
     echo "### Examples"
     echo ""
-    echo "<details>"
-    echo "<summary>Parquet file</summary>"
+    if [ "$is_cbt_table" != "true" ]; then
+        echo "<details>"
+        echo "<summary>Parquet file</summary>"
     echo ""
     echo "> $formated_url"
     if [ "$partition_type" = "integer" ]; then
@@ -153,17 +191,19 @@ generate_table_schema() {
         fi
         echo ""
     fi
-    echo "\`\`\`bash"
-    echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query=\"\"\""
-    echo "    SELECT"
-    echo "        *"
-    echo "    FROM url('$example_url', 'Parquet')"
-    echo "    LIMIT 10"
-    echo "    FORMAT Pretty"
-    echo "\"\"\""
-    echo "\`\`\`"
-    echo "</details>"
-    echo ""
+        echo "\`\`\`bash"
+        echo "docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query=\"\"\""
+        echo "    SELECT"
+        echo "        *"
+        echo "    FROM url('$example_url', 'Parquet')"
+        echo "    LIMIT 10"
+        echo "    FORMAT Pretty"
+        echo "\"\"\""
+        echo "\`\`\`"
+        echo "</details>"
+        echo ""
+    fi
+
     echo "<details>"
     echo "<summary>Your Clickhouse</summary>"
     if [ "$should_use_final" = true ]; then
@@ -176,11 +216,13 @@ generate_table_schema() {
     echo "    SELECT"
     echo "        *"
     echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
-    echo "    WHERE"
-    if [ "$partition_type" = "datetime" ]; then
-        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
-    elif [ "$partition_type" = "integer" ]; then
-        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
+    if [ "$is_cbt_table" != "true" ]; then
+        echo "    WHERE"
+        if [ "$partition_type" = "datetime" ]; then
+            echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
+        elif [ "$partition_type" = "integer" ]; then
+            echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
+        fi
     fi
     echo "    LIMIT 10"
     echo "    FORMAT Pretty"
@@ -201,11 +243,13 @@ generate_table_schema() {
     echo "    SELECT"
     echo "        *"
     echo "    FROM ${database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
-    echo "    WHERE"
-    if [ "$partition_type" = "datetime" ]; then
-        echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
-    elif [ "$partition_type" = "integer" ]; then
-        echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
+    if [ "$is_cbt_table" != "true" ]; then
+        echo "    WHERE"
+        if [ "$partition_type" = "datetime" ]; then
+            echo "        $partition_column >= NOW() - INTERVAL '1 HOUR'"
+        elif [ "$partition_type" = "integer" ]; then
+            echo "        $partition_column BETWEEN $(( partition_interval * 50 )) AND $(( partition_interval * 51 ))"
+        fi
     fi
     echo "    LIMIT 3"
     echo "    FORMAT Pretty"
@@ -226,30 +270,124 @@ generate_table_schema() {
     echo
 
     # Create directory for SQL files
-    mkdir -p "./schema/clickhouse/${database}"
+    if [ "$is_cbt_table" = "true" ]; then
+        # For CBT tables, store SQL in a 'cbt' directory (network-agnostic)
+        mkdir -p "./schema/clickhouse/cbt"
 
-    # Get the _local table definition
-    local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
+        local actual_database="mainnet"  # Always query from mainnet for CBT tables
 
-    # Replace escaped newlines with actual newlines and fix escaped quotes
-    sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+        # Get the _local table definition
+        local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${actual_database}.${table_name}_local")
 
-    # Save the _local table definition
-    echo "$sql_ddl_local" > "./schema/clickhouse/${database}/${table_name}_local.sql"
+        # Replace escaped newlines with actual newlines and fix escaped quotes
+        sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
 
-    # Get the distributed table definition
-    local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
+        # Save the _local table definition
+        echo "$sql_ddl_local" > "./schema/clickhouse/cbt/${table_name}_local.sql"
 
-    # Replace escaped newlines with actual newlines and fix escaped quotes
-    sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+        # Get the distributed table definition
+        local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${actual_database}.${table_name}")
 
-    # Save the distributed table definition
-    echo "$sql_ddl_distributed" > "./schema/clickhouse/${database}/${table_name}.sql"
+        # Replace escaped newlines with actual newlines and fix escaped quotes
+        sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+
+        # Save the distributed table definition
+        echo "$sql_ddl_distributed" > "./schema/clickhouse/cbt/${table_name}.sql"
+    else
+        # For non-CBT tables, use the database name
+        mkdir -p "./schema/clickhouse/${database}"
+
+        # Get the _local table definition
+        local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
+
+        # Replace escaped newlines with actual newlines and fix escaped quotes
+        sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+
+        # Save the _local table definition
+        echo "$sql_ddl_local" > "./schema/clickhouse/${database}/${table_name}_local.sql"
+
+        # Get the distributed table definition
+        local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
+
+        # Replace escaped newlines with actual newlines and fix escaped quotes
+        sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+
+        # Save the distributed table definition
+        echo "$sql_ddl_distributed" > "./schema/clickhouse/${database}/${table_name}.sql"
+    fi
+}
+
+# Auto-discover CBT tables from ClickHouse
+discover_cbt_tables() {
+    local cbt_database="mainnet"
+
+    # Get all tables from mainnet database, excluding views, admin tables, and schema_migrations
+    curl -s "$clickhouse_host" --data "
+        SELECT name
+        FROM system.tables
+        WHERE database = '$cbt_database'
+          AND engine NOT LIKE '%View%'
+          AND name NOT LIKE 'admin_%'
+          AND name NOT IN ('schema_migrations', 'schema_migrations_local')
+          AND name NOT LIKE '%_local'
+        ORDER BY name
+        FORMAT TabSeparated
+    "
+}
+
+# Build a dynamic config for a CBT table
+build_cbt_table_config() {
+    local table_name=$1
+    local cbt_database="mainnet"
+
+    # Get table description
+    local description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+
+    # Get ORDER BY clause
+    local sorting_key=$(curl -s "$clickhouse_host" --data "SELECT sorting_key FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+
+    # Extract first column from ORDER BY (e.g., "slot_start_date_time, meta_network_name" -> "slot_start_date_time")
+    local partition_column=$(echo "$sorting_key" | sed 's/,.*//; s/^[[:space:]]*//; s/[[:space:]]*$//')
+
+    # Get column type to determine partition type
+    local column_type=$(curl -s "$clickhouse_host" --data "SELECT type FROM system.columns WHERE database = '$cbt_database' AND table = '${table_name}_local' AND name = '$partition_column' FORMAT TabSeparated")
+
+    # Determine partition type based on column type
+    local partition_type="none"
+    local partition_interval=""
+    if [[ "$column_type" =~ ^DateTime || "$column_type" =~ ^Date ]]; then
+        partition_type="datetime"
+        partition_interval="daily"
+    elif [[ "$column_type" =~ ^UInt || "$column_type" =~ ^Int ]]; then
+        partition_type="integer"
+        partition_interval="1000"
+    fi
+
+    # Build a YAML-like config structure that can be parsed
+    cat <<EOF
+name: "$table_name"
+description: "$description"
+database: "cbt"
+cbt_table: true
+partitioning:
+  column: "$partition_column"
+  type: "$partition_type"
+  interval: "$partition_interval"
+networks:
+  mainnet: {available: true}
+  sepolia: {available: true}
+  holesky: {available: true}
+  hoodi: {available: true}
+tags: []
+excluded_columns: []
+quirks: null
+EOF
 }
 
 # Generate schema for each dataset
 generate_dataset_schema() {
     local dataset_name=$1
+    local schema_filename=$2
     local dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
     local dataset_description=$(echo "$dataset_config" | yq e '.description' -)
     local table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
@@ -257,7 +395,7 @@ generate_dataset_schema() {
 
     # Start writing to the schema file
     if [ "$mode" = "all" ]; then
-        echo "# $table_prefix"
+        echo "# $schema_filename"
     fi
     echo
     echo "$dataset_description"
@@ -275,16 +413,32 @@ generate_dataset_schema() {
     echo "## Tables"
     echo
     echo "<!-- schema_toc_start -->"
-    for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
-        echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
-    done
+    # Handle datasets with empty prefix (CBT tables) - auto-discover from ClickHouse
+    if [ -z "$table_prefix" ] || [ "$table_prefix" = "null" ]; then
+        for table_name in $(discover_cbt_tables); do
+            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
+        done
+    else
+        for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
+            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
+        done
+    fi
     echo "<!-- schema_toc_end -->"
     echo
     echo "<!-- schema_start -->"
-    for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
-        table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
-        generate_table_schema "$table_name" "$table_config"
-    done
+    # Handle datasets with empty prefix (CBT tables) - auto-discover from ClickHouse
+    if [ -z "$table_prefix" ] || [ "$table_prefix" = "null" ]; then
+        for table_name in $(discover_cbt_tables); do
+            # Build dynamic config for this CBT table
+            table_config=$(build_cbt_table_config "$table_name")
+            generate_table_schema "$table_name" "$table_config"
+        done
+    else
+        for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
+            table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
+            generate_table_schema "$table_name" "$table_config"
+        done
+    fi
     echo "<!-- schema_end -->"
 }
 
@@ -297,7 +451,15 @@ yq e '.datasets[].name' "$config_file" | while read -r dataset_name; do
     echo "Generating schema for dataset: $dataset_name"
     dataset_config=$(yq e ".datasets[] | select(.name == \"$dataset_name\")" "$config_file")
     table_prefix=$(echo "$dataset_config" | yq e '.tables.prefix' -)
-    generate_dataset_schema "$dataset_name" > "schema/${table_prefix}.md"
+
+    # Handle empty prefix (CBT dataset) - use a specific filename
+    if [ -z "$table_prefix" ] || [ "$table_prefix" = "null" ]; then
+        schema_filename="cbt"
+    else
+        schema_filename="$table_prefix"
+    fi
+
+    generate_dataset_schema "$dataset_name" "$schema_filename" > "schema/${schema_filename}.md"
     echo "Schema generation completed for $dataset_name"
 done
 
@@ -317,17 +479,25 @@ generate_datasets_table() {
         dataset_name=$(echo "$dataset_config" | jq -r '.name')
         dataset_description=$(echo "$dataset_config" | jq -r '.description')
         dataset_prefix=$(echo "$dataset_config" | jq -r '.tables.prefix')
+
+        # Handle empty prefix (CBT dataset) - use 'cbt' as the filename
+        if [ -z "$dataset_prefix" ] || [ "$dataset_prefix" = "null" ]; then
+            schema_file="cbt"
+        else
+            schema_file="$dataset_prefix"
+        fi
+
         if [ "${mode}" = "hugo" ]; then
-            dataset_link="./${dataset_prefix}"
+            dataset_link="./${schema_file}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="/data/xatu/schema/${dataset_prefix}/"
+            dataset_link="/data/xatu/schema/${schema_file}/"
         fi
         if [ "${mode}" = "all" ]; then
-            dataset_link="#${dataset_prefix}"
+            dataset_link="#${schema_file}"
         fi
         if [ "${mode}" = "" ]; then
-            dataset_link="./schema/$dataset_prefix.md"
+            dataset_link="./schema/${schema_file}.md"
         fi
         echo -n "| **$dataset_name** | [Schema]($dataset_link) | $dataset_description | $dataset_prefix |"
         for option in $dataset_availability_options; do

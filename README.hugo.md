@@ -36,6 +36,7 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 | **Canonical Execution** | [Schema](./schema/canonical_execution_) | Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information | canonical_execution_ | ✅ | ✅ |
 | **Consensus Layer P2P** | [Schema](./schema/libp2p_) | Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. | libp2p_ | ✅ | ✅ |
 | **MEV Relay** | [Schema](./schema/mev_relay_) | Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances. | mev_relay_ | ✅ | ✅ |
+| **CBT (ClickHouse Build Tools)** | [Schema](./schema/) | Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt). |  | ✅ | ❌ |
 <!-- datasets_end -->
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.

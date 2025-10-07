@@ -235,6 +235,7 @@ When using Clickhouse, make sure to:
 - **Canonical Execution**: Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information (Prefix: `canonical_execution_`)
 - **Consensus Layer P2P**: Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. (Prefix: `libp2p_`)
 - **MEV Relay**: Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances. (Prefix: `mev_relay_`)
+- **CBT (ClickHouse Build Tools)**: Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt). (Prefix: ``)
 
 ## Dataset Details
 
@@ -402,109 +403,109 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-09-04 to 2025-10-02), holesky (2023-09-28 to 2025-10-02), sepolia (2022-06-25 to 2025-10-02)
+- **Networks**: mainnet (2023-09-04 to 2025-10-05), holesky (2023-09-28 to 2025-10-05), sepolia (2022-06-25 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_attestation
 - **Database**: default
 - **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2023-06-01 to 2025-10-02), holesky (2023-09-18 to 2025-10-02), sepolia (2023-08-31 to 2025-10-01)
+- **Networks**: mainnet (2023-06-01 to 2025-10-05), holesky (2023-09-18 to 2025-10-05), sepolia (2023-08-31 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_blob_sidecar
 - **Database**: default
 - **Description**: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-03-13 to 2025-10-02), holesky (2024-02-07 to 2025-10-02), sepolia (2024-01-30 to 2025-10-02)
+- **Networks**: mainnet (2024-03-13 to 2025-10-05), holesky (2024-02-07 to 2025-10-05), sepolia (2024-01-30 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_block
 - **Database**: default
 - **Description**: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2020-12-02 to 2025-10-02), sepolia (2023-12-24 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2020-12-02 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_block_gossip
 - **Database**: default
 - **Description**: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-14 to 2025-10-02), holesky (2025-05-14 to 2025-10-02), sepolia (2025-05-14 to 2025-10-02)
+- **Networks**: mainnet (2025-05-14 to 2025-10-05), holesky (2025-05-14 to 2025-10-05), sepolia (2025-05-14 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_chain_reorg
 - **Database**: default
 - **Description**: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-03-01 to 2025-10-02), holesky (2024-02-05 to 2025-10-02), sepolia (2023-12-30 to 2025-10-02)
+- **Networks**: mainnet (2023-03-01 to 2025-10-05), holesky (2024-02-05 to 2025-10-05), sepolia (2023-12-30 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_contribution_and_proof
 - **Database**: default
 - **Description**: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 - **Partitioning**: contribution_slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-08-31 to 2025-10-02), holesky (2023-12-24 to 2025-10-02), sepolia (2023-12-24 to 2025-10-02)
+- **Networks**: mainnet (2023-08-31 to 2025-10-05), holesky (2023-12-24 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_finalized_checkpoint
 - **Database**: default
 - **Description**: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
 - **Partitioning**: epoch_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-03-26 to 2025-10-02), sepolia (2023-03-26 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-03-26 to 2025-10-05), sepolia (2023-03-26 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_head
 - **Database**: default
 - **Description**: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-12-05 to 2025-10-02), sepolia (2023-12-05 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-12-05 to 2025-10-05), sepolia (2023-12-05 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_events_voluntary_exit
 - **Database**: default
 - **Description**: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 - **Partitioning**: wallclock_epoch_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-28 to 2025-08-12), sepolia (2023-10-01 to null)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-28 to 2025-08-12), sepolia (2023-10-01 to null)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v1_validator_attestation_data
 - **Database**: default
 - **Description**: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-08-31 to 2025-10-02), holesky (2023-12-24 to 2025-10-02), sepolia (2023-12-24 to 2025-10-02)
+- **Networks**: mainnet (2023-08-31 to 2025-10-05), holesky (2023-12-24 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v2_beacon_block
 - **Database**: default
 - **Description**: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-28 to 2025-10-02), sepolia (2022-06-20 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-28 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer
 ### mempool_transaction
 - **Database**: default
 - **Description**: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2023-03-03 to 2025-10-02), holesky (2024-01-08 to 2025-10-02), sepolia (2024-01-08 to 2025-10-02)
+- **Networks**: mainnet (2023-03-03 to 2025-10-05), holesky (2024-01-08 to 2025-10-05), sepolia (2024-01-08 to 2025-10-05)
 - **Tags**: Execution layer, Transaction, Mempool
 ### beacon_api_eth_v1_proposer_duty
 - **Database**: default
 - **Description**: Contains a proposer duty from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-03 to 2025-10-02), holesky (2024-04-03 to 2025-10-02), sepolia (2024-04-03 to 2025-10-02)
+- **Networks**: mainnet (2024-04-03 to 2025-10-05), holesky (2024-04-03 to 2025-10-05), sepolia (2024-04-03 to 2025-10-05)
 - **Tags**: Consensus layer
 ### beacon_api_eth_v3_validator_block
 - **Database**: default
 - **Description**: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-11-25 to 2025-10-02), holesky (2024-11-25 to 2025-10-02), sepolia (2024-11-25 to 2025-10-02)
+- **Networks**: mainnet (2024-11-25 to 2025-10-05), holesky (2024-11-25 to 2025-10-05), sepolia (2024-11-25 to 2025-10-05)
 - **Tags**: Consensus layer
 ### canonical_beacon_block
 - **Database**: default
 - **Description**: Contains beacon block from a beacon node.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-20 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_committee
 - **Database**: default
 - **Description**: Contains canonical beacon API /eth/v1/beacon/committees data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-20 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_attester_slashing
 - **Database**: default
 - **Description**: Contains attester slashing from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-22 to null)
+- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-03), sepolia (2022-06-22 to null)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_proposer_slashing
 - **Database**: default
@@ -516,19 +517,19 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains bls to execution change from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-04-12 to 2025-10-02), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-16)
+- **Networks**: mainnet (2023-04-12 to 2025-10-05), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-16)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_execution_transaction
 - **Database**: default
 - **Description**: Contains execution transaction from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2022-09-06 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-22 to 2025-10-02)
+- **Networks**: mainnet (2022-09-06 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-22 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_voluntary_exit
 - **Database**: default
 - **Description**: Contains a voluntary exit from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-08-06), sepolia (2022-06-22 to 2025-04-27)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-08-06), sepolia (2022-06-22 to 2025-04-27)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_block_deposit
 - **Database**: default
@@ -540,333 +541,578 @@ The following tables are available in the Xatu dataset:
 - **Database**: default
 - **Description**: Contains a withdrawal from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2023-04-12 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2023-02-28 to 2025-10-02)
+- **Networks**: mainnet (2023-04-12 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2023-02-28 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_blob_sidecar
 - **Database**: default
 - **Description**: Contains a blob sidecar from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-03-13 to 2025-10-02), holesky (2024-02-07 to 2025-10-02), sepolia (2024-01-30 to 2025-10-02)
+- **Networks**: mainnet (2024-03-13 to 2025-10-05), holesky (2024-02-07 to 2025-10-05), sepolia (2024-01-30 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_proposer_duty
 - **Database**: default
 - **Description**: Contains a proposer duty from a beacon block.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-20 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_elaborated_attestation
 - **Database**: default
 - **Description**: Contains elaborated attestations from beacon blocks.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-20 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: epoch_start_date_time (datetime), hourly
-- **Networks**: mainnet (2020-12-01 to 2025-10-01), holesky (2023-09-23 to 2025-10-02), sepolia (2022-06-20 to 2025-10-01)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
 - **Tags**: Consensus layer, Finalized
 ### canonical_beacon_validators_pubkeys
 - **Database**: default
 - **Description**: Contains a validator state for an epoch.
 - **Partitioning**: index (integer), 50
-- **Networks**: mainnet (0 to 2100450), holesky (0 to 1923800), sepolia (0 to 1900)
+- **Networks**: mainnet (0 to 2105500), holesky (0 to 1923800), sepolia (0 to 1900)
 - **Tags**: Consensus layer, Finalized
 ### libp2p_gossipsub_beacon_attestation
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon attestation data.
 - **Partitioning**: slot_start_date_time (datetime), hourly
-- **Networks**: mainnet (2024-05-01 to 2025-10-02), holesky (2024-05-01 to 2025-10-02), sepolia (2024-05-01 to 2025-10-02)
+- **Networks**: mainnet (2024-05-01 to 2025-10-05), holesky (2024-05-01 to 2025-10-05), sepolia (2024-05-01 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_beacon_block
 - **Database**: default
 - **Description**: Table for libp2p gossipsub beacon block data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2024-04-26 to 2025-10-02), sepolia (2024-04-26 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2024-04-26 to 2025-10-05), sepolia (2024-04-26 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_blob_sidecar
 - **Database**: default
 - **Description**: Table for libp2p gossipsub blob sidecar data
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2024-06-03 to 2025-10-02), sepolia (2024-06-03 to 2025-10-02)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2024-06-03 to 2025-10-05), sepolia (2024-06-03 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_gossipsub_aggregate_and_proof
 - **Database**: default
 - **Description**: Table for libp2p gossipsub aggregate and proof attestation data
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2025-07-11 to 2025-10-02), holesky (2025-07-11 to 2025-10-02), sepolia (2025-07-11 to 2025-10-02)
+- **Networks**: mainnet (2025-07-11 to 2025-10-05), holesky (2025-07-11 to 2025-10-05), sepolia (2025-07-11 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_connected
 - **Database**: default
 - **Description**: Table for libp2p connected events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_disconnected
 - **Database**: default
 - **Description**: Table for libp2p disconnected events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_add_peer
 - **Database**: default
 - **Description**: Table for libp2p add peer events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_remove_peer
 - **Database**: default
 - **Description**: Table for libp2p remove peer events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_recv_rpc
 - **Database**: default
 - **Description**: Table for libp2p recv rpc events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_send_rpc
 - **Database**: default
 - **Description**: Table for libp2p send rpc events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_drop_rpc
 - **Database**: default
 - **Description**: Table for libp2p drop rpc events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-30 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-30 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_join
 - **Database**: default
 - **Description**: Table for libp2p join events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-05-01 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-05-01 to 2025-10-02)
+- **Networks**: mainnet (2024-05-01 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-05-01 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_leave
 - **Database**: default
 - **Description**: Table for libp2p leave events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-06-01 to 2025-10-02), hoodi (2025-06-01 to 2025-06-01), sepolia (2025-06-01 to 2025-06-01)
+- **Networks**: mainnet (2025-06-01 to 2025-10-05), hoodi (2025-06-01 to 2025-06-01), sepolia (2025-06-01 to 2025-06-01)
 - **Tags**: Consensus layer, P2P
 ### libp2p_graft
 - **Database**: default
 - **Description**: Table for libp2p graft events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_prune
 - **Database**: default
 - **Description**: Table for libp2p prune events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_duplicate_message
 - **Database**: default
 - **Description**: Table for libp2p duplicate message events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_deliver_message
 - **Database**: default
 - **Description**: Table for libp2p deliver message events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_handle_metadata
 - **Database**: default
 - **Description**: Table for libp2p handle metadata events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_handle_status
 - **Database**: default
 - **Description**: Table for libp2p handle status events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-04-24 to 2025-10-02), hoodi (2025-03-17 to 2025-10-02), sepolia (2024-04-22 to 2025-10-02)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_ihave
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control ihave events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_iwant
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control iwant events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_idontwant
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control idontwant events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_graft
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control graft events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_control_prune
 - **Database**: default
 - **Description**: Table for libp2p rpc meta control prune events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-07-02 to 2025-10-02), hoodi (2025-06-23 to 2025-10-02), sepolia (2025-06-23 to 2025-10-02)
+- **Networks**: mainnet (2025-07-02 to 2025-10-05), hoodi (2025-06-23 to 2025-10-05), sepolia (2025-06-23 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_subscription
 - **Database**: default
 - **Description**: Table for libp2p rpc meta subscription events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### libp2p_rpc_meta_message
 - **Database**: default
 - **Description**: Table for libp2p rpc meta message events
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2025-05-30 to 2025-10-02), hoodi (2025-05-29 to 2025-10-02), sepolia (2025-05-29 to 2025-10-02)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
 - **Tags**: Consensus layer, P2P
 ### mev_relay_bid_trace
 - **Database**: default
 - **Description**: Contains MEV relay block bids data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-09-13 to 2025-10-02), holesky (2024-09-13 to 2025-10-02), sepolia (2024-09-13 to 2025-10-02)
+- **Networks**: mainnet (2024-09-13 to 2025-10-05), holesky (2024-09-13 to 2025-10-05), sepolia (2024-09-13 to 2025-10-05)
 - **Tags**: 
 ### mev_relay_proposer_payload_delivered
 - **Database**: default
 - **Description**: Contains MEV relay proposer payload delivered data.
 - **Partitioning**: slot_start_date_time (datetime), daily
-- **Networks**: mainnet (2024-09-16 to 2025-10-02), holesky (2024-09-16 to 2025-08-17), sepolia (2024-09-16 to 2025-10-02)
+- **Networks**: mainnet (2024-09-16 to 2025-10-05), holesky (2024-09-16 to 2025-08-17), sepolia (2024-09-16 to 2025-10-05)
 - **Tags**: Consensus layer, Execution layer, MEV
 ### mev_relay_validator_registration
 - **Database**: default
 - **Description**: Contains MEV relay validator registrations data.
 - **Partitioning**: event_date_time (datetime), daily
-- **Networks**: mainnet (2024-12-11 to 2025-10-02), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-10-02)
+- **Networks**: mainnet (2024-12-11 to 2025-10-05), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-10-05)
 - **Tags**: Consensus layer, Execution layer, MEV
 ### canonical_execution_block
 - **Database**: default
 - **Description**: Contains canonical execution block data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_transaction
 - **Database**: default
 - **Description**: Contains canonical execution transaction data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_traces
 - **Database**: default
 - **Description**: Contains canonical execution traces data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 22627000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 22627000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_logs
 - **Database**: default
 - **Description**: Contains canonical execution logs data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_contracts
 - **Database**: default
 - **Description**: Contains canonical execution contract data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_four_byte_counts
 - **Database**: default
 - **Description**: Contains canonical execution four byte count data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_address_appearances
 - **Database**: default
 - **Description**: Contains canonical execution address appearance data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_balance_diffs
 - **Database**: default
 - **Description**: Contains canonical execution balance diff data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 8700000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 8700000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_balance_reads
 - **Database**: default
 - **Description**: Contains canonical execution balance read data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_erc20_transfers
 - **Database**: default
 - **Description**: Contains canonical execution erc20 transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_erc721_transfers
 - **Database**: default
 - **Description**: Contains canonical execution erc721 transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_native_transfers
 - **Database**: default
 - **Description**: Contains canonical execution native transfer data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_nonce_diffs
 - **Database**: default
 - **Description**: Contains canonical execution nonce diff data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_nonce_reads
 - **Database**: default
 - **Description**: Contains canonical execution nonce read data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_storage_diffs
 - **Database**: default
 - **Description**: Contains canonical execution storage diffs data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: mainnet (0 to 23271000), holesky (0 to 4613000), sepolia (0 to 9330000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_storage_reads
 - **Database**: default
 - **Description**: Contains canonical execution storage reads data.
 - **Partitioning**: block_number (integer), 1000
-- **Networks**: holesky (0 to 4614000), sepolia (0 to 9331000)
+- **Networks**: holesky (0 to 4631000), sepolia (0 to 9352000)
 - **Tags**: Execution layer, Finalized
 ### canonical_execution_transaction_structlog
 - **Database**: default
 - **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
 - **Partitioning**: block_number (integer), 100
-- **Networks**: mainnet (22731300 to 23490400)
+- **Networks**: mainnet (22731300 to 23514400)
 - **Tags**: Execution layer, Finalized
+### dim_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: Node information for validators
+- **Partitioning**: validator_index (integer), 1000
+- **Networks**: mainnet (`mainnet.dim_node`), sepolia (`sepolia.dim_node`), holesky (`holesky.dim_node`), hoodi (`hoodi.dim_node`)
+- **Tags**: 
+### fct_address_access_chunked_10000
+- **Database**: Network-specific (see Networks below)
+- **Description**: Address access totals chunked by 10000 blocks
+- **Partitioning**: chunk_start_block_number (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_access_chunked_10000`), sepolia (`sepolia.fct_address_access_chunked_10000`), holesky (`holesky.fct_address_access_chunked_10000`), hoodi (`hoodi.fct_address_access_chunked_10000`)
+- **Tags**: 
+### fct_address_access_total
+- **Database**: Network-specific (see Networks below)
+- **Description**: Address access totals and expiry statistics
+- **Partitioning**: updated_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_address_access_total`), sepolia (`sepolia.fct_address_access_total`), holesky (`holesky.fct_address_access_total`), hoodi (`hoodi.fct_address_access_total`)
+- **Tags**: 
+### fct_address_storage_slot_chunked_10000
+- **Database**: Network-specific (see Networks below)
+- **Description**: Storage slot totals chunked by 10000 blocks
+- **Partitioning**: chunk_start_block_number (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_chunked_10000`), sepolia (`sepolia.fct_address_storage_slot_chunked_10000`), holesky (`holesky.fct_address_storage_slot_chunked_10000`), hoodi (`hoodi.fct_address_storage_slot_chunked_10000`)
+- **Tags**: 
+### fct_address_storage_slot_expired_top_100_by_contract
+- **Database**: Network-specific (see Networks below)
+- **Description**: Top 100 contracts by expired storage slots (not accessed in last 365 days)
+- **Partitioning**: rank (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_expired_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_expired_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_expired_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_expired_top_100_by_contract`)
+- **Tags**: 
+### fct_address_storage_slot_top_100_by_contract
+- **Database**: Network-specific (see Networks below)
+- **Description**: Top 100 contracts by storage slots
+- **Partitioning**: rank (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_top_100_by_contract`)
+- **Tags**: 
+### fct_address_storage_slot_total
+- **Database**: Network-specific (see Networks below)
+- **Description**: Storage slot totals and expiry statistics
+- **Partitioning**: updated_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_total`), sepolia (`sepolia.fct_address_storage_slot_total`), holesky (`holesky.fct_address_storage_slot_total`), hoodi (`hoodi.fct_address_storage_slot_total`)
+- **Tags**: 
+### fct_attestation_correctness_by_validator_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness by validator for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_canonical`), sepolia (`sepolia.fct_attestation_correctness_by_validator_canonical`), holesky (`holesky.fct_attestation_correctness_by_validator_canonical`), hoodi (`hoodi.fct_attestation_correctness_by_validator_canonical`)
+- **Tags**: 
+### fct_attestation_correctness_by_validator_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness by validator for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_head`), sepolia (`sepolia.fct_attestation_correctness_by_validator_head`), holesky (`holesky.fct_attestation_correctness_by_validator_head`), hoodi (`hoodi.fct_attestation_correctness_by_validator_head`)
+- **Tags**: 
+### fct_attestation_correctness_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_canonical`), sepolia (`sepolia.fct_attestation_correctness_canonical`), holesky (`holesky.fct_attestation_correctness_canonical`), hoodi (`hoodi.fct_attestation_correctness_canonical`)
+- **Tags**: 
+### fct_attestation_correctness_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_head`), sepolia (`sepolia.fct_attestation_correctness_head`), holesky (`holesky.fct_attestation_correctness_head`), hoodi (`hoodi.fct_attestation_correctness_head`)
+- **Tags**: 
+### fct_attestation_first_seen_chunked_50ms
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestations first seen on the unfinalized chain broken down by 50ms chunks. Only includes attestations that were seen within 12000ms of the slot start time. There can be multiple block roots + chunk_slot_start_diff for the same slot, it most likely means votes for prior slot blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_first_seen_chunked_50ms`), sepolia (`sepolia.fct_attestation_first_seen_chunked_50ms`), holesky (`holesky.fct_attestation_first_seen_chunked_50ms`), hoodi (`hoodi.fct_attestation_first_seen_chunked_50ms`)
+- **Tags**: 
+### fct_block
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block`), sepolia (`sepolia.fct_block`), holesky (`holesky.fct_block`), hoodi (`hoodi.fct_block`)
+- **Tags**: 
+### fct_block_blob_count
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_count`), sepolia (`sepolia.fct_block_blob_count`), holesky (`holesky.fct_block_blob_count`), hoodi (`hoodi.fct_block_blob_count`)
+- **Tags**: 
+### fct_block_blob_count_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_count_head`), sepolia (`sepolia.fct_block_blob_count_head`), holesky (`holesky.fct_block_blob_count_head`), hoodi (`hoodi.fct_block_blob_count_head`)
+- **Tags**: 
+### fct_block_blob_first_seen_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the block was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_first_seen_by_node`), sepolia (`sepolia.fct_block_blob_first_seen_by_node`), holesky (`holesky.fct_block_blob_first_seen_by_node`), hoodi (`hoodi.fct_block_blob_first_seen_by_node`)
+- **Tags**: 
+### fct_block_first_seen_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the block was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_first_seen_by_node`), sepolia (`sepolia.fct_block_first_seen_by_node`), holesky (`holesky.fct_block_first_seen_by_node`), hoodi (`hoodi.fct_block_first_seen_by_node`)
+- **Tags**: 
+### fct_block_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_head`), sepolia (`sepolia.fct_block_head`), holesky (`holesky.fct_block_head`), hoodi (`hoodi.fct_block_head`)
+- **Tags**: 
+### fct_block_mev
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_mev`), sepolia (`sepolia.fct_block_mev`), holesky (`holesky.fct_block_mev`), hoodi (`hoodi.fct_block_mev`)
+- **Tags**: 
+### fct_block_mev_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_mev_head`), sepolia (`sepolia.fct_block_mev_head`), holesky (`holesky.fct_block_mev_head`), hoodi (`hoodi.fct_block_mev_head`)
+- **Tags**: 
+### fct_block_proposer
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer`), sepolia (`sepolia.fct_block_proposer`), holesky (`holesky.fct_block_proposer`), hoodi (`hoodi.fct_block_proposer`)
+- **Tags**: 
+### fct_block_proposer_entity
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposer entity for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer_entity`), sepolia (`sepolia.fct_block_proposer_entity`), holesky (`holesky.fct_block_proposer_entity`), hoodi (`hoodi.fct_block_proposer_entity`)
+- **Tags**: 
+### fct_block_proposer_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer_head`), sepolia (`sepolia.fct_block_proposer_head`), holesky (`holesky.fct_block_proposer_head`), hoodi (`hoodi.fct_block_proposer_head`)
+- **Tags**: 
+### fct_mev_bid_count_by_builder
+- **Database**: Network-specific (see Networks below)
+- **Description**: Total number of MEV builder bids for a slot
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_builder`), sepolia (`sepolia.fct_mev_bid_count_by_builder`), holesky (`holesky.fct_mev_bid_count_by_builder`), hoodi (`hoodi.fct_mev_bid_count_by_builder`)
+- **Tags**: 
+### fct_mev_bid_count_by_relay
+- **Database**: Network-specific (see Networks below)
+- **Description**: Total number of MEV relay bids for a slot by relay
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_relay`), sepolia (`sepolia.fct_mev_bid_count_by_relay`), holesky (`holesky.fct_mev_bid_count_by_relay`), hoodi (`hoodi.fct_mev_bid_count_by_relay`)
+- **Tags**: 
+### fct_mev_bid_highest_value_by_builder_chunked_50ms
+- **Database**: Network-specific (see Networks below)
+- **Description**: Highest value bid from each builder per slot broken down by 50ms chunks. Each block_hash appears in the chunk determined by its earliest bid timestamp. Only includes bids within -12000ms to +12000ms of slot start time
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms`), sepolia (`sepolia.fct_mev_bid_highest_value_by_builder_chunked_50ms`), holesky (`holesky.fct_mev_bid_highest_value_by_builder_chunked_50ms`), hoodi (`hoodi.fct_mev_bid_highest_value_by_builder_chunked_50ms`)
+- **Tags**: 
+### fct_node_active_last_24h
+- **Database**: Network-specific (see Networks below)
+- **Description**: Active nodes for the network
+- **Partitioning**: meta_client_name (none), 
+- **Networks**: mainnet (`mainnet.fct_node_active_last_24h`), sepolia (`sepolia.fct_node_active_last_24h`), holesky (`holesky.fct_node_active_last_24h`), hoodi (`hoodi.fct_node_active_last_24h`)
+- **Tags**: 
+### fct_prepared_block
+- **Database**: Network-specific (see Networks below)
+- **Description**: Prepared block proposals showing what would have been built if the validator had been selected as proposer
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_prepared_block`), sepolia (`sepolia.fct_prepared_block`), holesky (`holesky.fct_prepared_block`), hoodi (`hoodi.fct_prepared_block`)
+- **Tags**: 
+### int_address_first_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for accounts first access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_first_access`), sepolia (`sepolia.int_address_first_access`), holesky (`holesky.int_address_first_access`), hoodi (`hoodi.int_address_first_access`)
+- **Tags**: 
+### int_address_last_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for accounts last access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_last_access`), sepolia (`sepolia.int_address_last_access`), holesky (`holesky.int_address_last_access`), hoodi (`hoodi.int_address_last_access`)
+- **Tags**: 
+### int_address_storage_slot_first_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for storage first access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_first_access`), sepolia (`sepolia.int_address_storage_slot_first_access`), holesky (`holesky.int_address_storage_slot_first_access`), hoodi (`hoodi.int_address_storage_slot_first_access`)
+- **Tags**: 
+### int_address_storage_slot_last_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for storage last access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_last_access`), sepolia (`sepolia.int_address_storage_slot_last_access`), holesky (`holesky.int_address_storage_slot_last_access`), hoodi (`hoodi.int_address_storage_slot_last_access`)
+- **Tags**: 
+### int_attestation_attested_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attested head of a block for the unfinalized chain.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_attested_canonical`), sepolia (`sepolia.int_attestation_attested_canonical`), holesky (`holesky.int_attestation_attested_canonical`), hoodi (`hoodi.int_attestation_attested_canonical`)
+- **Tags**: 
+### int_attestation_attested_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attested head of a block for the unfinalized chain.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_attested_head`), sepolia (`sepolia.int_attestation_attested_head`), holesky (`holesky.int_attestation_attested_head`), hoodi (`hoodi.int_attestation_attested_head`)
+- **Tags**: 
+### int_attestation_first_seen
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the attestation was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_first_seen`), sepolia (`sepolia.int_attestation_first_seen`), holesky (`holesky.int_attestation_first_seen`), hoodi (`hoodi.int_attestation_first_seen`)
+- **Tags**: 
+### int_beacon_committee_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Beacon committee head for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_beacon_committee_head`), sepolia (`sepolia.int_beacon_committee_head`), holesky (`holesky.int_beacon_committee_head`), hoodi (`hoodi.int_beacon_committee_head`)
+- **Tags**: 
+### int_block_blob_count_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_blob_count_canonical`), sepolia (`sepolia.int_block_blob_count_canonical`), holesky (`holesky.int_block_blob_count_canonical`), hoodi (`hoodi.int_block_blob_count_canonical`)
+- **Tags**: 
+### int_block_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_canonical`), sepolia (`sepolia.int_block_canonical`), holesky (`holesky.int_block_canonical`), hoodi (`hoodi.int_block_canonical`)
+- **Tags**: 
+### int_block_mev_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_mev_canonical`), sepolia (`sepolia.int_block_mev_canonical`), holesky (`holesky.int_block_mev_canonical`), hoodi (`hoodi.int_block_mev_canonical`)
+- **Tags**: 
+### int_block_proposer_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_proposer_canonical`), sepolia (`sepolia.int_block_proposer_canonical`), holesky (`holesky.int_block_proposer_canonical`), hoodi (`hoodi.int_block_proposer_canonical`)
+- **Tags**: 
 
 ## Schema Documentation
 
 ### Common Fields
 
-All tables include:
+Most tables include standard metadata fields:
 - **meta_client_name**: Client that collected the data
 - **meta_client_id**: Unique Session ID
 - **meta_client_version**: Client version
 - **meta_network_name**: Network name
 - **event_date_time**: When the event was created
 
+**Note:** CBT (ClickHouse Build Tools) tables are pre-aggregated analytical tables and do not include these metadata fields. Network selection for CBT tables is done via database targeting (e.g., `mainnet.table_name`).
+
 ## Schema Access
 
 To view table schemas:
 
 ```bash
-# Get a specific table schema
+# Get a specific table schema (default database)
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/TABLE_NAME.sql
+
+# Get a CBT table schema
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/cbt/TABLE_NAME.sql
 
 # Search within a schema for details
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/beacon_api_eth_v1_events_block.sql | grep -A 50 "CREATE TABLE"
@@ -876,10 +1122,13 @@ curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/maste
 To get a list of all available tables, you can use:
 
 ```bash
-# List all schemas
+# List all default database schemas
 curl -s https://api.github.com/repos/ethpandaops/xatu-data/contents/schema/clickhouse/default | jq -r '.[].name'
 
-# Get table details from config
+# List all CBT table schemas
+curl -s https://api.github.com/repos/ethpandaops/xatu-data/contents/schema/clickhouse/cbt | jq -r '.[].name'
+
+# Get table details from config (excludes auto-discovered CBT tables)
 curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml | \
   yq e '.tables[] | "Table: " + .name + ", Partition: " + .partitioning.column + " (" + .partitioning.type + ")"'
 ```
@@ -912,6 +1161,863 @@ curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/maste
 ```
 
 ### Table Schemas
+
+#### Database: cbt
+
+##### Table: dim_node
+
+```sql
+CREATE TABLE mainnet.dim_node
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `validator_index` UInt32 COMMENT 'The index of the validator' CODEC(ZSTD(1)),
+    `name` Nullable(String) COMMENT 'The name of the node' CODEC(ZSTD(1)),
+    `groups` Array(String) COMMENT 'Groups the node belongs to' CODEC(ZSTD(1)),
+    `tags` Array(String) COMMENT 'Tags associated with the node' CODEC(ZSTD(1)),
+    `attributes` Map(String, String) COMMENT 'Additional attributes of the node' CODEC(ZSTD(1)),
+    `source` String COMMENT 'The source entity of the node' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'dim_node_local', cityHash64(validator_index))
+COMMENT 'Node information for validators'
+```
+
+##### Table: fct_address_access_chunked_10000
+
+```sql
+CREATE TABLE mainnet.fct_address_access_chunked_10000
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `chunk_start_block_number` UInt32 COMMENT 'Start block number of the chunk' CODEC(ZSTD(1)),
+    `first_accessed_accounts` UInt32 COMMENT 'Number of accounts first accessed in the chunk' CODEC(ZSTD(1)),
+    `last_accessed_accounts` UInt32 COMMENT 'Number of accounts last accessed in the chunk' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_access_chunked_10000_local', rand())
+COMMENT 'Address access totals chunked by 10000 blocks'
+```
+
+##### Table: fct_address_access_total
+
+```sql
+CREATE TABLE mainnet.fct_address_access_total
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `total_accounts` UInt64 COMMENT 'Total number of accounts accessed in last 365 days' CODEC(ZSTD(1)),
+    `expired_accounts` UInt64 COMMENT 'Number of expired accounts (not accessed in last 365 days)' CODEC(ZSTD(1)),
+    `total_contract_accounts` UInt64 COMMENT 'Total number of contract accounts accessed in last 365 days' CODEC(ZSTD(1)),
+    `expired_contracts` UInt64 COMMENT 'Number of expired contracts (not accessed in last 365 days)' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_access_total_local', rand())
+COMMENT 'Address access totals and expiry statistics'
+```
+
+##### Table: fct_address_storage_slot_chunked_10000
+
+```sql
+CREATE TABLE mainnet.fct_address_storage_slot_chunked_10000
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `chunk_start_block_number` UInt32 COMMENT 'Start block number of the chunk' CODEC(ZSTD(1)),
+    `first_accessed_slots` UInt32 COMMENT 'Number of slots first accessed in the chunk' CODEC(ZSTD(1)),
+    `last_accessed_slots` UInt32 COMMENT 'Number of slots last accessed in the chunk' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_storage_slot_chunked_10000_local', rand())
+COMMENT 'Storage slot totals chunked by 10000 blocks'
+```
+
+##### Table: fct_address_storage_slot_expired_top_100_by_contract
+
+```sql
+CREATE TABLE mainnet.fct_address_storage_slot_expired_top_100_by_contract
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `rank` UInt32 COMMENT 'Rank by expired storage slots (1=highest)' CODEC(DoubleDelta, ZSTD(1)),
+    `contract_address` String COMMENT 'The contract address' CODEC(ZSTD(1)),
+    `expired_slots` UInt64 COMMENT 'Number of expired storage slots for this contract' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_storage_slot_expired_top_100_by_contract_local', cityHash64(contract_address))
+COMMENT 'Top 100 contracts by expired storage slots (not accessed in last 365 days)'
+```
+
+##### Table: fct_address_storage_slot_top_100_by_contract
+
+```sql
+CREATE TABLE mainnet.fct_address_storage_slot_top_100_by_contract
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `rank` UInt32 COMMENT 'Rank by total storage slots (1=highest)' CODEC(DoubleDelta, ZSTD(1)),
+    `contract_address` String COMMENT 'The contract address' CODEC(ZSTD(1)),
+    `total_storage_slots` UInt64 COMMENT 'Total number of storage slots for this contract' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_storage_slot_top_100_by_contract_local', cityHash64(contract_address))
+COMMENT 'Top 100 contracts by storage slots'
+```
+
+##### Table: fct_address_storage_slot_total
+
+```sql
+CREATE TABLE mainnet.fct_address_storage_slot_total
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `total_storage_slots` UInt64 COMMENT 'Total number of storage slots accessed in last 365 days' CODEC(ZSTD(1)),
+    `expired_storage_slots` UInt64 COMMENT 'Number of expired storage slots (not accessed in last 365 days)' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_address_storage_slot_total_local', rand())
+COMMENT 'Storage slot totals and expiry statistics'
+```
+
+##### Table: fct_attestation_correctness_by_validator_canonical
+
+```sql
+CREATE TABLE mainnet.fct_attestation_correctness_by_validator_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `attesting_validator_index` UInt32 COMMENT 'The index of the validator attesting' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash that was attested' CODEC(ZSTD(1)),
+    `slot_distance` Nullable(UInt32) COMMENT 'The distance from the slot to the attested block. If the attested block is the same as the slot, the distance is 0, if the attested block is the previous slot, the distance is 1, etc. If null, the attestation was missed, the block was orphaned and never seen by a sentry or the block was more than 64 slots ago' CODEC(DoubleDelta, ZSTD(1)),
+    `inclusion_distance` Nullable(UInt32) COMMENT 'The distance from the slot when the attestation was included in a block' CODEC(DoubleDelta, ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical", "orphaned", "missed" or "unknown" (validator attested but block data not available)'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_correctness_by_validator_canonical_local', cityHash64(slot_start_date_time, attesting_validator_index))
+COMMENT 'Attestation correctness by validator for the finalized chain'
+```
+
+##### Table: fct_attestation_correctness_by_validator_head
+
+```sql
+CREATE TABLE mainnet.fct_attestation_correctness_by_validator_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `attesting_validator_index` UInt32 COMMENT 'The index of the validator attesting' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash that was attested, null means the attestation was missed' CODEC(ZSTD(1)),
+    `slot_distance` Nullable(UInt32) COMMENT 'The distance from the slot to the attested block. If the attested block is the same as the slot, the distance is 0, if the attested block is the previous slot, the distance is 1, etc. If null, the attestation was missed, the block was orphaned and never seen by a sentry or the block was more than 64 slots ago' CODEC(DoubleDelta, ZSTD(1)),
+    `propagation_distance` Nullable(UInt32) COMMENT 'The distance from the slot when the attestation was propagated. 0 means the attestation was propagated within the same slot as its duty was assigned, 1 means the attestation was propagated within the next slot, etc.' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_correctness_by_validator_head_local', cityHash64(slot_start_date_time, attesting_validator_index))
+COMMENT 'Attestation correctness by validator for the finalized chain'
+```
+
+##### Table: fct_attestation_correctness_canonical
+
+```sql
+CREATE TABLE mainnet.fct_attestation_correctness_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `votes_max` UInt32 COMMENT 'The maximum number of scheduled votes for the block' CODEC(ZSTD(1)),
+    `votes_head` Nullable(UInt32) COMMENT 'The number of votes for the block proposed in the current slot' CODEC(ZSTD(1)),
+    `votes_other` Nullable(UInt32) COMMENT 'The number of votes for any blocks proposed in previous slots' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_correctness_canonical_local', cityHash64(slot_start_date_time))
+COMMENT 'Attestation correctness of a block for the finalized chain'
+```
+
+##### Table: fct_attestation_correctness_head
+
+```sql
+CREATE TABLE mainnet.fct_attestation_correctness_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `votes_max` UInt32 COMMENT 'The maximum number of scheduled votes for the block' CODEC(ZSTD(1)),
+    `votes_head` Nullable(UInt32) COMMENT 'The number of votes for the block proposed in the current slot' CODEC(ZSTD(1)),
+    `votes_other` Nullable(UInt32) COMMENT 'The number of votes for any blocks proposed in previous slots' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_correctness_head_local', cityHash64(slot_start_date_time))
+COMMENT 'Attestation correctness of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
+```
+
+##### Table: fct_attestation_first_seen_chunked_50ms
+
+```sql
+CREATE TABLE mainnet.fct_attestation_first_seen_chunked_50ms
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash that was attested, null means the attestation was missed' CODEC(ZSTD(1)),
+    `chunk_slot_start_diff` UInt32 COMMENT 'The different between the chunk start time and slot_start_date_time. "1500" would mean this chunk contains attestations first seen between 1500ms 1550ms into the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `attestation_count` UInt32 COMMENT 'The number of attestations in this chunk' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_first_seen_chunked_50ms_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Attestations first seen on the unfinalized chain broken down by 50ms chunks. Only includes attestations that were seen within 12000ms of the slot start time. There can be multiple block roots + chunk_slot_start_diff for the same slot, it most likely means votes for prior slot blocks'
+```
+
+##### Table: fct_block_blob_count_head
+
+```sql
+CREATE TABLE mainnet.fct_block_blob_count_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_count_head_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
+```
+
+##### Table: fct_block_blob_count
+
+```sql
+CREATE TABLE mainnet.fct_block_blob_count
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_count_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Blob count of a block for the finalized chain'
+```
+
+##### Table: fct_block_blob_first_seen_by_node
+
+```sql
+CREATE TABLE mainnet.fct_block_blob_first_seen_by_node
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `source` LowCardinality(String) COMMENT 'Source of the event' CODEC(ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `seen_slot_start_diff` UInt32 COMMENT 'The time from slot start for the client to see the block' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `blob_index` UInt32 COMMENT 'The blob index' CODEC(DoubleDelta, ZSTD(1)),
+    `username` LowCardinality(String) COMMENT 'Username of the node' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'ID of the node' CODEC(ZSTD(1)),
+    `classification` LowCardinality(String) COMMENT 'Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client',
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_blob_first_seen_by_node_local', cityHash64(slot_start_date_time, meta_client_name))
+COMMENT 'When the block was first seen on the network by a sentry node'
+```
+
+##### Table: fct_block_first_seen_by_node
+
+```sql
+CREATE TABLE mainnet.fct_block_first_seen_by_node
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `source` LowCardinality(String) COMMENT 'Source of the event' CODEC(ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `seen_slot_start_diff` UInt32 COMMENT 'The time from slot start for the client to see the block' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `username` LowCardinality(String) COMMENT 'Username of the node' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'ID of the node' CODEC(ZSTD(1)),
+    `classification` LowCardinality(String) COMMENT 'Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client',
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_first_seen_by_node_local', cityHash64(slot_start_date_time, meta_client_name))
+COMMENT 'When the block was first seen on the network by a sentry node'
+```
+
+##### Table: fct_block_head
+
+```sql
+CREATE TABLE mainnet.fct_block_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload',
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block',
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block',
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block',
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
+    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
+    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
+    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` FixedString(66) COMMENT 'The state root of the execution payload',
+    `execution_payload_parent_hash` FixedString(66) COMMENT 'The parent hash of the execution payload',
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_head_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'
+```
+
+##### Table: fct_block_mev_head
+
+```sql
+CREATE TABLE mainnet.fct_block_mev_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `earliest_bid_date_time` Nullable(DateTime64(3)) COMMENT 'The earliest timestamp of the accepted bid in milliseconds' CODEC(ZSTD(1)),
+    `relay_names` Array(String) COMMENT 'The relay names that delivered the proposer payload' CODEC(ZSTD(1)),
+    `parent_hash` FixedString(66) COMMENT 'The parent hash of the proposer payload' CODEC(ZSTD(1)),
+    `block_number` UInt64 COMMENT 'The block number of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'The block hash of the proposer payload' CODEC(ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The builder pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The proposer pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the proposer payload' CODEC(ZSTD(1)),
+    `gas_limit` UInt64 COMMENT 'The gas limit of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `gas_used` UInt64 COMMENT 'The gas used of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `value` Nullable(UInt128) COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
+    `transaction_count` UInt32 COMMENT 'The number of transactions in the proposer payload' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_mev_head_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'MEV relay proposer payload delivered for a block on the unfinalized chain'
+```
+
+##### Table: fct_block_mev
+
+```sql
+CREATE TABLE mainnet.fct_block_mev
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `earliest_bid_date_time` Nullable(DateTime64(3)) COMMENT 'The earliest timestamp of the accepted bid in milliseconds' CODEC(ZSTD(1)),
+    `relay_names` Array(String) COMMENT 'The relay names that delivered the proposer payload' CODEC(ZSTD(1)),
+    `parent_hash` FixedString(66) COMMENT 'The parent hash of the proposer payload' CODEC(ZSTD(1)),
+    `block_number` UInt64 COMMENT 'The block number of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'The block hash of the proposer payload' CODEC(ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The builder pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The proposer pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the proposer payload' CODEC(ZSTD(1)),
+    `gas_limit` UInt64 COMMENT 'The gas limit of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `gas_used` UInt64 COMMENT 'The gas used of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `value` Nullable(UInt128) COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
+    `transaction_count` UInt32 COMMENT 'The number of transactions in the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_mev_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks'
+```
+
+##### Table: fct_block_proposer_entity
+
+```sql
+CREATE TABLE mainnet.fct_block_proposer_entity
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `entity` Nullable(String) COMMENT 'The entity that proposed the block' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_entity_local', cityHash64(slot_start_date_time))
+COMMENT 'Block proposer entity for the unfinalized chain'
+```
+
+##### Table: fct_block_proposer_head
+
+```sql
+CREATE TABLE mainnet.fct_block_proposer_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash. Null if a block was never seen by a sentry' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_head_local', cityHash64(slot_start_date_time, proposer_validator_index))
+COMMENT 'Block proposers for the unfinalized chain'
+```
+
+##### Table: fct_block_proposer
+
+```sql
+CREATE TABLE mainnet.fct_block_proposer
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash. Null if a block was never seen by a sentry, aka "missed"' CODEC(ZSTD(1)),
+    `status` LowCardinality(String) COMMENT 'Can be "canonical", "orphaned" or "missed"'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_proposer_local', cityHash64(slot_start_date_time))
+COMMENT 'Block proposers for the finalized chain including orphaned blocks'
+```
+
+##### Table: fct_block
+
+```sql
+CREATE TABLE mainnet.fct_block
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload',
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block',
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block',
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block',
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
+    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
+    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
+    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` FixedString(66) COMMENT 'The state root of the execution payload',
+    `execution_payload_parent_hash` FixedString(66) COMMENT 'The parent hash of the execution payload',
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy',
+    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_block_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Block details for the finalized chain including orphaned blocks'
+```
+
+##### Table: fct_mev_bid_count_by_builder
+
+```sql
+CREATE TABLE mainnet.fct_mev_bid_count_by_builder
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block bid' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The relay that the bid was fetched from' CODEC(ZSTD(1)),
+    `bid_total` UInt32 COMMENT 'The total number of bids from the builder' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_mev_bid_count_by_builder_local', cityHash64(slot_start_date_time, builder_pubkey))
+COMMENT 'Total number of MEV builder bids for a slot'
+```
+
+##### Table: fct_mev_bid_count_by_relay
+
+```sql
+CREATE TABLE mainnet.fct_mev_bid_count_by_relay
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block bid' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `relay_name` String COMMENT 'The relay that the bid was fetched from' CODEC(ZSTD(1)),
+    `bid_total` UInt32 COMMENT 'The total number of bids for the relay' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_mev_bid_count_by_relay_local', cityHash64(slot_start_date_time, relay_name))
+COMMENT 'Total number of MEV relay bids for a slot by relay'
+```
+
+##### Table: fct_mev_bid_highest_value_by_builder_chunked_50ms
+
+```sql
+CREATE TABLE mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block bid' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the bid is for' CODEC(DoubleDelta, ZSTD(1)),
+    `chunk_slot_start_diff` Int32 COMMENT 'The difference between the chunk start time and slot_start_date_time. "1500" would mean the earliest bid for this block_hash was between 1500ms and 1550ms into the slot. Negative values indicate bids received before slot start' CODEC(DoubleDelta, ZSTD(1)),
+    `earliest_bid_date_time` DateTime64(3) COMMENT 'The timestamp of the earliest bid for this block_hash from this builder' CODEC(DoubleDelta, ZSTD(1)),
+    `relay_names` Array(String) COMMENT 'The relay that the bid was fetched from' CODEC(ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'The execution block hash of the bid' CODEC(ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The builder pubkey of the bid' CODEC(ZSTD(1)),
+    `value` UInt128 COMMENT 'The transaction value in wei' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_mev_bid_highest_value_by_builder_chunked_50ms_local', cityHash64(slot_start_date_time, chunk_slot_start_diff, builder_pubkey))
+COMMENT 'Highest value bid from each builder per slot broken down by 50ms chunks. Each block_hash appears in the chunk determined by its earliest bid timestamp. Only includes bids within -12000ms to +12000ms of slot start time'
+```
+
+##### Table: fct_node_active_last_24h
+
+```sql
+CREATE TABLE mainnet.fct_node_active_last_24h
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `last_seen_date_time` DateTime COMMENT 'Timestamp when the node was last seen' CODEC(DoubleDelta, ZSTD(1)),
+    `username` String COMMENT 'Username of the node' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'ID of the node' CODEC(ZSTD(1)),
+    `classification` String COMMENT 'Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client',
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_node_active_last_24h_local', cityHash64(meta_client_name))
+COMMENT 'Active nodes for the network'
+```
+
+##### Table: fct_prepared_block
+
+```sql
+CREATE TABLE mainnet.fct_prepared_block
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block',
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started',
+    `event_date_time` DateTime COMMENT 'The wall clock time when the event was received',
+    `meta_client_name` String COMMENT 'Name of the client that generated the event',
+    `meta_client_version` String COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` String COMMENT 'Implementation of the client that generated the event',
+    `meta_consensus_implementation` String COMMENT 'Consensus implementation of the validator',
+    `meta_consensus_version` String COMMENT 'Consensus version of the validator',
+    `meta_client_geo_city` String COMMENT 'City of the client that generated the event',
+    `meta_client_geo_country` String COMMENT 'Country of the client that generated the event',
+    `meta_client_geo_country_code` String COMMENT 'Country code of the client that generated the event',
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
+    `execution_payload_value` Nullable(UInt64) COMMENT 'The value of the execution payload in wei',
+    `consensus_payload_value` Nullable(UInt64) COMMENT 'The value of the consensus payload in wei',
+    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload',
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload',
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_prepared_block_local', cityHash64(slot_start_date_time, slot, meta_client_name))
+COMMENT 'Prepared block proposals showing what would have been built if the validator had been selected as proposer'
+```
+
+##### Table: int_address_first_access
+
+```sql
+CREATE TABLE mainnet.int_address_first_access
+(
+    `address` String COMMENT 'The address of the account' CODEC(ZSTD(1)),
+    `block_number` UInt32 COMMENT 'The block number of the first access' CODEC(ZSTD(1)),
+    `version` UInt32 DEFAULT 4294967295 - block_number COMMENT 'Version for this address, for internal use in clickhouse to keep first access' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_address_first_access_local', cityHash64(address))
+COMMENT 'Table for accounts first access data'
+```
+
+##### Table: int_address_last_access
+
+```sql
+CREATE TABLE mainnet.int_address_last_access
+(
+    `address` String COMMENT 'The address of the account' CODEC(ZSTD(1)),
+    `block_number` UInt32 COMMENT 'The block number of the last access' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_address_last_access_local', cityHash64(address))
+COMMENT 'Table for accounts last access data'
+```
+
+##### Table: int_address_storage_slot_first_access
+
+```sql
+CREATE TABLE mainnet.int_address_storage_slot_first_access
+(
+    `address` String COMMENT 'The address of the account' CODEC(ZSTD(1)),
+    `slot_key` String COMMENT 'The slot key of the storage' CODEC(ZSTD(1)),
+    `block_number` UInt32 COMMENT 'The block number of the first access' CODEC(ZSTD(1)),
+    `value` String COMMENT 'The value of the storage' CODEC(ZSTD(1)),
+    `version` UInt32 DEFAULT 4294967295 - block_number COMMENT 'Version for this address + slot key, for internal use in clickhouse to keep first access' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_address_storage_slot_first_access_local', cityHash64(address, slot_key))
+COMMENT 'Table for storage first access data'
+```
+
+##### Table: int_address_storage_slot_last_access
+
+```sql
+CREATE TABLE mainnet.int_address_storage_slot_last_access
+(
+    `address` String COMMENT 'The address of the account' CODEC(ZSTD(1)),
+    `slot_key` String COMMENT 'The slot key of the storage' CODEC(ZSTD(1)),
+    `block_number` UInt32 COMMENT 'The block number of the last access' CODEC(ZSTD(1)),
+    `value` String COMMENT 'The value of the storage' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_address_storage_slot_last_access_local', cityHash64(address, slot_key))
+COMMENT 'Table for storage last access data'
+```
+
+##### Table: int_attestation_attested_canonical
+
+```sql
+CREATE TABLE mainnet.int_attestation_attested_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `source_epoch` UInt32 COMMENT 'The source epoch number in the attestation group',
+    `source_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the source epoch started',
+    `source_root` FixedString(66) COMMENT 'The source beacon block root hash in the attestation group',
+    `target_epoch` UInt32 COMMENT 'The target epoch number in the attestation group',
+    `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started',
+    `target_root` FixedString(66) COMMENT 'The target beacon block root hash in the attestation group',
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `attesting_validator_index` UInt32 COMMENT 'The index of the validator attesting' CODEC(ZSTD(1)),
+    `inclusion_distance` UInt32 COMMENT 'The distance from the slot when the attestation was included' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_attestation_attested_canonical_local', cityHash64(slot_start_date_time, block_root, attesting_validator_index))
+COMMENT 'Attested head of a block for the unfinalized chain.'
+```
+
+##### Table: int_attestation_attested_head
+
+```sql
+CREATE TABLE mainnet.int_attestation_attested_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `source_epoch` UInt32 COMMENT 'The source epoch number in the attestation group',
+    `source_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the source epoch started',
+    `source_root` FixedString(66) COMMENT 'The source beacon block root hash in the attestation group',
+    `target_epoch` UInt32 COMMENT 'The target epoch number in the attestation group',
+    `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started',
+    `target_root` FixedString(66) COMMENT 'The target beacon block root hash in the attestation group',
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `attesting_validator_index` UInt32 COMMENT 'The index of the validator attesting' CODEC(ZSTD(1)),
+    `propagation_distance` UInt32 COMMENT 'The distance from the slot when the attestation was propagated. 0 means the attestation was propagated within the same slot as its duty was assigned, 1 means the attestation was propagated within the next slot, etc.' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_attestation_attested_head_local', cityHash64(slot_start_date_time, block_root, attesting_validator_index))
+COMMENT 'Attested head of a block for the unfinalized chain.'
+```
+
+##### Table: int_attestation_first_seen
+
+```sql
+CREATE TABLE mainnet.int_attestation_first_seen
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `source` LowCardinality(String) COMMENT 'Source of the event' CODEC(ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `seen_slot_start_diff` UInt32 COMMENT 'The time from slot start for the client to see the block' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `attesting_validator_index` UInt32 COMMENT 'The index of the validator attesting' CODEC(ZSTD(1)),
+    `attesting_validator_committee_index` LowCardinality(String) COMMENT 'The committee index of the attesting validator',
+    `username` LowCardinality(String) COMMENT 'Username of the node' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'ID of the node' CODEC(ZSTD(1)),
+    `classification` LowCardinality(String) COMMENT 'Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client',
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_attestation_first_seen_local', cityHash64(slot_start_date_time, attesting_validator_index))
+COMMENT 'When the attestation was first seen on the network by a sentry node'
+```
+
+##### Table: int_beacon_committee_head
+
+```sql
+CREATE TABLE mainnet.int_beacon_committee_head
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `committee_index` LowCardinality(String) COMMENT 'The committee index in the beacon API committee payload',
+    `validators` Array(UInt32) COMMENT 'The validator indices in the beacon API committee payload' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_beacon_committee_head_local', cityHash64(slot_start_date_time, committee_index))
+COMMENT 'Beacon committee head for the unfinalized chain'
+```
+
+##### Table: int_block_blob_count_canonical
+
+```sql
+CREATE TABLE mainnet.int_block_blob_count_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_block_blob_count_canonical_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Blob count of a block for the finalized chain'
+```
+
+##### Table: int_block_canonical
+
+```sql
+CREATE TABLE mainnet.int_block_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload',
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block',
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload',
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy',
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block',
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block',
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
+    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
+    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
+    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` FixedString(66) COMMENT 'The state root of the execution payload',
+    `execution_payload_parent_hash` FixedString(66) COMMENT 'The parent hash of the execution payload',
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy'
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_block_canonical_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'Block details for the finalized chain'
+```
+
+##### Table: int_block_mev_canonical
+
+```sql
+CREATE TABLE mainnet.int_block_mev_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number within the block proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The start time for the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number derived from the slot that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The start time for the epoch that the proposer payload is for' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `earliest_bid_date_time` Nullable(DateTime64(3)) COMMENT 'The earliest timestamp of the accepted bid in milliseconds' CODEC(ZSTD(1)),
+    `relay_names` Array(String) COMMENT 'The relay names that delivered the proposer payload' CODEC(ZSTD(1)),
+    `parent_hash` FixedString(66) COMMENT 'The parent hash of the proposer payload' CODEC(ZSTD(1)),
+    `block_number` UInt64 COMMENT 'The block number of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'The block hash of the proposer payload' CODEC(ZSTD(1)),
+    `builder_pubkey` String COMMENT 'The builder pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The proposer pubkey of the proposer payload' CODEC(ZSTD(1)),
+    `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the proposer payload' CODEC(ZSTD(1)),
+    `gas_limit` UInt64 COMMENT 'The gas limit of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `gas_used` UInt64 COMMENT 'The gas used of the proposer payload' CODEC(DoubleDelta, ZSTD(1)),
+    `value` Nullable(UInt128) COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
+    `transaction_count` UInt32 COMMENT 'The number of transactions in the proposer payload' CODEC(DoubleDelta, ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_block_mev_canonical_local', cityHash64(slot_start_date_time, block_root))
+COMMENT 'MEV relay proposer payload delivered for a block on the finalized chain'
+```
+
+##### Table: int_block_proposer_canonical
+
+```sql
+CREATE TABLE mainnet.int_block_proposer_canonical
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
+    `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
+    `block_root` Nullable(String) COMMENT 'The beacon block root hash. Null if a slot was missed' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'int_block_proposer_canonical_local', cityHash64(slot_start_date_time))
+COMMENT 'Block proposers for the finalized chain'
+```
 
 #### Database: default
 
@@ -1047,6 +2153,46 @@ ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_blob_side
 COMMENT 'Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.'
 ```
 
+##### Table: beacon_api_eth_v1_events_block_gossip
+
+```sql
+CREATE TABLE default.beacon_api_eth_v1_events_block_gossip
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
+    `block` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_gossip_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
+COMMENT 'Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.'
+```
+
 ##### Table: beacon_api_eth_v1_events_block
 
 ```sql
@@ -1086,46 +2232,6 @@ CREATE TABLE default.beacon_api_eth_v1_events_block
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
 COMMENT 'Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.'
-```
-
-##### Table: beacon_api_eth_v1_events_block_gossip
-
-```sql
-CREATE TABLE default.beacon_api_eth_v1_events_block_gossip
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
-    `block` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_gossip_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
-COMMENT 'Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.'
 ```
 
 ##### Table: beacon_api_eth_v1_events_chain_reorg
@@ -1591,65 +2697,6 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_blob_sidecar_loca
 COMMENT 'Contains a blob sidecar from a beacon block.'
 ```
 
-##### Table: canonical_beacon_block
-
-```sql
-CREATE TABLE default.canonical_beacon_block
-(
-    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `slot` UInt32 COMMENT 'The slot number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
-    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
-    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload' CODEC(ZSTD(1)),
-    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy' CODEC(ZSTD(1)),
-    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block' CODEC(ZSTD(1)),
-    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block' CODEC(ZSTD(1)),
-    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block' CODEC(ZSTD(1)),
-    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block' CODEC(ZSTD(1)),
-    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block' CODEC(ZSTD(1)),
-    `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload' CODEC(DoubleDelta, ZSTD(1)),
-    `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload' CODEC(ZSTD(1)),
-    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
-    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
-    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
-    `execution_payload_state_root` Nullable(FixedString(66)) COMMENT 'The state root of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_parent_hash` Nullable(FixedString(66)) COMMENT 'The parent hash of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload' CODEC(ZSTD(1)),
-    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_local', cityHash64(slot_start_date_time, meta_network_name))
-COMMENT 'Contains beacon block from a beacon node.'
-```
-
 ##### Table: canonical_beacon_block_attester_slashing
 
 ```sql
@@ -1902,6 +2949,65 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_proposer_sl
 COMMENT 'Contains proposer slashing from a beacon block.'
 ```
 
+##### Table: canonical_beacon_block
+
+```sql
+CREATE TABLE default.canonical_beacon_block
+(
+    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` FixedString(66) COMMENT 'The root hash of the beacon block' CODEC(ZSTD(1)),
+    `block_version` LowCardinality(String) COMMENT 'The version of the beacon block',
+    `block_total_bytes` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload' CODEC(ZSTD(1)),
+    `block_total_bytes_compressed` Nullable(UInt32) COMMENT 'The total bytes of the beacon block payload when compressed using snappy' CODEC(ZSTD(1)),
+    `parent_root` FixedString(66) COMMENT 'The root hash of the parent beacon block' CODEC(ZSTD(1)),
+    `state_root` FixedString(66) COMMENT 'The root hash of the beacon state at this block' CODEC(ZSTD(1)),
+    `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block' CODEC(ZSTD(1)),
+    `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block' CODEC(ZSTD(1)),
+    `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block' CODEC(ZSTD(1)),
+    `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload' CODEC(ZSTD(1)),
+    `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
+    `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
+    `execution_payload_state_root` Nullable(FixedString(66)) COMMENT 'The state root of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_parent_hash` Nullable(FixedString(66)) COMMENT 'The parent hash of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload' CODEC(ZSTD(1)),
+    `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_local', cityHash64(slot_start_date_time, meta_network_name))
+COMMENT 'Contains beacon block from a beacon node.'
+```
+
 ##### Table: canonical_beacon_block_voluntary_exit
 
 ```sql
@@ -2117,6 +3223,44 @@ ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_proposer_duty_loc
 COMMENT 'Contains a proposer duty from a beacon block.'
 ```
 
+##### Table: canonical_beacon_validators_pubkeys
+
+```sql
+CREATE TABLE default.canonical_beacon_validators_pubkeys
+(
+    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `version` UInt32 DEFAULT 4294967295 - toUnixTimestamp(epoch_start_date_time) COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but earliest epoch_start_date_time the pubkey was seen' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `index` UInt32 COMMENT 'The index of the validator' CODEC(ZSTD(1)),
+    `pubkey` String COMMENT 'The public key of the validator' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_pubkeys_local', cityHash64(index, meta_network_name))
+COMMENT 'Contains a validator pubkeys for an epoch.'
+```
+
 ##### Table: canonical_beacon_validators
 
 ```sql
@@ -2159,44 +3303,6 @@ CREATE TABLE default.canonical_beacon_validators
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_local', cityHash64(epoch_start_date_time, meta_network_name, index, status))
 COMMENT 'Contains a validator state for an epoch.'
-```
-
-##### Table: canonical_beacon_validators_pubkeys
-
-```sql
-CREATE TABLE default.canonical_beacon_validators_pubkeys
-(
-    `updated_date_time` DateTime COMMENT 'When this row was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `version` UInt32 DEFAULT 4294967295 - toUnixTimestamp(epoch_start_date_time) COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but earliest epoch_start_date_time the pubkey was seen' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch` UInt32 COMMENT 'The epoch number from beacon block payload' CODEC(DoubleDelta, ZSTD(1)),
-    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `index` UInt32 COMMENT 'The index of the validator' CODEC(ZSTD(1)),
-    `pubkey` String COMMENT 'The public key of the validator' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
-    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
-    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
-    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
-    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
-    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
-    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
-    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
-)
-ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_validators_pubkeys_local', cityHash64(index, meta_network_name))
-COMMENT 'Contains a validator pubkeys for an epoch.'
 ```
 
 ##### Table: canonical_execution_address_appearances

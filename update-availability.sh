@@ -23,6 +23,13 @@ if [ -z "$DATASET" ]; then
     exit 1
 fi
 
+# Skip CBT dataset (auto-discovered tables, no date-based availability)
+DATASET_PREFIX=$(yq e ".datasets[] | select(.name == \"$DATASET\").tables.prefix" "$CONFIG_FILE")
+if [ -z "$DATASET_PREFIX" ] || [ "$DATASET_PREFIX" = "null" ]; then
+    log "Skipping CBT dataset - auto-discovered tables with no date-based availability tracking."
+    exit 0
+fi
+
 # Check if the dataset has availability == "public"
 IS_PUBLIC=$(yq e ".datasets[] | select(.name == \"$DATASET\").availability | contains([\"public\"])" "$CONFIG_FILE")
 
