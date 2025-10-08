@@ -237,7 +237,7 @@ cat >> "$output_file" << 'EOF'
 EOF
 
 # Generate full table listing with all details
-yq e '.tables[] | "### `" + .name + "`\n- **Database**: `" + .database + "`\n- **Partitioning**: `" + .partitioning.column + "` (" + .partitioning.type + ", " + .partitioning.interval + ")\n- **Networks**: " + (.networks | to_entries | map(.key + " (" + .value.from + " to " + .value.to + ")") | join(", ")) + "\n- **Description**: " + .description + "\n"' "$config_file" >> "$output_file"
+yq e '.tables[] | "### `" + .name + "`\n- **Database**: `" + .database + "`\n- **Partitioning**: `" + .partitioning.column + "` (" + .partitioning.type + ", " + .partitioning.interval + ")\n- **Networks**: " + (.networks | to_entries | map(.key) | join(", ")) + "\n- **Description**: " + .description + "\n"' "$config_file" >> "$output_file"
 
 cat >> "$output_file" << 'EOF'
 
