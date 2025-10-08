@@ -176,14 +176,14 @@ Xatu is a comprehensive Ethereum network data collection and processing pipeline
 - **Canonical Beacon/Execution** - Deduplicated, authoritative chain data
 - **MEV Relay** - Block auction and builder data
 - **P2P Network Events** - Consensus and execution layer propagation
-- **CBT Tables** - Pre-aggregated analytics (ClickHouse only)
+- **CBT Tables** - Pre-aggregated analytics (ClickHouse only). Exists in $network databases.
 
 ### Networks
 - Mainnet (production Ethereum)
 - Holesky (testnet)
 - Sepolia (testnet)
 - Hoodi (devnet)
-- Experimental networks (via experimental endpoint)
+- Experimental networks like devnets (via experimental endpoint)
 
 ## ⚠️ Critical: Query Performance
 
@@ -979,34 +979,6 @@ grouped = combine(groupby(combined_df, :slot),
 EOF
 }
 
-# Generate glossary section (only for full file)
-generate_glossary_section() {
-  local output_file=$1
-  cat >> "$output_file" << 'EOF'
-
-## Glossary
-
-### Ethereum Terminology
-- **Slot**: Basic time unit in the Ethereum consensus layer (12 seconds)
-- **Epoch**: A group of 32 slots (approximately 6.4 minutes)
-- **Block**: A collection of transactions and state updates
-- **Attestation**: A validator's vote for a specific block
-- **Validator**: An entity participating in Ethereum consensus by staking ETH
-- **Proposer**: A validator selected to create a block for a specific slot
-- **Finalization**: The process by which blocks become irreversible
-- **MEV**: Maximal Extractable Value, additional value that can be extracted by reordering transactions
-- **Relay**: A service that connects validators with block builders
-
-### Data-Specific Terminology
-- **Propagation Time**: Time between slot start and when a node observed an event
-- **Canonical**: Data from the finalized, canonical chain
-- **Event Stream**: Real-time data from the Beacon API
-- **P2P**: Peer-to-peer network communications
-- **Meta Client**: The client/node that collected the data
-- **Partition Column**: Column used to divide data into manageable chunks
-EOF
-}
-
 # Generate footer section
 generate_footer() {
   local output_file=$1
@@ -1240,6 +1212,21 @@ ORDER BY b.slot;
 ## License
 
 Data licensed under CC BY 4.0
+EOF
+
+  generate_table_hints "$output_file"
+}
+
+generate_table_hints() {
+  local output_file=$1
+  cat >> "$output_file" << 'EOF'
+  ## Hints (VERY IMPORTANT)
+  - It is HIGHLY recommended to explore the available tables and understand the data before querying.
+  - The CBT tables in the $network database should be your first choice for data. Inspect all the available tables and understand the data before querying. 
+  - A large amount of CBT tables have _head and _canonical variants. Make sure you know which one you are querying as the data can be different.
+  - To check when a block was first seen by nodes in the Xatu network, check the $network.fct_block_first_seen_by_node table.
+  - A "best effort" table in $network.dim_node contains validator information like the entity running the validator. In devnets this also contains the node name that is running the validator.
+  - When asked for Grafana compatible queries you should make use of $__timeFilter() over the tables partition column. If asked for Grafana timeseries queries, you need to use $__timeInterval() over the tables partition column, usually with something like toStartOfFiveMinutes() or toStartOfHour().
 EOF
 }
 

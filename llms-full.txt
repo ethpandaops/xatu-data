@@ -45,14 +45,14 @@ Xatu is a comprehensive Ethereum network data collection and processing pipeline
 - **Canonical Beacon/Execution** - Deduplicated, authoritative chain data
 - **MEV Relay** - Block auction and builder data
 - **P2P Network Events** - Consensus and execution layer propagation
-- **CBT Tables** - Pre-aggregated analytics (ClickHouse only)
+- **CBT Tables** - Pre-aggregated analytics (ClickHouse only). Exists in $network databases.
 
 ### Networks
 - Mainnet (production Ethereum)
 - Holesky (testnet)
 - Sepolia (testnet)
 - Hoodi (devnet)
-- Experimental networks (via experimental endpoint)
+- Experimental networks like devnets (via experimental endpoint)
 
 ## ⚠️ Critical: Query Performance
 
