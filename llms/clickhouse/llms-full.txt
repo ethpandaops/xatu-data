@@ -1,0 +1,1382 @@
+# Xatu ClickHouse Database
+> Direct database access to Ethereum network data.
+Xatu is a data collection and processing pipeline for Ethereum network data.
+- Xatu contains multiple "modules" that each derive Ethereum data differently
+- The data is stored in a Clickhouse database and published to Parquet files
+- ethPandaOps runs all modules, with community members also contributing data
+
+## Looking for Public Parquet Files?
+**If you want public access without authentication**, see https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms.txt for Parquet file documentation.
+
+## Endpoints
+
+### Production Endpoint
+```
+https://clickhouse.xatu.ethpandaops.io
+```
+**Networks**: Mainnet, Sepolia, Holesky, Hoodi
+
+### Experimental Endpoint
+```
+https://clickhouse.xatu-experimental.ethpandaops.io
+```
+**Networks**: Devnets, experimental networks
+
+## Quick Start Examples
+
+### curl + jq
+```bash
+CLICKHOUSE_USER="your-username"
+CLICKHOUSE_PASSWORD="your-password"
+
+echo """
+SELECT
+    toDate(slot_start_date_time) AS date,
+    COUNT(*) AS blocks,
+    quantile(0.5)(propagation_slot_start_diff) AS median_propagation_ms
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time >= toDateTime('2024-04-01 00:00:00')
+    AND slot_start_date_time < toDateTime('2024-04-02 00:00:00')
+    AND meta_network_name = 'mainnet'
+GROUP BY date
+FORMAT JSON
+""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+    -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+    --data-binary @- | jq
+```
+
+### Python + SQLAlchemy
+```python
+from sqlalchemy import create_engine
+import pandas as pd
+import os
+
+# Credentials from environment
+endpoint = "clickhouse.xatu.ethpandaops.io"
+user = os.environ["CLICKHOUSE_USER"]
+password = os.environ["CLICKHOUSE_PASSWORD"]
+
+# Create connection
+db_url = f"clickhouse+http://{user}:{password}@{endpoint}:443/default?protocol=https"
+engine = create_engine(db_url)
+
+# Query with proper partitioning
+query = """
+SELECT
+    slot,
+    block_root,
+    proposer_index,
+    slot_start_date_time
+FROM canonical_beacon_block FINAL
+WHERE
+    slot_start_date_time >= toDateTime('2024-04-01')
+    AND slot_start_date_time < toDateTime('2024-04-02')
+    AND meta_network_name = 'mainnet'
+LIMIT 1000
+"""
+
+df = pd.read_sql(query, engine)
+```
+
+### Jupyter Notebook Magic
+```python
+%load_ext sql
+
+# Set connection
+%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+
+# Query directly in cell
+%%sql
+SELECT
+    meta_client_name,
+    COUNT(*) as observations
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time > NOW() - INTERVAL 1 HOUR
+    AND meta_network_name = 'mainnet'
+GROUP BY meta_client_name
+ORDER BY observations DESC
+```
+
+
+## Available Datasets
+
+### Beacon API Event Stream
+> Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. These tables can be joined with the canonical tables to get a more complete view of the data. For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block.
+
+**Table Prefix**: `beacon_api_`
+**Availability**: public, ethpandaops-clickhouse
+
+### Execution Layer P2P
+> Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances.
+
+**Table Prefix**: `mempool_`
+**Availability**: ethpandaops-clickhouse, public
+
+### Canonical Beacon
+> Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information
+
+**Table Prefix**: `canonical_beacon_`
+**Availability**: ethpandaops-clickhouse, public
+
+### Canonical Execution
+> Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information
+
+**Table Prefix**: `canonical_execution_`
+**Availability**: ethpandaops-clickhouse, public
+
+### Consensus Layer P2P
+> Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.
+
+**Table Prefix**: `libp2p_`
+**Availability**: ethpandaops-clickhouse, public
+
+### MEV Relay
+> Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.
+
+**Table Prefix**: `mev_relay_`
+**Availability**: public, ethpandaops-clickhouse
+
+### CBT (ClickHouse Build Tools)
+> Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).
+
+**Table Prefix**: ``
+**Availability**: ethpandaops-clickhouse
+
+
+### CBT (ClickHouse Build Tool) Tables
+
+CBT tables are pre-aggregated analytical tables accessed via **network-specific databases**:
+
+```sql
+-- Query mainnet CBT table
+SELECT * FROM mainnet.table_name LIMIT 10;
+
+-- Query sepolia CBT table
+SELECT * FROM sepolia.table_name LIMIT 10;
+```
+
+**Database naming**: `mainnet`, `sepolia`, `holesky`, `hoodi`
+
+**Table types**:
+- `dim_*` - Dimension tables
+- `fct_*` - Fact tables
+- `int_*` - Intermediate tables
+
+
+### Auto-Discovered CBT Tables
+
+### dim_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: Node information for validators
+- **Partitioning**: validator_index (integer), 1000
+- **Networks**: mainnet (`mainnet.dim_node`), sepolia (`sepolia.dim_node`), holesky (`holesky.dim_node`), hoodi (`hoodi.dim_node`)
+- **Tags**: 
+### fct_address_access_chunked_10000
+- **Database**: Network-specific (see Networks below)
+- **Description**: Address access totals chunked by 10000 blocks
+- **Partitioning**: chunk_start_block_number (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_access_chunked_10000`), sepolia (`sepolia.fct_address_access_chunked_10000`), holesky (`holesky.fct_address_access_chunked_10000`), hoodi (`hoodi.fct_address_access_chunked_10000`)
+- **Tags**: 
+### fct_address_access_total
+- **Database**: Network-specific (see Networks below)
+- **Description**: Address access totals and expiry statistics
+- **Partitioning**: updated_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_address_access_total`), sepolia (`sepolia.fct_address_access_total`), holesky (`holesky.fct_address_access_total`), hoodi (`hoodi.fct_address_access_total`)
+- **Tags**: 
+### fct_address_storage_slot_chunked_10000
+- **Database**: Network-specific (see Networks below)
+- **Description**: Storage slot totals chunked by 10000 blocks
+- **Partitioning**: chunk_start_block_number (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_chunked_10000`), sepolia (`sepolia.fct_address_storage_slot_chunked_10000`), holesky (`holesky.fct_address_storage_slot_chunked_10000`), hoodi (`hoodi.fct_address_storage_slot_chunked_10000`)
+- **Tags**: 
+### fct_address_storage_slot_expired_top_100_by_contract
+- **Database**: Network-specific (see Networks below)
+- **Description**: Top 100 contracts by expired storage slots (not accessed in last 365 days)
+- **Partitioning**: rank (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_expired_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_expired_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_expired_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_expired_top_100_by_contract`)
+- **Tags**: 
+### fct_address_storage_slot_top_100_by_contract
+- **Database**: Network-specific (see Networks below)
+- **Description**: Top 100 contracts by storage slots
+- **Partitioning**: rank (integer), 1000
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_top_100_by_contract`), sepolia (`sepolia.fct_address_storage_slot_top_100_by_contract`), holesky (`holesky.fct_address_storage_slot_top_100_by_contract`), hoodi (`hoodi.fct_address_storage_slot_top_100_by_contract`)
+- **Tags**: 
+### fct_address_storage_slot_total
+- **Database**: Network-specific (see Networks below)
+- **Description**: Storage slot totals and expiry statistics
+- **Partitioning**: updated_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_address_storage_slot_total`), sepolia (`sepolia.fct_address_storage_slot_total`), holesky (`holesky.fct_address_storage_slot_total`), hoodi (`hoodi.fct_address_storage_slot_total`)
+- **Tags**: 
+### fct_attestation_correctness_by_validator_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness by validator for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_canonical`), sepolia (`sepolia.fct_attestation_correctness_by_validator_canonical`), holesky (`holesky.fct_attestation_correctness_by_validator_canonical`), hoodi (`hoodi.fct_attestation_correctness_by_validator_canonical`)
+- **Tags**: 
+### fct_attestation_correctness_by_validator_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness by validator for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_by_validator_head`), sepolia (`sepolia.fct_attestation_correctness_by_validator_head`), holesky (`holesky.fct_attestation_correctness_by_validator_head`), hoodi (`hoodi.fct_attestation_correctness_by_validator_head`)
+- **Tags**: 
+### fct_attestation_correctness_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_canonical`), sepolia (`sepolia.fct_attestation_correctness_canonical`), holesky (`holesky.fct_attestation_correctness_canonical`), hoodi (`hoodi.fct_attestation_correctness_canonical`)
+- **Tags**: 
+### fct_attestation_correctness_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation correctness of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_correctness_head`), sepolia (`sepolia.fct_attestation_correctness_head`), holesky (`holesky.fct_attestation_correctness_head`), hoodi (`hoodi.fct_attestation_correctness_head`)
+- **Tags**: 
+### fct_attestation_first_seen_chunked_50ms
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestations first seen on the unfinalized chain broken down by 50ms chunks. Only includes attestations that were seen within 12000ms of the slot start time. There can be multiple block roots + chunk_slot_start_diff for the same slot, it most likely means votes for prior slot blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_first_seen_chunked_50ms`), sepolia (`sepolia.fct_attestation_first_seen_chunked_50ms`), holesky (`holesky.fct_attestation_first_seen_chunked_50ms`), hoodi (`hoodi.fct_attestation_first_seen_chunked_50ms`)
+- **Tags**: 
+### fct_block
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block`), sepolia (`sepolia.fct_block`), holesky (`holesky.fct_block`), hoodi (`hoodi.fct_block`)
+- **Tags**: 
+### fct_block_blob_count
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_count`), sepolia (`sepolia.fct_block_blob_count`), holesky (`holesky.fct_block_blob_count`), hoodi (`hoodi.fct_block_blob_count`)
+- **Tags**: 
+### fct_block_blob_count_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_count_head`), sepolia (`sepolia.fct_block_blob_count_head`), holesky (`holesky.fct_block_blob_count_head`), hoodi (`hoodi.fct_block_blob_count_head`)
+- **Tags**: 
+### fct_block_blob_first_seen_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the block was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_blob_first_seen_by_node`), sepolia (`sepolia.fct_block_blob_first_seen_by_node`), holesky (`holesky.fct_block_blob_first_seen_by_node`), hoodi (`hoodi.fct_block_blob_first_seen_by_node`)
+- **Tags**: 
+### fct_block_first_seen_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the block was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_first_seen_by_node`), sepolia (`sepolia.fct_block_first_seen_by_node`), holesky (`holesky.fct_block_first_seen_by_node`), hoodi (`hoodi.fct_block_first_seen_by_node`)
+- **Tags**: 
+### fct_block_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_head`), sepolia (`sepolia.fct_block_head`), holesky (`holesky.fct_block_head`), hoodi (`hoodi.fct_block_head`)
+- **Tags**: 
+### fct_block_mev
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_mev`), sepolia (`sepolia.fct_block_mev`), holesky (`holesky.fct_block_mev`), hoodi (`hoodi.fct_block_mev`)
+- **Tags**: 
+### fct_block_mev_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_mev_head`), sepolia (`sepolia.fct_block_mev_head`), holesky (`holesky.fct_block_mev_head`), hoodi (`hoodi.fct_block_mev_head`)
+- **Tags**: 
+### fct_block_proposer
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the finalized chain including orphaned blocks
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer`), sepolia (`sepolia.fct_block_proposer`), holesky (`holesky.fct_block_proposer`), hoodi (`hoodi.fct_block_proposer`)
+- **Tags**: 
+### fct_block_proposer_entity
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposer entity for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer_entity`), sepolia (`sepolia.fct_block_proposer_entity`), holesky (`holesky.fct_block_proposer_entity`), hoodi (`hoodi.fct_block_proposer_entity`)
+- **Tags**: 
+### fct_block_proposer_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_block_proposer_head`), sepolia (`sepolia.fct_block_proposer_head`), holesky (`holesky.fct_block_proposer_head`), hoodi (`hoodi.fct_block_proposer_head`)
+- **Tags**: 
+### fct_mev_bid_count_by_builder
+- **Database**: Network-specific (see Networks below)
+- **Description**: Total number of MEV builder bids for a slot
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_builder`), sepolia (`sepolia.fct_mev_bid_count_by_builder`), holesky (`holesky.fct_mev_bid_count_by_builder`), hoodi (`hoodi.fct_mev_bid_count_by_builder`)
+- **Tags**: 
+### fct_mev_bid_count_by_relay
+- **Database**: Network-specific (see Networks below)
+- **Description**: Total number of MEV relay bids for a slot by relay
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_count_by_relay`), sepolia (`sepolia.fct_mev_bid_count_by_relay`), holesky (`holesky.fct_mev_bid_count_by_relay`), hoodi (`hoodi.fct_mev_bid_count_by_relay`)
+- **Tags**: 
+### fct_mev_bid_highest_value_by_builder_chunked_50ms
+- **Database**: Network-specific (see Networks below)
+- **Description**: Highest value bid from each builder per slot broken down by 50ms chunks. Each block_hash appears in the chunk determined by its earliest bid timestamp. Only includes bids within -12000ms to +12000ms of slot start time
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms`), sepolia (`sepolia.fct_mev_bid_highest_value_by_builder_chunked_50ms`), holesky (`holesky.fct_mev_bid_highest_value_by_builder_chunked_50ms`), hoodi (`hoodi.fct_mev_bid_highest_value_by_builder_chunked_50ms`)
+- **Tags**: 
+### fct_node_active_last_24h
+- **Database**: Network-specific (see Networks below)
+- **Description**: Active nodes for the network
+- **Partitioning**: meta_client_name (none), 
+- **Networks**: mainnet (`mainnet.fct_node_active_last_24h`), sepolia (`sepolia.fct_node_active_last_24h`), holesky (`holesky.fct_node_active_last_24h`), hoodi (`hoodi.fct_node_active_last_24h`)
+- **Tags**: 
+### fct_prepared_block
+- **Database**: Network-specific (see Networks below)
+- **Description**: Prepared block proposals showing what would have been built if the validator had been selected as proposer
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_prepared_block`), sepolia (`sepolia.fct_prepared_block`), holesky (`holesky.fct_prepared_block`), hoodi (`hoodi.fct_prepared_block`)
+- **Tags**: 
+### int_address_first_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for accounts first access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_first_access`), sepolia (`sepolia.int_address_first_access`), holesky (`holesky.int_address_first_access`), hoodi (`hoodi.int_address_first_access`)
+- **Tags**: 
+### int_address_last_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for accounts last access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_last_access`), sepolia (`sepolia.int_address_last_access`), holesky (`holesky.int_address_last_access`), hoodi (`hoodi.int_address_last_access`)
+- **Tags**: 
+### int_address_storage_slot_first_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for storage first access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_first_access`), sepolia (`sepolia.int_address_storage_slot_first_access`), holesky (`holesky.int_address_storage_slot_first_access`), hoodi (`hoodi.int_address_storage_slot_first_access`)
+- **Tags**: 
+### int_address_storage_slot_last_access
+- **Database**: Network-specific (see Networks below)
+- **Description**: Table for storage last access data
+- **Partitioning**: address (none), 
+- **Networks**: mainnet (`mainnet.int_address_storage_slot_last_access`), sepolia (`sepolia.int_address_storage_slot_last_access`), holesky (`holesky.int_address_storage_slot_last_access`), hoodi (`hoodi.int_address_storage_slot_last_access`)
+- **Tags**: 
+### int_attestation_attested_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attested head of a block for the unfinalized chain.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_attested_canonical`), sepolia (`sepolia.int_attestation_attested_canonical`), holesky (`holesky.int_attestation_attested_canonical`), hoodi (`hoodi.int_attestation_attested_canonical`)
+- **Tags**: 
+### int_attestation_attested_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attested head of a block for the unfinalized chain.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_attested_head`), sepolia (`sepolia.int_attestation_attested_head`), holesky (`holesky.int_attestation_attested_head`), hoodi (`hoodi.int_attestation_attested_head`)
+- **Tags**: 
+### int_attestation_first_seen
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the attestation was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_attestation_first_seen`), sepolia (`sepolia.int_attestation_first_seen`), holesky (`holesky.int_attestation_first_seen`), hoodi (`hoodi.int_attestation_first_seen`)
+- **Tags**: 
+### int_beacon_committee_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Beacon committee head for the unfinalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_beacon_committee_head`), sepolia (`sepolia.int_beacon_committee_head`), holesky (`holesky.int_beacon_committee_head`), hoodi (`hoodi.int_beacon_committee_head`)
+- **Tags**: 
+### int_block_blob_count_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Blob count of a block for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_blob_count_canonical`), sepolia (`sepolia.int_block_blob_count_canonical`), holesky (`holesky.int_block_blob_count_canonical`), hoodi (`hoodi.int_block_blob_count_canonical`)
+- **Tags**: 
+### int_block_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block details for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_canonical`), sepolia (`sepolia.int_block_canonical`), holesky (`holesky.int_block_canonical`), hoodi (`hoodi.int_block_canonical`)
+- **Tags**: 
+### int_block_mev_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: MEV relay proposer payload delivered for a block on the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_mev_canonical`), sepolia (`sepolia.int_block_mev_canonical`), holesky (`holesky.int_block_mev_canonical`), hoodi (`hoodi.int_block_mev_canonical`)
+- **Tags**: 
+### int_block_proposer_canonical
+- **Database**: Network-specific (see Networks below)
+- **Description**: Block proposers for the finalized chain
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.int_block_proposer_canonical`), sepolia (`sepolia.int_block_proposer_canonical`), holesky (`holesky.int_block_proposer_canonical`), hoodi (`hoodi.int_block_proposer_canonical`)
+- **Tags**: 
+
+## Table Catalog
+
+**Standard tables** (accessed via `default` database or directly):
+
+### `beacon_api_eth_v1_beacon_committee`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, hourly)
+- **Networks**: mainnet (2023-09-04 to 2025-10-05), holesky (2023-09-28 to 2025-10-05), sepolia (2022-06-25 to 2025-10-05)
+- **Description**: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_attestation`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, hourly)
+- **Networks**: mainnet (2023-06-01 to 2025-10-05), holesky (2023-09-18 to 2025-10-05), sepolia (2023-08-31 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_blob_sidecar`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-03-13 to 2025-10-05), holesky (2024-02-07 to 2025-10-05), sepolia (2024-01-30 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_block`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2020-12-02 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_block_gossip`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-14 to 2025-10-05), holesky (2025-05-14 to 2025-10-05), sepolia (2025-05-14 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_chain_reorg`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-03-01 to 2025-10-05), holesky (2024-02-05 to 2025-10-05), sepolia (2023-12-30 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_contribution_and_proof`
+- **Database**: `default`
+- **Partitioning**: `contribution_slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-08-31 to 2025-10-05), holesky (2023-12-24 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_finalized_checkpoint`
+- **Database**: `default`
+- **Partitioning**: `epoch_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-03-26 to 2025-10-05), sepolia (2023-03-26 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_head`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-12-05 to 2025-10-05), sepolia (2023-12-05 to 2025-10-05)
+- **Description**: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_voluntary_exit`
+- **Database**: `default`
+- **Partitioning**: `wallclock_epoch_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-28 to 2025-08-12), sepolia (2023-10-01 to null)
+- **Description**: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_validator_attestation_data`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-08-31 to 2025-10-05), holesky (2023-12-24 to 2025-10-05), sepolia (2023-12-24 to 2025-10-05)
+- **Description**: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v2_beacon_block`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-28 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
+
+### `mempool_transaction`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-03-03 to 2025-10-05), holesky (2024-01-08 to 2025-10-05), sepolia (2024-01-08 to 2025-10-05)
+- **Description**: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
+
+### `beacon_api_eth_v1_proposer_duty`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-03 to 2025-10-05), holesky (2024-04-03 to 2025-10-05), sepolia (2024-04-03 to 2025-10-05)
+- **Description**: Contains a proposer duty from a beacon block.
+
+### `beacon_api_eth_v3_validator_block`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-11-25 to 2025-10-05), holesky (2024-11-25 to 2025-10-05), sepolia (2024-11-25 to 2025-10-05)
+- **Description**: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
+
+### `canonical_beacon_block`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains beacon block from a beacon node.
+
+### `canonical_beacon_committee`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains canonical beacon API /eth/v1/beacon/committees data.
+
+### `canonical_beacon_block_attester_slashing`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-02), holesky (2023-09-23 to 2025-10-03), sepolia (2022-06-22 to null)
+- **Description**: Contains attester slashing from a beacon block.
+
+### `canonical_beacon_block_proposer_slashing`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-04-27), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-22 to null)
+- **Description**: Contains proposer slashing from a beacon block.
+
+### `canonical_beacon_block_bls_to_execution_change`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-04-12 to 2025-10-05), holesky (2023-09-28 to 2025-05-09), sepolia (2022-06-22 to 2025-05-16)
+- **Description**: Contains bls to execution change from a beacon block.
+
+### `canonical_beacon_block_execution_transaction`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2022-09-06 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-22 to 2025-10-05)
+- **Description**: Contains execution transaction from a beacon block.
+
+### `canonical_beacon_block_voluntary_exit`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-08-06), sepolia (2022-06-22 to 2025-04-27)
+- **Description**: Contains a voluntary exit from a beacon block.
+
+### `canonical_beacon_block_deposit`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-05-14), holesky (2023-09-23 to 2025-04-27), sepolia (2022-06-22 to 2025-04-27)
+- **Description**: Contains a deposit from a beacon block.
+
+### `canonical_beacon_block_withdrawal`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2023-04-12 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2023-02-28 to 2025-10-05)
+- **Description**: Contains a withdrawal from a beacon block.
+
+### `canonical_beacon_blob_sidecar`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-03-13 to 2025-10-05), holesky (2024-02-07 to 2025-10-05), sepolia (2024-01-30 to 2025-10-05)
+- **Description**: Contains a blob sidecar from a beacon block.
+
+### `canonical_beacon_proposer_duty`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains a proposer duty from a beacon block.
+
+### `canonical_beacon_elaborated_attestation`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains elaborated attestations from beacon blocks.
+
+### `canonical_beacon_validators`
+- **Database**: `default`
+- **Partitioning**: `epoch_start_date_time` (datetime, hourly)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2023-09-23 to 2025-10-05), sepolia (2022-06-20 to 2025-10-05)
+- **Description**: Contains a validator state for an epoch.
+
+### `canonical_beacon_validators_pubkeys`
+- **Database**: `default`
+- **Partitioning**: `index` (integer, 50)
+- **Networks**: mainnet (0 to 2105500), holesky (0 to 1923800), sepolia (0 to 1900)
+- **Description**: Contains a validator state for an epoch.
+
+### `libp2p_gossipsub_beacon_attestation`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, hourly)
+- **Networks**: mainnet (2024-05-01 to 2025-10-05), holesky (2024-05-01 to 2025-10-05), sepolia (2024-05-01 to 2025-10-05)
+- **Description**: Table for libp2p gossipsub beacon attestation data.
+
+### `libp2p_gossipsub_beacon_block`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2024-04-26 to 2025-10-05), sepolia (2024-04-26 to 2025-10-05)
+- **Description**: Table for libp2p gossipsub beacon block data.
+
+### `libp2p_gossipsub_blob_sidecar`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2020-12-01 to 2025-10-05), holesky (2024-06-03 to 2025-10-05), sepolia (2024-06-03 to 2025-10-05)
+- **Description**: Table for libp2p gossipsub blob sidecar data
+
+### `libp2p_gossipsub_aggregate_and_proof`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-07-11 to 2025-10-05), holesky (2025-07-11 to 2025-10-05), sepolia (2025-07-11 to 2025-10-05)
+- **Description**: Table for libp2p gossipsub aggregate and proof attestation data
+
+### `libp2p_connected`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p connected events
+
+### `libp2p_disconnected`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p disconnected events
+
+### `libp2p_add_peer`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p add peer events
+
+### `libp2p_remove_peer`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p remove peer events
+
+### `libp2p_recv_rpc`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p recv rpc events
+
+### `libp2p_send_rpc`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p send rpc events
+
+### `libp2p_drop_rpc`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-30 to 2025-10-05)
+- **Description**: Table for libp2p drop rpc events
+
+### `libp2p_join`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-05-01 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-05-01 to 2025-10-05)
+- **Description**: Table for libp2p join events
+
+### `libp2p_leave`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-06-01 to 2025-10-05), hoodi (2025-06-01 to 2025-06-01), sepolia (2025-06-01 to 2025-06-01)
+- **Description**: Table for libp2p leave events
+
+### `libp2p_graft`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p graft events
+
+### `libp2p_prune`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p prune events
+
+### `libp2p_duplicate_message`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p duplicate message events
+
+### `libp2p_deliver_message`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p deliver message events
+
+### `libp2p_handle_metadata`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p handle metadata events
+
+### `libp2p_handle_status`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-04-24 to 2025-10-05), hoodi (2025-03-17 to 2025-10-05), sepolia (2024-04-22 to 2025-10-05)
+- **Description**: Table for libp2p handle status events
+
+### `libp2p_rpc_meta_control_ihave`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta control ihave events
+
+### `libp2p_rpc_meta_control_iwant`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta control iwant events
+
+### `libp2p_rpc_meta_control_idontwant`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta control idontwant events
+
+### `libp2p_rpc_meta_control_graft`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta control graft events
+
+### `libp2p_rpc_meta_control_prune`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-07-02 to 2025-10-05), hoodi (2025-06-23 to 2025-10-05), sepolia (2025-06-23 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta control prune events
+
+### `libp2p_rpc_meta_subscription`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta subscription events
+
+### `libp2p_rpc_meta_message`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2025-05-30 to 2025-10-05), hoodi (2025-05-29 to 2025-10-05), sepolia (2025-05-29 to 2025-10-05)
+- **Description**: Table for libp2p rpc meta message events
+
+### `mev_relay_bid_trace`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-09-13 to 2025-10-05), holesky (2024-09-13 to 2025-10-05), sepolia (2024-09-13 to 2025-10-05)
+- **Description**: Contains MEV relay block bids data.
+
+### `mev_relay_proposer_payload_delivered`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-09-16 to 2025-10-05), holesky (2024-09-16 to 2025-08-17), sepolia (2024-09-16 to 2025-10-05)
+- **Description**: Contains MEV relay proposer payload delivered data.
+
+### `mev_relay_validator_registration`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet (2024-12-11 to 2025-10-05), holesky (2024-12-11 to 2025-04-27), sepolia (2024-12-11 to 2025-10-05)
+- **Description**: Contains MEV relay validator registrations data.
+
+### `canonical_execution_block`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution block data.
+
+### `canonical_execution_transaction`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution transaction data.
+
+### `canonical_execution_traces`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 22627000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution traces data.
+
+### `canonical_execution_logs`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution logs data.
+
+### `canonical_execution_contracts`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution contract data.
+
+### `canonical_execution_four_byte_counts`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution four byte count data.
+
+### `canonical_execution_address_appearances`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution address appearance data.
+
+### `canonical_execution_balance_diffs`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 8700000)
+- **Description**: Contains canonical execution balance diff data.
+
+### `canonical_execution_balance_reads`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution balance read data.
+
+### `canonical_execution_erc20_transfers`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution erc20 transfer data.
+
+### `canonical_execution_erc721_transfers`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution erc721 transfer data.
+
+### `canonical_execution_native_transfers`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution native transfer data.
+
+### `canonical_execution_nonce_diffs`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution nonce diff data.
+
+### `canonical_execution_nonce_reads`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution nonce read data.
+
+### `canonical_execution_storage_diffs`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: mainnet (0 to 23271000), holesky (0 to 4630000), sepolia (0 to 9351000)
+- **Description**: Contains canonical execution storage diffs data.
+
+### `canonical_execution_storage_reads`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 1000)
+- **Networks**: holesky (0 to 4631000), sepolia (0 to 9352000)
+- **Description**: Contains canonical execution storage reads data.
+
+### `canonical_execution_transaction_structlog`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 100)
+- **Networks**: mainnet (22731300 to 23514400)
+- **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+
+
+## Advanced Query Patterns
+
+### Proper JOIN with CTEs
+```sql
+-- ALWAYS use CTEs when joining to avoid cross-shard issues
+WITH
+    canonical AS (
+        SELECT *
+        FROM canonical_beacon_block FINAL
+        WHERE slot_start_date_time BETWEEN toDateTime('2024-04-01') AND toDateTime('2024-04-02')
+            AND meta_network_name = 'mainnet'
+    ),
+    events AS (
+        SELECT *
+        FROM beacon_api_eth_v1_events_block FINAL
+        WHERE slot_start_date_time BETWEEN toDateTime('2024-04-01') AND toDateTime('2024-04-02')
+            AND meta_network_name = 'mainnet'
+    )
+SELECT
+    c.slot,
+    c.block_root,
+    c.proposer_index,
+    COUNT(DISTINCT e.meta_client_name) as observer_count,
+    MIN(e.propagation_slot_start_diff) as min_propagation
+FROM canonical c
+LEFT JOIN events e ON c.slot = e.slot
+GROUP BY c.slot, c.block_root, c.proposer_index
+ORDER BY c.slot;
+```
+
+### Time-Based Aggregation
+```sql
+SELECT
+    toStartOfHour(slot_start_date_time) AS hour,
+    COUNT(*) as block_count,
+    quantile(0.5)(propagation_slot_start_diff) as p50_propagation,
+    quantile(0.95)(propagation_slot_start_diff) as p95_propagation
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time >= NOW() - INTERVAL 24 HOUR
+    AND meta_network_name = 'mainnet'
+GROUP BY hour
+ORDER BY hour DESC;
+```
+
+### Network Consensus Analysis
+```sql
+-- Find missed slots
+WITH expected_slots AS (
+    SELECT number as slot
+    FROM numbers(
+        (SELECT MIN(slot) FROM canonical_beacon_block WHERE slot_start_date_time >= toDateTime('2024-04-01')),
+        (SELECT MAX(slot) FROM canonical_beacon_block WHERE slot_start_date_time < toDateTime('2024-04-02'))
+    )
+)
+SELECT
+    e.slot,
+    b.block_root IS NULL as is_missed
+FROM expected_slots e
+LEFT JOIN canonical_beacon_block b ON e.slot = b.slot
+WHERE is_missed = 1;
+```
+
+### MEV Analysis
+```sql
+SELECT
+    slot,
+    builder_pubkey,
+    value / 1e18 as value_eth,
+    num_txs
+FROM mev_relay_bid_trace FINAL
+WHERE
+    slot_start_date_time >= toDateTime('2024-04-01')
+    AND slot_start_date_time < toDateTime('2024-04-02')
+    AND meta_network_name = 'mainnet'
+ORDER BY value DESC
+LIMIT 20;
+```
+
+## Query Optimization Tips
+
+1. **Always filter partitions first**
+   ```sql
+   WHERE slot_start_date_time BETWEEN '2024-04-01' AND '2024-04-02'  -- Good
+   WHERE slot > 1000000  -- Bad (no partition filter)
+   ```
+
+2. **Use FINAL for ReplacingMergeTree**
+   ```sql
+   FROM canonical_beacon_block FINAL  -- Deduplicates rows
+   ```
+
+3. **Use CTEs for joins**
+   ```sql
+   WITH t1 AS (...), t2 AS (...)  -- Good
+   FROM table1 JOIN table2  -- May cause cross-shard issues
+   ```
+
+4. **Use appropriate FORMAT**
+   ```sql
+   FORMAT JSON  -- For API consumption
+   FORMAT Pretty  -- For terminal viewing
+   FORMAT TabSeparated  -- For piping to other tools
+   ```
+
+## Dataset overview
+- Data is stored in ClickHouse database. You MUST use CTEs when joining to avoid cross-shard issues.
+- The data pipeline can be delayed by 10seconds to 10 minutes.
+- IMPORTANT: If the table contains a `meta_client_name` column, there is a high chance that the data is being collected by multiple instances and you will see the same data multiple times. THIS IS A FEATURE OF THE DATASET.
+- Querying the CBT tables should be a priority as they are pre-aggregated and are the most complete and reliable source of data.
+- It is HIGHLY recommended to explore the available tables and understand the data before querying.
+
+### Core Datasets
+- **Beacon API Event Stream**: Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. These tables can be joined with the canonical tables to get a more complete view of the data. For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block. (Prefix: `beacon_api_`)
+- **Execution Layer P2P**: Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances. (Prefix: `mempool_`)
+- **Canonical Beacon**: Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information (Prefix: `canonical_beacon_`)
+- **Canonical Execution**: Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information (Prefix: `canonical_execution_`)
+- **Consensus Layer P2P**: Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. (Prefix: `libp2p_`)
+- **MEV Relay**: Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances. (Prefix: `mev_relay_`)
+- **CBT (ClickHouse Build Tools)**: Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt). (Prefix: ``). These tables exist in the $network databases.
+
+### ⚠️ Critical: Query Optimization
+**ALWAYS filter on partitioning columns:**
+- Queries without partition filters will scan **billions of rows**
+- Use `FINAL` modifier for tables with `ReplacingMergeTree` engine
+- Use CTEs when joining to avoid cross-shard issues
+- Check table partitioning column before querying
+
+### Get Table Schema
+```bash
+# Download CREATE TABLE statement
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/$DATABASE/$TABLE_NAME.sql
+
+# Example: canonical beacon blocks
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/canonical_beacon_block.sql
+```
+
+### Common Metadata Fields
+- `meta_client_name` - Data collection client
+- `meta_client_id` - Unique session ID
+- `meta_network_name` - Network filter (mainnet, holesky, etc.)
+- `event_date_time` - Event timestamp
+- Partition column (see table catalog)
+
+**Note**: CBT tables don't include meta fields; network selection is via database.
+
+
+## Advanced Integration Examples
+
+### Apache Superset Dashboard
+```python
+# superset_config.py
+from sqlalchemy import create_engine
+
+SQLALCHEMY_DATABASE_URI = f"clickhouse+http://{user}:{password}@clickhouse.xatu.ethpandaops.io:443/default?protocol=https"
+
+# Create saved query
+"""
+SELECT
+    toStartOfDay(slot_start_date_time) as date,
+    meta_network_name,
+    COUNT(*) as block_count,
+    quantile(0.5)(propagation_slot_start_diff) as median_propagation
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE slot_start_date_time >= NOW() - INTERVAL 30 DAY
+    AND meta_network_name IN ('mainnet', 'holesky')
+GROUP BY date, meta_network_name
+ORDER BY date DESC
+"""
+```
+
+### Grafana + ClickHouse
+```sql
+-- Create dashboard query for Grafana ClickHouse plugin
+SELECT
+    $__timeInterval(slot_start_date_time) as time,
+    meta_client_name as metric,
+    COUNT(*) as value
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE $__timeFilter(slot_start_date_time)
+    AND meta_network_name = '$network'
+GROUP BY time, metric
+ORDER BY time
+```
+
+### dbt-clickhouse Transformations
+```yaml
+# models/schema.yml
+version: 2
+
+models:
+  - name: daily_block_stats
+    description: "Daily aggregated block statistics"
+    config:
+      materialized: table
+      engine: MergeTree()
+      order_by: ['date', 'network']
+      partition_by: toYYYYMM(date)
+
+# models/daily_block_stats.sql
+{{  config(
+    materialized='table',
+    engine='MergeTree()',
+    order_by='(date, network)'
+) }}
+
+SELECT
+    toDate(slot_start_date_time) as date,
+    meta_network_name as network,
+    COUNT(*) as total_blocks,
+    COUNT(DISTINCT proposer_index) as unique_proposers,
+    AVG(propagation_slot_start_diff) as avg_propagation_ms
+FROM {{ source('xatu', 'beacon_api_eth_v1_events_block') }} FINAL
+WHERE slot_start_date_time >= current_date() - INTERVAL 90 DAY
+GROUP BY date, network
+```
+
+## Performance Tuning
+
+### Materialized Views for Common Queries
+```sql
+-- Create materialized view for frequently accessed aggregations
+CREATE MATERIALIZED VIEW daily_attestation_stats_mv
+ENGINE = SummingMergeTree()
+PARTITION BY toYYYYMM(date)
+ORDER BY (date, meta_network_name)
+AS SELECT
+    toDate(slot_start_date_time) AS date,
+    meta_network_name,
+    COUNT(*) AS attestation_count,
+    uniqExact(meta_client_name) AS unique_clients,
+    quantileState(0.5)(propagation_slot_start_diff) AS median_prop_state
+FROM beacon_api_eth_v1_events_attestation
+GROUP BY date, meta_network_name;
+
+-- Query the materialized view (much faster)
+SELECT
+    date,
+    meta_network_name,
+    sum(attestation_count) as total_attestations,
+    quantileMerge(0.5)(median_prop_state) as median_propagation
+FROM daily_attestation_stats_mv
+WHERE date >= today() - 30
+GROUP BY date, meta_network_name
+ORDER BY date DESC;
+```
+
+### Using Projections
+```sql
+-- Create a projection for common access patterns
+ALTER TABLE beacon_api_eth_v1_events_block
+ADD PROJECTION block_by_client (
+    SELECT
+        meta_client_name,
+        slot,
+        block_root,
+        propagation_slot_start_diff
+    ORDER BY (meta_client_name, slot)
+);
+
+-- Materialize the projection
+ALTER TABLE beacon_api_eth_v1_events_block
+MATERIALIZE PROJECTION block_by_client;
+
+-- Queries filtering by meta_client_name will now be faster
+SELECT slot, AVG(propagation_slot_start_diff)
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE meta_client_name = 'lighthouse'
+    AND slot_start_date_time >= NOW() - INTERVAL 1 DAY
+GROUP BY slot;
+```
+
+### Query Result Caching
+```bash
+# Enable query cache for repeated queries
+echo """
+SELECT
+    meta_client_name,
+    COUNT(*) as block_count
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE slot_start_date_time >= today() - 1
+    AND meta_network_name = 'mainnet'
+GROUP BY meta_client_name
+SETTINGS use_query_cache = 1
+""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+    -u "$USER:$PASS" \
+    --data-binary @-
+```
+
+## Data Quality & Monitoring
+
+### Checking Data Completeness
+```sql
+-- Find gaps in block data
+WITH expected AS (
+    SELECT number as slot
+    FROM numbers(
+        (SELECT MIN(slot) FROM canonical_beacon_block WHERE slot_start_date_time >= today() - 1),
+        (SELECT MAX(slot) FROM canonical_beacon_block WHERE slot_start_date_time < today()) + 1
+    )
+),
+actual AS (
+    SELECT DISTINCT slot
+    FROM canonical_beacon_block
+    WHERE slot_start_date_time >= today() - 1
+)
+SELECT e.slot as missing_slot
+FROM expected e
+LEFT JOIN actual a ON e.slot = a.slot
+WHERE a.slot IS NULL
+ORDER BY e.slot;
+```
+
+### Data Freshness Monitoring
+```sql
+-- Check how recent the data is
+SELECT
+    'beacon_api_eth_v1_events_block' as table_name,
+    MAX(slot_start_date_time) as latest_timestamp,
+    dateDiff('second', MAX(slot_start_date_time), NOW()) as seconds_behind
+FROM beacon_api_eth_v1_events_block
+WHERE meta_network_name = 'mainnet'
+
+UNION ALL
+
+SELECT
+    'canonical_beacon_block' as table_name,
+    MAX(slot_start_date_time) as latest_timestamp,
+    dateDiff('second', MAX(slot_start_date_time), NOW()) as seconds_behind
+FROM canonical_beacon_block
+WHERE meta_network_name = 'mainnet';
+```
+
+### Detecting Duplicate Data
+```sql
+-- Find duplicates in event stream tables
+SELECT
+    slot,
+    block_root,
+    COUNT(*) as observation_count,
+    groupArray(meta_client_name) as observing_clients
+FROM beacon_api_eth_v1_events_block
+WHERE slot_start_date_time >= NOW() - INTERVAL 1 HOUR
+    AND meta_network_name = 'mainnet'
+GROUP BY slot, block_root
+HAVING observation_count > 20  -- Unusually high
+ORDER BY observation_count DESC
+LIMIT 10;
+```
+
+## Complex Analysis Patterns
+
+### Validator Performance Analysis
+```sql
+-- Analyze validator block proposal success rate
+WITH proposals AS (
+    SELECT
+        proposer_index,
+        COUNT(*) as proposed_count
+    FROM canonical_beacon_block FINAL
+    WHERE slot_start_date_time >= NOW() - INTERVAL 7 DAY
+        AND meta_network_name = 'mainnet'
+    GROUP BY proposer_index
+),
+expected AS (
+    SELECT
+        proposer_index,
+        COUNT(*) as expected_count
+    FROM beacon_api_eth_v1_beacon_committee FINAL
+    WHERE slot_start_date_time >= NOW() - INTERVAL 7 DAY
+        AND meta_network_name = 'mainnet'
+        AND duty = 'proposer'
+    GROUP BY proposer_index
+)
+SELECT
+    e.proposer_index,
+    e.expected_count,
+    COALESCE(p.proposed_count, 0) as proposed_count,
+    round(COALESCE(p.proposed_count, 0) / e.expected_count * 100, 2) as success_rate_pct
+FROM expected e
+LEFT JOIN proposals p ON e.proposer_index = p.proposer_index
+WHERE e.expected_count >= 5  -- At least 5 expected proposals
+ORDER BY success_rate_pct ASC
+LIMIT 20;
+```
+
+### Network Health Dashboard Query
+```sql
+-- Comprehensive network health metrics
+SELECT
+    toStartOfHour(slot_start_date_time) as hour,
+
+    -- Block metrics
+    COUNT(DISTINCT b.slot) as unique_slots,
+    COUNT(DISTINCT b.proposer_index) as unique_proposers,
+
+    -- Propagation metrics
+    AVG(e.propagation_slot_start_diff) as avg_propagation_ms,
+    quantile(0.95)(e.propagation_slot_start_diff) as p95_propagation_ms,
+
+    -- Observer diversity
+    uniqExact(e.meta_client_name) as unique_observers,
+
+    -- MEV metrics
+    COUNT(DISTINCT m.block_hash) as mev_blocks,
+    SUM(m.value) / 1e18 as total_mev_value_eth
+
+FROM canonical_beacon_block b FINAL
+LEFT JOIN beacon_api_eth_v1_events_block e FINAL
+    ON b.slot = e.slot AND b.meta_network_name = e.meta_network_name
+LEFT JOIN mev_relay_bid_trace m FINAL
+    ON b.execution_block_hash = m.block_hash AND b.meta_network_name = m.meta_network_name
+
+WHERE b.slot_start_date_time >= NOW() - INTERVAL 24 HOUR
+    AND b.meta_network_name = 'mainnet'
+
+GROUP BY hour
+ORDER BY hour DESC;
+```
+
+### Cross-Network Comparison
+```sql
+-- Compare metrics across networks
+SELECT
+    meta_network_name as network,
+    COUNT(DISTINCT DATE(slot_start_date_time)) as days_of_data,
+    COUNT(*) as total_blocks,
+    COUNT(DISTINCT proposer_index) as unique_validators,
+    AVG(propagation_slot_start_diff) as avg_propagation_ms,
+    MIN(slot_start_date_time) as earliest_data,
+    MAX(slot_start_date_time) as latest_data
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE slot_start_date_time >= NOW() - INTERVAL 30 DAY
+GROUP BY network
+ORDER BY total_blocks DESC;
+```
+
+## Troubleshooting
+
+### Common Query Errors
+
+**Error: Memory limit exceeded**
+```sql
+-- Solution: Add LIMIT or use sampling
+SELECT *
+FROM large_table
+WHERE partition_column >= '2024-01-01'
+LIMIT 10000;  -- Add explicit limit
+
+-- Or use sampling
+SELECT *
+FROM large_table SAMPLE 0.1  -- Sample 10%
+WHERE partition_column >= '2024-01-01';
+```
+
+**Error: Timeout exceeded**
+```sql
+-- Solution: Use streaming or break into smaller queries
+SELECT *
+FROM large_query
+SETTINGS max_execution_time = 300;  -- Increase timeout
+
+-- Or break into time windows
+SELECT *
+FROM table
+WHERE slot_start_date_time >= '2024-04-01 00:00:00'
+    AND slot_start_date_time < '2024-04-01 01:00:00';  -- 1 hour window
+```
+
+**Error: Too many parts**
+- Reduce query frequency
+- Use larger batch sizes
+- Contact ethpandaops team
+
+### Query Debugging
+```sql
+-- Enable query profiling
+SELECT *
+FROM system.query_log
+WHERE type = 'QueryFinish'
+    AND query_duration_ms > 1000
+    AND event_time >= NOW() - INTERVAL 1 HOUR
+ORDER BY query_duration_ms DESC
+LIMIT 10;
+
+-- Explain query plan
+EXPLAIN PLAN
+SELECT *
+FROM beacon_api_eth_v1_events_block
+WHERE slot_start_date_time >= NOW() - INTERVAL 1 DAY
+    AND meta_network_name = 'mainnet';
+```
+
+## Data Retention & Historical Access
+
+- **Hot data**: Last 30 days (fast queries)
+- **Warm data**: 30-90 days (moderate performance)
+- **Cold data**: >90 days (contact for access)
+- **Network coverage**: See table catalog for specific ranges
+
+
+## Data Freshness
+
+- **Real-time**: Streamed directly from Xatu collectors
+- **Latency**: Typically seconds to minutes
+- **Completeness**: No redactions or privacy filtering
+- **Network coverage**: See table catalog for date ranges
+
+## Additional Resources
+
+- **Parquet Files**: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms.txt for public file access
+- **Schema Repository**: https://github.com/ethpandaops/xatu-data/tree/master/schema/clickhouse
+- **Config File**: https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml
+- **Contact**: ethpandaops@ethereum.org
+
+## License
+Data licensed under CC BY 4.0

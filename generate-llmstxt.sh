@@ -9,6 +9,8 @@ set -e
 # Configuration
 llms_txt_file="llms.txt"
 llms_full_txt_file="llms-full.txt"
+llms_parquet_file="llms/parquet/llms.txt"
+llms_clickhouse_file="llms/clickhouse/llms.txt"
 config_file="config.yaml"
 github_config_url="https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml"
 schema_dir="./schema/clickhouse"
@@ -86,23 +88,27 @@ fi
 # Show help information
 show_help() {
   echo "Usage: $0 [options]"
-  echo "Generates llms.txt and llms-full.txt files for LLM consumption"
+  echo "Generates llms.txt files for LLM consumption"
   echo ""
   echo "Options:"
   echo "  -c <config_file>   Specify the config file (default: config.yaml)"
   echo "  -s <schema_dir>    Specify the schema directory (default: ./schema/clickhouse)"
   echo "  -l <llms_file>     Specify the output file for llms.txt (default: llms.txt)"
   echo "  -f <full_file>     Specify the output file for llms-full.txt (default: llms-full.txt)"
+  echo "  -p <parquet_file>  Specify the output file for parquet llms.txt (default: llms/parquet/llms.txt)"
+  echo "  -d <clickhouse_file> Specify the output file for clickhouse llms.txt (default: llms/clickhouse/llms.txt)"
   echo "  -h                 Show this help message"
 }
 
 # Command line options
-while getopts "c:s:l:f:h" opt; do
+while getopts "c:s:l:f:p:d:h" opt; do
   case $opt in
     c) config_file="$OPTARG" ;;  # Custom config file
     s) schema_dir="$OPTARG" ;;   # Custom schema directory
     l) llms_txt_file="$OPTARG" ;;      # Custom llms.txt output file
     f) llms_full_txt_file="$OPTARG" ;;  # Custom llms-full.txt output file
+    p) llms_parquet_file="$OPTARG" ;;  # Custom parquet llms.txt output file
+    d) llms_clickhouse_file="$OPTARG" ;;  # Custom clickhouse llms.txt output file
     h) show_help; exit 0 ;;
     *) show_help; exit 1 ;;
   esac
@@ -119,12 +125,114 @@ if ! command -v curl &> /dev/null; then
   exit 1
 fi
 
-# Generate the common sections that appear in both files
-generate_common_header() {
+# Generate top-level llms.txt (navigation to specialized files)
+generate_top_level_llms() {
   local output_file=$1
   cat > "$output_file" << 'EOF'
-# Xatu Dataset
-> Comprehensive Ethereum network data collection focusing on blockchain metrics, client performance, and network analysis.
+# Xatu Data
+> Ethereum network data via Parquet files or ClickHouse database
+
+## Choose Your Access Method
+
+Xatu provides Ethereum network data through two primary access methods. Select the documentation that matches your needs:
+
+### 🌐 Public Parquet Files (No Authentication)
+**Best for:** Data scientists, researchers, anyone wanting free access to Ethereum data
+
+👉 **See https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms.txt** for complete Parquet documentation
+- Public HTTP access, no credentials needed
+- Python, R, SQL, DuckDB examples
+- Daily updates with 1-3 day delay
+- Privacy-conscious (some columns redacted)
+
+📚 **Advanced Parquet usage:** https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms-full.txt
+
+---
+
+### 🔒 ClickHouse Database (Authentication Required)
+**Best for:** Real-time analysis, ethPandaOps partners, advanced users
+
+👉 **See https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms.txt** for complete ClickHouse documentation
+- Direct database access with lower latency
+- No redactions or delays
+- Production and experimental endpoints
+- Advanced query capabilities
+
+📚 **Advanced ClickHouse usage:** https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms-full.txt
+
+---
+
+## Quick Overview
+
+### What is Xatu?
+Xatu is a comprehensive Ethereum network data collection and processing pipeline:
+- Multiple collection modules for different data types
+- Data stored in ClickHouse database
+- Public Parquet exports available
+- Run by ethPandaOps with community contributions
+
+### Available Data
+- **Beacon API Event Stream** - Block/attestation timing from multiple sentries
+- **Canonical Beacon/Execution** - Deduplicated, authoritative chain data
+- **MEV Relay** - Block auction and builder data
+- **P2P Network Events** - Consensus and execution layer propagation
+- **CBT Tables** - Pre-aggregated analytics (ClickHouse only)
+
+### Networks
+- Mainnet (production Ethereum)
+- Holesky (testnet)
+- Sepolia (testnet)
+- Hoodi (devnet)
+- Experimental networks (via experimental endpoint)
+
+## ⚠️ Critical: Query Performance
+
+**ALWAYS filter on partitioning columns** when querying:
+- Datetime tables: Filter on date/time columns (e.g., `slot_start_date_time`)
+- Integer tables: Filter on ranges (e.g., `block_number`)
+- Failure to partition = scanning billions of rows = very slow queries
+
+## Getting Started
+
+1. **Choose your access method** (Parquet or ClickHouse)
+2. **Read the appropriate documentation** (links above)
+3. **Check table catalog** for available data and date ranges
+4. **Start with small queries** on recent data (last 24 hours)
+5. **Always use partition filters** for better performance
+
+## Additional Resources
+
+- **GitHub Repository**: https://github.com/ethpandaops/xatu-data
+- **Schema Repository**: https://github.com/ethpandaops/xatu-data/tree/master/schema/clickhouse
+- **Config File**: https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml
+- **Contact**: ethpandaops@ethereum.org
+
+## License
+
+Data licensed under CC BY 4.0
+EOF
+}
+
+# Generate top-level llms-full.txt (comprehensive with links)
+generate_top_level_llms_full() {
+  local output_file=$1
+  cat > "$output_file" << 'EOF'
+# Xatu Data - Complete Documentation
+> Comprehensive Ethereum network data via Parquet files or ClickHouse database
+
+## Navigation Guide
+
+This is the complete documentation for Xatu data. For focused, use-case specific guides:
+
+### 📁 Parquet Files Documentation
+- **Concise**: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms.txt - Quick start with Parquet files
+- **Complete**: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms-full.txt - Advanced patterns, DuckDB, Spark, Julia examples
+
+### 🗄️ ClickHouse Database Documentation
+- **Concise**: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms.txt - Quick start with ClickHouse
+- **Complete**: https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms-full.txt - Advanced integrations, monitoring, performance tuning
+
+---
 
 ## Overview
 
@@ -917,28 +1025,511 @@ For more information: https://github.com/ethpandaops/xatu-data
 EOF
 }
 
+# Generate parquet-focused llms.txt
+generate_parquet_llms() {
+  local output_file=$1
+
+  cat > "$output_file" << 'EOF'
+# Xatu Parquet Data
+> Public Ethereum network data in Parquet format - no authentication required
+
+## Looking for ClickHouse Access?
+**If you need direct database access with lower latency and no redactions**, see [/llms/clickhouse/llms.txt](../clickhouse/llms.txt) for ClickHouse-specific documentation.
+
+## Overview
+
+Xatu provides comprehensive Ethereum network data as publicly accessible Parquet files:
+- **No authentication required** - freely accessible to everyone
+- **Updated daily** with 1-3 day delay
+- **Privacy-conscious** - some columns redacted for user protection
+- **Organized by network** - mainnet, holesky, sepolia, hoodi
+
+## ⚠️ Critical: Partitioning Requirements
+
+**ALWAYS filter on the partitioning column** when querying:
+- Datetime partitions: Filter on date/time columns (e.g., `slot_start_date_time`)
+- Integer partitions: Filter on numeric ranges (e.g., `block_number`)
+- **Failure to partition = extremely slow queries** on billions of rows
+
+**NEVER use wildcards (*) for file paths:**
+- ❌ `*.parquet` will NOT work
+- ✅ Use explicit paths: `{20,21,22}.parquet`
+- ✅ Use ranges: `{20000..20010}000.parquet`
+- The endpoint is NOT S3-compatible
+
+## URL Patterns
+
+### Datetime Partitioned Tables
+```
+https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/M/D.parquet
+https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/YYYY/M/D/H.parquet
+```
+
+### Integer Partitioned Tables
+```
+https://data.ethpandaops.io/xatu/NETWORK/databases/DATABASE/TABLE/INTERVAL/CHUNK_NUMBER.parquet
+```
+
+### Parameters
+- **NETWORK**: `mainnet`, `holesky`, `sepolia`, `hoodi`
+- **DATABASE**: Usually `default`
+- **TABLE**: Table name (see datasets below)
+- **YYYY/M/D/H**: Year/Month/Day/Hour for datetime partitioning
+- **INTERVAL**: Partition size (e.g., `1000` for blocks)
+- **CHUNK_NUMBER**: Partition number (e.g., `0`, `1000`, `2000`)
+
+## Quick Start Examples
+
+### Single Day Query (Python + Pandas)
+```python
+import pandas as pd
+
+url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
+df = pd.read_parquet(url)
+print(df.head())
+```
+
+### Multiple Days (Python + Polars)
+```python
+import polars as pl
+from datetime import datetime, timedelta
+
+# Generate explicit URLs (NEVER use wildcards)
+base = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/"
+start = datetime(2024, 4, 1)
+urls = [f"{base}{(start + timedelta(days=i)).strftime('%Y/%-m/%-d')}.parquet"
+        for i in range(3)]  # 3 days
+
+# Lazy load and query
+df = pl.concat([pl.scan_parquet(url) for url in urls])
+result = df.select(["slot", "block_root", "propagation_slot_start_diff"]).collect()
+```
+
+### ClickHouse + Parquet URL
+```sql
+-- Single file
+SELECT
+    toDate(slot_start_date_time) AS date,
+    quantile(0.50)(propagation_slot_start_diff) AS median_ms
+FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+GROUP BY date;
+
+-- Multiple files with explicit glob (NOT wildcards)
+SELECT COUNT(*)
+FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/{1,2,3}.parquet', 'Parquet');
+
+-- Integer partitioned (blocks)
+SELECT COUNT(*)
+FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_block/1000/{19000..19010}000.parquet', 'Parquet');
+```
+
+### R + Arrow
+```r
+library(arrow)
+
+url <- "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
+df <- read_parquet(url)
+head(df)
+```
+
+EOF
+
+  # Add datasets section
+  cat >> "$output_file" << 'EOF'
+
+## Available Datasets
+
+EOF
+
+  # Extract PUBLIC dataset information with brief descriptions
+  yq e '.datasets[] | select(.availability[] == "public") | "### " + .name + "\n> " + .description + "\n\n**Table Prefix**: `" + .tables.prefix + "`\n"' "$config_file" >> "$output_file"
+
+  cat >> "$output_file" << 'EOF'
+
+## Table Catalog
+
+**Find specific tables and their partitioning:**
+
+EOF
+
+  # Generate table listing - only public tables with partitioning info
+  yq e '.tables[] | "### `" + .name + "`\n- **Partitioning**: `" + .partitioning.column + "` (" + .partitioning.type + ", " + .partitioning.interval + ")\n- **Networks**: " + (.networks | to_entries | map(.key) | join(", ")) + "\n- **Description**: " + .description + "\n"' "$config_file" >> "$output_file"
+
+  cat >> "$output_file" << 'EOF'
+
+## Schema Discovery
+
+### View Table Schema
+```bash
+# Get CREATE TABLE statement for any table
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/TABLE_NAME.sql
+
+# Example: beacon block events
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/beacon_api_eth_v1_events_block.sql
+```
+
+### List All Available Tables
+```bash
+# List all schemas
+curl -s https://api.github.com/repos/ethpandaops/xatu-data/contents/schema/clickhouse/default | jq -r '.[].name | select(endswith(".sql"))'
+```
+
+### Common Fields
+Most tables include:
+- `meta_client_name` - Client that collected the data
+- `meta_client_id` - Unique session ID
+- `meta_network_name` - Network (mainnet, holesky, etc.)
+- `event_date_time` - When event was recorded
+- Partition column (check table details above)
+
+## Common Query Patterns
+
+### Network Timing Analysis
+```python
+# Analyze block propagation across the network
+import polars as pl
+
+url = "https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet"
+df = pl.read_parquet(url)
+
+# Calculate propagation statistics by slot
+stats = df.group_by("slot").agg([
+    pl.col("propagation_slot_start_diff").min().alias("min_ms"),
+    pl.col("propagation_slot_start_diff").quantile(0.5).alias("p50_ms"),
+    pl.col("propagation_slot_start_diff").quantile(0.95).alias("p95_ms"),
+    pl.col("meta_client_name").n_unique().alias("observer_count")
+])
+```
+
+### Joining Data Sources
+```sql
+-- Join canonical blocks with event observations
+WITH
+    blocks AS (
+        SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2024/4/1.parquet', 'Parquet')
+    ),
+    events AS (
+        SELECT * FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2024/4/1.parquet', 'Parquet')
+    )
+SELECT
+    b.slot,
+    b.proposer_index,
+    COUNT(DISTINCT e.meta_client_name) as observers,
+    MIN(e.propagation_slot_start_diff) as fastest_observation_ms
+FROM blocks b
+LEFT JOIN events e ON b.slot = e.slot
+GROUP BY b.slot, b.proposer_index
+ORDER BY b.slot;
+```
+
+## Data Freshness & Updates
+
+- **Update frequency**: Daily
+- **Delay**: 1-3 days behind current time
+- **Privacy**: Some sensitive fields redacted
+- **Historical data**: Stable, not rewritten
+- **Retention**: Check network date ranges in table catalog above
+
+## Additional Resources
+
+- **Full Documentation**: https://github.com/ethpandaops/xatu-data
+- **ClickHouse Access**: See `/llms/clickhouse/llms.txt` for database credentials and advanced queries
+- **Schema Repository**: https://github.com/ethpandaops/xatu-data/tree/master/schema/clickhouse
+- **Config File**: https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml
+
+## License
+
+Data licensed under CC BY 4.0
+EOF
+}
+
+# Generate clickhouse-focused llms.txt
+generate_clickhouse_llms() {
+  local output_file=$1
+
+  cat > "$output_file" << 'EOF'
+# Xatu ClickHouse Database
+> Direct database access to Ethereum network data - authentication required
+
+## Looking for Public Parquet Files?
+**If you want public access without authentication**, see [/llms/parquet/llms.txt](../parquet/llms.txt) for Parquet file documentation.
+
+## Overview
+
+Xatu ClickHouse provides direct database access to Ethereum network data:
+- **Authentication required** - contact ethpandaops@ethereum.org
+- **Real-time access** - lower latency than Parquet files
+- **Complete data** - no redactions or privacy filtering
+- **Multiple endpoints** - production and experimental networks
+
+## ⚠️ Critical: Query Optimization
+
+**ALWAYS filter on partitioning columns:**
+- Queries without partition filters will scan **billions of rows**
+- Use `FINAL` modifier for tables with `ReplacingMergeTree` engine
+- Use CTEs when joining to avoid cross-shard issues
+- Check table partitioning column before querying
+
+## Endpoints
+
+### Production Endpoint
+```
+https://clickhouse.xatu.ethpandaops.io
+```
+**Networks**: Mainnet, Sepolia, Holesky, Hoodi
+
+### Experimental Endpoint
+```
+https://clickhouse.xatu-experimental.ethpandaops.io
+```
+**Networks**: Devnets, experimental networks
+
+## Authentication
+
+Contact **ethpandaops@ethereum.org** for credentials.
+
+You'll receive:
+- Username
+- Password
+- Endpoint URL
+
+## Quick Start Examples
+
+### curl + jq
+```bash
+CLICKHOUSE_USER="your-username"
+CLICKHOUSE_PASSWORD="your-password"
+
+echo """
+SELECT
+    toDate(slot_start_date_time) AS date,
+    COUNT(*) AS blocks,
+    quantile(0.5)(propagation_slot_start_diff) AS median_propagation_ms
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time >= toDateTime('2024-04-01 00:00:00')
+    AND slot_start_date_time < toDateTime('2024-04-02 00:00:00')
+    AND meta_network_name = 'mainnet'
+GROUP BY date
+FORMAT JSON
+""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+    -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
+    --data-binary @- | jq
+```
+
+### Python + SQLAlchemy
+```python
+from sqlalchemy import create_engine
+import pandas as pd
+import os
+
+# Credentials from environment
+endpoint = "clickhouse.xatu.ethpandaops.io"
+user = os.environ["CLICKHOUSE_USER"]
+password = os.environ["CLICKHOUSE_PASSWORD"]
+
+# Create connection
+db_url = f"clickhouse+http://{user}:{password}@{endpoint}:443/default?protocol=https"
+engine = create_engine(db_url)
+
+# Query with proper partitioning
+query = """
+SELECT
+    slot,
+    block_root,
+    proposer_index,
+    slot_start_date_time
+FROM canonical_beacon_block FINAL
+WHERE
+    slot_start_date_time >= toDateTime('2024-04-01')
+    AND slot_start_date_time < toDateTime('2024-04-02')
+    AND meta_network_name = 'mainnet'
+LIMIT 1000
+"""
+
+df = pd.read_sql(query, engine)
+```
+
+### Jupyter Notebook Magic
+```python
+%load_ext sql
+
+# Set connection
+%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+
+# Query directly in cell
+%%sql
+SELECT
+    meta_client_name,
+    COUNT(*) as observations
+FROM beacon_api_eth_v1_events_block FINAL
+WHERE
+    slot_start_date_time > NOW() - INTERVAL 1 HOUR
+    AND meta_network_name = 'mainnet'
+GROUP BY meta_client_name
+ORDER BY observations DESC
+```
+
+EOF
+
+  # Add datasets section
+  cat >> "$output_file" << 'EOF'
+
+## Available Datasets
+
+EOF
+
+  # Extract ALL dataset information (both public and clickhouse-only)
+  yq e '.datasets[] | "### " + .name + "\n> " + .description + "\n\n**Table Prefix**: `" + .tables.prefix + "`\n**Availability**: " + (.availability | join(", ")) + "\n"' "$config_file" >> "$output_file"
+
+  # Add CBT specific info
+  cat >> "$output_file" << 'EOF'
+
+### CBT (ClickHouse Build Tools) Tables
+
+CBT tables are pre-aggregated analytical tables accessed via **network-specific databases**:
+
+```sql
+-- Query mainnet CBT table
+SELECT * FROM mainnet.table_name LIMIT 10;
+
+-- Query sepolia CBT table
+SELECT * FROM sepolia.table_name LIMIT 10;
+```
+
+**Database naming**: `mainnet`, `sepolia`, `holesky`, `hoodi`
+
+**Table types**:
+- `dim_*` - Dimension tables
+- `fct_*` - Fact tables
+- `int_*` - Intermediate tables
+
+EOF
+
+  # Add auto-discovered CBT tables if available
+  if [ "$cbt_discovery_enabled" = true ]; then
+    cat >> "$output_file" << 'EOF'
+
+### Auto-Discovered CBT Tables
+
+EOF
+    for table_name in $(discover_cbt_tables); do
+      get_cbt_table_info "$table_name" >> "$output_file"
+    done
+  fi
+
+  cat >> "$output_file" << 'EOF'
+
+## Table Catalog
+
+**Standard tables** (accessed via `default` database or directly):
+
+EOF
+
+  # Generate full table listing with all details
+  yq e '.tables[] | "### `" + .name + "`\n- **Database**: `" + .database + "`\n- **Partitioning**: `" + .partitioning.column + "` (" + .partitioning.type + ", " + .partitioning.interval + ")\n- **Networks**: " + (.networks | to_entries | map(.key + " (" + .value.from + " to " + .value.to + ")") | join(", ")) + "\n- **Description**: " + .description + "\n"' "$config_file" >> "$output_file"
+
+  cat >> "$output_file" << 'EOF'
+
+## Schema Access
+
+### Get Table Schema
+```bash
+# Download CREATE TABLE statement
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/DATABASE/TABLE_NAME.sql
+
+# Example: beacon blocks
+curl -s https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/clickhouse/default/canonical_beacon_block.sql
+```
+
+### Create Local Table
+```sql
+-- Use schema to create table locally
+-- Download schema first, then execute in your ClickHouse instance
+```
+
+### Common Metadata Fields
+- `meta_client_name` - Data collection client
+- `meta_client_id` - Unique session ID
+- `meta_network_name` - Network filter (mainnet, holesky, etc.)
+- `event_date_time` - Event timestamp
+- Partition column (see table catalog)
+
+**Note**: CBT tables don't include meta fields; network selection is via database.
+
+## Query Optimization Tips
+
+1. **Always filter partitions first**
+   ```sql
+   WHERE slot_start_date_time BETWEEN '2024-04-01' AND '2024-04-02'  -- Good
+   WHERE slot > 1000000  -- Bad (no partition filter)
+   ```
+
+2. **Use FINAL for ReplacingMergeTree**
+   ```sql
+   FROM canonical_beacon_block FINAL  -- Deduplicates rows
+   ```
+
+3. **Use CTEs for joins**
+   ```sql
+   WITH t1 AS (...), t2 AS (...)  -- Good
+   FROM table1 JOIN table2  -- May cause cross-shard issues
+   ```
+
+4. **Use appropriate FORMAT**
+   ```sql
+   FORMAT JSON  -- For API consumption
+   FORMAT Pretty  -- For terminal viewing
+   FORMAT TabSeparated  -- For piping to other tools
+   ```
+
+## Data Freshness
+
+- **Real-time**: Streamed directly from Xatu collectors
+- **Latency**: Typically seconds to minutes
+- **Completeness**: No redactions or privacy filtering
+- **Network coverage**: See table catalog for date ranges
+
+## Additional Resources
+
+- **Parquet Files**: See `/llms/parquet/llms.txt` for public file access
+- **Schema Repository**: https://github.com/ethpandaops/xatu-data/tree/master/schema/clickhouse
+- **Config File**: https://raw.githubusercontent.com/ethpandaops/xatu-data/master/config.yaml
+
+## License
+
+Data licensed under CC BY 4.0
+EOF
+}
+
 # Main execution
 
-# Generate llms.txt (concise version)
+# Generate llms/parquet and llms/clickhouse files FIRST (so they're referenced by top-level files)
+
+# Generate llms/parquet/llms.txt (concise) using separate script
+log "Generating $llms_parquet_file file..."
+./scripts/generate-llms-parquet.sh "$llms_parquet_file" "$config_file" "concise"
+
+# Generate llms/parquet/llms-full.txt (comprehensive) using separate script
+llms_parquet_full_file="llms/parquet/llms-full.txt"
+log "Generating $llms_parquet_full_file file..."
+./scripts/generate-llms-parquet.sh "$llms_parquet_full_file" "$config_file" "full"
+
+# Generate llms/clickhouse/llms.txt (concise) using separate script
+log "Generating $llms_clickhouse_file file..."
+./scripts/generate-llms-clickhouse.sh "$llms_clickhouse_file" "$config_file" "$clickhouse_host" "concise"
+
+# Generate llms/clickhouse/llms-full.txt (comprehensive) using separate script
+llms_clickhouse_full_file="llms/clickhouse/llms-full.txt"
+log "Generating $llms_clickhouse_full_file file..."
+./scripts/generate-llms-clickhouse.sh "$llms_clickhouse_full_file" "$config_file" "$clickhouse_host" "full"
+
+# Now generate top-level llms.txt (navigation to specialized files)
 log "Generating $llms_txt_file file..."
-generate_common_header "$llms_txt_file"
-generate_warnings_section "$llms_txt_file" "concise"
-generate_access_methods_section "$llms_txt_file" "concise"
-generate_datasets_section "$llms_txt_file" "concise"
-generate_examples_section "$llms_txt_file" "concise"
-generate_footer "$llms_txt_file"
+generate_top_level_llms "$llms_txt_file"
 log "$llms_txt_file file generated successfully."
 
-# Generate llms-full.txt (comprehensive version)
+# Generate llms-full.txt (same as llms.txt - just navigation)
 log "Generating $llms_full_txt_file file..."
-generate_common_header "$llms_full_txt_file"
-generate_warnings_section "$llms_full_txt_file" "detailed"
-generate_data_architecture_section "$llms_full_txt_file"
-generate_access_methods_section "$llms_full_txt_file" "detailed"
-generate_datasets_section "$llms_full_txt_file" "detailed"
-generate_examples_section "$llms_full_txt_file" "detailed"
-generate_full_schema_section "$llms_full_txt_file"
-generate_programmatic_section "$llms_full_txt_file"
-generate_glossary_section "$llms_full_txt_file"
-generate_footer "$llms_full_txt_file"
+generate_top_level_llms "$llms_full_txt_file"
 log "$llms_full_txt_file file generated successfully."
