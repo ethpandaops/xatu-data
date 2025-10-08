@@ -471,7 +471,7 @@ cat >> "$output_file" << 'EOF'
 
 ## Hints (VERY IMPORTANT)
 - It is HIGHLY recommended to explore the available tables and understand the data before querying.
-- The CBT tables in the $network database should be your first choice for data. Inspect all the available tables and understand the data before querying.
+- The CBT tables (in the $network database) MUST be your first choice for data. Inspect all the available tables and understand the data before querying.
 - A large amount of CBT tables have _head and _canonical variants. Make sure you know which one you are querying as the data can be different.
 - To check when a block was first seen by nodes in the Xatu network, check the $network.fct_block_first_seen_by_node table.
 - A "best effort" table in $network.dim_node contains validator information like the entity running the validator. In devnets this also contains the node name that is running the validator.
