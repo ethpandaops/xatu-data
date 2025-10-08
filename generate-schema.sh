@@ -276,28 +276,32 @@ generate_table_schema() {
 
     # Create directory for SQL files
     if [ "$is_cbt_table" = "true" ]; then
-        # For CBT tables, store SQL in a 'cbt' directory (network-agnostic)
-        mkdir -p "./schema/clickhouse/cbt"
+        # For CBT tables, generate SQL files for each network
+        # Always query from mainnet and replace the database name for other networks
+        local networks=$(echo "$table_config" | yq e '.networks | keys | .[]' -)
+        local source_database="mainnet"
 
-        local actual_database="mainnet"  # Always query from mainnet for CBT tables
+        # Get the base _local table definition from mainnet
+        local base_sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}_local")
+        base_sql_ddl_local=$(echo "$base_sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
 
-        # Get the _local table definition
-        local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${actual_database}.${table_name}_local")
+        # Get the base distributed table definition from mainnet
+        local base_sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}")
+        base_sql_ddl_distributed=$(echo "$base_sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
 
-        # Replace escaped newlines with actual newlines and fix escaped quotes
-        sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
+        for network in $networks; do
+            mkdir -p "./schema/clickhouse/${network}"
 
-        # Save the _local table definition
-        echo "$sql_ddl_local" > "./schema/clickhouse/cbt/${table_name}_local.sql"
+            # Replace database name in the SQL (both dot notation and quoted in ENGINE clause)
+            local sql_ddl_local=$(echo "$base_sql_ddl_local" | sed "s/${source_database}\./${network}\./g" | sed "s/CREATE TABLE ${source_database}\./CREATE TABLE ${network}\./g" | sed "s/'${source_database}'/'${network}'/g")
+            local sql_ddl_distributed=$(echo "$base_sql_ddl_distributed" | sed "s/${source_database}\./${network}\./g" | sed "s/CREATE TABLE ${source_database}\./CREATE TABLE ${network}\./g" | sed "s/'${source_database}'/'${network}'/g")
 
-        # Get the distributed table definition
-        local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${actual_database}.${table_name}")
+            # Save the _local table definition
+            echo "$sql_ddl_local" > "./schema/clickhouse/${network}/${table_name}_local.sql"
 
-        # Replace escaped newlines with actual newlines and fix escaped quotes
-        sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
-
-        # Save the distributed table definition
-        echo "$sql_ddl_distributed" > "./schema/clickhouse/cbt/${table_name}.sql"
+            # Save the distributed table definition
+            echo "$sql_ddl_distributed" > "./schema/clickhouse/${network}/${table_name}.sql"
+        done
     else
         # For non-CBT tables, use the database name
         mkdir -p "./schema/clickhouse/${database}"
