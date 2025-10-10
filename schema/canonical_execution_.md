@@ -36,8 +36,8 @@ Contains canonical execution block data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -127,8 +127,8 @@ Contains canonical execution transaction data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -228,8 +228,8 @@ Contains canonical execution traces data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `22627000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -331,8 +331,8 @@ Contains canonical execution logs data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -425,8 +425,8 @@ Contains canonical execution contract data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -524,8 +524,8 @@ Contains canonical execution four byte count data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -613,8 +613,8 @@ Contains canonical execution address appearance data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -701,7 +701,7 @@ Contains canonical execution balance diff data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
+- **holesky**: `0` to `4652000`
 - **sepolia**: `0` to `8700000`
 
 ### Examples
@@ -794,8 +794,8 @@ Contains canonical execution balance read data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -883,8 +883,8 @@ Contains canonical execution erc20 transfer data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -975,8 +975,8 @@ Contains canonical execution erc721 transfer data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4651000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -1067,8 +1067,8 @@ Contains canonical execution native transfer data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -1158,8 +1158,8 @@ Contains canonical execution nonce diff data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -1251,8 +1251,8 @@ Contains canonical execution nonce read data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -1340,8 +1340,8 @@ Contains canonical execution storage diffs data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **mainnet**: `0` to `23271000`
-- **holesky**: `0` to `4647000`
-- **sepolia**: `0` to `9371000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9378000`
 
 ### Examples
 
@@ -1433,8 +1433,8 @@ Contains canonical execution storage reads data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **holesky**: `0` to `4648000`
-- **sepolia**: `0` to `9372000`
+- **holesky**: `0` to `4652000`
+- **sepolia**: `0` to `9379000`
 
 ### Examples
 
@@ -1522,7 +1522,7 @@ Contains canonical execution transaction structlog data.
 ### Availability
 Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
-- **mainnet**: `22731300` to `23535900`
+- **mainnet**: `22731300` to `23543000`
 
 ### Examples
 
