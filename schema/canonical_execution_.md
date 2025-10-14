@@ -37,7 +37,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -128,7 +128,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -229,7 +229,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `22627000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -332,7 +332,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -426,7 +426,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -525,7 +525,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -614,7 +614,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -795,7 +795,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -884,7 +884,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -976,7 +976,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4651000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1068,7 +1068,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1159,7 +1159,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1252,7 +1252,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1341,7 +1341,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `23271000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1434,7 +1434,7 @@ Contains canonical execution storage reads data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `9399000`
+- **sepolia**: `0` to `9406000`
 
 ### Examples
 
@@ -1522,7 +1522,7 @@ Contains canonical execution transaction structlog data.
 ### Availability
 Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
-- **mainnet**: `22731300` to `23564500`
+- **mainnet**: `22731300` to `23571200`
 
 ### Examples
 
