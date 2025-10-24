@@ -41,6 +41,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_proposer`](#fct_block_proposer)
 - [`fct_block_proposer_entity`](#fct_block_proposer_entity)
 - [`fct_block_proposer_head`](#fct_block_proposer_head)
+- [`fct_head_first_seen_by_node`](#fct_head_first_seen_by_node)
 - [`fct_mev_bid_count_by_builder`](#fct_mev_bid_count_by_builder)
 - [`fct_mev_bid_count_by_relay`](#fct_mev_bid_count_by_relay)
 - [`fct_mev_bid_highest_value_by_builder_chunked_50ms`](#fct_mev_bid_highest_value_by_builder_chunked_50ms)
@@ -1511,6 +1512,82 @@ echo """
 | **proposer_validator_index** | `UInt32` | *The validator index of the proposer for the slot* |
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
 | **block_root** | `Nullable(String)` | *The beacon block root hash. Null if a block was never seen by a sentry* |
+
+## fct_head_first_seen_by_node
+
+When the head event was first seen on the network by a sentry node
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_head_first_seen_by_node`
+- **sepolia**: `sepolia.fct_head_first_seen_by_node`
+- **holesky**: `holesky.fct_head_first_seen_by_node`
+- **hoodi**: `hoodi.fct_head_first_seen_by_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_head_first_seen_by_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_head_first_seen_by_node FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **source** | `LowCardinality(String)` | *Source of the event* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **seen_slot_start_diff** | `UInt32` | *The time from slot start for the client to see the head event* |
+| **block_root** | `String` | *The head block root hash* |
+| **username** | `LowCardinality(String)` | *Username of the node* |
+| **node_id** | `String` | *ID of the node* |
+| **classification** | `LowCardinality(String)` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
 
 ## fct_mev_bid_count_by_builder
 

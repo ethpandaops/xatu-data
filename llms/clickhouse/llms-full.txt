@@ -305,6 +305,12 @@ SELECT * FROM sepolia.table_name LIMIT 10;
 - **Partitioning**: slot_start_date_time (datetime), daily
 - **Networks**: mainnet (`mainnet.fct_block_proposer_head`), sepolia (`sepolia.fct_block_proposer_head`), holesky (`holesky.fct_block_proposer_head`), hoodi (`hoodi.fct_block_proposer_head`)
 - **Tags**: 
+### fct_head_first_seen_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: When the head event was first seen on the network by a sentry node
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_head_first_seen_by_node`), sepolia (`sepolia.fct_head_first_seen_by_node`), holesky (`holesky.fct_head_first_seen_by_node`), hoodi (`hoodi.fct_head_first_seen_by_node`)
+- **Tags**: 
 ### fct_mev_bid_count_by_builder
 - **Database**: Network-specific (see Networks below)
 - **Description**: Total number of MEV builder bids for a slot
