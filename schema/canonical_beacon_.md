@@ -1405,7 +1405,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2113350`
+- **mainnet**: `0` to `2113400`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
