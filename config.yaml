@@ -100,7 +100,7 @@ tables:
         to: '2025-10-23'
       holesky:
         from: '2023-09-18'
-        to: '2025-10-22'
+        to: '2025-10-23'
       sepolia:
         from: '2023-08-31'
         to: '2025-10-23'
@@ -652,7 +652,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2113350'
+        to: '2113400'
       holesky:
         from: '0'
         to: '1923800'
