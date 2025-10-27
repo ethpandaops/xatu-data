@@ -239,6 +239,18 @@ SELECT * FROM sepolia.table_name LIMIT 10;
 - **Partitioning**: slot_start_date_time (datetime), daily
 - **Networks**: mainnet (`mainnet.fct_attestation_first_seen_chunked_50ms`), sepolia (`sepolia.fct_attestation_first_seen_chunked_50ms`), holesky (`holesky.fct_attestation_first_seen_chunked_50ms`), hoodi (`hoodi.fct_attestation_first_seen_chunked_50ms`)
 - **Tags**: 
+### fct_attestation_liveness_by_entity_head
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation liveness aggregated by entity for the head chain. One or two rows per (slot, entity): one for attested, one for missed.
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_liveness_by_entity_head`), sepolia (`sepolia.fct_attestation_liveness_by_entity_head`), holesky (`holesky.fct_attestation_liveness_by_entity_head`), hoodi (`hoodi.fct_attestation_liveness_by_entity_head`)
+- **Tags**: 
+### fct_attestation_observation_by_node
+- **Database**: Network-specific (see Networks below)
+- **Description**: Attestation observations by contributor nodes, aggregated per slot per node for performance
+- **Partitioning**: slot_start_date_time (datetime), daily
+- **Networks**: mainnet (`mainnet.fct_attestation_observation_by_node`), sepolia (`sepolia.fct_attestation_observation_by_node`), holesky (`holesky.fct_attestation_observation_by_node`), hoodi (`hoodi.fct_attestation_observation_by_node`)
+- **Tags**: 
 ### fct_block
 - **Database**: Network-specific (see Networks below)
 - **Description**: Block details for the finalized chain including orphaned blocks

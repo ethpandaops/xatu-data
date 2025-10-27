@@ -30,6 +30,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_correctness_canonical`](#fct_attestation_correctness_canonical)
 - [`fct_attestation_correctness_head`](#fct_attestation_correctness_head)
 - [`fct_attestation_first_seen_chunked_50ms`](#fct_attestation_first_seen_chunked_50ms)
+- [`fct_attestation_liveness_by_entity_head`](#fct_attestation_liveness_by_entity_head)
+- [`fct_attestation_observation_by_node`](#fct_attestation_observation_by_node)
 - [`fct_block`](#fct_block)
 - [`fct_block_blob_count`](#fct_block_blob_count)
 - [`fct_block_blob_count_head`](#fct_block_blob_count_head)
@@ -761,6 +763,145 @@ echo """
 | **block_root** | `String` | *The beacon block root hash that was attested, null means the attestation was missed* |
 | **chunk_slot_start_diff** | `UInt32` | *The different between the chunk start time and slot_start_date_time. "1500" would mean this chunk contains attestations first seen between 1500ms 1550ms into the slot* |
 | **attestation_count** | `UInt32` | *The number of attestations in this chunk* |
+
+## fct_attestation_liveness_by_entity_head
+
+Attestation liveness aggregated by entity for the head chain. One or two rows per (slot, entity): one for attested, one for missed.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_liveness_by_entity_head`
+- **sepolia**: `sepolia.fct_attestation_liveness_by_entity_head`
+- **holesky**: `holesky.fct_attestation_liveness_by_entity_head`
+- **hoodi**: `hoodi.fct_attestation_liveness_by_entity_head`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_liveness_by_entity_head FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_attestation_liveness_by_entity_head FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **entity** | `String` | *The entity (staking provider) associated with the validators, unknown if not mapped* |
+| **status** | `String` | *Attestation status: attested or missed* |
+| **attestation_count** | `UInt32` | *Number of attestations for this entity/status combination* |
+
+## fct_attestation_observation_by_node
+
+Attestation observations by contributor nodes, aggregated per slot per node for performance
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_observation_by_node`
+- **sepolia**: `sepolia.fct_attestation_observation_by_node`
+- **holesky**: `holesky.fct_attestation_observation_by_node`
+- **hoodi**: `hoodi.fct_attestation_observation_by_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_observation_by_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_attestation_observation_by_node FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **attestation_count** | `UInt32` | *Number of attestations observed by this node in this slot* |
+| **avg_seen_slot_start_diff** | `UInt32` | *Average time from slot start to see attestations (milliseconds, rounded)* |
+| **median_seen_slot_start_diff** | `UInt32` | *Median time from slot start to see attestations (milliseconds, rounded)* |
+| **min_seen_slot_start_diff** | `UInt32` | *Minimum time from slot start to see an attestation (milliseconds)* |
+| **max_seen_slot_start_diff** | `UInt32` | *Maximum time from slot start to see an attestation (milliseconds)* |
+| **block_root** | `String` | *Representative beacon block root (from most common attestation target)* |
+| **username** | `LowCardinality(String)` | *Username of the node* |
+| **node_id** | `String` | *ID of the node* |
+| **classification** | `LowCardinality(String)` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
 
 ## fct_block
 
