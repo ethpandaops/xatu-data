@@ -100,7 +100,7 @@ tables:
         to: '2025-11-10'
       holesky:
         from: '2023-09-18'
-        to: '2025-11-09'
+        to: '2025-11-10'
       sepolia:
         from: '2023-08-31'
         to: '2025-11-10'
@@ -637,7 +637,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2025-11-09'
+        to: '2025-11-10'
     tags:
       - Consensus layer
       - Finalized
@@ -652,7 +652,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2127050'
+        to: '2127850'
       holesky:
         from: '0'
         to: '1923800'
