@@ -637,7 +637,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2025-11-30'
+        to: '2025-12-01'
     tags:
       - Consensus layer
       - Finalized
