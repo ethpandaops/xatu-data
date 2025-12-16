@@ -1,11 +1,1 @@
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
-
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+Code: 390. DB::Exception: Table `libp2p_gossipsub_beacon_attestation_local` doesn't exist. (CANNOT_GET_CREATE_TABLE_QUERY) (version 25.5.10.95 (official build))

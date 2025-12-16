@@ -27,17 +27,7 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 <!-- schema_start -->
 ## canonical_beacon_block
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -98,28 +88,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_committee
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -180,28 +152,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_attester_slashing
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -262,28 +216,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_proposer_slashing
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -344,28 +280,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_bls_to_execution_change
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -426,28 +344,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_execution_transaction
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -508,28 +408,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_voluntary_exit
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -590,28 +472,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_deposit
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -672,28 +536,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_block_withdrawal
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -754,28 +600,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_blob_sidecar
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -836,28 +664,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_proposer_duty
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -918,28 +728,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_elaborated_attestation
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1000,28 +792,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_validators
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
@@ -1082,28 +856,10 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 ## canonical_beacon_validators_pubkeys
 
-Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
 
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1179,13 +935,5 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.** | `` | ** |
-| **If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/** | `` | ** |
-| **on the settings page for the corresponding service.** | `` | ** |
-| **If you have installed ClickHouse and forgot password you can reset it in the configuration file.** | `` | ** |
-| **The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml** | `` | ** |
-| **and deleting this file will reset the password.** | `` | ** |
-| **See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.** | `` | ** |
-| **. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))** | `` | ** |
 
 <!-- schema_end -->
