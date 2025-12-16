@@ -5,8 +5,8 @@ set -e
 source ./scripts/date.sh
 
 # Configuration
-clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8123}
-cbt_clickhouse_host=${CBT_CLICKHOUSE_HOST:-$clickhouse_host}
+clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8125}
+cbt_clickhouse_host=${CBT_CLICKHOUSE_HOST:-http://localhost:8123}
 mode=${MODE:-}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
