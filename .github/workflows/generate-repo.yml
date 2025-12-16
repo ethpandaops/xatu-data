@@ -28,7 +28,7 @@ jobs:
         run: |
           cd xatu-cbt
           cp example.env .env
-          go run ./cmd/xatu-cbt infra setup --clean
+          go run ./cmd/xatu-cbt infra start 
       - name: Go to root directory
         run: cd ..
       - name: Run generate-schema.sh for SCHEMA.md
