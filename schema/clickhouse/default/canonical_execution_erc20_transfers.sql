@@ -1,17 +1,11 @@
-CREATE TABLE default.canonical_execution_erc20_transfers
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `block_number` UInt64 COMMENT 'The block number' CODEC(DoubleDelta, ZSTD(1)),
-    `transaction_index` UInt64 COMMENT 'The transaction index in the block' CODEC(DoubleDelta, ZSTD(1)),
-    `transaction_hash` FixedString(66) COMMENT 'The transaction hash' CODEC(ZSTD(1)),
-    `internal_index` UInt32 COMMENT 'The internal index of the transfer within the transaction' CODEC(DoubleDelta, ZSTD(1)),
-    `log_index` UInt64 COMMENT 'The log index in the block' CODEC(DoubleDelta, ZSTD(1)),
-    `erc20` String COMMENT 'The erc20 address' CODEC(ZSTD(1)),
-    `from_address` String COMMENT 'The from address' CODEC(ZSTD(1)),
-    `to_address` String COMMENT 'The to address' CODEC(ZSTD(1)),
-    `value` UInt256 COMMENT 'The value of the transfer' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
-)
-ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_erc20_transfers_local', cityHash64(block_number, meta_network_name, transaction_hash, internal_index))
-COMMENT 'Contains canonical execution erc20 transfer data.'
+Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+
+If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
+on the settings page for the corresponding service.
+
+If you have installed ClickHouse and forgot password you can reset it in the configuration file.
+The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
+and deleting this file will reset the password.
+See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
+
+. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))

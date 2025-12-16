@@ -1,29 +1,11 @@
-CREATE TABLE default.canonical_execution_transaction_local
-(
-    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `block_number` UInt64 COMMENT 'The block number' CODEC(DoubleDelta, ZSTD(1)),
-    `transaction_index` UInt64 COMMENT 'The transaction index' CODEC(DoubleDelta, ZSTD(1)),
-    `transaction_hash` FixedString(66) COMMENT 'The transaction hash' CODEC(ZSTD(1)),
-    `nonce` UInt64 COMMENT 'The transaction nonce' CODEC(ZSTD(1)),
-    `from_address` String COMMENT 'The transaction from address' CODEC(ZSTD(1)),
-    `to_address` Nullable(String) COMMENT 'The transaction to address' CODEC(ZSTD(1)),
-    `value` UInt256 COMMENT 'The transaction value in float64' CODEC(ZSTD(1)),
-    `input` Nullable(String) COMMENT 'The transaction input in hex' CODEC(ZSTD(1)),
-    `gas_limit` UInt64 COMMENT 'The transaction gas limit' CODEC(ZSTD(1)),
-    `gas_used` UInt64 COMMENT 'The transaction gas used' CODEC(ZSTD(1)),
-    `gas_price` UInt64 COMMENT 'The transaction gas price' CODEC(ZSTD(1)),
-    `transaction_type` UInt32 COMMENT 'The transaction type' CODEC(ZSTD(1)),
-    `max_priority_fee_per_gas` UInt64 COMMENT 'The transaction max priority fee per gas' CODEC(ZSTD(1)),
-    `max_fee_per_gas` UInt64 COMMENT 'The transaction max fee per gas' CODEC(ZSTD(1)),
-    `success` Bool COMMENT 'The transaction success' CODEC(ZSTD(1)),
-    `n_input_bytes` UInt32 COMMENT 'The transaction input bytes' CODEC(ZSTD(1)),
-    `n_input_zero_bytes` UInt32 COMMENT 'The transaction input zero bytes' CODEC(ZSTD(1)),
-    `n_input_nonzero_bytes` UInt32 COMMENT 'The transaction input nonzero bytes' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
-)
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_transaction_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY intDiv(block_number, 5000000)
-ORDER BY (block_number, meta_network_name, transaction_hash)
-SETTINGS index_granularity = 8192
-COMMENT 'Contains canonical execution transaction data.'
+Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+
+If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
+on the settings page for the corresponding service.
+
+If you have installed ClickHouse and forgot password you can reset it in the configuration file.
+The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
+and deleting this file will reset the password.
+See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
+
+. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
