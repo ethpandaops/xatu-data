@@ -7,9 +7,17 @@ source ./scripts/date.sh
 # Configuration
 clickhouse_host=${CLICKHOUSE_HOST:-http://localhost:8125}
 cbt_clickhouse_host=${CBT_CLICKHOUSE_HOST:-http://localhost:8123}
+clickhouse_user=${CLICKHOUSE_USER:-default}
+clickhouse_password=${CLICKHOUSE_PASSWORD:-supersecret}
 mode=${MODE:-}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
+
+# Build curl auth args if credentials are provided
+clickhouse_curl_auth=""
+if [ -n "$clickhouse_password" ]; then
+    clickhouse_curl_auth="-u ${clickhouse_user}:${clickhouse_password}"
+fi
 
 if [ "$mode" != "" ]; then
     echo "Running in $mode mode"
@@ -98,12 +106,12 @@ generate_table_schema() {
     # For CBT tables, query from mainnet database (use mainnet as reference)
     if [ "$is_cbt_table" = "true" ]; then
         local actual_database="mainnet"  # Always query from mainnet for CBT tables
-        local table_description=$(curl -s "$cbt_clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
-        local table_engine=$(curl -s "$cbt_clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
-        local partition_key=$(curl -s "$cbt_clickhouse_host" --data "SELECT partition_key FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+        local table_description=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
+        local partition_key=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT partition_key FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
     else
-        local table_description=$(curl -s "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
-        local table_engine=$(curl -s "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        local table_description=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
     fi
 
     local should_use_final=false
@@ -116,9 +124,9 @@ generate_table_schema() {
     # For CBT tables, query schema from mainnet database
     if [ "$is_cbt_table" = "true" ]; then
         local actual_database="mainnet"  # Always query from mainnet for CBT tables
-        local schema=$(curl -s "$cbt_clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${actual_database}' AND table = '$table_name' FORMAT TabSeparated")
+        local schema=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${actual_database}' AND table = '$table_name' FORMAT TabSeparated")
     else
-        local schema=$(curl -s "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${database}' AND table = '$table_name' FORMAT TabSeparated")
+        local schema=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT name, type, comment FROM system.columns WHERE database = '${database}' AND table = '$table_name' FORMAT TabSeparated")
     fi
 
     echo "## $table_name"
@@ -283,11 +291,11 @@ generate_table_schema() {
         local source_database="mainnet"
 
         # Get the base _local table definition from mainnet
-        local base_sql_ddl_local=$(curl -s "$cbt_clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}_local")
+        local base_sql_ddl_local=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}_local")
         base_sql_ddl_local=$(echo "$base_sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
 
         # Get the base distributed table definition from mainnet
-        local base_sql_ddl_distributed=$(curl -s "$cbt_clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}")
+        local base_sql_ddl_distributed=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SHOW CREATE TABLE ${source_database}.${table_name}")
         base_sql_ddl_distributed=$(echo "$base_sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
 
         for network in $networks; do
@@ -308,7 +316,7 @@ generate_table_schema() {
         mkdir -p "./schema/clickhouse/${database}"
 
         # Get the _local table definition
-        local sql_ddl_local=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
+        local sql_ddl_local=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}_local")
 
         # Replace escaped newlines with actual newlines and fix escaped quotes
         sql_ddl_local=$(echo "$sql_ddl_local" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
@@ -317,7 +325,7 @@ generate_table_schema() {
         echo "$sql_ddl_local" > "./schema/clickhouse/${database}/${table_name}_local.sql"
 
         # Get the distributed table definition
-        local sql_ddl_distributed=$(curl -s "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
+        local sql_ddl_distributed=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SHOW CREATE TABLE ${database}.${table_name}")
 
         # Replace escaped newlines with actual newlines and fix escaped quotes
         sql_ddl_distributed=$(echo "$sql_ddl_distributed" | sed 's/\\n/\n/g' | sed "s/\\\\'/'/g")
@@ -332,7 +340,7 @@ discover_cbt_tables() {
     local cbt_database="mainnet"
 
     # Get all tables from mainnet database, excluding views, admin tables, and schema_migrations
-    local result=$(curl -s "$cbt_clickhouse_host" --data "
+    local result=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "
         SELECT name
         FROM system.tables
         WHERE database = '$cbt_database'
@@ -354,16 +362,16 @@ build_cbt_table_config() {
     local cbt_database="mainnet"
 
     # Get table description
-    local description=$(curl -s "$cbt_clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+    local description=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
 
     # Get ORDER BY clause
-    local sorting_key=$(curl -s "$cbt_clickhouse_host" --data "SELECT sorting_key FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
+    local sorting_key=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT sorting_key FROM system.tables WHERE database = '$cbt_database' AND name = '${table_name}_local' FORMAT TabSeparated")
 
     # Extract first column from ORDER BY (e.g., "slot_start_date_time, meta_network_name" -> "slot_start_date_time")
     local partition_column=$(echo "$sorting_key" | sed 's/,.*//; s/^[[:space:]]*//; s/[[:space:]]*$//')
 
     # Get column type to determine partition type
-    local column_type=$(curl -s "$cbt_clickhouse_host" --data "SELECT type FROM system.columns WHERE database = '$cbt_database' AND table = '${table_name}_local' AND name = '$partition_column' FORMAT TabSeparated")
+    local column_type=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT type FROM system.columns WHERE database = '$cbt_database' AND table = '${table_name}_local' AND name = '$partition_column' FORMAT TabSeparated")
 
     # Determine partition type based on column type
     local partition_type="none"
