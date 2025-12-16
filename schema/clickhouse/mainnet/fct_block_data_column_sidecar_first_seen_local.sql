@@ -1,0 +1,42 @@
+CREATE TABLE mainnet.fct_block_data_column_sidecar_first_seen_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `source` LowCardinality(String) COMMENT 'Source of the event' CODEC(ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `seen_slot_start_diff` UInt32 COMMENT 'The time from slot start until the data column was first seen by any node' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `column_index` UInt32 COMMENT 'The data column index' CODEC(DoubleDelta, ZSTD(1)),
+    `row_count` UInt32 COMMENT 'The number of rows (blobs) in the data column sidecar' CODEC(DoubleDelta, ZSTD(1)),
+    `username` LowCardinality(String) COMMENT 'Username of the node that first saw the data column' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'ID of the node that first saw the data column' CODEC(ZSTD(1)),
+    `classification` LowCardinality(String) COMMENT 'Classification of the node that first saw the data column, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that first saw the data column',
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that first saw the data column',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that first saw the data column',
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that first saw the data column' CODEC(ZSTD(1)),
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version of the client that first saw the data column',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation of the client that first saw the data column',
+    PROJECTION p_by_slot
+    (
+        SELECT *
+        ORDER BY
+            slot,
+            block_root,
+            column_index
+    )
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_block_data_column_sidecar_first_seen_local', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(slot_start_date_time)
+ORDER BY (slot_start_date_time, block_root, column_index)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
+COMMENT 'When the data column was first seen on the network by any sentry node'

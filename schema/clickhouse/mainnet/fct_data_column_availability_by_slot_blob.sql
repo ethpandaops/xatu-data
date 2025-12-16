@@ -1,0 +1,30 @@
+CREATE TABLE mainnet.fct_data_column_availability_by_slot_blob
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number being probed' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `wallclock_request_slot` UInt32 COMMENT 'The wallclock slot when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
+    `wallclock_request_slot_start_date_time` DateTime COMMENT 'The start time for the slot when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
+    `wallclock_request_epoch` UInt32 COMMENT 'The wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
+    `wallclock_request_epoch_start_date_time` DateTime COMMENT 'The start time for the wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
+    `blob_index` UInt16 COMMENT 'Blob index within the slot (0-based, typically 0-5)' CODEC(ZSTD(1)),
+    `column_index` UInt64 COMMENT 'Column index being probed (0-127)' CODEC(ZSTD(1)),
+    `blob_count` UInt16 COMMENT 'Total number of blobs in the slot' CODEC(ZSTD(1)),
+    `availability_pct` Float64 COMMENT 'Availability percentage (success / total * 100) rounded to 2 decimal places - same for all blobs in column' CODEC(ZSTD(1)),
+    `success_count` UInt32 COMMENT 'Count of successful probes' CODEC(DoubleDelta, ZSTD(1)),
+    `failure_count` UInt32 COMMENT 'Count of failed probes (result = failure)' CODEC(DoubleDelta, ZSTD(1)),
+    `missing_count` UInt32 COMMENT 'Count of missing probes (result = missing)' CODEC(DoubleDelta, ZSTD(1)),
+    `probe_count` UInt32 COMMENT 'Total count of probes' CODEC(DoubleDelta, ZSTD(1)),
+    `min_response_time_ms` UInt32 COMMENT 'Minimum response time in milliseconds for successful probes only' CODEC(ZSTD(1)),
+    `p50_response_time_ms` UInt32 COMMENT 'Median (p50) response time in milliseconds for successful probes only' CODEC(ZSTD(1)),
+    `p95_response_time_ms` UInt32 COMMENT '95th percentile response time in milliseconds for successful probes only' CODEC(ZSTD(1)),
+    `p99_response_time_ms` UInt32 COMMENT '99th percentile response time in milliseconds for successful probes only' CODEC(ZSTD(1)),
+    `max_response_time_ms` UInt32 COMMENT 'Maximum response time in milliseconds for successful probes only' CODEC(ZSTD(1)),
+    `unique_peer_count` UInt32 COMMENT 'Count of unique peers probed' CODEC(ZSTD(1)),
+    `unique_client_count` UInt32 COMMENT 'Count of unique client names' CODEC(ZSTD(1)),
+    `unique_implementation_count` UInt32 COMMENT 'Count of unique client implementations' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'mainnet', 'fct_data_column_availability_by_slot_blob_local', cityHash64(slot_start_date_time, blob_index, column_index))
+COMMENT 'Data column availability by slot, blob index, and column index'
