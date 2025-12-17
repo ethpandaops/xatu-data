@@ -209,6 +209,7 @@ echo """
 | **proposer_fee_recipient** | `FixedString(42)` | *The proposer fee recipient of the payload* |
 | **gas_limit** | `UInt64` | *The gas limit of the payload* |
 | **gas_used** | `UInt64` | *The gas used by the payload* |
+| **value** | `UInt256` | *The bid value in wei* |
 | **num_tx** | `UInt32` | *The number of transactions in the payload* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |

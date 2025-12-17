@@ -18,6 +18,7 @@ CREATE TABLE default.mev_relay_proposer_payload_delivered
     `proposer_fee_recipient` FixedString(42) COMMENT 'The proposer fee recipient of the payload' CODEC(ZSTD(1)),
     `gas_limit` UInt64 COMMENT 'The gas limit of the payload' CODEC(DoubleDelta, ZSTD(1)),
     `gas_used` UInt64 COMMENT 'The gas used by the payload' CODEC(DoubleDelta, ZSTD(1)),
+    `value` UInt256 COMMENT 'The bid value in wei' CODEC(ZSTD(1)),
     `num_tx` UInt32 COMMENT 'The number of transactions in the payload' CODEC(DoubleDelta, ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
