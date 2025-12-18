@@ -72,9 +72,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_storage_slot_state`](#fct_storage_slot_state)
 - [`fct_storage_slot_state_daily`](#fct_storage_slot_state_daily)
 - [`fct_storage_slot_state_hourly`](#fct_storage_slot_state_hourly)
-- [`fct_storage_slot_state_with_expiry_by_6m`](#fct_storage_slot_state_with_expiry_by_6m)
-- [`fct_storage_slot_state_with_expiry_by_6m_daily`](#fct_storage_slot_state_with_expiry_by_6m_daily)
-- [`fct_storage_slot_state_with_expiry_by_6m_hourly`](#fct_storage_slot_state_with_expiry_by_6m_hourly)
+- [`fct_storage_slot_state_with_expiry`](#fct_storage_slot_state_with_expiry)
+- [`fct_storage_slot_state_with_expiry_daily`](#fct_storage_slot_state_with_expiry_daily)
+- [`fct_storage_slot_state_with_expiry_hourly`](#fct_storage_slot_state_with_expiry_hourly)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
 - [`int_address_first_access`](#int_address_first_access)
 - [`int_address_last_access`](#int_address_last_access)
@@ -93,9 +93,17 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_execution_block_by_date`](#int_execution_block_by_date)
 - [`int_storage_slot_diff`](#int_storage_slot_diff)
 - [`int_storage_slot_diff_by_address_slot`](#int_storage_slot_diff_by_address_slot)
-- [`int_storage_slot_expiry_by_6m`](#int_storage_slot_expiry_by_6m)
+- [`int_storage_slot_expiry_12m`](#int_storage_slot_expiry_12m)
+- [`int_storage_slot_expiry_18m`](#int_storage_slot_expiry_18m)
+- [`int_storage_slot_expiry_1m`](#int_storage_slot_expiry_1m)
+- [`int_storage_slot_expiry_24m`](#int_storage_slot_expiry_24m)
+- [`int_storage_slot_expiry_6m`](#int_storage_slot_expiry_6m)
 - [`int_storage_slot_next_touch`](#int_storage_slot_next_touch)
-- [`int_storage_slot_reactivation_by_6m`](#int_storage_slot_reactivation_by_6m)
+- [`int_storage_slot_reactivation_12m`](#int_storage_slot_reactivation_12m)
+- [`int_storage_slot_reactivation_18m`](#int_storage_slot_reactivation_18m)
+- [`int_storage_slot_reactivation_1m`](#int_storage_slot_reactivation_1m)
+- [`int_storage_slot_reactivation_24m`](#int_storage_slot_reactivation_24m)
+- [`int_storage_slot_reactivation_6m`](#int_storage_slot_reactivation_6m)
 - [`int_storage_slot_read`](#int_storage_slot_read)
 <!-- schema_toc_end -->
 
@@ -3662,19 +3670,19 @@ echo """
 | **active_slots** | `Int64` | *Cumulative count of active storage slots at end of hour* |
 | **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at end of hour* |
 
-## fct_storage_slot_state_with_expiry_by_6m
+## fct_storage_slot_state_with_expiry
 
-Cumulative storage slot state per block with 6-month expiry policy applied - slots unused for 6 months are cleared
+Cumulative storage slot state with expiry policies - supports 1m, 6m, 12m, 18m, 24m waterfall
 
 ### Availability
-Data is partitioned by **intDiv(block_number, 5000000)**.
+Data is partitioned by **expiry_policy**.
 
 Available in the following network-specific databases:
 
-- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry_by_6m`
-- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry_by_6m`
-- **holesky**: `holesky.fct_storage_slot_state_with_expiry_by_6m`
-- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry_by_6m`
+- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry`
+- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry`
+- **holesky**: `holesky.fct_storage_slot_state_with_expiry`
+- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry`
 
 ### Examples
 
@@ -3687,7 +3695,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -3703,7 +3711,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3715,26 +3723,27 @@ echo """
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_number** | `UInt32` | *The block number* |
+| **expiry_policy** | `LowCardinality(String)` | *Expiry policy identifier: 1m, 6m, 12m, 18m, 24m* |
 | **net_slots_delta** | `Int32` | *Net slot adjustment this block (negative=expiry, positive=reactivation)* |
 | **net_bytes_delta** | `Int64` | *Net bytes adjustment this block (negative=expiry, positive=reactivation)* |
 | **cumulative_net_slots** | `Int64` | *Cumulative net slot adjustment up to this block* |
 | **cumulative_net_bytes** | `Int64` | *Cumulative net bytes adjustment up to this block* |
-| **active_slots** | `Int64` | *Cumulative count of active storage slots at this block (with 6-month expiry applied)* |
-| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes across all active slots at this block (with 6-month expiry applied)* |
+| **active_slots** | `Int64` | *Cumulative count of active storage slots at this block (with expiry applied)* |
+| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at this block (with expiry applied)* |
 
-## fct_storage_slot_state_with_expiry_by_6m_daily
+## fct_storage_slot_state_with_expiry_daily
 
-Storage slot state metrics with 6-month expiry policy aggregated by day
+Storage slot state metrics with expiry policies aggregated by day
 
 ### Availability
-Data is partitioned by **toYYYYMM(day_start_date)**.
+Data is partitioned by **(expiry_policy, toYYYYMM(day_start_date))**.
 
 Available in the following network-specific databases:
 
-- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry_by_6m_daily`
-- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry_by_6m_daily`
-- **holesky**: `holesky.fct_storage_slot_state_with_expiry_by_6m_daily`
-- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry_by_6m_daily`
+- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry_daily`
+- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry_daily`
+- **holesky**: `holesky.fct_storage_slot_state_with_expiry_daily`
+- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry_daily`
 
 ### Examples
 
@@ -3747,7 +3756,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m_daily FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry_daily FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -3763,7 +3772,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m_daily FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry_daily FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3775,22 +3784,23 @@ echo """
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **day_start_date** | `Date` | *Start of the day period* |
-| **active_slots** | `Int64` | *Cumulative count of active storage slots at end of day (with 6m expiry policy)* |
-| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at end of day (with 6m expiry policy)* |
+| **expiry_policy** | `LowCardinality(String)` | *Expiry policy identifier: 1m, 6m, 12m, 18m, 24m* |
+| **active_slots** | `Int64` | *Cumulative count of active storage slots at end of day (with expiry applied)* |
+| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at end of day (with expiry applied)* |
 
-## fct_storage_slot_state_with_expiry_by_6m_hourly
+## fct_storage_slot_state_with_expiry_hourly
 
-Storage slot state metrics with 6-month expiry policy aggregated by hour
+Storage slot state metrics with expiry policies aggregated by hour
 
 ### Availability
-Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+Data is partitioned by **(expiry_policy, toStartOfMonth(hour_start_date_time))**.
 
 Available in the following network-specific databases:
 
-- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry_by_6m_hourly`
-- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry_by_6m_hourly`
-- **holesky**: `holesky.fct_storage_slot_state_with_expiry_by_6m_hourly`
-- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry_by_6m_hourly`
+- **mainnet**: `mainnet.fct_storage_slot_state_with_expiry_hourly`
+- **sepolia**: `sepolia.fct_storage_slot_state_with_expiry_hourly`
+- **holesky**: `holesky.fct_storage_slot_state_with_expiry_hourly`
+- **hoodi**: `hoodi.fct_storage_slot_state_with_expiry_hourly`
 
 ### Examples
 
@@ -3803,7 +3813,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m_hourly FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry_hourly FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -3819,7 +3829,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM mainnet.fct_storage_slot_state_with_expiry_by_6m_hourly FINAL
+    FROM mainnet.fct_storage_slot_state_with_expiry_hourly FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3831,8 +3841,9 @@ echo """
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **hour_start_date_time** | `DateTime` | *Start of the hour period* |
-| **active_slots** | `Int64` | *Cumulative count of active storage slots at end of hour (with 6m expiry policy)* |
-| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at end of hour (with 6m expiry policy)* |
+| **expiry_policy** | `LowCardinality(String)` | *Expiry policy identifier: 1m, 6m, 12m, 18m, 24m* |
+| **active_slots** | `Int64` | *Cumulative count of active storage slots at end of hour (with expiry applied)* |
+| **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at end of hour (with expiry applied)* |
 
 ## helper_storage_slot_next_touch_latest_state
 
@@ -4995,19 +5006,19 @@ echo """
 | **effective_bytes_from** | `UInt8` | *Number of effective bytes in the first from_value of the block (0-32)* |
 | **effective_bytes_to** | `UInt8` | *Number of effective bytes in the last to_value of the block (0-32)* |
 
-## int_storage_slot_expiry_by_6m
+## int_storage_slot_expiry_12m
 
-Storage slot expiries - records slots that were set 6 months ago and are now candidates for clearing
+Storage slot 12-month expiries - waterfalls from 6m tier
 
 ### Availability
 Data is partitioned by **intDiv(block_number, 5000000)**.
 
 Available in the following network-specific databases:
 
-- **mainnet**: `mainnet.int_storage_slot_expiry_by_6m`
-- **sepolia**: `sepolia.int_storage_slot_expiry_by_6m`
-- **holesky**: `holesky.int_storage_slot_expiry_by_6m`
-- **hoodi**: `hoodi.int_storage_slot_expiry_by_6m`
+- **mainnet**: `mainnet.int_storage_slot_expiry_12m`
+- **sepolia**: `sepolia.int_storage_slot_expiry_12m`
+- **holesky**: `holesky.int_storage_slot_expiry_12m`
+- **hoodi**: `hoodi.int_storage_slot_expiry_12m`
 
 ### Examples
 
@@ -5020,7 +5031,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.int_storage_slot_expiry_by_6m FINAL
+    FROM mainnet.int_storage_slot_expiry_12m FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -5036,7 +5047,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM mainnet.int_storage_slot_expiry_by_6m FINAL
+    FROM mainnet.int_storage_slot_expiry_12m FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5047,10 +5058,243 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number where this slot expiry is recorded (6 months after it was set)* |
+| **block_number** | `UInt32` | *The block number where this slot expiry is recorded* |
 | **address** | `String` | *The contract address* |
 | **slot_key** | `String` | *The storage slot key* |
-| **effective_bytes** | `UInt8` | *Number of effective bytes that were set and are now being marked for expiry (0-32)* |
+| **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
+
+## int_storage_slot_expiry_18m
+
+Storage slot 18-month expiries - waterfalls from 12m tier
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_expiry_18m`
+- **sepolia**: `sepolia.int_storage_slot_expiry_18m`
+- **holesky**: `holesky.int_storage_slot_expiry_18m`
+- **hoodi**: `hoodi.int_storage_slot_expiry_18m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_18m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_18m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot expiry is recorded* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
+
+## int_storage_slot_expiry_1m
+
+Storage slot 1-month expiries - base tier of waterfall chain
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_expiry_1m`
+- **sepolia**: `sepolia.int_storage_slot_expiry_1m`
+- **holesky**: `holesky.int_storage_slot_expiry_1m`
+- **hoodi**: `hoodi.int_storage_slot_expiry_1m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_1m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_1m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot expiry is recorded* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
+
+## int_storage_slot_expiry_24m
+
+Storage slot 24-month expiries - waterfalls from 18m tier
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_expiry_24m`
+- **sepolia**: `sepolia.int_storage_slot_expiry_24m`
+- **holesky**: `holesky.int_storage_slot_expiry_24m`
+- **hoodi**: `hoodi.int_storage_slot_expiry_24m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_24m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_24m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot expiry is recorded* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
+
+## int_storage_slot_expiry_6m
+
+Storage slot 6-month expiries - waterfalls from 1m tier
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_expiry_6m`
+- **sepolia**: `sepolia.int_storage_slot_expiry_6m`
+- **holesky**: `holesky.int_storage_slot_expiry_6m`
+- **hoodi**: `hoodi.int_storage_slot_expiry_6m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_6m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_expiry_6m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot expiry is recorded* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
 
 ## int_storage_slot_next_touch
 
@@ -5109,19 +5353,19 @@ echo """
 | **slot_key** | `String` | *The storage slot key* |
 | **next_touch_block** | `Nullable(UInt32)` | *The next block number where this slot was touched (NULL if no subsequent touch)* |
 
-## int_storage_slot_reactivation_by_6m
+## int_storage_slot_reactivation_12m
 
-Storage slot reactivations/cancellations - records slots that were touched after 6+ months of inactivity, undoing their expiry
+Storage slot 12-month reactivations - slots touched after 12m expiry
 
 ### Availability
 Data is partitioned by **intDiv(block_number, 5000000)**.
 
 Available in the following network-specific databases:
 
-- **mainnet**: `mainnet.int_storage_slot_reactivation_by_6m`
-- **sepolia**: `sepolia.int_storage_slot_reactivation_by_6m`
-- **holesky**: `holesky.int_storage_slot_reactivation_by_6m`
-- **hoodi**: `hoodi.int_storage_slot_reactivation_by_6m`
+- **mainnet**: `mainnet.int_storage_slot_reactivation_12m`
+- **sepolia**: `sepolia.int_storage_slot_reactivation_12m`
+- **holesky**: `holesky.int_storage_slot_reactivation_12m`
+- **hoodi**: `hoodi.int_storage_slot_reactivation_12m`
 
 ### Examples
 
@@ -5134,7 +5378,7 @@ Available in the following network-specific databases:
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.int_storage_slot_reactivation_by_6m FINAL
+    FROM mainnet.int_storage_slot_reactivation_12m FINAL
     LIMIT 10
     FORMAT Pretty
 """
@@ -5150,7 +5394,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM mainnet.int_storage_slot_reactivation_by_6m FINAL
+    FROM mainnet.int_storage_slot_reactivation_12m FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5161,10 +5405,243 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number where this slot was reactivated/cancelled (touched after 6+ months of inactivity)* |
+| **block_number** | `UInt32` | *The block number where this slot was reactivated* |
 | **address** | `String` | *The contract address* |
 | **slot_key** | `String` | *The storage slot key* |
-| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (must match corresponding expiry record)* |
+| **touch_block** | `UInt32` | *The original touch block that expired (for matching with expiry records)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (0-32)* |
+
+## int_storage_slot_reactivation_18m
+
+Storage slot 18-month reactivations - slots touched after 18m expiry
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_reactivation_18m`
+- **sepolia**: `sepolia.int_storage_slot_reactivation_18m`
+- **holesky**: `holesky.int_storage_slot_reactivation_18m`
+- **hoodi**: `hoodi.int_storage_slot_reactivation_18m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_18m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_18m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot was reactivated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that expired (for matching with expiry records)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (0-32)* |
+
+## int_storage_slot_reactivation_1m
+
+Storage slot 1-month reactivations - slots touched after 1m expiry
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_reactivation_1m`
+- **sepolia**: `sepolia.int_storage_slot_reactivation_1m`
+- **holesky**: `holesky.int_storage_slot_reactivation_1m`
+- **hoodi**: `hoodi.int_storage_slot_reactivation_1m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_1m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_1m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot was reactivated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that expired (for matching with expiry records)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (0-32)* |
+
+## int_storage_slot_reactivation_24m
+
+Storage slot 24-month reactivations - slots touched after 24m expiry
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_reactivation_24m`
+- **sepolia**: `sepolia.int_storage_slot_reactivation_24m`
+- **holesky**: `holesky.int_storage_slot_reactivation_24m`
+- **hoodi**: `hoodi.int_storage_slot_reactivation_24m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_24m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_24m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot was reactivated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that expired (for matching with expiry records)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (0-32)* |
+
+## int_storage_slot_reactivation_6m
+
+Storage slot 6-month reactivations - slots touched after 6m expiry
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_reactivation_6m`
+- **sepolia**: `sepolia.int_storage_slot_reactivation_6m`
+- **holesky**: `holesky.int_storage_slot_reactivation_6m`
+- **hoodi**: `hoodi.int_storage_slot_reactivation_6m`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_6m FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_reactivation_6m FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number where this slot was reactivated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **touch_block** | `UInt32` | *The original touch block that expired (for matching with expiry records)* |
+| **effective_bytes** | `UInt8` | *Number of effective bytes being reactivated (0-32)* |
 
 ## int_storage_slot_read
 
