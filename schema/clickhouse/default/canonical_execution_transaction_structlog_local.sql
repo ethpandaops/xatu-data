@@ -12,6 +12,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `operation` LowCardinality(String) COMMENT 'The operation',
     `gas` UInt64 COMMENT 'The gas' CODEC(Delta(8), ZSTD(1)),
     `gas_cost` UInt64 COMMENT 'The gas cost' CODEC(DoubleDelta, ZSTD(1)),
+    `gas_used` UInt64 DEFAULT 0 COMMENT 'Actual gas consumed (computed from consecutive gas values)' CODEC(ZSTD(1)),
     `depth` UInt64 COMMENT 'The depth' CODEC(DoubleDelta, ZSTD(1)),
     `return_data` Nullable(String) COMMENT 'The return data' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),

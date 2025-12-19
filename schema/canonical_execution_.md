@@ -1604,6 +1604,7 @@ echo """
 | **operation** | `LowCardinality(String)` | *The operation* |
 | **gas** | `UInt64` | *The gas* |
 | **gas_cost** | `UInt64` | *The gas cost* |
+| **gas_used** | `UInt64` | *Actual gas consumed (computed from consecutive gas values)* |
 | **depth** | `UInt64` | *The depth* |
 | **return_data** | `Nullable(String)` | *The return data* |
 | **refund** | `Nullable(UInt64)` | *The refund* |
