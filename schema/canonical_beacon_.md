@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2025-12-21`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2025-12-20`
+- **sepolia**: `2022-06-20` to `2025-12-21`
 
 ### Examples
 
@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-
+Contains a validator state for an epoch.
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2174800`
+- **mainnet**: `0` to `2175350`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
