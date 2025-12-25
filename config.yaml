@@ -1202,10 +1202,10 @@ tables:
         to: '2025-12-23'
       hoodi:
         from: '2025-05-29'
-        to: '2025-12-22'
+        to: '2025-12-23'
       sepolia:
         from: '2025-05-29'
-        to: '2025-12-22'
+        to: '2025-12-23'
     tags:
       - Consensus layer
       - P2P
@@ -1619,7 +1619,7 @@ tables:
     networks:
       mainnet:
         from: '22731300'
-        to: '24072600'
+        to: '24078600'
     tags:
       - Execution layer
       - Finalized
