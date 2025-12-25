@@ -1019,7 +1019,7 @@ echo """
 
 ## libp2p_send_rpc
 
-Contains the details of the RPC messages sent by the peer.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1084,26 +1084,26 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the event* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer receiver* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 ## libp2p_drop_rpc
 
@@ -1947,7 +1947,7 @@ echo """
 
 ## libp2p_rpc_meta_control_ihave
 
-Contains the details of the "I have" control messages from the peer.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2012,38 +2012,38 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each "I have" control record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the "I have" control record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the "I have" control event* |
-| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "I have" control metadata* |
-| **message_index** | `Int32` | *Position in the RPC meta control IWANT message_ids array* |
-| **control_index** | `Int32` | *Position in the RPC meta control IWANT array* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **message_id** | `String` | *Identifier of the message associated with the "I have" control* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the I have control* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **rpc_meta_unique_key** | `Int64` | ** |
+| **message_index** | `Int32` | ** |
+| **control_index** | `Int32` | ** |
+| **topic_layer** | `LowCardinality(String)` | ** |
+| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
+| **topic_name** | `LowCardinality(String)` | ** |
+| **topic_encoding** | `LowCardinality(String)` | ** |
+| **message_id** | `String` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 ## libp2p_rpc_meta_control_iwant
 
-
+Contains the details of the "I want" control messages from the peer.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2108,30 +2108,30 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **control_index** | `Int32` | ** |
-| **message_index** | `Int32` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
-| **message_id** | `String` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
-| **meta_client_name** | `LowCardinality(String)` | ** |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each "I want" control record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the "I want" control record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the "I want" control event* |
+| **control_index** | `Int32` | *Position in the RPC meta control IWANT array* |
+| **message_index** | `Int32` | *Position in the RPC meta control IWANT message_ids array* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "I want" control metadata* |
+| **message_id** | `String` | *Identifier of the message associated with the "I want" control* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the I want control* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_idontwant
 
@@ -2518,8 +2518,8 @@ echo """
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2025-12-23`
-- **hoodi**: `2025-05-29` to `2025-12-22`
-- **sepolia**: `2025-05-29` to `2025-12-22`
+- **hoodi**: `2025-05-29` to `2025-12-23`
+- **sepolia**: `2025-05-29` to `2025-12-23`
 
 ### Examples
 
