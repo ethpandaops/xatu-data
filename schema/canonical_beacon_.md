@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-
+Contains a validator state for an epoch.
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2177450`
+- **mainnet**: `0` to `2178050`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
