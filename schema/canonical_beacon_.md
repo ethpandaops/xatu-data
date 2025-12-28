@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2025-12-26`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2025-12-25`
+- **sepolia**: `2022-06-20` to `2025-12-26`
 
 ### Examples
 
@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-
+Contains a validator state for an epoch.
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1477,33 +1477,33 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | *When this row was last updated* |
-| **version** | `UInt32` | *Version of this row, to help with de-duplication we want the latest updated_date_time but earliest epoch_start_date_time the pubkey was seen* |
-| **epoch** | `UInt32` | *The epoch number from beacon block payload* |
-| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **index** | `UInt32` | *The index of the validator* |
-| **pubkey** | `String` | *The public key of the validator* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version that generated the event* |
-| **meta_consensus_version_major** | `LowCardinality(String)` | *Ethereum consensus client major version that generated the event* |
-| **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
-| **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
-| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+| **updated_date_time** | `DateTime` | ** |
+| **version** | `UInt32` | ** |
+| **epoch** | `UInt32` | ** |
+| **epoch_start_date_time** | `DateTime` | ** |
+| **index** | `UInt32` | ** |
+| **pubkey** | `String` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_consensus_version** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_major** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | ** |
+| **meta_consensus_implementation** | `LowCardinality(String)` | ** |
+| **meta_labels** | `Map(String, String)` | ** |
 
 <!-- schema_end -->
