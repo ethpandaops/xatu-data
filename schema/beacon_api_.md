@@ -128,14 +128,14 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-
+Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
 - **mainnet**: `2023-06-01` to `2025-12-28`
 - **holesky**: `2023-09-18` to `2025-11-17`
-- **sepolia**: `2023-08-31` to `2025-12-27`
+- **sepolia**: `2023-08-31` to `2025-12-28`
 
 ### Examples
 
