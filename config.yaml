@@ -103,7 +103,7 @@ tables:
         to: '2025-11-17'
       sepolia:
         from: '2023-08-31'
-        to: '2025-12-28'
+        to: '2025-12-29'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -637,7 +637,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2025-12-28'
+        to: '2025-12-29'
     tags:
       - Consensus layer
       - Finalized
@@ -652,7 +652,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2179100'
+        to: '2179850'
       holesky:
         from: '0'
         to: '1923800'
@@ -674,7 +674,7 @@ tables:
     networks:
       mainnet:
         from: '2024-05-01'
-        to: '2025-12-27'
+        to: '2025-12-29'
       holesky:
         from: '2024-05-01'
         to: '2025-10-26'
@@ -1073,13 +1073,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2025-12-26'
+        to: '2025-12-29'
       hoodi:
         from: '2025-05-29'
-        to: '2025-12-27'
+        to: '2025-12-29'
       sepolia:
         from: '2025-05-29'
-        to: '2025-12-27'
+        to: '2025-12-29'
     tags:
       - Consensus layer
       - P2P
@@ -1619,7 +1619,7 @@ tables:
     networks:
       mainnet:
         from: '22731300'
-        to: '24100000'
+        to: '24107000'
     tags:
       - Execution layer
       - Finalized
