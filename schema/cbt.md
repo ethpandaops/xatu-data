@@ -85,9 +85,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_storage_slot_state_with_expiry_by_block_daily`](#fct_storage_slot_state_with_expiry_by_block_daily)
 - [`fct_storage_slot_state_with_expiry_by_block_hourly`](#fct_storage_slot_state_with_expiry_by_block_hourly)
 - [`fct_storage_slot_top_100_by_bytes`](#fct_storage_slot_top_100_by_bytes)
-- [`fct_storage_slot_top_100_by_bytes_with_expiry`](#fct_storage_slot_top_100_by_bytes_with_expiry)
 - [`fct_storage_slot_top_100_by_slots`](#fct_storage_slot_top_100_by_slots)
-- [`fct_storage_slot_top_100_by_slots_with_expiry`](#fct_storage_slot_top_100_by_slots_with_expiry)
 - [`helper_contract_storage_next_touch_latest_state`](#helper_contract_storage_next_touch_latest_state)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
 - [`int_address_first_access`](#int_address_first_access)
@@ -4392,7 +4390,7 @@ echo """
 
 ## fct_storage_slot_top_100_by_bytes
 
-Top 100 contracts by effective storage bytes
+Top 100 contracts by effective storage bytes with expiry policies applied
 
 ### Availability
 This table has no partitioning.
@@ -4442,7 +4440,8 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **rank** | `UInt32` | *Rank by effective bytes (1=highest)* |
+| **expiry_policy** | `Nullable(String)` | *Expiry policy identifier: NULL (raw), 1m, 6m, 12m, 18m, 24m* |
+| **rank** | `UInt32` | *Rank by effective bytes (1=highest), based on raw state* |
 | **contract_address** | `String` | *The contract address* |
 | **effective_bytes** | `Int64` | *Effective bytes of storage for this contract* |
 | **active_slots** | `Int64` | *Number of active storage slots for this contract* |
@@ -4452,72 +4451,9 @@ echo """
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
 | **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
 
-## fct_storage_slot_top_100_by_bytes_with_expiry
-
-Top 100 contracts by effective storage bytes per expiry policy
-
-### Availability
-This table has no partitioning.
-
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_storage_slot_top_100_by_bytes_with_expiry`
-- **sepolia**: `sepolia.fct_storage_slot_top_100_by_bytes_with_expiry`
-- **holesky**: `holesky.fct_storage_slot_top_100_by_bytes_with_expiry`
-- **hoodi**: `hoodi.fct_storage_slot_top_100_by_bytes_with_expiry`
-
-### Examples
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM mainnet.fct_storage_slot_top_100_by_bytes_with_expiry FINAL
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM mainnet.fct_storage_slot_top_100_by_bytes_with_expiry FINAL
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **expiry_policy** | `LowCardinality(String)` | *Expiry policy identifier: 1m, 6m, 12m, 18m, 24m* |
-| **rank** | `UInt32` | *Rank by effective bytes within expiry policy (1=highest)* |
-| **contract_address** | `String` | *The contract address* |
-| **effective_bytes** | `Int64` | *Effective bytes of storage for this contract (with expiry applied)* |
-| **active_slots** | `Int64` | *Number of active storage slots for this contract (with expiry applied)* |
-| **owner_key** | `Nullable(String)` | *Owner key identifier* |
-| **account_owner** | `Nullable(String)` | *Account owner of the contract* |
-| **contract_name** | `Nullable(String)` | *Name of the contract* |
-| **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
-| **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
-
 ## fct_storage_slot_top_100_by_slots
 
-Top 100 contracts by active storage slot count
+Top 100 contracts by active storage slot count with expiry policies applied
 
 ### Availability
 This table has no partitioning.
@@ -4567,73 +4503,11 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **rank** | `UInt32` | *Rank by active slots (1=highest)* |
+| **expiry_policy** | `Nullable(String)` | *Expiry policy identifier: NULL (raw), 1m, 6m, 12m, 18m, 24m* |
+| **rank** | `UInt32` | *Rank by active slots (1=highest), based on raw state* |
 | **contract_address** | `String` | *The contract address* |
 | **active_slots** | `Int64` | *Number of active storage slots for this contract* |
 | **effective_bytes** | `Int64` | *Effective bytes of storage for this contract* |
-| **owner_key** | `Nullable(String)` | *Owner key identifier* |
-| **account_owner** | `Nullable(String)` | *Account owner of the contract* |
-| **contract_name** | `Nullable(String)` | *Name of the contract* |
-| **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
-| **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
-
-## fct_storage_slot_top_100_by_slots_with_expiry
-
-Top 100 contracts by active storage slot count per expiry policy
-
-### Availability
-This table has no partitioning.
-
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_storage_slot_top_100_by_slots_with_expiry`
-- **sepolia**: `sepolia.fct_storage_slot_top_100_by_slots_with_expiry`
-- **holesky**: `holesky.fct_storage_slot_top_100_by_slots_with_expiry`
-- **hoodi**: `hoodi.fct_storage_slot_top_100_by_slots_with_expiry`
-
-### Examples
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM mainnet.fct_storage_slot_top_100_by_slots_with_expiry FINAL
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM mainnet.fct_storage_slot_top_100_by_slots_with_expiry FINAL
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **expiry_policy** | `LowCardinality(String)` | *Expiry policy identifier: 1m, 6m, 12m, 18m, 24m* |
-| **rank** | `UInt32` | *Rank by active slots within expiry policy (1=highest)* |
-| **contract_address** | `String` | *The contract address* |
-| **active_slots** | `Int64` | *Number of active storage slots for this contract (with expiry applied)* |
-| **effective_bytes** | `Int64` | *Effective bytes of storage for this contract (with expiry applied)* |
 | **owner_key** | `Nullable(String)` | *Owner key identifier* |
 | **account_owner** | `Nullable(String)` | *Account owner of the contract* |
 | **contract_name** | `Nullable(String)` | *Name of the contract* |

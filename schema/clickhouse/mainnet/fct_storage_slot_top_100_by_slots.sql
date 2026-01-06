@@ -1,7 +1,8 @@
 CREATE TABLE mainnet.fct_storage_slot_top_100_by_slots
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `rank` UInt32 COMMENT 'Rank by active slots (1=highest)' CODEC(DoubleDelta, ZSTD(1)),
+    `expiry_policy` Nullable(String) COMMENT 'Expiry policy identifier: NULL (raw), 1m, 6m, 12m, 18m, 24m' CODEC(ZSTD(1)),
+    `rank` UInt32 COMMENT 'Rank by active slots (1=highest), based on raw state' CODEC(DoubleDelta, ZSTD(1)),
     `contract_address` String COMMENT 'The contract address' CODEC(ZSTD(1)),
     `active_slots` Int64 COMMENT 'Number of active storage slots for this contract' CODEC(ZSTD(1)),
     `effective_bytes` Int64 COMMENT 'Effective bytes of storage for this contract' CODEC(ZSTD(1)),
@@ -12,4 +13,4 @@ CREATE TABLE mainnet.fct_storage_slot_top_100_by_slots
     `usage_category` Nullable(String) COMMENT 'Usage category (e.g., stablecoin, dex, trading)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_storage_slot_top_100_by_slots_local', cityHash64(rank))
-COMMENT 'Top 100 contracts by active storage slot count'
+COMMENT 'Top 100 contracts by active storage slot count with expiry policies applied'

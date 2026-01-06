@@ -1,7 +1,8 @@
 CREATE TABLE hoodi.fct_storage_slot_top_100_by_bytes_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `rank` UInt32 COMMENT 'Rank by effective bytes (1=highest)' CODEC(DoubleDelta, ZSTD(1)),
+    `expiry_policy` Nullable(String) COMMENT 'Expiry policy identifier: NULL (raw), 1m, 6m, 12m, 18m, 24m' CODEC(ZSTD(1)),
+    `rank` UInt32 COMMENT 'Rank by effective bytes (1=highest), based on raw state' CODEC(DoubleDelta, ZSTD(1)),
     `contract_address` String COMMENT 'The contract address' CODEC(ZSTD(1)),
     `effective_bytes` Int64 COMMENT 'Effective bytes of storage for this contract' CODEC(ZSTD(1)),
     `active_slots` Int64 COMMENT 'Number of active storage slots for this contract' CODEC(ZSTD(1)),
@@ -13,6 +14,6 @@ CREATE TABLE hoodi.fct_storage_slot_top_100_by_bytes_local
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_storage_slot_top_100_by_bytes_local', '{replica}', updated_date_time)
 PARTITION BY tuple()
-ORDER BY rank
+ORDER BY (rank, ifNull(expiry_policy, ''))
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Top 100 contracts by effective storage bytes'
+COMMENT 'Top 100 contracts by effective storage bytes with expiry policies applied'
