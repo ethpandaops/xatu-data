@@ -10,7 +10,7 @@ CREATE TABLE sepolia.fct_storage_slot_top_100_by_bytes_local
     `account_owner` Nullable(String) COMMENT 'Account owner of the contract' CODEC(ZSTD(1)),
     `contract_name` Nullable(String) COMMENT 'Name of the contract' CODEC(ZSTD(1)),
     `factory_contract` Nullable(String) COMMENT 'Factory contract or deployer address' CODEC(ZSTD(1)),
-    `usage_category` Nullable(String) COMMENT 'Usage category (e.g., stablecoin, dex, trading)' CODEC(ZSTD(1))
+    `labels` Array(String) COMMENT 'Labels/categories (e.g., stablecoin, dex, circle)' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_storage_slot_top_100_by_bytes_local', '{replica}', updated_date_time)
 PARTITION BY tuple()

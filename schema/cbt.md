@@ -205,7 +205,7 @@ echo """
 
 ## dim_contract_owner
 
-Contract owner information from Dune Analytics and growthepie for top storage slot contracts
+Contract owner information from Dune Analytics, growthepie, and eth-labels for top storage slot contracts
 
 ### Availability
 This table has no partitioning.
@@ -260,8 +260,8 @@ echo """
 | **account_owner** | `Nullable(String)` | *Account owner of the contract* |
 | **contract_name** | `Nullable(String)` | *Name of the contract* |
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
-| **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
-| **source** | `String` | *Source of the label data (dune or growthepie)* |
+| **labels** | `Array(String)` | *Labels/categories (e.g., stablecoin, dex, circle)* |
+| **sources** | `Array(String)` | *Sources of the label data (e.g., growthepie, dune, eth-labels)* |
 
 ## dim_node
 
@@ -4449,7 +4449,7 @@ echo """
 | **account_owner** | `Nullable(String)` | *Account owner of the contract* |
 | **contract_name** | `Nullable(String)` | *Name of the contract* |
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
-| **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
+| **labels** | `Array(String)` | *Labels/categories (e.g., stablecoin, dex, circle)* |
 
 ## fct_storage_slot_top_100_by_slots
 
@@ -4512,7 +4512,7 @@ echo """
 | **account_owner** | `Nullable(String)` | *Account owner of the contract* |
 | **contract_name** | `Nullable(String)` | *Name of the contract* |
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
-| **usage_category** | `Nullable(String)` | *Usage category (e.g., stablecoin, dex, trading)* |
+| **labels** | `Array(String)` | *Labels/categories (e.g., stablecoin, dex, circle)* |
 
 ## helper_contract_storage_next_touch_latest_state
 

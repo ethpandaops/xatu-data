@@ -10,7 +10,7 @@ CREATE TABLE mainnet.fct_storage_slot_top_100_by_slots
     `account_owner` Nullable(String) COMMENT 'Account owner of the contract' CODEC(ZSTD(1)),
     `contract_name` Nullable(String) COMMENT 'Name of the contract' CODEC(ZSTD(1)),
     `factory_contract` Nullable(String) COMMENT 'Factory contract or deployer address' CODEC(ZSTD(1)),
-    `usage_category` Nullable(String) COMMENT 'Usage category (e.g., stablecoin, dex, trading)' CODEC(ZSTD(1))
+    `labels` Array(String) COMMENT 'Labels/categories (e.g., stablecoin, dex, circle)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_storage_slot_top_100_by_slots_local', cityHash64(rank))
 COMMENT 'Top 100 contracts by active storage slot count with expiry policies applied'
