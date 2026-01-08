@@ -74,6 +74,7 @@ Events without sharding keys:
 - [`libp2p_gossipsub_beacon_attestation`](#libp2p_gossipsub_beacon_attestation)
 - [`libp2p_gossipsub_beacon_block`](#libp2p_gossipsub_beacon_block)
 - [`libp2p_gossipsub_blob_sidecar`](#libp2p_gossipsub_blob_sidecar)
+- [`libp2p_gossipsub_data_column_sidecar`](#libp2p_gossipsub_data_column_sidecar)
 - [`libp2p_gossipsub_aggregate_and_proof`](#libp2p_gossipsub_aggregate_and_proof)
 - [`libp2p_connected`](#libp2p_connected)
 - [`libp2p_disconnected`](#libp2p_disconnected)
@@ -97,6 +98,8 @@ Events without sharding keys:
 - [`libp2p_rpc_meta_control_prune`](#libp2p_rpc_meta_control_prune)
 - [`libp2p_rpc_meta_subscription`](#libp2p_rpc_meta_subscription)
 - [`libp2p_rpc_meta_message`](#libp2p_rpc_meta_message)
+- [`libp2p_rpc_data_column_custody_probe`](#libp2p_rpc_data_column_custody_probe)
+- [`libp2p_synthetic_heartbeat`](#libp2p_synthetic_heartbeat)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -400,6 +403,116 @@ echo """
 | **propagation_slot_start_diff** | `UInt32` | *Difference in slot start time for propagation* |
 | **proposer_index** | `UInt32` | *The proposer index of the beacon block* |
 | **blob_index** | `UInt32` | *Blob index associated with the record* |
+| **beacon_block_root** | `FixedString(66)` | ** |
+| **parent_root** | `FixedString(66)` | *Parent root of the beacon block* |
+| **state_root** | `FixedString(66)` | *State root of the beacon block* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |
+| **message_id** | `String` | *Identifier of the message* |
+| **message_size** | `UInt32` | *Size of the message in bytes* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the topic in the gossipsub protocol* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding used for the topic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Network ID associated with the client* |
+| **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
+
+## libp2p_gossipsub_data_column_sidecar
+
+Table for libp2p gossipsub data column sidecar data
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **mainnet**: `2025-12-03` to `2026-01-07`
+- **holesky**: `2025-10-01` to `2025-10-20`
+- **hoodi**: `2025-10-28` to `2026-01-07`
+- **sepolia**: `2025-10-14` to `2026-01-07`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_data_column_sidecar/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_data_column_sidecar/2026/1/7.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_data_column_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_data_column_sidecar FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **version** | `UInt32` | *Version of this row, to help with de-duplication we want the latest updated_date_time but lowest propagation_slot_start_diff time* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the event with millisecond precision* |
+| **slot** | `UInt32` | *Slot number associated with the event* |
+| **slot_start_date_time** | `DateTime` | *Start date and time of the slot* |
+| **epoch** | `UInt32` | *Epoch number associated with the event* |
+| **epoch_start_date_time** | `DateTime` | *Start date and time of the epoch* |
+| **wallclock_slot** | `UInt32` | *Slot number of the wall clock when the event was received* |
+| **wallclock_slot_start_date_time** | `DateTime` | *Start date and time of the wall clock slot when the event was received* |
+| **wallclock_epoch** | `UInt32` | *Epoch number of the wall clock when the event was received* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *Start date and time of the wall clock epoch when the event was received* |
+| **propagation_slot_start_diff** | `UInt32` | *Difference in slot start time for propagation* |
+| **proposer_index** | `UInt32` | *The proposer index of the beacon block* |
+| **column_index** | `UInt64` | *Column index associated with the record* |
+| **kzg_commitments_count** | `UInt32` | *Number of KZG commitments associated with the record* |
 | **beacon_block_root** | `FixedString(66)` | ** |
 | **parent_root** | `FixedString(66)` | *Parent root of the beacon block* |
 | **state_root** | `FixedString(66)` | *State root of the beacon block* |
@@ -2043,7 +2156,7 @@ echo """
 
 ## libp2p_rpc_meta_control_iwant
 
-Contains the details of the "I want" control messages from the peer.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2108,30 +2221,30 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each "I want" control record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the "I want" control record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the "I want" control event* |
-| **control_index** | `Int32` | *Position in the RPC meta control IWANT array* |
-| **message_index** | `Int32` | *Position in the RPC meta control IWANT message_ids array* |
-| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "I want" control metadata* |
-| **message_id** | `String` | *Identifier of the message associated with the "I want" control* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the I want control* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **control_index** | `Int32` | ** |
+| **message_index** | `Int32` | ** |
+| **rpc_meta_unique_key** | `Int64` | ** |
+| **message_id** | `String` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 ## libp2p_rpc_meta_control_idontwant
 
@@ -2227,7 +2340,7 @@ echo """
 
 ## libp2p_rpc_meta_control_graft
 
-Contains the details of the "Graft" control messages from the peer.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2292,32 +2405,32 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each "Graft" control record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the "Graft" control record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the "Graft" control event* |
-| **control_index** | `Int32` | *Position in the RPC meta control GRAFT array* |
-| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "Graft" control metadata* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the Graft control* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **control_index** | `Int32` | ** |
+| **rpc_meta_unique_key** | `Int64` | ** |
+| **topic_layer** | `LowCardinality(String)` | ** |
+| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
+| **topic_name** | `LowCardinality(String)` | ** |
+| **topic_encoding** | `LowCardinality(String)` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 ## libp2p_rpc_meta_control_prune
 
@@ -2417,7 +2530,7 @@ echo """
 
 ## libp2p_rpc_meta_subscription
 
-Contains the details of the RPC subscriptions from the peer.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2482,37 +2595,37 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each RPC subscription record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the RPC subscription record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the RPC subscription event* |
-| **control_index** | `Int32` | *Position in the RPC meta subscription array* |
-| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the RPC subscription metadata* |
-| **subscribe** | `Bool` | *Boolean indicating if it is a subscription or unsubscription* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the subscription* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **control_index** | `Int32` | ** |
+| **rpc_meta_unique_key** | `Int64` | ** |
+| **subscribe** | `Bool` | ** |
+| **topic_layer** | `LowCardinality(String)` | ** |
+| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
+| **topic_name** | `LowCardinality(String)` | ** |
+| **topic_encoding** | `LowCardinality(String)` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 ## libp2p_rpc_meta_message
 
-Contains the details of the RPC meta messages from the peer
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2577,32 +2690,243 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | *Unique identifier for each RPC message record* |
-| **updated_date_time** | `DateTime` | *Timestamp when the RPC message record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the RPC event* |
-| **control_index** | `Int32` | *Position in the RPC meta message array* |
-| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the RPC metadata* |
-| **message_id** | `String` | *Identifier of the message* |
-| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
-| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
-| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
-| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the RPC* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **unique_key** | `Int64` | ** |
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **control_index** | `Int32` | ** |
+| **rpc_meta_unique_key** | `Int64` | ** |
+| **message_id** | `String` | ** |
+| **topic_layer** | `LowCardinality(String)` | ** |
+| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
+| **topic_name** | `LowCardinality(String)` | ** |
+| **topic_encoding** | `LowCardinality(String)` | ** |
+| **peer_id_unique_key** | `Int64` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
+
+## libp2p_rpc_data_column_custody_probe
+
+Contains custody probe events for data column availability verification
+
+### Availability
+Data is partitioned **daily** on **event_date_time** for the following networks:
+
+- **mainnet**: `2025-12-03` to `2026-01-07`
+- **hoodi**: `2025-12-03` to `2026-01-07`
+- **sepolia**: `2025-12-03` to `2026-01-07`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_rpc_data_column_custody_probe/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_data_column_custody_probe/2026/1/7.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_rpc_data_column_custody_probe FINAL
+    WHERE
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_rpc_data_column_custody_probe FINAL
+    WHERE
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *When the probe was executed* |
+| **slot** | `UInt32` | *Slot number being probed* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *Epoch number of the slot being probed* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **wallclock_request_slot** | `UInt32` | *The wallclock slot when the request was sent* |
+| **wallclock_request_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
+| **wallclock_request_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
+| **wallclock_request_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
+| **column_index** | `UInt64` | *Column index being probed* |
+| **column_rows_count** | `UInt16` | *Number of rows in the column* |
+| **beacon_block_root** | `FixedString(66)` | *Root of the beacon block* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |
+| **result** | `LowCardinality(String)` | *Result of the probe* |
+| **response_time_ms** | `Int32` | *Response time in milliseconds* |
+| **error** | `Nullable(String)` | *Error message if probe failed* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that executed the probe* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## libp2p_synthetic_heartbeat
+
+
+
+### Availability
+Data is partitioned **daily** on **event_date_time** for the following networks:
+
+- **mainnet**: `2025-08-21` to `2026-01-07`
+- **holesky**: `2025-09-29` to `2025-10-20`
+- **hoodi**: `2025-08-21` to `2026-01-07`
+- **sepolia**: `2025-08-21` to `2026-01-07`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_synthetic_heartbeat/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_synthetic_heartbeat/2026/1/7.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_synthetic_heartbeat FINAL
+    WHERE
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_synthetic_heartbeat FINAL
+    WHERE
+        event_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | ** |
+| **event_date_time** | `DateTime64(3)` | ** |
+| **remote_peer_id_unique_key** | `Int64` | ** |
+| **remote_maddrs** | `String` | ** |
+| **latency_ms** | `Nullable(Int64)` | ** |
+| **direction** | `LowCardinality(String)` | ** |
+| **protocols** | `Array(String)` | ** |
+| **connection_age_ms** | `Nullable(Int64)` | ** |
+| **remote_agent_implementation** | `LowCardinality(String)` | ** |
+| **remote_agent_version** | `LowCardinality(String)` | ** |
+| **remote_agent_version_major** | `LowCardinality(String)` | ** |
+| **remote_agent_version_minor** | `LowCardinality(String)` | ** |
+| **remote_agent_version_patch** | `LowCardinality(String)` | ** |
+| **remote_agent_platform** | `LowCardinality(String)` | ** |
+| **remote_ip** | `Nullable(IPv6)` | ** |
+| **remote_port** | `Nullable(UInt16)` | ** |
+| **remote_geo_city** | `LowCardinality(String)` | ** |
+| **remote_geo_country** | `LowCardinality(String)` | ** |
+| **remote_geo_country_code** | `LowCardinality(String)` | ** |
+| **remote_geo_continent_code** | `LowCardinality(String)` | ** |
+| **remote_geo_longitude** | `Nullable(Float64)` | ** |
+| **remote_geo_latitude** | `Nullable(Float64)` | ** |
+| **remote_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **remote_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
 
 <!-- schema_end -->

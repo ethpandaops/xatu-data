@@ -1,22 +1,15 @@
-CREATE TABLE default.beacon_api_eth_v1_events_attestation_local
+CREATE TABLE default.beacon_api_eth_v1_events_data_column_sidecar_local
 (
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
     `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
     `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
-    `committee_index` LowCardinality(String) COMMENT 'The committee index in the beacon API event stream payload',
-    `attesting_validator_index` Nullable(UInt32) COMMENT 'The index of the validator attesting to the event' CODEC(ZSTD(1)),
-    `attesting_validator_committee_index` LowCardinality(String) COMMENT 'The committee index of the attesting validator',
-    `aggregation_bits` String COMMENT 'The aggregation bits of the event in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `beacon_block_root` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
     `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `source_epoch` UInt32 COMMENT 'The source epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `source_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the source epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `source_root` FixedString(66) COMMENT 'The source beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `target_epoch` UInt32 COMMENT 'The target epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
-    `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started' CODEC(DoubleDelta, ZSTD(1)),
-    `target_root` FixedString(66) COMMENT 'The target beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
+    `block_root` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
+    `column_index` UInt64 COMMENT 'The index of column in the beacon API event stream payload' CODEC(ZSTD(1)),
+    `kzg_commitments_count` UInt32 COMMENT 'Number of KZG commitments associated with the record' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
@@ -40,7 +33,8 @@ CREATE TABLE default.beacon_api_eth_v1_events_attestation_local
     `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
-ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/beacon_api_eth_v1_events_attestation_local', '{replica}')
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/beacon_api_eth_v1_events_data_column_sidecar_local/{shard}', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, meta_network_name, meta_client_name)
+ORDER BY (slot_start_date_time, meta_network_name, meta_client_name, block_root, column_index)
 SETTINGS index_granularity = 8192
+COMMENT 'Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.'

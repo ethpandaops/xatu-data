@@ -2476,6 +2476,12 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet, holesky, sepolia
 - **Description**: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
 
+### `beacon_api_eth_v1_events_data_column_sidecar`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet, holesky, hoodi, sepolia
+- **Description**: Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
+
 ### `beacon_api_eth_v1_events_finalized_checkpoint`
 - **Database**: `default`
 - **Partitioning**: `epoch_start_date_time` (datetime, daily)
@@ -2625,6 +2631,12 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Partitioning**: `slot_start_date_time` (datetime, daily)
 - **Networks**: mainnet, holesky, sepolia
 - **Description**: Table for libp2p gossipsub blob sidecar data
+
+### `libp2p_gossipsub_data_column_sidecar`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet, holesky, hoodi, sepolia
+- **Description**: Table for libp2p gossipsub data column sidecar data.
 
 ### `libp2p_gossipsub_aggregate_and_proof`
 - **Database**: `default`
@@ -2883,6 +2895,54 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Partitioning**: `block_number` (integer, 100)
 - **Networks**: mainnet
 - **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+
+### `consensus_engine_api_get_blobs`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet
+- **Description**: Contains consensus engine API getBlobsV1 request data from each sentry client.
+
+### `consensus_engine_api_new_payload`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet
+- **Description**: Contains consensus engine API newPayload request data from each sentry client.
+
+### `libp2p_rpc_data_column_custody_probe`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Table for libp2p RPC data column custody probe events.
+
+### `libp2p_synthetic_heartbeat`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet, holesky, hoodi, sepolia
+- **Description**: Table for libp2p synthetic heartbeat events.
+
+### `node_record_consensus`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Contains consensus layer node records from discv5 discovery.
+
+### `node_record_execution`
+- **Database**: `default`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Contains execution layer node records from discv4/discv5 discovery.
+
+### `execution_state_size`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 5000000)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Contains execution layer state size metrics per block.
+
+### `execution_transaction`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 5000000)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Contains execution layer transaction data.
 
 
 ## Advanced Query Patterns
