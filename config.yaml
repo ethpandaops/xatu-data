@@ -207,6 +207,29 @@ tables:
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+  - name: beacon_api_eth_v1_events_data_column_sidecar
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-12-03'
+        to: '2026-01-07'
+      holesky:
+        from: '2025-10-01'
+        to: '2025-11-03'
+      hoodi:
+        from: '2025-10-28'
+        to: '2026-01-07'
+      sepolia:
+        from: '2025-10-14'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+    description: Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
@@ -727,6 +750,30 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p gossipsub blob sidecar data
+  - name: libp2p_gossipsub_data_column_sidecar
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-12-03'
+        to: '2026-01-07'
+      holesky:
+        from: '2025-10-01'
+        to: '2025-10-20'
+      hoodi:
+        from: '2025-10-28'
+        to: '2026-01-07'
+      sepolia:
+        from: '2025-10-14'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - P2P
+    description: Table for libp2p gossipsub data column sidecar data.
   - name: libp2p_gossipsub_aggregate_and_proof
     database: default
     excluded_columns: []
@@ -1624,3 +1671,161 @@ tables:
       - Execution layer
       - Finalized
     description: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+  - name: consensus_engine_api_get_blobs
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-12-09'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - Engine API
+    description: Contains consensus engine API getBlobsV1 request data from each sentry client.
+  - name: consensus_engine_api_new_payload
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: slot_start_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-12-09'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - Engine API
+    description: Contains consensus engine API newPayload request data from each sentry client.
+  - name: libp2p_rpc_data_column_custody_probe
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-12-03'
+        to: '2026-01-07'
+      hoodi:
+        from: '2025-12-03'
+        to: '2026-01-07'
+      sepolia:
+        from: '2025-12-03'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - P2P
+    description: Table for libp2p RPC data column custody probe events.
+  - name: libp2p_synthetic_heartbeat
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-08-21'
+        to: '2026-01-07'
+      holesky:
+        from: '2025-09-29'
+        to: '2025-10-20'
+      hoodi:
+        from: '2025-08-21'
+        to: '2026-01-07'
+      sepolia:
+        from: '2025-08-21'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - P2P
+    description: Table for libp2p synthetic heartbeat events.
+  - name: node_record_consensus
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-07-25'
+        to: '2026-01-07'
+      hoodi:
+        from: '2025-07-25'
+        to: '2025-12-16'
+      sepolia:
+        from: '2025-07-25'
+        to: '2026-01-07'
+    tags:
+      - Consensus layer
+      - Node Discovery
+    description: Contains consensus layer node records from discv5 discovery.
+  - name: node_record_execution
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2025-07-25'
+        to: '2026-01-07'
+      hoodi:
+        from: '2025-07-25'
+        to: '2025-12-16'
+      sepolia:
+        from: '2025-07-25'
+        to: '2026-01-07'
+    tags:
+      - Execution layer
+      - Node Discovery
+    description: Contains execution layer node records from discv4/discv5 discovery.
+  - name: execution_state_size
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 5000000
+    networks:
+      mainnet:
+        from: '98326'
+        to: '24185815'
+      hoodi:
+        from: '1571382'
+        to: '9751275'
+      sepolia:
+        from: '9578000'
+        to: '9999120'
+    tags:
+      - Execution layer
+    description: Contains execution layer state size metrics per block.
+  - name: execution_transaction
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 5000000
+    networks:
+      mainnet:
+        from: '23194617'
+        to: '24185815'
+      hoodi:
+        from: '1736843'
+        to: '1831171'
+      sepolia:
+        from: '9009762'
+        to: '9800850'
+    tags:
+      - Execution layer
+      - Transaction
+    description: Contains execution layer transaction data.
