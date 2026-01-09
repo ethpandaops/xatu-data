@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-01-07`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-01-06`
+- **sepolia**: `2022-06-20` to `2026-01-07`
 
 ### Examples
 
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2183400`
+- **mainnet**: `0` to `2183450`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
