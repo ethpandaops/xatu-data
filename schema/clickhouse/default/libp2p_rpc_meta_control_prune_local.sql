@@ -33,4 +33,3 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toYYYYMM(event_date_time)
 ORDER BY (event_date_time, unique_key, control_index, meta_network_name, meta_client_name)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains the details of the "Prune" control messages from the peer.'
