@@ -119,7 +119,7 @@ echo """
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -216,7 +216,7 @@ echo """
 | **validators** | `Array(UInt32)` | *The validator indices in the beacon API committee payload* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API committee payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -331,7 +331,7 @@ echo """
 | **attestation_2_data_source_root** | `FixedString(66)` | *The source root from the second attestation in the slashing payload* |
 | **attestation_2_data_target_epoch** | `UInt32` | *The target epoch number from the second attestation in the slashing payload* |
 | **attestation_2_data_target_root** | `FixedString(66)` | *The target root from the second attestation in the slashing payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -656,7 +656,7 @@ echo """
 | **blob_hashes** | `Array(String)` | *The hashes of the blob commitments for blob transactions* |
 | **blob_sidecars_size** | `Nullable(UInt32)` | *The total size of the sidecars for blob transactions in bytes* |
 | **blob_sidecars_empty_size** | `Nullable(UInt32)` | *The total empty size of the sidecars for blob transactions in bytes* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -756,7 +756,7 @@ echo """
 | **voluntary_exit_message_epoch** | `UInt32` | *The epoch number from the exit message* |
 | **voluntary_exit_message_validator_index** | `UInt32` | *The validator index from the exit message* |
 | **voluntary_exit_signature** | `String` | *The signature of the exit message* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -858,7 +858,7 @@ echo """
 | **deposit_data_withdrawal_credentials** | `FixedString(66)` | *The withdrawal credentials of the validator from the deposit data* |
 | **deposit_data_amount** | `UInt128` | *The amount of the deposit from the deposit data* |
 | **deposit_data_signature** | `String` | *The signature of the deposit data* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -959,7 +959,7 @@ echo """
 | **withdrawal_validator_index** | `UInt32` | *The validator index from the withdrawal data* |
 | **withdrawal_address** | `FixedString(42)` | *The address of the account that is the withdrawal recipient* |
 | **withdrawal_amount** | `UInt128` | *The amount of the withdrawal from the withdrawal data* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1063,7 +1063,7 @@ echo """
 | **blob_index** | `UInt64` | *The index of blob sidecar in the blob sidecar payload* |
 | **blob_size** | `UInt32` | *The total bytes of the blob* |
 | **blob_empty_size** | `Nullable(UInt32)` | *The total empty size of the blob in bytes* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1160,7 +1160,7 @@ echo """
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **proposer_validator_index** | `UInt32` | *The validator index of the proposer for the slot* |
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1270,7 +1270,7 @@ echo """
 | **target_epoch** | `UInt32` | *The target epoch referenced in the attestation* |
 | **target_epoch_start_date_time** | `DateTime` | *The wall clock time when the target epoch started* |
 | **target_root** | `FixedString(66)` | *The root of the target checkpoint in the attestation* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-01-10`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-01-09`
+- **sepolia**: `2022-06-20` to `2026-01-10`
 
 ### Examples
 
@@ -1372,7 +1372,7 @@ echo """
 | **activation_eligibility_epoch** | `Nullable(UInt64)` | *The epoch when the validator was activated* |
 | **exit_epoch** | `Nullable(UInt64)` | *The epoch when the validator exited* |
 | **withdrawable_epoch** | `Nullable(UInt64)` | *The epoch when the validator can withdraw* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-Contains a validator state for an epoch.
+
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1405,7 +1405,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2186500`
+- **mainnet**: `0` to `2187450`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 

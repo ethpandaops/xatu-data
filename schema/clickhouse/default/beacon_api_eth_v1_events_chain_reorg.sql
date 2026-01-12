@@ -4,7 +4,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg
     `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node',
     `slot` UInt32 COMMENT 'The slot number of the chain reorg event in the beacon API event stream payload',
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
-    `propagation_slot_start_diff` UInt32 COMMENT 'Difference in slots between when the reorg occurred and when the sentry received the event',
+    `propagation_slot_start_diff` UInt32 COMMENT 'Time in milliseconds since the start of the slot when the Sentry received this event',
     `depth` UInt16 COMMENT 'The depth of the chain reorg in the beacon API event stream payload',
     `old_head_block` FixedString(66) COMMENT 'The old head block root hash in the beacon API event stream payload',
     `new_head_block` FixedString(66) COMMENT 'The new head block root hash in the beacon API event stream payload',
@@ -13,7 +13,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg
     `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload',
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
     `execution_optimistic` Bool COMMENT 'Whether the execution of the epoch was optimistic',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -37,4 +37,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event'
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_chain_reorg_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, old_head_block, new_head_block))
-COMMENT 'Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures chain reorg events. Each row represents a `chain_reorg` event from the Beacon API `/eth/v1/events?topics=chain_reorg`, when the beacon node detects a chain reorganization. Includes depth and old/new head info. Partition: monthly by `slot_start_date_time`.'

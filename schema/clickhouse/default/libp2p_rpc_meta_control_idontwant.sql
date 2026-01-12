@@ -8,7 +8,7 @@ CREATE TABLE default.libp2p_rpc_meta_control_idontwant
     `rpc_meta_unique_key` Int64 COMMENT 'Unique key associated with the IDONTWANT control metadata',
     `message_id` String COMMENT 'Identifier of the message associated with the IDONTWANT control' CODEC(ZSTD(1)),
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the IDONTWANT control',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -26,4 +26,4 @@ CREATE TABLE default.libp2p_rpc_meta_control_idontwant
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_control_idontwant_local', unique_key)
-COMMENT 'Contains the details of the IDONTWANT control messages from the peer.'
+COMMENT 'Contains IDONTWANT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers indicate they do not want certain messages. Partition: monthly by `event_date_time`.'

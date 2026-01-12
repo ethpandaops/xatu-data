@@ -10,7 +10,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_voluntary_exit
     `wallclock_epoch_start_date_time` DateTime COMMENT 'Start date and time of the wall clock epoch when the event was received' CODEC(DoubleDelta, ZSTD(1)),
     `validator_index` UInt32 COMMENT 'The index of the validator making the voluntary exit',
     `signature` String COMMENT 'The signature of the voluntary exit in the beacon API event stream payload',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -34,4 +34,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_voluntary_exit
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event'
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_voluntary_exit_local', cityHash64(wallclock_epoch_start_date_time, meta_network_name, meta_client_name, validator_index))
-COMMENT 'Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures voluntary exit events. Each row represents a `voluntary_exit` event from the Beacon API `/eth/v1/events?topics=voluntary_exit`, when a validator initiates an exit. Partition: monthly by `wallclock_epoch_start_date_time`.'

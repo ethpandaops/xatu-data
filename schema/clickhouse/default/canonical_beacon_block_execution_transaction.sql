@@ -25,7 +25,7 @@ CREATE TABLE default.canonical_beacon_block_execution_transaction
     `blob_hashes` Array(String) COMMENT 'The hashes of the blob commitments for blob transactions' CODEC(ZSTD(1)),
     `blob_sidecars_size` Nullable(UInt32) COMMENT 'The total size of the sidecars for blob transactions in bytes' CODEC(ZSTD(1)),
     `blob_sidecars_empty_size` Nullable(UInt32) COMMENT 'The total empty size of the sidecars for blob transactions in bytes' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -49,4 +49,4 @@ CREATE TABLE default.canonical_beacon_block_execution_transaction
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_execution_transaction_local', cityHash64(slot_start_date_time, meta_network_name, block_root, position, hash, nonce))
-COMMENT 'Contains execution transaction from a beacon block.'
+COMMENT 'Contains execution layer transactions from finalized beacon blocks. Each row represents a transaction from the execution payload. Partition: monthly by `slot_start_date_time`.'

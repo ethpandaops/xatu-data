@@ -7,7 +7,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_finalized_checkpoint
     `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `execution_optimistic` Bool COMMENT 'Whether the execution of the epoch was optimistic',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -31,4 +31,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_finalized_checkpoint
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_finalized_checkpoint_local', cityHash64(epoch_start_date_time, meta_network_name, meta_client_name, block, state))
-COMMENT 'Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures finalized checkpoint events. Each row represents a `finalized_checkpoint` event from the Beacon API `/eth/v1/events?topics=finalized_checkpoint`, when the chain finalizes a new epoch. Partition: monthly by `epoch_start_date_time`.'

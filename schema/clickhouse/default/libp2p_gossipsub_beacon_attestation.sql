@@ -30,7 +30,7 @@ CREATE TABLE default.libp2p_gossipsub_beacon_attestation
     `target_epoch` UInt32 COMMENT 'The target epoch number in the attestation' CODEC(DoubleDelta, ZSTD(1)),
     `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `target_root` FixedString(66) COMMENT 'The target beacon block root hash in the attestation' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -48,4 +48,4 @@ CREATE TABLE default.libp2p_gossipsub_beacon_attestation
     `meta_network_name` LowCardinality(String) COMMENT 'Name of the network associated with the client'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_gossipsub_beacon_attestation_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id))
-COMMENT 'Table for libp2p gossipsub beacon attestation data.'
+COMMENT 'Contains beacon attestation messages received via libp2p gossipsub. Collected from deep instrumentation within forked consensus layer clients. Each row represents an attestation gossiped on the p2p network with timing and peer metadata. Partition: monthly by `slot_start_date_time`.'

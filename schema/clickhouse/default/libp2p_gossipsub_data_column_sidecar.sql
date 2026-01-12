@@ -25,7 +25,7 @@ CREATE TABLE default.libp2p_gossipsub_data_column_sidecar
     `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
     `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
     `topic_encoding` LowCardinality(String) COMMENT 'Encoding used for the topic',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -43,4 +43,4 @@ CREATE TABLE default.libp2p_gossipsub_data_column_sidecar
     `meta_network_name` LowCardinality(String) COMMENT 'Name of the network associated with the client'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_gossipsub_data_column_sidecar_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id))
-COMMENT 'Table for libp2p gossipsub data column sidecar data'
+COMMENT 'Contains data column sidecar messages received via libp2p gossipsub (PeerDAS). Collected from deep instrumentation within forked consensus layer clients. Each row represents a data column gossiped on the p2p network. Partition: monthly by `slot_start_date_time`.'

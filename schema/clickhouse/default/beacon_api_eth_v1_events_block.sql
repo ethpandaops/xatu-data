@@ -4,12 +4,12 @@ CREATE TABLE default.beacon_api_eth_v1_events_block
     `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
+    `propagation_slot_start_diff` UInt32 COMMENT 'Time in milliseconds since the start of the slot when the Sentry received this event' CODEC(ZSTD(1)),
     `block` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
     `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `execution_optimistic` Bool COMMENT 'If the attached beacon node is running in execution optimistic mode',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -33,4 +33,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_block
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
-COMMENT 'Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures block events. Each row represents a `block` event from the Beacon API `/eth/v1/events?topics=block`, indicating a new block has been imported. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.'

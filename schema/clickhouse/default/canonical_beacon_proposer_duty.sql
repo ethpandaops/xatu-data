@@ -7,7 +7,7 @@ CREATE TABLE default.canonical_beacon_proposer_duty
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `proposer_validator_index` UInt32 COMMENT 'The validator index of the proposer for the slot' CODEC(ZSTD(1)),
     `proposer_pubkey` String COMMENT 'The public key of the validator proposer' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -31,4 +31,4 @@ CREATE TABLE default.canonical_beacon_proposer_duty
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the even' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_proposer_duty_local', cityHash64(slot_start_date_time, meta_network_name, proposer_validator_index, proposer_pubkey))
-COMMENT 'Contains a proposer duty from a beacon block.'
+COMMENT 'Contains finalized proposer duty assignments. Each row represents which validator was scheduled to propose a block for a given slot. Partition: monthly by `slot_start_date_time`.'

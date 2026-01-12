@@ -3,7 +3,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_attestation
     `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node' CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'Slot number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
-    `propagation_slot_start_diff` UInt32 COMMENT 'The difference between the event_date_time and the slot_start_date_time' CODEC(ZSTD(1)),
+    `propagation_slot_start_diff` UInt32 COMMENT 'Time in milliseconds since the start of the slot when the Sentry received this event' CODEC(ZSTD(1)),
     `committee_index` LowCardinality(String) COMMENT 'The committee index in the beacon API event stream payload',
     `attesting_validator_index` Nullable(UInt32) COMMENT 'The index of the validator attesting to the event' CODEC(ZSTD(1)),
     `attesting_validator_committee_index` LowCardinality(String) COMMENT 'The committee index of the attesting validator',
@@ -17,7 +17,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_attestation
     `target_epoch` UInt32 COMMENT 'The target epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `target_root` FixedString(66) COMMENT 'The target beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -41,4 +41,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_attestation
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_attestation_local', rand())
-COMMENT 'Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures attestation events. Each row represents an `attestation` event from the Beacon API `/eth/v1/events?topics=attestation`. High-volume table - filter by `slot_start_date_time` and `meta_network_name` to avoid full scans. Partition: monthly by `slot_start_date_time`.'

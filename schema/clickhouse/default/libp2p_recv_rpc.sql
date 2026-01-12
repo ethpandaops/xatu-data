@@ -4,7 +4,7 @@ CREATE TABLE default.libp2p_recv_rpc
     `updated_date_time` DateTime CODEC(DoubleDelta, ZSTD(1)),
     `event_date_time` DateTime64(3) CODEC(DoubleDelta, ZSTD(1)),
     `peer_id_unique_key` Int64,
-    `meta_client_name` LowCardinality(String),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String),
     `meta_client_implementation` LowCardinality(String),
@@ -22,3 +22,4 @@ CREATE TABLE default.libp2p_recv_rpc
     `meta_network_name` LowCardinality(String)
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_recv_rpc_local', unique_key)
+COMMENT 'Contains RPC messages received from peers. Collected from deep instrumentation within forked consensus layer clients. Control messages are split into separate tables referencing this via rpc_meta_unique_key. Partition: monthly by `event_date_time`.'

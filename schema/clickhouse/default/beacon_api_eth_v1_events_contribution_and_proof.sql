@@ -5,7 +5,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_contribution_and_proof
     `aggregator_index` UInt32 COMMENT 'The validator index of the aggregator in the beacon API event stream payload',
     `contribution_slot` UInt32 COMMENT 'The slot number of the contribution in the beacon API event stream payload',
     `contribution_slot_start_date_time` DateTime COMMENT 'The wall clock time when the contribution slot started',
-    `contribution_propagation_slot_start_diff` UInt32 COMMENT 'Difference in slots between when the contribution occurred and when the sentry received the event',
+    `contribution_propagation_slot_start_diff` UInt32 COMMENT 'Time in milliseconds since the start of the contribution slot when the Sentry received this event',
     `contribution_beacon_block_root` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload',
     `contribution_subcommittee_index` LowCardinality(String) COMMENT 'The subcommittee index of the contribution in the beacon API event stream payload',
     `contribution_aggregation_bits` String COMMENT 'The aggregation bits of the contribution in the beacon API event stream payload',
@@ -14,7 +14,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_contribution_and_proof
     `contribution_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the contribution epoch started',
     `selection_proof` String COMMENT 'The selection proof in the beacon API event stream payload',
     `signature` String COMMENT 'The signature in the beacon API event stream payload',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -38,4 +38,4 @@ CREATE TABLE default.beacon_api_eth_v1_events_contribution_and_proof
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event'
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_contribution_and_proof_local', cityHash64(contribution_slot_start_date_time, meta_network_name, meta_client_name, contribution_beacon_block_root, contribution_subcommittee_index, signature))
-COMMENT 'Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.'
+COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures sync committee contribution events. Each row represents a `contribution_and_proof` event from the Beacon API `/eth/v1/events?topics=contribution_and_proof`. Partition: monthly by `contribution_slot_start_date_time`.'

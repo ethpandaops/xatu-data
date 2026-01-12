@@ -104,7 +104,7 @@ echo """
 | **validators** | `Array(UInt32)` | *The validator indices in the beacon API committee payload* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API committee payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -129,7 +129,7 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-
+Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -193,7 +193,7 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **committee_index** | `LowCardinality(String)` | *The committee index in the beacon API event stream payload* |
 | **attesting_validator_index** | `Nullable(UInt32)` | *The index of the validator attesting to the event* |
 | **attesting_validator_committee_index** | `LowCardinality(String)` | *The committee index of the attesting validator* |
@@ -207,7 +207,7 @@ echo """
 | **target_epoch** | `UInt32` | *The target epoch number in the beacon API event stream payload* |
 | **target_epoch_start_date_time** | `DateTime` | *The wall clock time when the target epoch started* |
 | **target_root** | `FixedString(66)` | *The target beacon block root hash in the beacon API event stream payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -232,7 +232,7 @@ echo """
 
 ## beacon_api_eth_v1_events_blob_sidecar
 
-Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures blob sidecar events. Each row represents a `blob_sidecar` event from the Beacon API `/eth/v1/events?topics=blob_sidecar` (EIP-4844) with KZG commitment data. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -301,14 +301,14 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **block_root** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **blob_index** | `UInt64` | *The index of blob sidecar in the beacon API event stream payload* |
 | **kzg_commitment** | `FixedString(98)` | *The KZG commitment in the beacon API event stream payload* |
 | **versioned_hash** | `FixedString(66)` | *The versioned hash in the beacon API event stream payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -402,12 +402,12 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **block** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **execution_optimistic** | `Bool` | *If the attached beacon node is running in execution optimistic mode* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -501,11 +501,11 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **block** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -599,7 +599,7 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *The slot number of the chain reorg event in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the reorg slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *Difference in slots between when the reorg occurred and when the sentry received the event* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **depth** | `UInt16` | *The depth of the chain reorg in the beacon API event stream payload* |
 | **old_head_block** | `FixedString(66)` | *The old head block root hash in the beacon API event stream payload* |
 | **new_head_block** | `FixedString(66)` | *The new head block root hash in the beacon API event stream payload* |
@@ -608,7 +608,7 @@ echo """
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **execution_optimistic** | `Bool` | *Whether the execution of the epoch was optimistic* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -633,7 +633,7 @@ echo """
 
 ## beacon_api_eth_v1_events_contribution_and_proof
 
-Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures sync committee contribution events. Each row represents a `contribution_and_proof` event from the Beacon API `/eth/v1/events?topics=contribution_and_proof`. Partition: monthly by `contribution_slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
@@ -703,7 +703,7 @@ echo """
 | **aggregator_index** | `UInt32` | *The validator index of the aggregator in the beacon API event stream payload* |
 | **contribution_slot** | `UInt32` | *The slot number of the contribution in the beacon API event stream payload* |
 | **contribution_slot_start_date_time** | `DateTime` | *The wall clock time when the contribution slot started* |
-| **contribution_propagation_slot_start_diff** | `UInt32` | *Difference in slots between when the contribution occurred and when the sentry received the event* |
+| **contribution_propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the contribution slot when the Sentry received this event* |
 | **contribution_beacon_block_root** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **contribution_subcommittee_index** | `LowCardinality(String)` | *The subcommittee index of the contribution in the beacon API event stream payload* |
 | **contribution_aggregation_bits** | `String` | *The aggregation bits of the contribution in the beacon API event stream payload* |
@@ -712,7 +712,7 @@ echo """
 | **contribution_epoch_start_date_time** | `DateTime` | *The wall clock time when the contribution epoch started* |
 | **selection_proof** | `String` | *The selection proof in the beacon API event stream payload* |
 | **signature** | `String` | *The signature in the beacon API event stream payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -807,13 +807,13 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **block_root** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **column_index** | `UInt64` | *The index of column in the beacon API event stream payload* |
 | **kzg_commitments_count** | `UInt32` | *Number of KZG commitments associated with the record* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -910,7 +910,7 @@ echo """
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **execution_optimistic** | `Bool` | *Whether the execution of the epoch was optimistic* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1004,7 +1004,7 @@ echo """
 | **event_date_time** | `DateTime64(3)` | *When the sentry received the event from a beacon node* |
 | **slot** | `UInt32` | *Slot number in the beacon API event stream payload* |
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **propagation_slot_start_diff** | `UInt32` | *The difference between the event_date_time and the slot_start_date_time* |
+| **propagation_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the Sentry received this event* |
 | **block** | `FixedString(66)` | *The beacon block root hash in the beacon API event stream payload* |
 | **epoch** | `UInt32` | *The epoch number in the beacon API event stream payload* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
@@ -1012,7 +1012,7 @@ echo """
 | **execution_optimistic** | `Bool` | *If the attached beacon node is running in execution optimistic mode* |
 | **previous_duty_dependent_root** | `FixedString(66)` | *The previous duty dependent root in the beacon API event stream payload* |
 | **current_duty_dependent_root** | `FixedString(66)` | *The current duty dependent root in the beacon API event stream payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1112,7 +1112,7 @@ echo """
 | **wallclock_epoch_start_date_time** | `DateTime` | *Start date and time of the wall clock epoch when the event was received* |
 | **validator_index** | `UInt32` | *The index of the validator making the voluntary exit* |
 | **signature** | `String` | *The signature of the voluntary exit in the beacon API event stream payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1217,9 +1217,9 @@ echo """
 | **target_epoch_start_date_time** | `DateTime` | *The wall clock time when the target epoch started* |
 | **target_root** | `FixedString(66)` | *The target beacon block root hash in the beacon API validator attestation data payload* |
 | **request_date_time** | `DateTime` | *When the request was sent to the beacon node* |
-| **request_duration** | `UInt32` | *The request duration in milliseconds* |
-| **request_slot_start_diff** | `UInt32` | *The difference between the request_date_time and the slot_start_date_time* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **request_duration** | `UInt32` | *Time in milliseconds for the Beacon API request to complete* |
+| **request_slot_start_diff** | `UInt32` | *Time in milliseconds since the start of the slot when the request was made* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1337,7 +1337,7 @@ echo """
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1435,7 +1435,7 @@ echo """
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **proposer_validator_index** | `UInt32` | *The validator index from the proposer duty payload* |
 | **proposer_pubkey** | `String` | *The BLS public key of the validator from the proposer duty payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -1545,7 +1545,7 @@ echo """
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |

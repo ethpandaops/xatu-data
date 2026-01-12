@@ -107,7 +107,7 @@ echo """
 | **timestamp** | `Int64` | *The timestamp of the bid* |
 | **timestamp_ms** | `Int64` | *The timestamp of the bid in milliseconds* |
 | **optimistic_submission** | `Bool` | *Whether the bid was optimistic* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -211,7 +211,7 @@ echo """
 | **gas_used** | `UInt64` | *The gas used by the payload* |
 | **value** | `UInt256` | *The bid value in wei* |
 | **num_tx** | `UInt32` | *The number of transactions in the payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -310,7 +310,7 @@ echo """
 | **wallclock_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
 | **wallclock_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
 | **wallclock_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
 | **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |

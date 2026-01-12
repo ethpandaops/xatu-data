@@ -20,7 +20,7 @@ CREATE TABLE default.mev_relay_proposer_payload_delivered
     `gas_used` UInt64 COMMENT 'The gas used by the payload' CODEC(DoubleDelta, ZSTD(1)),
     `value` UInt256 COMMENT 'The bid value in wei' CODEC(ZSTD(1)),
     `num_tx` UInt32 COMMENT 'The number of transactions in the payload' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -38,4 +38,4 @@ CREATE TABLE default.mev_relay_proposer_payload_delivered
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'mev_relay_proposer_payload_delivered_local', cityHash64(slot, meta_network_name))
-COMMENT 'Contains MEV relay proposer payload delivered data.'
+COMMENT 'Contains delivered payloads collected by polling MEV relay data APIs. Each row represents a payload that was delivered to a proposer. Partition: monthly by `slot_start_date_time`.'

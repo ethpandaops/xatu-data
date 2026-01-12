@@ -25,7 +25,7 @@ CREATE TABLE default.canonical_beacon_block_attester_slashing
     `attestation_2_data_source_root` FixedString(66) COMMENT 'The source root from the second attestation in the slashing payload' CODEC(ZSTD(1)),
     `attestation_2_data_target_epoch` UInt32 COMMENT 'The target epoch number from the second attestation in the slashing payload' CODEC(DoubleDelta, ZSTD(1)),
     `attestation_2_data_target_root` FixedString(66) COMMENT 'The target root from the second attestation in the slashing payload' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -49,4 +49,4 @@ CREATE TABLE default.canonical_beacon_block_attester_slashing
     `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_block_attester_slashing_local', cityHash64(slot_start_date_time, meta_network_name, block_root, attestation_1_attesting_indices, attestation_2_attesting_indices, attestation_1_data_slot, attestation_2_data_slot, attestation_1_data_beacon_block_root, attestation_2_data_beacon_block_root))
-COMMENT 'Contains attester slashing from a beacon block.'
+COMMENT 'Contains attester slashings from finalized beacon blocks. Each row represents two conflicting attestations from a slashed validator. Partition: monthly by `slot_start_date_time`.'
