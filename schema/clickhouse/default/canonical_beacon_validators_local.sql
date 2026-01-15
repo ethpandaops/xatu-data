@@ -12,7 +12,7 @@ CREATE TABLE default.canonical_beacon_validators_local
     `activation_eligibility_epoch` Nullable(UInt64) COMMENT 'The epoch when the validator was activated' CODEC(ZSTD(1)),
     `exit_epoch` Nullable(UInt64) COMMENT 'The epoch when the validator exited' CODEC(ZSTD(1)),
     `withdrawable_epoch` Nullable(UInt64) COMMENT 'The epoch when the validator can withdraw' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -39,4 +39,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(epoch_start_date_time)
 ORDER BY (epoch_start_date_time, meta_network_name, index, status)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains a validator state for an epoch.'
+COMMENT 'Contains finalized validator state snapshots. Each row represents a validator\\'s status, balance, and lifecycle epochs at a specific epoch. Partition: monthly by `epoch_start_date_time`.'
