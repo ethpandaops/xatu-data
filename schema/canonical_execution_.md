@@ -1522,7 +1522,7 @@ Contains canonical execution transaction structlog data.
 ### Availability
 Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
-- **mainnet**: `22731300` to `24196000`
+- **mainnet**: `22731300` to `24196500`
 
 ### Examples
 
