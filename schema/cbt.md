@@ -68,8 +68,18 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_engine_new_payload_by_el_client_hourly`](#fct_engine_new_payload_by_el_client_hourly)
 - [`fct_engine_new_payload_by_slot`](#fct_engine_new_payload_by_slot)
 - [`fct_engine_new_payload_duration_chunked_50ms`](#fct_engine_new_payload_duration_chunked_50ms)
+- [`fct_execution_gas_limit_daily`](#fct_execution_gas_limit_daily)
+- [`fct_execution_gas_limit_hourly`](#fct_execution_gas_limit_hourly)
+- [`fct_execution_gas_limit_signalling_daily`](#fct_execution_gas_limit_signalling_daily)
+- [`fct_execution_gas_limit_signalling_hourly`](#fct_execution_gas_limit_signalling_hourly)
+- [`fct_execution_gas_used_daily`](#fct_execution_gas_used_daily)
+- [`fct_execution_gas_used_hourly`](#fct_execution_gas_used_hourly)
 - [`fct_execution_state_size_daily`](#fct_execution_state_size_daily)
 - [`fct_execution_state_size_hourly`](#fct_execution_state_size_hourly)
+- [`fct_execution_tps_daily`](#fct_execution_tps_daily)
+- [`fct_execution_tps_hourly`](#fct_execution_tps_hourly)
+- [`fct_execution_transactions_daily`](#fct_execution_transactions_daily)
+- [`fct_execution_transactions_hourly`](#fct_execution_transactions_hourly)
 - [`fct_head_first_seen_by_node`](#fct_head_first_seen_by_node)
 - [`fct_mev_bid_count_by_builder`](#fct_mev_bid_count_by_builder)
 - [`fct_mev_bid_count_by_relay`](#fct_mev_bid_count_by_relay)
@@ -3401,6 +3411,382 @@ echo """
 | **valid_count** | `UInt32` | *Number of VALID status observations in this chunk* |
 | **invalid_count** | `UInt32` | *Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk* |
 
+## fct_execution_gas_limit_daily
+
+Daily aggregated execution layer gas limit statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_limit_daily`
+- **sepolia**: `sepolia.fct_execution_gas_limit_daily`
+- **holesky**: `holesky.fct_execution_gas_limit_daily`
+- **hoodi**: `hoodi.fct_execution_gas_limit_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_daily FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **total_gas_limit** | `UInt64` | *Total gas limit in this day* |
+| **avg_gas_limit** | `UInt64` | *Average gas limit per block* |
+| **min_gas_limit** | `UInt64` | *Minimum gas limit in a block* |
+| **max_gas_limit** | `UInt64` | *Maximum gas limit in a block* |
+| **p05_gas_limit** | `UInt64` | *5th percentile gas limit* |
+| **p50_gas_limit** | `UInt64` | *50th percentile (median) gas limit* |
+| **p95_gas_limit** | `UInt64` | *95th percentile gas limit* |
+| **stddev_gas_limit** | `UInt64` | *Standard deviation of gas limit* |
+| **upper_band_gas_limit** | `UInt64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_gas_limit** | `Int64` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_gas_limit** | `UInt64` | *Moving average gas limit (7-day window)* |
+
+## fct_execution_gas_limit_hourly
+
+Hourly aggregated execution layer gas limit statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_limit_hourly`
+- **sepolia**: `sepolia.fct_execution_gas_limit_hourly`
+- **holesky**: `holesky.fct_execution_gas_limit_hourly`
+- **hoodi**: `hoodi.fct_execution_gas_limit_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_hourly FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **total_gas_limit** | `UInt64` | *Total gas limit in this hour* |
+| **avg_gas_limit** | `UInt64` | *Average gas limit per block* |
+| **min_gas_limit** | `UInt64` | *Minimum gas limit in a block* |
+| **max_gas_limit** | `UInt64` | *Maximum gas limit in a block* |
+| **p05_gas_limit** | `UInt64` | *5th percentile gas limit* |
+| **p50_gas_limit** | `UInt64` | *50th percentile (median) gas limit* |
+| **p95_gas_limit** | `UInt64` | *95th percentile gas limit* |
+| **stddev_gas_limit** | `UInt64` | *Standard deviation of gas limit* |
+| **upper_band_gas_limit** | `UInt64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_gas_limit** | `Int64` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_gas_limit** | `UInt64` | *Moving average gas limit (6-hour window)* |
+
+## fct_execution_gas_limit_signalling_daily
+
+Daily snapshots of validator gas limit signalling using rolling 7-day window
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_limit_signalling_daily`
+- **sepolia**: `sepolia.fct_execution_gas_limit_signalling_daily`
+- **holesky**: `holesky.fct_execution_gas_limit_signalling_daily`
+- **hoodi**: `hoodi.fct_execution_gas_limit_signalling_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_signalling_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_signalling_daily FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | ** |
+| **day_start_date** | `Date` | ** |
+| **gas_limit_band_counts** | `Map(String, UInt32)` | ** |
+
+## fct_execution_gas_limit_signalling_hourly
+
+Hourly snapshots of validator gas limit signalling using rolling 7-day window
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_limit_signalling_hourly`
+- **sepolia**: `sepolia.fct_execution_gas_limit_signalling_hourly`
+- **holesky**: `holesky.fct_execution_gas_limit_signalling_hourly`
+- **hoodi**: `hoodi.fct_execution_gas_limit_signalling_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_signalling_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_limit_signalling_hourly FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | ** |
+| **hour_start_date_time** | `DateTime` | ** |
+| **gas_limit_band_counts** | `Map(String, UInt32)` | ** |
+
+## fct_execution_gas_used_daily
+
+Daily aggregated execution layer gas used statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_used_daily`
+- **sepolia**: `sepolia.fct_execution_gas_used_daily`
+- **holesky**: `holesky.fct_execution_gas_used_daily`
+- **hoodi**: `hoodi.fct_execution_gas_used_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_used_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_used_daily FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **total_gas_used** | `UInt64` | *Total gas used in this day* |
+| **cumulative_gas_used** | `UInt64` | *Cumulative gas used since genesis* |
+| **avg_gas_used** | `UInt64` | *Average gas used per block* |
+| **min_gas_used** | `UInt64` | *Minimum gas used in a block* |
+| **max_gas_used** | `UInt64` | *Maximum gas used in a block* |
+| **p05_gas_used** | `UInt64` | *5th percentile gas used* |
+| **p50_gas_used** | `UInt64` | *50th percentile (median) gas used* |
+| **p95_gas_used** | `UInt64` | *95th percentile gas used* |
+| **stddev_gas_used** | `UInt64` | *Standard deviation of gas used* |
+| **upper_band_gas_used** | `UInt64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_gas_used** | `Int64` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_gas_used** | `UInt64` | *Moving average gas used (7-day window)* |
+
+## fct_execution_gas_used_hourly
+
+Hourly aggregated execution layer gas used statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_gas_used_hourly`
+- **sepolia**: `sepolia.fct_execution_gas_used_hourly`
+- **holesky**: `holesky.fct_execution_gas_used_hourly`
+- **hoodi**: `hoodi.fct_execution_gas_used_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_used_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_gas_used_hourly FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **total_gas_used** | `UInt64` | *Total gas used in this hour* |
+| **cumulative_gas_used** | `UInt64` | *Cumulative gas used since genesis* |
+| **avg_gas_used** | `UInt64` | *Average gas used per block* |
+| **min_gas_used** | `UInt64` | *Minimum gas used in a block* |
+| **max_gas_used** | `UInt64` | *Maximum gas used in a block* |
+| **p05_gas_used** | `UInt64` | *5th percentile gas used* |
+| **p50_gas_used** | `UInt64` | *50th percentile (median) gas used* |
+| **p95_gas_used** | `UInt64` | *95th percentile gas used* |
+| **stddev_gas_used** | `UInt64` | *Standard deviation of gas used* |
+| **upper_band_gas_used** | `UInt64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_gas_used** | `Int64` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_gas_used** | `UInt64` | *Moving average gas used (6-hour window)* |
+
 ## fct_execution_state_size_daily
 
 Execution layer state size metrics aggregated by day
@@ -3530,6 +3916,274 @@ echo """
 | **storage_trienodes** | `UInt64` | *Storage trie nodes at end of hour* |
 | **storage_trienode_bytes** | `UInt64` | *Storage trie node bytes at end of hour* |
 | **total_bytes** | `UInt64` | *Total state size in bytes* |
+
+## fct_execution_tps_daily
+
+Daily aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_tps_daily`
+- **sepolia**: `sepolia.fct_execution_tps_daily`
+- **holesky**: `holesky.fct_execution_tps_daily`
+- **hoodi**: `hoodi.fct_execution_tps_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_tps_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_tps_daily FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **total_transactions** | `UInt64` | *Total transactions in this day* |
+| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
+| **avg_tps** | `Float32` | *Average TPS using actual block time gaps* |
+| **min_tps** | `Float32` | *Minimum per-block TPS* |
+| **max_tps** | `Float32` | *Maximum per-block TPS* |
+| **p05_tps** | `Float32` | *5th percentile TPS* |
+| **p50_tps** | `Float32` | *50th percentile (median) TPS* |
+| **p95_tps** | `Float32` | *95th percentile TPS* |
+| **stddev_tps** | `Float32` | *Standard deviation of TPS* |
+| **upper_band_tps** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_tps** | `Float32` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_tps** | `Float32` | *Moving average TPS (7-day window)* |
+
+## fct_execution_tps_hourly
+
+Hourly aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_tps_hourly`
+- **sepolia**: `sepolia.fct_execution_tps_hourly`
+- **holesky**: `holesky.fct_execution_tps_hourly`
+- **hoodi**: `hoodi.fct_execution_tps_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_tps_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_tps_hourly FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **total_transactions** | `UInt64` | *Total transactions in this hour* |
+| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
+| **avg_tps** | `Float32` | *Average TPS using actual block time gaps* |
+| **min_tps** | `Float32` | *Minimum per-block TPS* |
+| **max_tps** | `Float32` | *Maximum per-block TPS* |
+| **p05_tps** | `Float32` | *5th percentile TPS* |
+| **p50_tps** | `Float32` | *50th percentile (median) TPS* |
+| **p95_tps** | `Float32` | *95th percentile TPS* |
+| **stddev_tps** | `Float32` | *Standard deviation of TPS* |
+| **upper_band_tps** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_tps** | `Float32` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
+| **moving_avg_tps** | `Float32` | *Moving average TPS (6-hour window)* |
+
+## fct_execution_transactions_daily
+
+Daily aggregated execution layer transaction counts with cumulative totals and per-block statistics
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_transactions_daily`
+- **sepolia**: `sepolia.fct_execution_transactions_daily`
+- **holesky**: `holesky.fct_execution_transactions_daily`
+- **hoodi**: `hoodi.fct_execution_transactions_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_transactions_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_transactions_daily FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **total_transactions** | `UInt64` | *Total transactions in this day* |
+| **cumulative_transactions** | `UInt64` | *Cumulative transaction count since genesis* |
+| **avg_txn_per_block** | `Float32` | *Average transactions per block* |
+| **min_txn_per_block** | `UInt32` | *Minimum transactions in a block* |
+| **max_txn_per_block** | `UInt32` | *Maximum transactions in a block* |
+| **p50_txn_per_block** | `UInt32` | *50th percentile (median) transactions per block* |
+| **p95_txn_per_block** | `UInt32` | *95th percentile transactions per block* |
+| **p05_txn_per_block** | `UInt32` | *5th percentile transactions per block* |
+| **stddev_txn_per_block** | `Float32` | *Standard deviation of transactions per block* |
+| **upper_band_txn_per_block** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_txn_per_block** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_txn_per_block** | `Float32` | *Moving average transactions per block (7-day window)* |
+
+## fct_execution_transactions_hourly
+
+Hourly aggregated execution layer transaction counts with cumulative totals and per-block statistics
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_transactions_hourly`
+- **sepolia**: `sepolia.fct_execution_transactions_hourly`
+- **holesky**: `holesky.fct_execution_transactions_hourly`
+- **hoodi**: `hoodi.fct_execution_transactions_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_transactions_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM mainnet.fct_execution_transactions_hourly FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **total_transactions** | `UInt64` | *Total transactions in this hour* |
+| **cumulative_transactions** | `UInt64` | *Cumulative transaction count since genesis* |
+| **avg_txn_per_block** | `Float32` | *Average transactions per block* |
+| **min_txn_per_block** | `UInt32` | *Minimum transactions in a block* |
+| **max_txn_per_block** | `UInt32` | *Maximum transactions in a block* |
+| **p50_txn_per_block** | `UInt32` | *50th percentile (median) transactions per block* |
+| **p95_txn_per_block** | `UInt32` | *95th percentile transactions per block* |
+| **p05_txn_per_block** | `UInt32` | *5th percentile transactions per block* |
+| **stddev_txn_per_block** | `Float32` | *Standard deviation of transactions per block* |
+| **upper_band_txn_per_block** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_txn_per_block** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_txn_per_block** | `Float32` | *Moving average transactions per block (6-hour window)* |
 
 ## fct_head_first_seen_by_node
 
