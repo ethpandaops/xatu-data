@@ -19,7 +19,7 @@ CREATE TABLE default.mempool_transaction_local
     `blob_hashes` Array(String) COMMENT 'The hashes of the blob commitments for blob transactions',
     `blob_sidecars_size` Nullable(UInt32) COMMENT 'The total size of the sidecars for blob transactions in bytes',
     `blob_sidecars_empty_size` Nullable(UInt32) COMMENT 'The total empty size of the sidecars for blob transactions in bytes',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -43,4 +43,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(event_date_time)
 ORDER BY (event_date_time, meta_network_name, meta_client_name, hash, from, nonce, gas)
 SETTINGS index_granularity = 8192
-COMMENT 'Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.'
+COMMENT 'Contains pending transactions observed in the mempool. Each row represents a transaction first seen at a specific time with its gas parameters. Partition: monthly by `event_date_time`.'
