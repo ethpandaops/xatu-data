@@ -27,7 +27,7 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 <!-- schema_start -->
 ## canonical_beacon_block
 
-Contains beacon block from a beacon node.
+Contains finalized beacon block data. Each row represents a canonical block. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -144,7 +144,7 @@ echo """
 
 ## canonical_beacon_committee
 
-Contains canonical beacon API /eth/v1/beacon/committees data.
+Contains finalized beacon committee assignments. Each row represents a committee with its validator indices for a given slot. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -241,7 +241,7 @@ echo """
 
 ## canonical_beacon_block_attester_slashing
 
-Contains attester slashings from finalized beacon blocks. Each row represents two conflicting attestations from a slashed validator. Partition: monthly by `slot_start_date_time`.
+Contains attester slashing from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -984,7 +984,7 @@ echo """
 
 ## canonical_beacon_blob_sidecar
 
-Contains blob sidecars from finalized beacon blocks. Each row represents a blob with its KZG commitment, proof, and versioned hash. Partition: monthly by `slot_start_date_time`.
+Contains a blob sidecar from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1088,7 +1088,7 @@ echo """
 
 ## canonical_beacon_proposer_duty
 
-Contains finalized proposer duty assignments. Each row represents which validator was scheduled to propose a block for a given slot. Partition: monthly by `slot_start_date_time`.
+Contains a proposer duty from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1300,9 +1300,9 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-01-16`
+- **mainnet**: `2020-12-01` to `2026-01-17`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-01-16`
+- **sepolia**: `2022-06-20` to `2026-01-17`
 
 ### Examples
 
@@ -1314,7 +1314,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/1/16/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/1/17/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
