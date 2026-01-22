@@ -16,7 +16,7 @@ Events derived from MEV relays. Data is scraped from multiple MEV Relays by mult
 <!-- schema_start -->
 ## mev_relay_bid_trace
 
-Contains MEV relay block bids data.
+Contains block bids collected by polling MEV relay data APIs. Each row represents a bid from a builder to a relay with value and block details. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -230,7 +230,7 @@ echo """
 
 ## mev_relay_validator_registration
 
-Contains MEV relay validator registrations data.
+Contains validator registrations collected by polling MEV relay data APIs. Each row represents a validator registering their fee recipient and gas limit preferences. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:

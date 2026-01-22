@@ -219,7 +219,7 @@ echo """
 
 ## libp2p_gossipsub_beacon_block
 
-Table for libp2p gossipsub beacon block data.
+Contains beacon block messages received via libp2p gossipsub. Collected from deep instrumentation within forked consensus layer clients (Prysm/Lighthouse). Each row represents a block gossiped on the p2p network with timing and peer metadata. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -542,7 +542,7 @@ echo """
 
 ## libp2p_gossipsub_aggregate_and_proof
 
-Table for libp2p gossipsub aggregate and proof data.
+Contains aggregate and proof messages received via libp2p gossipsub. Collected from deep instrumentation within forked consensus layer clients. Each row represents an aggregated attestation with its proof. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -761,7 +761,7 @@ echo """
 
 ## libp2p_disconnected
 
-Contains the details of the DISCONNECTED events from the libp2p client.
+Contains DISCONNECTED events when connections to remote peers are closed. Collected from deep instrumentation within forked consensus layer clients. Each row includes remote peer agent info and geolocation. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -869,7 +869,7 @@ echo """
 
 ## libp2p_add_peer
 
-Contains ADD_PEER events when peers are added to the libp2p peer store. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
+Contains the details of the peers added to the libp2p client.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -957,7 +957,7 @@ echo """
 
 ## libp2p_remove_peer
 
-Contains the details of the peers removed from the libp2p client.
+Contains REMOVE_PEER events when peers are removed from the libp2p peer store. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1220,7 +1220,7 @@ echo """
 
 ## libp2p_drop_rpc
 
-Contains the details of the RPC messages dropped by the peer.
+Contains RPC messages dropped (not processed) by the peer. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1308,7 +1308,7 @@ echo """
 
 ## libp2p_join
 
-Contains the details of the JOIN events from the libp2p client.
+Contains JOIN events when the local node joins a gossipsub topic. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1490,7 +1490,7 @@ echo """
 
 ## libp2p_graft
 
-Contains the details of the GRAFT events from the libp2p client.
+Contains GRAFT events when a peer joins the mesh for a topic. Collected from deep instrumentation within forked consensus layer clients. Tracks mesh membership changes. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1581,7 +1581,7 @@ echo """
 
 ## libp2p_prune
 
-Contains the details of the PRUNE events from the libp2p client.
+Contains PRUNE events when a peer is removed from the mesh for a topic. Collected from deep instrumentation within forked consensus layer clients. Tracks mesh membership changes. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1672,7 +1672,7 @@ echo """
 
 ## libp2p_duplicate_message
 
-Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.
+Contains DUPLICATE_MESSAGE events when a message is received that was already seen. Collected from deep instrumentation within forked consensus layer clients. Useful for analyzing message propagation. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1767,7 +1767,7 @@ echo """
 
 ## libp2p_deliver_message
 
-Contains the details of the DELIVER_MESSAGE events from the libp2p client.
+Contains DELIVER_MESSAGE events when messages are delivered to local subscribers. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1862,7 +1862,7 @@ echo """
 
 ## libp2p_handle_metadata
 
-Contains the metadata handling events for libp2p peers.
+Contains metadata protocol handling events (req/resp). Collected from deep instrumentation within forked consensus layer clients. Each row represents a metadata exchange with a peer including their attnets and syncnets. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1957,7 +1957,7 @@ echo """
 
 ## libp2p_handle_status
 
-Contains the status handling events for libp2p peers.
+Contains status protocol handling events (req/resp). Collected from deep instrumentation within forked consensus layer clients. Each row represents a status exchange with a peer including their head and finalized info. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2060,7 +2060,7 @@ echo """
 
 ## libp2p_rpc_meta_control_ihave
 
-
+Contains IHAVE control messages from gossipsub. Collected from deep instrumentation within forked consensus layer clients. Peers advertise message IDs they have available. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2125,34 +2125,34 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
-| **message_index** | `Int32` | ** |
-| **control_index** | `Int32` | ** |
-| **topic_layer** | `LowCardinality(String)` | ** |
-| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
-| **topic_name** | `LowCardinality(String)` | ** |
-| **topic_encoding** | `LowCardinality(String)` | ** |
-| **message_id** | `String` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each "I have" control record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the "I have" control record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the "I have" control event* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "I have" control metadata* |
+| **message_index** | `Int32` | *Position in the RPC meta control IWANT message_ids array* |
+| **control_index** | `Int32` | *Position in the RPC meta control IWANT array* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
+| **message_id** | `String` | *Identifier of the message associated with the "I have" control* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the I have control* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_iwant
 
@@ -2221,30 +2221,30 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **control_index** | `Int32` | ** |
-| **message_index** | `Int32` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
-| **message_id** | `String` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each "I want" control record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the "I want" control record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the "I want" control event* |
+| **control_index** | `Int32` | *Position in the RPC meta control IWANT array* |
+| **message_index** | `Int32` | *Position in the RPC meta control IWANT message_ids array* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "I want" control metadata* |
+| **message_id** | `String` | *Identifier of the message associated with the "I want" control* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the I want control* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_idontwant
 
@@ -2340,7 +2340,7 @@ echo """
 
 ## libp2p_rpc_meta_control_graft
 
-
+Contains GRAFT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers request to join the mesh for a topic. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2405,36 +2405,36 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **control_index** | `Int32` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
-| **topic_layer** | `LowCardinality(String)` | ** |
-| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
-| **topic_name** | `LowCardinality(String)` | ** |
-| **topic_encoding** | `LowCardinality(String)` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each "Graft" control record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the "Graft" control record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the "Graft" control event* |
+| **control_index** | `Int32` | *Position in the RPC meta control GRAFT array* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "Graft" control metadata* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the Graft control* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_control_prune
 
-
+Contains the details of the "Prune" control messages from the peer.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2499,38 +2499,38 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **control_index** | `Int32` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each "Prune" control record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the "Prune" control record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the "Prune" control event* |
+| **control_index** | `Int32` | *Position in the RPC meta control PRUNE array* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the "Prune" control metadata* |
 | **peer_id_index** | `Int32` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the Prune control* |
 | **graft_peer_id_unique_key** | `Nullable(Int64)` | *Unique key associated with the identifier of the graft peer involved in the Prune control* |
-| **topic_layer** | `LowCardinality(String)` | ** |
-| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
-| **topic_name** | `LowCardinality(String)` | ** |
-| **topic_encoding** | `LowCardinality(String)` | ** |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_meta_subscription
 
-Contains the details of the RPC subscriptions from the peer.
+Contains RPC subscription changes from gossipsub. Collected from deep instrumentation within forked consensus layer clients. Each row represents a subscribe/unsubscribe action for a topic. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2690,33 +2690,33 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **unique_key** | `Int64` | ** |
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **control_index** | `Int32` | ** |
-| **rpc_meta_unique_key** | `Int64` | ** |
-| **message_id** | `String` | ** |
-| **topic_layer** | `LowCardinality(String)` | ** |
-| **topic_fork_digest_value** | `LowCardinality(String)` | ** |
-| **topic_name** | `LowCardinality(String)` | ** |
-| **topic_encoding** | `LowCardinality(String)` | ** |
-| **peer_id_unique_key** | `Int64` | ** |
+| **unique_key** | `Int64` | *Unique identifier for each RPC message record* |
+| **updated_date_time** | `DateTime` | *Timestamp when the RPC message record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the RPC event* |
+| **control_index** | `Int32` | *Position in the RPC meta message array* |
+| **rpc_meta_unique_key** | `Int64` | *Unique key associated with the RPC metadata* |
+| **message_id** | `String` | *Identifier of the message* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding of the topic* |
+| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer involved in the RPC* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_rpc_data_column_custody_probe
 
@@ -2888,45 +2888,45 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | ** |
-| **event_date_time** | `DateTime64(3)` | ** |
-| **remote_peer_id_unique_key** | `Int64` | ** |
-| **remote_maddrs** | `String` | ** |
-| **latency_ms** | `Nullable(Int64)` | ** |
-| **direction** | `LowCardinality(String)` | ** |
-| **protocols** | `Array(String)` | ** |
-| **connection_age_ms** | `Nullable(Int64)` | ** |
-| **remote_agent_implementation** | `LowCardinality(String)` | ** |
-| **remote_agent_version** | `LowCardinality(String)` | ** |
-| **remote_agent_version_major** | `LowCardinality(String)` | ** |
-| **remote_agent_version_minor** | `LowCardinality(String)` | ** |
-| **remote_agent_version_patch** | `LowCardinality(String)` | ** |
-| **remote_agent_platform** | `LowCardinality(String)` | ** |
-| **remote_ip** | `Nullable(IPv6)` | ** |
-| **remote_port** | `Nullable(UInt16)` | ** |
-| **remote_geo_city** | `LowCardinality(String)` | ** |
-| **remote_geo_country** | `LowCardinality(String)` | ** |
-| **remote_geo_country_code** | `LowCardinality(String)` | ** |
-| **remote_geo_continent_code** | `LowCardinality(String)` | ** |
-| **remote_geo_longitude** | `Nullable(Float64)` | ** |
-| **remote_geo_latitude** | `Nullable(Float64)` | ** |
-| **remote_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **remote_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the heartbeat event* |
+| **remote_peer_id_unique_key** | `Int64` | *Unique key of the remote peer* |
+| **remote_maddrs** | `String` | *Multiaddress of the remote peer* |
+| **latency_ms** | `Nullable(Int64)` | *EWMA latency in milliseconds (0 if unavailable)* |
+| **direction** | `LowCardinality(String)` | *Connection direction (Unknown/Inbound/Outbound)* |
+| **protocols** | `Array(String)` | *List of supported protocols* |
+| **connection_age_ms** | `Nullable(Int64)` | *Connection age in milliseconds* |
+| **remote_agent_implementation** | `LowCardinality(String)` | *Implementation of the remote peer* |
+| **remote_agent_version** | `LowCardinality(String)` | *Version of the remote peer* |
+| **remote_agent_version_major** | `LowCardinality(String)` | *Major version of the remote peer* |
+| **remote_agent_version_minor** | `LowCardinality(String)` | *Minor version of the remote peer* |
+| **remote_agent_version_patch** | `LowCardinality(String)` | *Patch version of the remote peer* |
+| **remote_agent_platform** | `LowCardinality(String)` | *Platform of the remote peer* |
+| **remote_ip** | `Nullable(IPv6)` | *IP address of the remote peer* |
+| **remote_port** | `Nullable(UInt16)` | *Port of the remote peer* |
+| **remote_geo_city** | `LowCardinality(String)` | *City of the remote peer* |
+| **remote_geo_country** | `LowCardinality(String)` | *Country of the remote peer* |
+| **remote_geo_country_code** | `LowCardinality(String)` | *Country code of the remote peer* |
+| **remote_geo_continent_code** | `LowCardinality(String)` | *Continent code of the remote peer* |
+| **remote_geo_longitude** | `Nullable(Float64)` | *Longitude of the remote peer* |
+| **remote_geo_latitude** | `Nullable(Float64)` | *Latitude of the remote peer* |
+| **remote_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the remote peer* |
+| **remote_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the remote peer* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | ** |
-| **meta_client_version** | `LowCardinality(String)` | ** |
-| **meta_client_implementation** | `LowCardinality(String)` | ** |
-| **meta_client_os** | `LowCardinality(String)` | ** |
-| **meta_client_ip** | `Nullable(IPv6)` | ** |
-| **meta_client_geo_city** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country** | `LowCardinality(String)` | ** |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
-| **meta_network_id** | `Int32` | ** |
-| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 <!-- schema_end -->
