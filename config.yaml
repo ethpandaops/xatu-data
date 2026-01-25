@@ -654,13 +654,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-01-22'
+        to: '2026-01-23'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-01-22'
+        to: '2026-01-23'
     tags:
       - Consensus layer
       - Finalized
@@ -675,7 +675,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2195950'
+        to: '2196850'
       holesky:
         from: '0'
         to: '1923800'
@@ -703,7 +703,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2024-05-01'
-        to: '2026-01-22'
+        to: '2026-01-23'
     tags:
       - Consensus layer
       - P2P
