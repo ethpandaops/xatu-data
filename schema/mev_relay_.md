@@ -230,7 +230,7 @@ echo """
 
 ## mev_relay_validator_registration
 
-Contains MEV relay validator registrations data.
+Contains validator registrations collected by polling MEV relay data APIs. Each row represents a validator registering their fee recipient and gas limit preferences. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
