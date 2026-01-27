@@ -129,7 +129,7 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures attestation events. Each row represents an `attestation` event from the Beacon API `/eth/v1/events?topics=attestation`. High-volume table - filter by `slot_start_date_time` and `meta_network_name` to avoid full scans. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -333,7 +333,7 @@ echo """
 
 ## beacon_api_eth_v1_events_block
 
-Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures block events. Each row represents a `block` event from the Beacon API `/eth/v1/events?topics=block`, indicating a new block has been imported. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -432,7 +432,7 @@ echo """
 
 ## beacon_api_eth_v1_events_block_gossip
 
-Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures block gossip events. Each row represents a `block_gossip` event from the Beacon API `/eth/v1/events?topics=block_gossip` used for measuring block propagation timing across the network. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -530,7 +530,7 @@ echo """
 
 ## beacon_api_eth_v1_events_chain_reorg
 
-Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures chain reorg events. Each row represents a `chain_reorg` event from the Beacon API `/eth/v1/events?topics=chain_reorg`, when the beacon node detects a chain reorganization. Includes depth and old/new head info. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -633,7 +633,7 @@ echo """
 
 ## beacon_api_eth_v1_events_contribution_and_proof
 
-Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures sync committee contribution events. Each row represents a `contribution_and_proof` event from the Beacon API `/eth/v1/events?topics=contribution_and_proof`. Partition: monthly by `contribution_slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
@@ -737,7 +737,7 @@ echo """
 
 ## beacon_api_eth_v1_events_data_column_sidecar
 
-Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures data column sidecar events. Each row represents a `data_column_sidecar` event from the Beacon API `/eth/v1/events?topics=data_column_sidecar` (PeerDAS) with data availability sampling info. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -838,7 +838,7 @@ echo """
 
 ## beacon_api_eth_v1_events_finalized_checkpoint
 
-Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures finalized checkpoint events. Each row represents a `finalized_checkpoint` event from the Beacon API `/eth/v1/events?topics=finalized_checkpoint`, when the chain finalizes a new epoch. Partition: monthly by `epoch_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
@@ -935,7 +935,7 @@ echo """
 
 ## beacon_api_eth_v1_events_head
 
-Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures head events. Each row represents a `head` event from the Beacon API `/eth/v1/events?topics=head`, indicating the chain\'s canonical head has been updated. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1037,7 +1037,7 @@ echo """
 
 ## beacon_api_eth_v1_events_voluntary_exit
 
-Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures voluntary exit events. Each row represents a `voluntary_exit` event from the Beacon API `/eth/v1/events?topics=voluntary_exit`, when a validator initiates an exit. Partition: monthly by `wallclock_epoch_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
