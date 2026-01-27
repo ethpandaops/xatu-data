@@ -256,7 +256,11 @@ generate_table_schema() {
     echo "echo \"\"\""
     echo "    SELECT"
     echo "        *"
-    echo "    FROM ${example_database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    if [ "$is_cbt_table" = "true" ]; then
+        echo "    FROM cluster('{cbt_cluster}', ${example_database}.${table_name})$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    else
+        echo "    FROM ${example_database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+    fi
     if [ "$is_cbt_table" != "true" ]; then
         echo "    WHERE"
         if [ "$partition_type" = "datetime" ]; then
