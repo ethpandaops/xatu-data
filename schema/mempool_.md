@@ -19,9 +19,9 @@ Contains pending transactions observed in the mempool. Each row represents a tra
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-03-03` to `2026-01-25`
+- **mainnet**: `2023-03-03` to `2026-01-26`
 - **holesky**: `2024-01-08` to `2025-10-26`
-- **sepolia**: `2024-01-08` to `2026-01-25`
+- **sepolia**: `2024-01-08` to `2026-01-26`
 
 ### Examples
 
@@ -33,7 +33,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2026/1/25.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2026/1/26.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
