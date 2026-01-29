@@ -24,7 +24,7 @@ CREATE TABLE default.libp2p_disconnected_local
     `direction` LowCardinality(String) COMMENT 'Connection direction',
     `opened` DateTime COMMENT 'Timestamp when the connection was opened' CODEC(DoubleDelta, ZSTD(1)),
     `transient` Bool COMMENT 'Whether the connection is transient',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -45,4 +45,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toYYYYMM(event_date_time)
 ORDER BY (event_date_time, meta_network_name, meta_client_name, remote_peer_id_unique_key, direction, opened)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains DISCONNECTED events when connections to remote peers are closed. Collected from deep instrumentation within forked consensus layer clients. Each row includes remote peer agent info and geolocation. Partition: monthly by `event_date_time`.'
+COMMENT 'Contains the details of the DISCONNECTED events from the libp2p client.'
