@@ -1340,7 +1340,7 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24329000`
+- **mainnet**: `0` to `24340000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1601,17 +1601,18 @@ echo """
 | **transaction_failed** | `Bool` | *The transaction failed* |
 | **transaction_return_value** | `Nullable(String)` | *The transaction return value* |
 | **index** | `UInt32` | *The index of this structlog in this transaction* |
-| **program_counter** | `UInt32` | *The program counter* |
 | **operation** | `LowCardinality(String)` | *The operation* |
 | **gas** | `UInt64` | *The gas* |
 | **gas_cost** | `UInt64` | *The gas cost* |
 | **gas_used** | `UInt64` | *Actual gas consumed (computed from consecutive gas values)* |
+| **gas_self** | `UInt64` | *Gas consumed by this opcode only, excludes child frame gas for CALL/CREATE opcodes. sum(gas_self) = total execution gas without double counting* |
 | **depth** | `UInt64` | *The depth* |
 | **return_data** | `Nullable(String)` | *The return data* |
 | **refund** | `Nullable(UInt64)` | *The refund* |
 | **error** | `Nullable(String)` | *The error* |
 | **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **call_frame_id** | `UInt32` | *Sequential identifier for the call frame within the transaction* |
+| **call_frame_path** | `Array(UInt32)` | *Path of frame IDs from root to current frame* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 <!-- schema_end -->

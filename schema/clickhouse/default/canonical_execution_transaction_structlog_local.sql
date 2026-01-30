@@ -8,17 +8,18 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `transaction_failed` Bool COMMENT 'The transaction failed' CODEC(ZSTD(1)),
     `transaction_return_value` Nullable(String) COMMENT 'The transaction return value' CODEC(ZSTD(1)),
     `index` UInt32 COMMENT 'The index of this structlog in this transaction' CODEC(DoubleDelta, ZSTD(1)),
-    `program_counter` UInt32 COMMENT 'The program counter' CODEC(Delta(4), ZSTD(1)),
     `operation` LowCardinality(String) COMMENT 'The operation',
     `gas` UInt64 COMMENT 'The gas' CODEC(Delta(8), ZSTD(1)),
     `gas_cost` UInt64 COMMENT 'The gas cost' CODEC(DoubleDelta, ZSTD(1)),
     `gas_used` UInt64 DEFAULT 0 COMMENT 'Actual gas consumed (computed from consecutive gas values)' CODEC(ZSTD(1)),
+    `gas_self` UInt64 DEFAULT 0 COMMENT 'Gas consumed by this opcode only, excludes child frame gas for CALL/CREATE opcodes. sum(gas_self) = total execution gas without double counting' CODEC(ZSTD(1)),
     `depth` UInt64 COMMENT 'The depth' CODEC(DoubleDelta, ZSTD(1)),
     `return_data` Nullable(String) COMMENT 'The return data' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'The error' CODEC(ZSTD(1)),
     `call_to_address` Nullable(String) COMMENT 'Address of a CALL operation' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `call_frame_id` UInt32 DEFAULT 0 COMMENT 'Sequential identifier for the call frame within the transaction' CODEC(DoubleDelta, ZSTD(1)),
+    `call_frame_path` Array(UInt32) DEFAULT [0] COMMENT 'Path of frame IDs from root to current frame' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_transaction_structlog_local/{shard}', '{replica}', updated_date_time)

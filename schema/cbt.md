@@ -129,6 +129,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_contract_storage_state_with_expiry_by_block`](#int_contract_storage_state_with_expiry_by_block)
 - [`int_custody_probe`](#int_custody_probe)
 - [`int_custody_probe_order_by_slot`](#int_custody_probe_order_by_slot)
+- [`int_engine_get_blobs`](#int_engine_get_blobs)
 - [`int_engine_new_payload`](#int_engine_new_payload)
 - [`int_execution_block_by_date`](#int_execution_block_by_date)
 - [`int_storage_slot_diff`](#int_storage_slot_diff)
@@ -7207,6 +7208,91 @@ echo """
 | **meta_peer_geo_latitude** | `Nullable(Float64)` | *Latitude of the probed peer* |
 | **meta_peer_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the probed peer* |
 | **meta_peer_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the probed peer* |
+
+## int_engine_get_blobs
+
+Individual engine_getBlobs observations enriched with slot context from beacon blob sidecar data
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_engine_get_blobs`
+- **sepolia**: `sepolia.int_engine_get_blobs`
+- **holesky**: `holesky.int_engine_get_blobs`
+- **hoodi**: `hoodi.int_engine_get_blobs`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_engine_get_blobs FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_engine_get_blobs) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *When the sentry received the event* |
+| **requested_date_time** | `DateTime64(3)` | *When the engine_getBlobs call was initiated* |
+| **duration_ms** | `UInt32` | *How long the engine_getBlobs call took in milliseconds* |
+| **slot** | `UInt32` | *Slot number of the beacon block containing the blobs* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *Epoch number derived from the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *Root of the beacon block (hex encoded with 0x prefix)* |
+| **block_parent_root** | `FixedString(66)` | *Root of the parent beacon block (hex encoded with 0x prefix)* |
+| **proposer_index** | `UInt32` | *Validator index of the block proposer* |
+| **requested_count** | `UInt32` | *Number of blobs requested (length of versioned_hashes array)* |
+| **versioned_hashes** | `Array(FixedString(66))` | *Versioned hashes of the requested blobs* |
+| **returned_count** | `UInt32` | *Number of blobs actually returned* |
+| **returned_blob_indexes** | `Array(UInt8)` | *Indexes of the returned blobs* |
+| **status** | `LowCardinality(String)` | *Engine API response status (SUCCESS, PARTIAL, EMPTY, UNSUPPORTED, ERROR)* |
+| **error_message** | `Nullable(String)` | *Error message when the call fails* |
+| **method_version** | `LowCardinality(String)` | *Version of the engine_getBlobs method* |
+| **source** | `LowCardinality(String)` | *Source of the engine event* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 
 ## int_engine_new_payload
 
