@@ -144,7 +144,7 @@ echo """
 
 ## canonical_beacon_committee
 
-Contains finalized beacon committee assignments. Each row represents a committee with its validator indices for a given slot. Partition: monthly by `slot_start_date_time`.
+Contains canonical beacon API /eth/v1/beacon/committees data.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -566,7 +566,7 @@ echo """
 
 ## canonical_beacon_block_execution_transaction
 
-Contains execution layer transactions from finalized beacon blocks. Each row represents a transaction from the execution payload. Partition: monthly by `slot_start_date_time`.
+Contains execution transaction from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -781,7 +781,7 @@ echo """
 
 ## canonical_beacon_block_deposit
 
-Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.
+Contains a deposit from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -984,7 +984,7 @@ echo """
 
 ## canonical_beacon_blob_sidecar
 
-Contains blob sidecars from finalized beacon blocks. Each row represents a blob with its KZG commitment, proof, and versioned hash. Partition: monthly by `slot_start_date_time`.
+Contains a blob sidecar from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1088,7 +1088,7 @@ echo """
 
 ## canonical_beacon_proposer_duty
 
-Contains finalized proposer duty assignments. Each row represents which validator was scheduled to propose a block for a given slot. Partition: monthly by `slot_start_date_time`.
+Contains a proposer duty from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1185,7 +1185,7 @@ echo """
 
 ## canonical_beacon_elaborated_attestation
 
-Contains elaborated attestations from finalized beacon blocks. Aggregation bits are expanded to actual validator indices. Each row represents an attestation with its participating validators, source/target checkpoints, and position in the block. Partition: monthly by `slot_start_date_time`.
+Contains elaborated attestations from beacon blocks.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1295,14 +1295,14 @@ echo """
 
 ## canonical_beacon_validators
 
-Contains finalized validator state snapshots. Each row represents a validator\'s status, balance, and lifecycle epochs at a specific epoch. Partition: monthly by `epoch_start_date_time`.
+Contains a validator state for an epoch.
 
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2026-01-30`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-01-29`
+- **sepolia**: `2022-06-20` to `2026-01-30`
 
 ### Examples
 
@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-Contains a validator state for an epoch.
+
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
@@ -1405,7 +1405,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2200450`
+- **mainnet**: `0` to `2200950`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
