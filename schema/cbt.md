@@ -20,6 +20,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 <!-- schema_toc_start -->
 - [`dim_block_blob_submitter`](#dim_block_blob_submitter)
 - [`dim_contract_owner`](#dim_contract_owner)
+- [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
 - [`fct_address_access_chunked_10000`](#fct_address_access_chunked_10000)
 - [`fct_address_access_total`](#fct_address_access_total)
@@ -85,6 +86,10 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_mev_bid_count_by_relay`](#fct_mev_bid_count_by_relay)
 - [`fct_mev_bid_highest_value_by_builder_chunked_50ms`](#fct_mev_bid_highest_value_by_builder_chunked_50ms)
 - [`fct_node_active_last_24h`](#fct_node_active_last_24h)
+- [`fct_opcode_gas_by_opcode_daily`](#fct_opcode_gas_by_opcode_daily)
+- [`fct_opcode_gas_by_opcode_hourly`](#fct_opcode_gas_by_opcode_hourly)
+- [`fct_opcode_ops_daily`](#fct_opcode_ops_daily)
+- [`fct_opcode_ops_hourly`](#fct_opcode_ops_hourly)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_storage_slot_state_by_address_daily`](#fct_storage_slot_state_by_address_daily)
 - [`fct_storage_slot_state_by_address_hourly`](#fct_storage_slot_state_by_address_hourly)
@@ -109,6 +114,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_block_blob_count_canonical`](#int_block_blob_count_canonical)
 - [`int_block_canonical`](#int_block_canonical)
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
+- [`int_block_opcode_gas`](#int_block_opcode_gas)
 - [`int_block_proposer_canonical`](#int_block_proposer_canonical)
 - [`int_contract_storage_expiry_12m`](#int_contract_storage_expiry_12m)
 - [`int_contract_storage_expiry_18m`](#int_contract_storage_expiry_18m)
@@ -152,6 +158,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_storage_slot_state_with_expiry`](#int_storage_slot_state_with_expiry)
 - [`int_storage_slot_state_with_expiry_by_address`](#int_storage_slot_state_with_expiry_by_address)
 - [`int_storage_slot_state_with_expiry_by_block`](#int_storage_slot_state_with_expiry_by_block)
+- [`int_transaction_call_frame`](#int_transaction_call_frame)
+- [`int_transaction_call_frame_opcode_gas`](#int_transaction_call_frame_opcode_gas)
+- [`int_transaction_opcode_gas`](#int_transaction_opcode_gas)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -273,6 +282,62 @@ echo """
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
 | **labels** | `Array(String)` | *Labels/categories (e.g., stablecoin, dex, circle)* |
 | **sources** | `Array(String)` | *Sources of the label data (e.g., growthepie, dune, eth-labels)* |
+
+## dim_function_signature
+
+Function signature lookup table populated from Sourcify signature database.
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_function_signature`
+- **sepolia**: `sepolia.dim_function_signature`
+- **holesky**: `holesky.dim_function_signature`
+- **hoodi**: `hoodi.dim_function_signature`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_function_signature FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.dim_function_signature) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **selector** | `String` | *Function selector (first 4 bytes of keccak256 hash, hex encoded with 0x prefix)* |
+| **name** | `String` | *Function signature name (e.g., transfer(address,uint256))* |
+| **has_verified_contract** | `Bool` | *Whether this signature comes from a verified contract source* |
 
 ## dim_node
 
@@ -4513,6 +4578,266 @@ echo """
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
 
+## fct_opcode_gas_by_opcode_daily
+
+Daily per-opcode gas consumption for Top Opcodes by Gas charts
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_opcode_gas_by_opcode_daily`
+- **sepolia**: `sepolia.fct_opcode_gas_by_opcode_daily`
+- **holesky**: `holesky.fct_opcode_gas_by_opcode_daily`
+- **hoodi**: `hoodi.fct_opcode_gas_by_opcode_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_opcode_gas_by_opcode_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **block_count** | `UInt32` | *Number of blocks containing this opcode in this day* |
+| **total_count** | `UInt64` | *Total execution count of this opcode in this day* |
+| **total_gas** | `UInt64` | *Total gas consumed by this opcode in this day* |
+| **total_error_count** | `UInt64` | *Total error count for this opcode in this day* |
+| **avg_count_per_block** | `Float32` | *Average executions per block* |
+| **avg_gas_per_block** | `Float32` | *Average gas per block* |
+| **avg_gas_per_execution** | `Float32` | *Average gas per execution* |
+
+## fct_opcode_gas_by_opcode_hourly
+
+Hourly per-opcode gas consumption for Top Opcodes by Gas charts
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_opcode_gas_by_opcode_hourly`
+- **sepolia**: `sepolia.fct_opcode_gas_by_opcode_hourly`
+- **holesky**: `holesky.fct_opcode_gas_by_opcode_hourly`
+- **hoodi**: `hoodi.fct_opcode_gas_by_opcode_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_opcode_gas_by_opcode_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **block_count** | `UInt32` | *Number of blocks containing this opcode in this hour* |
+| **total_count** | `UInt64` | *Total execution count of this opcode in this hour* |
+| **total_gas** | `UInt64` | *Total gas consumed by this opcode in this hour* |
+| **total_error_count** | `UInt64` | *Total error count for this opcode in this hour* |
+| **avg_count_per_block** | `Float32` | *Average executions per block* |
+| **avg_gas_per_block** | `Float32` | *Average gas per block* |
+| **avg_gas_per_execution** | `Float32` | *Average gas per execution* |
+
+## fct_opcode_ops_daily
+
+Daily aggregated opcode execution rate statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_opcode_ops_daily`
+- **sepolia**: `sepolia.fct_opcode_ops_daily`
+- **holesky**: `holesky.fct_opcode_ops_daily`
+- **hoodi**: `hoodi.fct_opcode_ops_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_opcode_ops_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **total_opcode_count** | `UInt64` | *Total opcode executions in this day* |
+| **total_gas** | `UInt64` | *Total gas consumed by opcodes in this day* |
+| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
+| **avg_ops** | `Float32` | *Average opcodes per second using actual block time gaps* |
+| **min_ops** | `Float32` | *Minimum per-block ops/sec* |
+| **max_ops** | `Float32` | *Maximum per-block ops/sec* |
+| **p05_ops** | `Float32` | *5th percentile ops/sec* |
+| **p50_ops** | `Float32` | *50th percentile (median) ops/sec* |
+| **p95_ops** | `Float32` | *95th percentile ops/sec* |
+| **stddev_ops** | `Float32` | *Standard deviation of ops/sec* |
+| **upper_band_ops** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_ops** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_ops** | `Float32` | *Moving average ops/sec (7-day window)* |
+
+## fct_opcode_ops_hourly
+
+Hourly aggregated opcode execution rate statistics with percentiles, Bollinger bands, and moving averages
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_opcode_ops_hourly`
+- **sepolia**: `sepolia.fct_opcode_ops_hourly`
+- **holesky**: `holesky.fct_opcode_ops_hourly`
+- **hoodi**: `hoodi.fct_opcode_ops_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_opcode_ops_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **total_opcode_count** | `UInt64` | *Total opcode executions in this hour* |
+| **total_gas** | `UInt64` | *Total gas consumed by opcodes in this hour* |
+| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
+| **avg_ops** | `Float32` | *Average opcodes per second using actual block time gaps* |
+| **min_ops** | `Float32` | *Minimum per-block ops/sec* |
+| **max_ops** | `Float32` | *Maximum per-block ops/sec* |
+| **p05_ops** | `Float32` | *5th percentile ops/sec* |
+| **p50_ops** | `Float32` | *50th percentile (median) ops/sec* |
+| **p95_ops** | `Float32` | *95th percentile ops/sec* |
+| **stddev_ops** | `Float32` | *Standard deviation of ops/sec* |
+| **upper_band_ops** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_ops** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_ops** | `Float32` | *Moving average ops/sec (6-hour window)* |
+
 ## fct_prepared_block
 
 Prepared block proposals showing what would have been built if the validator had been selected as proposer
@@ -5980,6 +6305,65 @@ echo """
 | **gas_used** | `UInt64` | *The gas used of the proposer payload* |
 | **value** | `Nullable(UInt128)` | *The transaction value in wei* |
 | **transaction_count** | `UInt32` | *The number of transactions in the proposer payload* |
+
+## int_block_opcode_gas
+
+Aggregated opcode-level gas usage per block. Derived from int_transaction_opcode_gas.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_opcode_gas`
+- **sepolia**: `sepolia.int_block_opcode_gas`
+- **holesky**: `holesky.int_block_opcode_gas`
+- **hoodi**: `hoodi.int_block_opcode_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_opcode_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_block_opcode_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **count** | `UInt64` | *Total execution count of this opcode across all transactions in the block* |
+| **gas** | `UInt64` | *Total gas consumed by this opcode across all transactions in the block* |
+| **error_count** | `UInt64` | *Number of times this opcode resulted in an error across all transactions* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 ## int_block_proposer_canonical
 
@@ -8609,5 +8993,201 @@ echo """
 | **cumulative_net_bytes** | `Int64` | *Cumulative net bytes adjustment up to this block* |
 | **active_slots** | `Int64` | *Cumulative count of active storage slots at this block (with expiry applied)* |
 | **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at this block (with expiry applied)* |
+
+## int_transaction_call_frame
+
+Aggregated call frame activity per transaction for call tree analysis
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_call_frame`
+- **sepolia**: `sepolia.int_transaction_call_frame`
+- **holesky**: `holesky.int_transaction_call_frame`
+- **hoodi**: `hoodi.int_transaction_call_frame`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_call_frame FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing this transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *Position of the transaction within the block* |
+| **call_frame_id** | `UInt32` | *Sequential frame ID within the transaction (0 = root)* |
+| **parent_call_frame_id** | `Nullable(UInt32)` | *Parent frame ID (NULL for root frame)* |
+| **depth** | `UInt32` | *Call depth (0 = root transaction execution)* |
+| **target_address** | `Nullable(String)` | *Contract address being called (hex encoded with 0x prefix)* |
+| **call_type** | `LowCardinality(String)` | *Type of call opcode (CALL, DELEGATECALL, STATICCALL, CALLCODE, CREATE, CREATE2)* |
+| **function_selector** | `Nullable(String)` | *Function selector (first 4 bytes of call input, hex encoded with 0x prefix). Populated for all frames from traces.* |
+| **opcode_count** | `UInt64` | *Number of opcodes executed in this frame* |
+| **error_count** | `UInt64` | *Number of opcodes that resulted in errors* |
+| **gas** | `UInt64` | *Gas consumed by this frame only, excludes child frames. sum(gas) = EVM execution gas. This is "self" gas in flame graphs.* |
+| **gas_cumulative** | `UInt64` | *Gas consumed by this frame + all descendants. Root frame value = total EVM execution gas.* |
+| **gas_refund** | `Nullable(UInt64)` | *Total accumulated refund. Only populated for root frame, only for successful txs (refund not applied on failure).* |
+| **intrinsic_gas** | `Nullable(UInt64)` | *Intrinsic tx cost (21000 + calldata). Only populated for root frame of successful txs.* |
+| **receipt_gas_used** | `Nullable(UInt64)` | *Actual gas used from transaction receipt. Only populated for root frame (call_frame_id=0). Source of truth for total gas display.* |
+
+## int_transaction_call_frame_opcode_gas
+
+Aggregated opcode-level gas usage per call frame. Enables per-frame opcode analysis.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_call_frame_opcode_gas`
+- **sepolia**: `sepolia.int_transaction_call_frame_opcode_gas`
+- **holesky**: `holesky.int_transaction_call_frame_opcode_gas`
+- **hoodi**: `hoodi.int_transaction_call_frame_opcode_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_call_frame_opcode_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing the transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *The index of the transaction within the block* |
+| **call_frame_id** | `UInt32` | *Sequential frame ID within transaction (0 = root)* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **count** | `UInt64` | *Number of times this opcode was executed in this frame* |
+| **gas** | `UInt64` | *Gas consumed by this opcode in this frame. sum(gas) = frame gas* |
+| **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
+| **error_count** | `UInt64` | *Number of times this opcode resulted in an error in this frame* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_transaction_opcode_gas
+
+Aggregated opcode-level gas usage per transaction. Source: canonical_execution_transaction_structlog
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_opcode_gas`
+- **sepolia**: `sepolia.int_transaction_opcode_gas`
+- **holesky**: `holesky.int_transaction_opcode_gas`
+- **hoodi**: `hoodi.int_transaction_opcode_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_opcode_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_opcode_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing the transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *The index of the transaction within the block* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **count** | `UInt64` | *Number of times this opcode was executed in the transaction* |
+| **gas** | `UInt64` | *Gas consumed by this opcode. sum(gas) = transaction executed gas* |
+| **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
+| **min_depth** | `UInt64` | *Minimum call stack depth for this opcode* |
+| **max_depth** | `UInt64` | *Maximum call stack depth for this opcode* |
+| **error_count** | `UInt64` | *Number of times this opcode resulted in an error* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 <!-- schema_end -->
