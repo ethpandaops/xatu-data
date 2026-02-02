@@ -32,3 +32,4 @@ CREATE TABLE default.canonical_beacon_validators_pubkeys_local
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_beacon_validators_pubkeys_local', '{replica}', version)
 ORDER BY (index, pubkey, meta_network_name)
 SETTINGS index_granularity = 8192
+COMMENT 'Contains a validator state for an epoch.'
