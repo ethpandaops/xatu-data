@@ -16,7 +16,7 @@ Events derived from MEV relays. Data is scraped from multiple MEV Relays by mult
 <!-- schema_start -->
 ## mev_relay_bid_trace
 
-Contains MEV relay block bids data.
+Contains block bids collected by polling MEV relay data APIs. Each row represents a bid from a builder to a relay with value and block details. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -235,7 +235,7 @@ Contains MEV relay validator registrations data.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2024-12-11` to `2026-02-01`
+- **mainnet**: `2024-12-11` to `2026-02-02`
 - **holesky**: `2024-12-11` to `2025-04-27`
 - **sepolia**: `2024-12-11` to `2026-02-01`
 
@@ -249,7 +249,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2026/2/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2026/2/2.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
