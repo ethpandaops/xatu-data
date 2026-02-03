@@ -2896,6 +2896,12 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet
 - **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
 
+### `canonical_execution_transaction_structlog_agg`
+- **Database**: `default`
+- **Partitioning**: `block_number` (integer, 100)
+- **Networks**: mainnet
+- **Description**: Contains aggregated canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+
 ### `consensus_engine_api_get_blobs`
 - **Database**: `default`
 - **Partitioning**: `slot_start_date_time` (datetime, daily)

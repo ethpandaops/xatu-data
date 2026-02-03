@@ -523,6 +523,11 @@ head(df)
 - **Networks**: mainnet
 - **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
 
+### `canonical_execution_transaction_structlog_agg`
+- **Partitioning**: `block_number` (integer, 100)
+- **Networks**: mainnet
+- **Description**: Contains aggregated canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+
 ### `consensus_engine_api_get_blobs`
 - **Partitioning**: `slot_start_date_time` (datetime, daily)
 - **Networks**: mainnet

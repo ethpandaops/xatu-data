@@ -25,6 +25,7 @@ Data extracted from the execution layer. This data is only derived by a single i
 - [`canonical_execution_storage_diffs`](#canonical_execution_storage_diffs)
 - [`canonical_execution_storage_reads`](#canonical_execution_storage_reads)
 - [`canonical_execution_transaction_structlog`](#canonical_execution_transaction_structlog)
+- [`canonical_execution_transaction_structlog_agg`](#canonical_execution_transaction_structlog_agg)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -1613,6 +1614,104 @@ echo """
 | **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
 | **call_frame_id** | `UInt32` | *Sequential identifier for the call frame within the transaction* |
 | **call_frame_path** | `Array(UInt32)` | *Path of frame IDs from root to current frame* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_execution_transaction_structlog_agg
+
+Aggregated EVM execution data. Summary rows (operation="") contain frame metadata. Per-opcode rows contain aggregated gas/count per (frame, opcode).
+
+### Availability
+Data is partitioned in chunks of **100** on **block_number** for the following networks:
+
+- **mainnet**: `` to ``
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_execution_transaction_structlog_agg/100/CHUNK_NUMBER.parquet
+
+To find the parquet file with the `block_number` you're looking for, you need the correct `CHUNK_NUMBER` which is in intervals of `100`. Take the following examples;
+
+Contains `block_number` between `0` and `99`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog_agg/100/0.parquet
+
+Contains `block_number` between `5000` and `5099`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog_agg/100/5000.parquet
+
+Contains `block_number` between `100000` and `100199`:
+> https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog_agg/100/{1000..1001}00.parquet
+
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_execution_transaction_structlog_agg/100/{50..51}00.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog_agg FINAL
+    WHERE
+        block_number BETWEEN 5000 AND 5100
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_execution_transaction_structlog_agg FINAL
+    WHERE
+        block_number BETWEEN 5000 AND 5100
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash* |
+| **transaction_index** | `UInt32` | *The transaction position in the block* |
+| **call_frame_id** | `UInt32` | *Sequential frame ID within the transaction (0=root)* |
+| **parent_call_frame_id** | `Nullable(UInt32)` | *Parent frame ID (NULL for root frame)* |
+| **call_frame_path** | `Array(UInt32)` | *Path of frame IDs from root to current frame* |
+| **depth** | `UInt32` | *Call nesting depth (0=root)* |
+| **target_address** | `Nullable(String)` | *Contract address being called* |
+| **call_type** | `LowCardinality(String)` | *Call type: CALL/DELEGATECALL/STATICCALL/CALLCODE/CREATE/CREATE2 (empty for root)* |
+| **operation** | `LowCardinality(String)` | *Opcode name for per-opcode rows, empty string for frame summary rows* |
+| **opcode_count** | `UInt64` | *Number of opcodes (total for summary row, count for per-opcode row)* |
+| **error_count** | `UInt64` | *Number of errors* |
+| **gas** | `UInt64` | *Gas consumed: SUM(gas_self) for per-opcode, frame self gas for summary* |
+| **gas_cumulative** | `UInt64` | *Cumulative gas: SUM(gas_used) for per-opcode, frame total for summary* |
+| **min_depth** | `UInt32` | *Minimum depth where opcode appeared (per-opcode rows)* |
+| **max_depth** | `UInt32` | *Maximum depth where opcode appeared (per-opcode rows)* |
+| **gas_refund** | `Nullable(UInt64)` | *Gas refund (root summary row only)* |
+| **intrinsic_gas** | `Nullable(UInt64)` | *Intrinsic gas (root summary row only, computed)* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 <!-- schema_end -->
