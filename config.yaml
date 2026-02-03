@@ -1671,6 +1671,21 @@ tables:
       - Execution layer
       - Finalized
     description: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+  - name: canonical_execution_transaction_structlog_agg
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: integer
+      column: block_number
+      interval: 100
+    networks:
+      mainnet:
+        from: null
+        to: null
+    tags:
+      - Execution layer
+      - Finalized
+    description: Contains aggregated canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
   - name: consensus_engine_api_get_blobs
     database: default
     excluded_columns: []
