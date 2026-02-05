@@ -9185,8 +9185,6 @@ echo """
 | **count** | `UInt64` | *Number of times this opcode was executed in the transaction* |
 | **gas** | `UInt64` | *Gas consumed by this opcode. sum(gas) = transaction executed gas* |
 | **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
-| **min_depth** | `UInt64` | *Minimum call stack depth for this opcode* |
-| **max_depth** | `UInt64` | *Maximum call stack depth for this opcode* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 

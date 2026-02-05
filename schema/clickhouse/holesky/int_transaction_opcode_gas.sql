@@ -8,8 +8,6 @@ CREATE TABLE holesky.int_transaction_opcode_gas
     `count` UInt64 COMMENT 'Number of times this opcode was executed in the transaction' CODEC(ZSTD(1)),
     `gas` UInt64 COMMENT 'Gas consumed by this opcode. sum(gas) = transaction executed gas' CODEC(ZSTD(1)),
     `gas_cumulative` UInt64 COMMENT 'For CALL opcodes: includes all descendant frame gas. For others: same as gas' CODEC(ZSTD(1)),
-    `min_depth` UInt64 COMMENT 'Minimum call stack depth for this opcode' CODEC(ZSTD(1)),
-    `max_depth` UInt64 COMMENT 'Maximum call stack depth for this opcode' CODEC(ZSTD(1)),
     `error_count` UInt64 COMMENT 'Number of times this opcode resulted in an error' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )

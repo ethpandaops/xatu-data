@@ -8,25 +8,8 @@ CREATE TABLE sepolia.int_transaction_opcode_gas_local
     `count` UInt64 COMMENT 'Number of times this opcode was executed in the transaction' CODEC(ZSTD(1)),
     `gas` UInt64 COMMENT 'Gas consumed by this opcode. sum(gas) = transaction executed gas' CODEC(ZSTD(1)),
     `gas_cumulative` UInt64 COMMENT 'For CALL opcodes: includes all descendant frame gas. For others: same as gas' CODEC(ZSTD(1)),
-    `min_depth` UInt64 COMMENT 'Minimum call stack depth for this opcode' CODEC(ZSTD(1)),
-    `max_depth` UInt64 COMMENT 'Maximum call stack depth for this opcode' CODEC(ZSTD(1)),
     `error_count` UInt64 COMMENT 'Number of times this opcode resulted in an error' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'The name of the network',
-    PROJECTION p_by_opcode
-    (
-        SELECT *
-        ORDER BY
-            opcode,
-            block_number,
-            transaction_hash
-    ),
-    PROJECTION p_by_transaction
-    (
-        SELECT *
-        ORDER BY
-            transaction_hash,
-            opcode
-    )
+    `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_transaction_opcode_gas_local', '{replica}', updated_date_time)
 PARTITION BY intDiv(block_number, 201600)

@@ -10,24 +10,7 @@ CREATE TABLE hoodi.int_transaction_call_frame_opcode_gas_local
     `gas` UInt64 COMMENT 'Gas consumed by this opcode in this frame. sum(gas) = frame gas' CODEC(ZSTD(1)),
     `gas_cumulative` UInt64 COMMENT 'For CALL opcodes: includes all descendant frame gas. For others: same as gas' CODEC(ZSTD(1)),
     `error_count` UInt64 COMMENT 'Number of times this opcode resulted in an error in this frame' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'The name of the network',
-    PROJECTION p_by_frame
-    (
-        SELECT *
-        ORDER BY
-            transaction_hash,
-            call_frame_id,
-            opcode
-    ),
-    PROJECTION p_by_opcode
-    (
-        SELECT *
-        ORDER BY
-            opcode,
-            block_number,
-            transaction_hash,
-            call_frame_id
-    )
+    `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_transaction_call_frame_opcode_gas_local', '{replica}', updated_date_time)
 PARTITION BY intDiv(block_number, 201600)
