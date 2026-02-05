@@ -28,7 +28,7 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block_local
     `execution_payload_transactions_count` Nullable(UInt32) COMMENT 'The transaction count of the execution payload',
     `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
     `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the data. The table contains data from multiple Sentry clients',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -55,4 +55,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, meta_network_name, meta_client_name, block_root, parent_root, state_root)
 SETTINGS index_granularity = 8192
-COMMENT 'Xatu Sentry calls the Beacon API `/eth/v2/beacon/blocks/{block_id}` endpoint to fetch beacon blocks. Each row contains full beacon block data including execution payload. Partition: monthly by `slot_start_date_time`.'
+COMMENT 'Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.'

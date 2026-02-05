@@ -26,7 +26,7 @@ CREATE TABLE default.mev_relay_bid_trace_local
     `timestamp` Int64 COMMENT 'The timestamp of the bid' CODEC(DoubleDelta, ZSTD(1)),
     `timestamp_ms` Int64 COMMENT 'The timestamp of the bid in milliseconds' CODEC(DoubleDelta, ZSTD(1)),
     `optimistic_submission` Bool COMMENT 'Whether the bid was optimistic' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -47,4 +47,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, meta_network_name, relay_name, block_hash, meta_client_name, builder_pubkey, proposer_pubkey)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains block bids collected by polling MEV relay data APIs. Each row represents a bid from a builder to a relay with value and block details. Partition: monthly by `slot_start_date_time`.'
+COMMENT 'Contains MEV relay block bids data.'
