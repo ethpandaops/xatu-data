@@ -14,7 +14,7 @@ Events from the execution layer p2p network. This data is usually useful for 'ti
 <!-- schema_start -->
 ## mempool_transaction
 
-Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
+Contains pending transactions observed in the mempool. Each row represents a transaction first seen at a specific time with its gas parameters. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:

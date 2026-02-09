@@ -241,7 +241,7 @@ echo """
 
 ## canonical_beacon_block_attester_slashing
 
-Contains attester slashing from a beacon block.
+Contains attester slashings from finalized beacon blocks. Each row represents two conflicting attestations from a slashed validator. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -566,7 +566,7 @@ echo """
 
 ## canonical_beacon_block_execution_transaction
 
-Contains execution transaction from a beacon block.
+Contains execution layer transactions from finalized beacon blocks. Each row represents a transaction from the execution payload. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -681,7 +681,7 @@ echo """
 
 ## canonical_beacon_block_voluntary_exit
 
-Contains a voluntary exit from a beacon block.
+Contains voluntary exits from finalized beacon blocks. Each row represents a validator initiating an exit. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -781,7 +781,7 @@ echo """
 
 ## canonical_beacon_block_deposit
 
-Contains a deposit from a beacon block.
+Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1295,14 +1295,14 @@ echo """
 
 ## canonical_beacon_validators
 
-Contains a validator state for an epoch.
+Contains finalized validator state snapshots. Each row represents a validator\'s status, balance, and lifecycle epochs at a specific epoch. Partition: monthly by `epoch_start_date_time`.
 
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2026-02-07`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-02-06`
+- **sepolia**: `2022-06-20` to `2026-02-07`
 
 ### Examples
 

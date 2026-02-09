@@ -129,7 +129,7 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures attestation events. Each row represents an `attestation` event from the Beacon API `/eth/v1/events?topics=attestation`. High-volume table - filter by `slot_start_date_time` and `meta_network_name` to avoid full scans. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -935,7 +935,7 @@ echo """
 
 ## beacon_api_eth_v1_events_head
 
-Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures head events. Each row represents a `head` event from the Beacon API `/eth/v1/events?topics=head`, indicating the chain\'s canonical head has been updated. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1037,7 +1037,7 @@ echo """
 
 ## beacon_api_eth_v1_events_voluntary_exit
 
-Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures voluntary exit events. Each row represents a `voluntary_exit` event from the Beacon API `/eth/v1/events?topics=voluntary_exit`, when a validator initiates an exit. Partition: monthly by `wallclock_epoch_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
@@ -1362,7 +1362,7 @@ echo """
 
 ## beacon_api_eth_v1_proposer_duty
 
-Contains a proposer duty from a beacon block.
+Xatu Sentry fetches proposer duties from the Beacon API `/eth/v1/validator/duties/proposer/{epoch}` endpoint. Each row contains which validator is scheduled to propose a block for a given slot. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1460,7 +1460,7 @@ echo """
 
 ## beacon_api_eth_v3_validator_block
 
-Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
+Xatu Sentry calls the Beacon API `/eth/v3/validator/blocks/{slot}` endpoint. Contains UNSIGNED simulated blocks - what the beacon node would have built if asked to propose at that slot. NOT actual proposed blocks. Useful for MEV research and block building analysis. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
