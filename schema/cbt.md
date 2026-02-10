@@ -22,6 +22,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
+- [`dim_validator_pubkey`](#dim_validator_pubkey)
+- [`dim_validator_status`](#dim_validator_status)
 - [`fct_address_access_chunked_10000`](#fct_address_access_chunked_10000)
 - [`fct_address_access_total`](#fct_address_access_total)
 - [`fct_address_storage_slot_chunked_10000`](#fct_address_storage_slot_chunked_10000)
@@ -35,6 +37,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_first_seen_chunked_50ms`](#fct_attestation_first_seen_chunked_50ms)
 - [`fct_attestation_liveness_by_entity_head`](#fct_attestation_liveness_by_entity_head)
 - [`fct_attestation_observation_by_node`](#fct_attestation_observation_by_node)
+- [`fct_attestation_vote_correctness_by_validator`](#fct_attestation_vote_correctness_by_validator)
+- [`fct_attestation_vote_correctness_by_validator_daily`](#fct_attestation_vote_correctness_by_validator_daily)
+- [`fct_attestation_vote_correctness_by_validator_hourly`](#fct_attestation_vote_correctness_by_validator_hourly)
 - [`fct_block`](#fct_block)
 - [`fct_block_blob_count`](#fct_block_blob_count)
 - [`fct_block_blob_count_head`](#fct_block_blob_count_head)
@@ -46,6 +51,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
 - [`fct_block_proposer`](#fct_block_proposer)
+- [`fct_block_proposer_by_validator`](#fct_block_proposer_by_validator)
 - [`fct_block_proposer_entity`](#fct_block_proposer_entity)
 - [`fct_block_proposer_head`](#fct_block_proposer_head)
 - [`fct_contract_storage_state_by_address_daily`](#fct_contract_storage_state_by_address_daily)
@@ -101,6 +107,12 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_storage_slot_state_with_expiry_by_block_hourly`](#fct_storage_slot_state_with_expiry_by_block_hourly)
 - [`fct_storage_slot_top_100_by_bytes`](#fct_storage_slot_top_100_by_bytes)
 - [`fct_storage_slot_top_100_by_slots`](#fct_storage_slot_top_100_by_slots)
+- [`fct_sync_committee_participation_by_validator`](#fct_sync_committee_participation_by_validator)
+- [`fct_sync_committee_participation_by_validator_daily`](#fct_sync_committee_participation_by_validator_daily)
+- [`fct_sync_committee_participation_by_validator_hourly`](#fct_sync_committee_participation_by_validator_hourly)
+- [`fct_validator_balance`](#fct_validator_balance)
+- [`fct_validator_balance_daily`](#fct_validator_balance_daily)
+- [`fct_validator_balance_hourly`](#fct_validator_balance_hourly)
 - [`helper_contract_storage_next_touch_latest_state`](#helper_contract_storage_next_touch_latest_state)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
 - [`int_address_first_access`](#int_address_first_access)
@@ -397,6 +409,125 @@ echo """
 | **tags** | `Array(String)` | *Tags associated with the node* |
 | **attributes** | `Map(String, String)` | *Additional attributes of the node* |
 | **source** | `String` | *The source entity of the node* |
+
+## dim_validator_pubkey
+
+Validator index to pubkey mapping — one row per validator with the latest pubkey
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_validator_pubkey`
+- **sepolia**: `sepolia.dim_validator_pubkey`
+- **holesky**: `holesky.dim_validator_pubkey`
+- **hoodi**: `hoodi.dim_validator_pubkey`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_validator_pubkey FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.dim_validator_pubkey) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **pubkey** | `String` | *The public key of the validator* |
+
+## dim_validator_status
+
+Validator lifecycle status transitions — one row per (validator_index, status) with the first epoch observed
+
+### Availability
+Data is partitioned by **toStartOfMonth(epoch_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_validator_status`
+- **sepolia**: `sepolia.dim_validator_status`
+- **holesky**: `holesky.dim_validator_status`
+- **hoodi**: `hoodi.dim_validator_status`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_validator_status FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.dim_validator_status) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **version** | `UInt32` | *ReplacingMergeTree version: 4294967295 - epoch, keeps earliest epoch* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **pubkey** | `String` | *The public key of the validator* |
+| **status** | `LowCardinality(String)` | *Beacon chain validator status (e.g. pending_initialized, active_ongoing)* |
+| **epoch** | `UInt32` | *First epoch this status was observed* |
+| **epoch_start_date_time** | `DateTime` | *Wall clock time of the first observed epoch* |
+| **activation_epoch** | `Nullable(UInt64)` | *Epoch when activation is/was scheduled* |
+| **activation_eligibility_epoch** | `Nullable(UInt64)` | *Epoch when validator became eligible for activation* |
+| **exit_epoch** | `Nullable(UInt64)` | *Epoch when exit is/was scheduled* |
+| **withdrawable_epoch** | `Nullable(UInt64)` | *Epoch when withdrawal becomes possible* |
+| **slashed** | `Bool` | *Whether the validator was slashed at this transition* |
 
 ## fct_address_access_chunked_10000
 
@@ -1177,6 +1308,191 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_attestation_vote_correctness_by_validator
+
+Per-slot attestation vote correctness by validator
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_validator`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_validator`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_validator`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt64` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The start time of the slot* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **attested** | `Bool` | *Whether the validator attested in this slot* |
+| **head_correct** | `Nullable(Bool)` | *Whether the head vote was correct. NULL if not attested* |
+| **target_correct** | `Nullable(Bool)` | *Whether the target vote was correct. NULL if not attested* |
+| **source_correct** | `Nullable(Bool)` | *Whether the source vote was correct. NULL if not attested* |
+| **inclusion_distance** | `Nullable(UInt32)` | *Inclusion distance for the attestation. NULL if not attested* |
+
+## fct_attestation_vote_correctness_by_validator_daily
+
+Daily aggregation of per-validator attestation vote correctness
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_validator_daily`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_validator_daily`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_validator_daily`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_validator_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_validator_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The start of the day for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **total_duties** | `UInt32` | *Total attestation duties for the validator in this day* |
+| **attested_count** | `UInt32` | *Number of attestations made* |
+| **missed_count** | `UInt32` | *Number of attestations missed* |
+| **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
+| **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
+
+## fct_attestation_vote_correctness_by_validator_hourly
+
+Hourly aggregation of per-validator attestation vote correctness
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_validator_hourly`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_validator_hourly`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_validator_hourly`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_validator_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_validator_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **total_duties** | `UInt32` | *Total attestation duties for the validator in this hour* |
+| **attested_count** | `UInt32` | *Number of attestations made* |
+| **missed_count** | `UInt32` | *Number of attestations missed* |
+| **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
+| **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
 
 ## fct_block
 
@@ -1965,6 +2281,67 @@ echo """
 | **proposer_validator_index** | `UInt32` | *The validator index of the proposer for the slot* |
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
 | **block_root** | `Nullable(String)` | *The beacon block root hash. Null if a block was never seen by a sentry, aka "missed"* |
+| **status** | `LowCardinality(String)` | *Can be "canonical", "orphaned" or "missed"* |
+
+## fct_block_proposer_by_validator
+
+Block proposers re-indexed by validator for efficient validator lookups
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_proposer_by_validator`
+- **sepolia**: `sepolia.fct_block_proposer_by_validator`
+- **holesky**: `holesky.fct_block_proposer_by_validator`
+- **hoodi**: `hoodi.fct_block_proposer_by_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_proposer_by_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_by_validator) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **validator_index** | `UInt32` | *The validator index of the proposer* |
+| **pubkey** | `String` | *The public key of the proposer* |
+| **block_root** | `Nullable(String)` | *The beacon block root hash. NULL if missed* |
 | **status** | `LowCardinality(String)` | *Can be "canonical", "orphaned" or "missed"* |
 
 ## fct_block_proposer_entity
@@ -5493,6 +5870,367 @@ echo """
 | **contract_name** | `Nullable(String)` | *Name of the contract* |
 | **factory_contract** | `Nullable(String)` | *Factory contract or deployer address* |
 | **labels** | `Array(String)` | *Labels/categories (e.g., stablecoin, dex, circle)* |
+
+## fct_sync_committee_participation_by_validator
+
+Per-slot sync committee participation by validator
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_sync_committee_participation_by_validator`
+- **sepolia**: `sepolia.fct_sync_committee_participation_by_validator`
+- **holesky**: `holesky.fct_sync_committee_participation_by_validator`
+- **hoodi**: `hoodi.fct_sync_committee_participation_by_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_sync_committee_participation_by_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt64` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The start time of the slot* |
+| **validator_index** | `UInt32` | *Index of the validator* |
+| **participated** | `Bool` | *Whether the validator participated in sync committee for this slot* |
+
+## fct_sync_committee_participation_by_validator_daily
+
+Daily aggregation of per-validator sync committee participation
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_sync_committee_participation_by_validator_daily`
+- **sepolia**: `sepolia.fct_sync_committee_participation_by_validator_daily`
+- **holesky**: `holesky.fct_sync_committee_participation_by_validator_daily`
+- **hoodi**: `hoodi.fct_sync_committee_participation_by_validator_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_sync_committee_participation_by_validator_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The start of the day for this aggregation* |
+| **validator_index** | `UInt32` | *Index of the validator* |
+| **total_slots** | `UInt32` | *Total sync committee slots for the validator in this day* |
+| **participated_count** | `UInt32` | *Number of slots where validator participated* |
+| **missed_count** | `UInt32` | *Number of slots where validator missed* |
+
+## fct_sync_committee_participation_by_validator_hourly
+
+Hourly aggregation of per-validator sync committee participation
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_sync_committee_participation_by_validator_hourly`
+- **sepolia**: `sepolia.fct_sync_committee_participation_by_validator_hourly`
+- **holesky**: `holesky.fct_sync_committee_participation_by_validator_hourly`
+- **hoodi**: `hoodi.fct_sync_committee_participation_by_validator_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_sync_committee_participation_by_validator_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour for this aggregation* |
+| **validator_index** | `UInt32` | *Index of the validator* |
+| **total_slots** | `UInt32` | *Total sync committee slots for the validator in this hour* |
+| **participated_count** | `UInt32` | *Number of slots where validator participated* |
+| **missed_count** | `UInt32` | *Number of slots where validator missed* |
+
+## fct_validator_balance
+
+Per-epoch validator balance and status
+
+### Availability
+Data is partitioned by **toStartOfMonth(epoch_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_balance`
+- **sepolia**: `sepolia.fct_validator_balance`
+- **holesky**: `holesky.fct_validator_balance`
+- **hoodi**: `hoodi.fct_validator_balance`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_balance FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **epoch** | `UInt32` | *The epoch number* |
+| **epoch_start_date_time** | `DateTime` | *The start time of the epoch* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **balance** | `UInt64` | *Validator balance at this epoch in Gwei* |
+| **effective_balance** | `UInt64` | *Effective balance at this epoch in Gwei* |
+| **status** | `LowCardinality(String)` | *Validator status at this epoch* |
+| **slashed** | `Bool` | *Whether the validator was slashed (as of this epoch)* |
+
+## fct_validator_balance_daily
+
+Daily validator balance snapshots aggregated from per-epoch data
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_balance_daily`
+- **sepolia**: `sepolia.fct_validator_balance_daily`
+- **holesky**: `holesky.fct_validator_balance_daily`
+- **hoodi**: `hoodi.fct_validator_balance_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_balance_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The start of the day for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **start_epoch** | `UInt32` | *First epoch in this day for this validator* |
+| **end_epoch** | `UInt32` | *Last epoch in this day for this validator* |
+| **start_balance** | `Nullable(UInt64)` | *Balance at start of day (first epoch) in Gwei* |
+| **end_balance** | `Nullable(UInt64)` | *Balance at end of day (last epoch) in Gwei* |
+| **min_balance** | `Nullable(UInt64)` | *Minimum balance during the day in Gwei* |
+| **max_balance** | `Nullable(UInt64)` | *Maximum balance during the day in Gwei* |
+| **effective_balance** | `Nullable(UInt64)` | *Effective balance at end of day in Gwei* |
+| **status** | `LowCardinality(String)` | *Validator status at end of day* |
+| **slashed** | `Bool` | *Whether the validator was slashed (as of end of day)* |
+
+## fct_validator_balance_hourly
+
+Hourly validator balance snapshots aggregated from per-epoch data
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_balance_hourly`
+- **sepolia**: `sepolia.fct_validator_balance_hourly`
+- **holesky**: `holesky.fct_validator_balance_hourly`
+- **hoodi**: `hoodi.fct_validator_balance_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_balance_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **start_epoch** | `UInt32` | *First epoch in this hour for this validator* |
+| **end_epoch** | `UInt32` | *Last epoch in this hour for this validator* |
+| **start_balance** | `Nullable(UInt64)` | *Balance at start of hour (first epoch) in Gwei* |
+| **end_balance** | `Nullable(UInt64)` | *Balance at end of hour (last epoch) in Gwei* |
+| **min_balance** | `Nullable(UInt64)` | *Minimum balance during the hour in Gwei* |
+| **max_balance** | `Nullable(UInt64)` | *Maximum balance during the hour in Gwei* |
+| **effective_balance** | `Nullable(UInt64)` | *Effective balance at end of hour in Gwei* |
+| **status** | `LowCardinality(String)` | *Validator status at end of hour* |
+| **slashed** | `Bool` | *Whether the validator was slashed (as of end of hour)* |
 
 ## helper_contract_storage_next_touch_latest_state
 

@@ -1295,14 +1295,14 @@ echo """
 
 ## canonical_beacon_validators
 
-Contains finalized validator state snapshots. Each row represents a validator\'s status, balance, and lifecycle epochs at a specific epoch. Partition: monthly by `epoch_start_date_time`.
+Contains a validator state for an epoch.
 
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
 - **mainnet**: `2020-12-01` to `2026-02-08`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-02-07`
+- **sepolia**: `2022-06-20` to `2026-02-08`
 
 ### Examples
 
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2204250`
+- **mainnet**: `0` to `2205100`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
