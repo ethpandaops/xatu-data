@@ -11,7 +11,7 @@ CREATE TABLE default.libp2p_duplicate_message_local
     `peer_id_unique_key` Int64 COMMENT 'Unique key for the peer that sent the duplicate message',
     `message_id` String COMMENT 'Identifier of the message' CODEC(ZSTD(1)),
     `message_size` UInt32 COMMENT 'Size of the message in bytes' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -32,4 +32,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toYYYYMM(event_date_time)
 ORDER BY (event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name, message_id, seq_number)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.'
+COMMENT 'Contains DUPLICATE_MESSAGE events when a message is received that was already seen. Collected from deep instrumentation within forked consensus layer clients. Useful for analyzing message propagation. Partition: monthly by `event_date_time`.'
