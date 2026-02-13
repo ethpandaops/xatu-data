@@ -106,6 +106,10 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_missed_slot_rate_daily`](#fct_missed_slot_rate_daily)
 - [`fct_missed_slot_rate_hourly`](#fct_missed_slot_rate_hourly)
 - [`fct_node_active_last_24h`](#fct_node_active_last_24h)
+- [`fct_node_cpu_utilization_by_process`](#fct_node_cpu_utilization_by_process)
+- [`fct_node_disk_io_by_process`](#fct_node_disk_io_by_process)
+- [`fct_node_memory_usage_by_process`](#fct_node_memory_usage_by_process)
+- [`fct_node_network_io_by_process`](#fct_node_network_io_by_process)
 - [`fct_opcode_gas_by_opcode_daily`](#fct_opcode_gas_by_opcode_daily)
 - [`fct_opcode_gas_by_opcode_hourly`](#fct_opcode_gas_by_opcode_hourly)
 - [`fct_opcode_ops_daily`](#fct_opcode_ops_daily)
@@ -5840,6 +5844,265 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_node_cpu_utilization_by_process
+
+Node CPU utilization per sub-slot window enriched with node classification
+
+### Availability
+Data is partitioned by **toStartOfMonth(wallclock_slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_cpu_utilization_by_process`
+- **sepolia**: `sepolia.fct_node_cpu_utilization_by_process`
+- **holesky**: `holesky.fct_node_cpu_utilization_by_process`
+- **hoodi**: `hoodi.fct_node_cpu_utilization_by_process`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_cpu_utilization_by_process FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_node_cpu_utilization_by_process) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_start** | `DateTime64(3)` | *Start of the sub-slot aggregation window* |
+| **wallclock_slot** | `UInt32` | *The wallclock slot number* |
+| **wallclock_slot_start_date_time** | `DateTime64(3)` | *The wall clock time when the slot started* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the observoor client that collected the data* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **pid** | `UInt32` | *Process ID of the monitored client* |
+| **client_type** | `LowCardinality(String)` | *Client type: CL or EL* |
+| **system_cores** | `UInt16` | *Total system CPU cores* |
+| **mean_core_pct** | `Float32` | *Mean CPU core utilization percentage (100pct = 1 core)* |
+| **min_core_pct** | `Float32` | *Minimum CPU core utilization percentage (100pct = 1 core)* |
+| **max_core_pct** | `Float32` | *Maximum CPU core utilization percentage (100pct = 1 core)* |
+| **node_class** | `LowCardinality(String)` | *Node classification for filtering (e.g. eip7870)* |
+
+## fct_node_disk_io_by_process
+
+Node disk I/O per sub-slot window aggregated across devices with node classification
+
+### Availability
+Data is partitioned by **toStartOfMonth(wallclock_slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_disk_io_by_process`
+- **sepolia**: `sepolia.fct_node_disk_io_by_process`
+- **holesky**: `holesky.fct_node_disk_io_by_process`
+- **hoodi**: `hoodi.fct_node_disk_io_by_process`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_disk_io_by_process FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_node_disk_io_by_process) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_start** | `DateTime64(3)` | *Start of the sub-slot aggregation window* |
+| **wallclock_slot** | `UInt32` | *The wallclock slot number* |
+| **wallclock_slot_start_date_time** | `DateTime64(3)` | *The wall clock time when the slot started* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the observoor client that collected the data* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **pid** | `UInt32` | *Process ID of the monitored client* |
+| **client_type** | `LowCardinality(String)` | *Client type: CL or EL* |
+| **rw** | `LowCardinality(String)` | *I/O direction: read or write* |
+| **io_bytes** | `Float32` | *Total bytes transferred across all devices in this window* |
+| **io_ops** | `UInt32` | *Total I/O operations across all devices in this window* |
+| **node_class** | `LowCardinality(String)` | *Node classification for filtering (e.g. eip7870)* |
+
+## fct_node_memory_usage_by_process
+
+Node memory usage per sub-slot window enriched with node classification
+
+### Availability
+Data is partitioned by **toStartOfMonth(wallclock_slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_memory_usage_by_process`
+- **sepolia**: `sepolia.fct_node_memory_usage_by_process`
+- **holesky**: `holesky.fct_node_memory_usage_by_process`
+- **hoodi**: `hoodi.fct_node_memory_usage_by_process`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_memory_usage_by_process FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_node_memory_usage_by_process) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_start** | `DateTime64(3)` | *Start of the sub-slot aggregation window* |
+| **wallclock_slot** | `UInt32` | *The wallclock slot number* |
+| **wallclock_slot_start_date_time** | `DateTime64(3)` | *The wall clock time when the slot started* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the observoor client that collected the data* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **pid** | `UInt32` | *Process ID of the monitored client* |
+| **client_type** | `LowCardinality(String)` | *Client type: CL or EL* |
+| **vm_rss_bytes** | `UInt64` | *Resident set size in bytes (total physical memory used)* |
+| **rss_anon_bytes** | `UInt64` | *Anonymous RSS in bytes (heap, stack, anonymous mmap)* |
+| **rss_file_bytes** | `UInt64` | *File-backed RSS in bytes (shared libraries, mmap files)* |
+| **vm_swap_bytes** | `UInt64` | *Swap usage in bytes* |
+| **node_class** | `LowCardinality(String)` | *Node classification for filtering (e.g. eip7870)* |
+
+## fct_node_network_io_by_process
+
+Node network I/O per port per sub-slot window with node classification
+
+### Availability
+Data is partitioned by **toStartOfMonth(wallclock_slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_network_io_by_process`
+- **sepolia**: `sepolia.fct_node_network_io_by_process`
+- **holesky**: `holesky.fct_node_network_io_by_process`
+- **hoodi**: `hoodi.fct_node_network_io_by_process`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_network_io_by_process FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_node_network_io_by_process) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_start** | `DateTime64(3)` | *Start of the sub-slot aggregation window* |
+| **wallclock_slot** | `UInt32` | *The wallclock slot number* |
+| **wallclock_slot_start_date_time** | `DateTime64(3)` | *The wall clock time when the slot started* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the observoor client that collected the data* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **pid** | `UInt32` | *Process ID of the monitored client* |
+| **client_type** | `LowCardinality(String)` | *Client type: CL or EL* |
+| **port_label** | `LowCardinality(String)` | *Port classification (e.g. cl_p2p_tcp, el_json_rpc, unknown)* |
+| **direction** | `LowCardinality(String)` | *Traffic direction: tx or rx* |
+| **io_bytes** | `Float32` | *Total bytes transferred in this window* |
+| **io_count** | `UInt32` | *Total packet or event count in this window* |
+| **node_class** | `LowCardinality(String)` | *Node classification for filtering (e.g. eip7870)* |
 
 ## fct_opcode_gas_by_opcode_daily
 
