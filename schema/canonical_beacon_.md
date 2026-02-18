@@ -144,7 +144,7 @@ echo """
 
 ## canonical_beacon_committee
 
-Contains finalized beacon committee assignments. Each row represents a committee with its validator indices for a given slot. Partition: monthly by `slot_start_date_time`.
+Contains canonical beacon API /eth/v1/beacon/committees data.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -241,7 +241,7 @@ echo """
 
 ## canonical_beacon_block_attester_slashing
 
-Contains attester slashings from finalized beacon blocks. Each row represents two conflicting attestations from a slashed validator. Partition: monthly by `slot_start_date_time`.
+Contains attester slashing from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -566,7 +566,7 @@ echo """
 
 ## canonical_beacon_block_execution_transaction
 
-Contains execution layer transactions from finalized beacon blocks. Each row represents a transaction from the execution payload. Partition: monthly by `slot_start_date_time`.
+Contains execution transaction from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -781,7 +781,7 @@ echo """
 
 ## canonical_beacon_block_deposit
 
-Contains a deposit from a beacon block.
+Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -883,7 +883,7 @@ echo """
 
 ## canonical_beacon_block_withdrawal
 
-Contains withdrawals from finalized beacon blocks. Each row represents a validator withdrawal with recipient address and amount. Partition: monthly by `slot_start_date_time`.
+Contains a withdrawal from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-02-16`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-02-16`
+- **sepolia**: `2022-06-20` to `2026-02-17`
 
 ### Examples
 
@@ -1397,7 +1397,7 @@ echo """
 
 ## canonical_beacon_validators_pubkeys
 
-Contains a validator state for an epoch.
+
 
 
 > A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
