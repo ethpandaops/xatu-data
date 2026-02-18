@@ -150,6 +150,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
 - [`int_block_opcode_gas`](#int_block_opcode_gas)
 - [`int_block_proposer_canonical`](#int_block_proposer_canonical)
+- [`int_block_resource_gas`](#int_block_resource_gas)
 - [`int_contract_creation`](#int_contract_creation)
 - [`int_contract_selfdestruct`](#int_contract_selfdestruct)
 - [`int_contract_storage_expiry_12m`](#int_contract_storage_expiry_12m)
@@ -198,7 +199,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_storage_slot_state_with_expiry_by_block`](#int_storage_slot_state_with_expiry_by_block)
 - [`int_transaction_call_frame`](#int_transaction_call_frame)
 - [`int_transaction_call_frame_opcode_gas`](#int_transaction_call_frame_opcode_gas)
+- [`int_transaction_call_frame_opcode_resource_gas`](#int_transaction_call_frame_opcode_resource_gas)
 - [`int_transaction_opcode_gas`](#int_transaction_opcode_gas)
+- [`int_transaction_resource_gas`](#int_transaction_resource_gas)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -8556,6 +8559,69 @@ echo """
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
 | **block_root** | `Nullable(String)` | *The beacon block root hash. Null if a slot was missed* |
 
+## int_block_resource_gas
+
+Per-block resource gas totals. Derived from int_transaction_resource_gas.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_resource_gas`
+- **sepolia**: `sepolia.int_block_resource_gas`
+- **holesky**: `holesky.int_block_resource_gas`
+- **hoodi**: `hoodi.int_block_resource_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_resource_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_block_resource_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **gas_compute** | `UInt64` | *Total compute gas across all transactions* |
+| **gas_memory** | `UInt64` | *Total memory expansion gas across all transactions* |
+| **gas_address_access** | `UInt64` | *Total cold address/storage access gas across all transactions* |
+| **gas_state_growth** | `UInt64` | *Total state growth gas across all transactions* |
+| **gas_history** | `UInt64` | *Total history/log data gas across all transactions* |
+| **gas_bloom_topics** | `UInt64` | *Total bloom filter topic gas across all transactions* |
+| **gas_block_size** | `UInt64` | *Total block size gas across all transactions* |
+| **gas_refund** | `UInt64` | *Total gas refund across all transactions* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
 ## int_contract_creation
 
 Contract creation events with projection for efficient address lookups
@@ -11504,6 +11570,80 @@ echo """
 | **gas** | `UInt64` | *Gas consumed by this opcode in this frame. sum(gas) = frame gas* |
 | **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error in this frame* |
+| **memory_words_sum_before** | `UInt64` | *SUM(ceil(memory_bytes/32)) before each opcode executes.* |
+| **memory_words_sum_after** | `UInt64` | *SUM(ceil(memory_bytes/32)) after each opcode executes.* |
+| **memory_words_sq_sum_before** | `UInt64` | *SUM(words_before²).* |
+| **memory_words_sq_sum_after** | `UInt64` | *SUM(words_after²).* |
+| **memory_expansion_gas** | `UInt64` | *SUM(memory_expansion_gas). Exact per-opcode memory expansion cost.* |
+| **cold_access_count** | `UInt64` | *Number of cold storage/account accesses (EIP-2929).* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_transaction_call_frame_opcode_resource_gas
+
+Per-frame per-opcode resource gas decomposition into 7 categories.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_call_frame_opcode_resource_gas`
+- **sepolia**: `sepolia.int_transaction_call_frame_opcode_resource_gas`
+- **holesky**: `holesky.int_transaction_call_frame_opcode_resource_gas`
+- **hoodi**: `hoodi.int_transaction_call_frame_opcode_resource_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_call_frame_opcode_resource_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_resource_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing the transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *The index of the transaction within the block* |
+| **call_frame_id** | `UInt32` | *Sequential frame ID within transaction (0 = root)* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **count** | `UInt64` | *Number of times this opcode was executed in this frame* |
+| **gas** | `UInt64` | *Total gas consumed by this opcode in this frame* |
+| **gas_compute** | `UInt64` | *Gas attributed to pure computation* |
+| **gas_memory** | `UInt64` | *Gas attributed to memory expansion* |
+| **gas_address_access** | `UInt64` | *Gas attributed to cold address/storage access (EIP-2929)* |
+| **gas_state_growth** | `UInt64` | *Gas attributed to state growth (new storage slots, contract creation)* |
+| **gas_history** | `UInt64` | *Gas attributed to history/log data storage* |
+| **gas_bloom_topics** | `UInt64` | *Gas attributed to bloom filter topic indexing* |
+| **gas_block_size** | `UInt64` | *Gas attributed to block size (always 0 at opcode level)* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 ## int_transaction_opcode_gas
@@ -11566,6 +11706,71 @@ echo """
 | **gas** | `UInt64` | *Gas consumed by this opcode. sum(gas) = transaction executed gas* |
 | **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_transaction_resource_gas
+
+Per-transaction resource gas totals including intrinsic gas decomposition.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_resource_gas`
+- **sepolia**: `sepolia.int_transaction_resource_gas`
+- **holesky**: `holesky.int_transaction_resource_gas`
+- **hoodi**: `hoodi.int_transaction_resource_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_resource_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_resource_gas) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing the transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *The index of the transaction within the block* |
+| **gas_compute** | `UInt64` | *Total compute gas (EVM execution + intrinsic compute)* |
+| **gas_memory** | `UInt64` | *Total memory expansion gas* |
+| **gas_address_access** | `UInt64` | *Total cold address/storage access gas* |
+| **gas_state_growth** | `UInt64` | *Total state growth gas* |
+| **gas_history** | `UInt64` | *Total history/log data gas* |
+| **gas_bloom_topics** | `UInt64` | *Total bloom filter topic gas* |
+| **gas_block_size** | `UInt64` | *Total block size gas (from intrinsic calldata)* |
+| **gas_refund** | `UInt64` | *Gas refund from SSTORE operations* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 <!-- schema_end -->

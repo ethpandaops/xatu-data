@@ -17,6 +17,12 @@ CREATE TABLE default.canonical_execution_transaction_structlog_agg_local
     `gas_cumulative` UInt64 COMMENT 'Cumulative gas: SUM(gas_used) for per-opcode, frame total for summary' CODEC(ZSTD(1)),
     `min_depth` UInt32 COMMENT 'Minimum depth where opcode appeared (per-opcode rows)' CODEC(DoubleDelta, ZSTD(1)),
     `max_depth` UInt32 COMMENT 'Maximum depth where opcode appeared (per-opcode rows)' CODEC(DoubleDelta, ZSTD(1)),
+    `memory_words_sum_before` UInt64 DEFAULT 0 COMMENT 'SUM(ceil(memory_bytes/32)) before each opcode executes. Used with sq_sum to compute memory expansion gas.' CODEC(ZSTD(1)),
+    `memory_words_sum_after` UInt64 DEFAULT 0 COMMENT 'SUM(ceil(memory_bytes/32)) after each opcode executes.' CODEC(ZSTD(1)),
+    `memory_words_sq_sum_before` UInt64 DEFAULT 0 COMMENT 'SUM(words_before²). With sum_before, enables exact memory gas via E[cost(after)] - E[cost(before)].' CODEC(ZSTD(1)),
+    `memory_words_sq_sum_after` UInt64 DEFAULT 0 COMMENT 'SUM(words_after²). With sum_after, enables exact memory gas via E[cost(after)] - E[cost(before)].' CODEC(ZSTD(1)),
+    `memory_expansion_gas` UInt64 DEFAULT 0 COMMENT 'SUM(memory_expansion_gas). Exact per-opcode memory expansion cost, pre-computed to avoid intDiv rounding in SQL reconstruction.' CODEC(ZSTD(1)),
+    `cold_access_count` UInt64 DEFAULT 0 COMMENT 'Number of cold storage/account accesses (EIP-2929). cold_gas = cold_count * (cold_cost - warm_cost).' CODEC(ZSTD(1)),
     `gas_refund` Nullable(UInt64) COMMENT 'Gas refund (root summary row only)' CODEC(ZSTD(1)),
     `intrinsic_gas` Nullable(UInt64) COMMENT 'Intrinsic gas (root summary row only, computed)' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'

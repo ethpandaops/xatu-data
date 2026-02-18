@@ -36,7 +36,7 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -128,7 +128,7 @@ Contains canonical execution transaction data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -229,7 +229,7 @@ Contains canonical execution traces data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `9569000`
 
@@ -332,7 +332,7 @@ Contains canonical execution logs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -426,7 +426,7 @@ Contains canonical execution contract data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -525,7 +525,7 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -614,7 +614,7 @@ Contains canonical execution address appearance data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4659000`
 - **sepolia**: `0` to `10073000`
 
@@ -702,7 +702,7 @@ Contains canonical execution balance diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -795,7 +795,7 @@ Contains canonical execution balance read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4652000`
 - **sepolia**: `0` to `10073000`
 
@@ -884,7 +884,7 @@ Contains canonical execution erc20 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -976,7 +976,7 @@ Contains canonical execution erc721 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1068,7 +1068,7 @@ Contains canonical execution native transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1159,7 +1159,7 @@ Contains canonical execution nonce diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1252,7 +1252,7 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4657000`
 - **sepolia**: `0` to `10073000`
 
@@ -1341,7 +1341,7 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `24465000`
+- **mainnet**: `0` to `24472000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1710,6 +1710,12 @@ echo """
 | **gas_cumulative** | `UInt64` | *Cumulative gas: SUM(gas_used) for per-opcode, frame total for summary* |
 | **min_depth** | `UInt32` | *Minimum depth where opcode appeared (per-opcode rows)* |
 | **max_depth** | `UInt32` | *Maximum depth where opcode appeared (per-opcode rows)* |
+| **memory_words_sum_before** | `UInt64` | *SUM(ceil(memory_bytes/32)) before each opcode executes.* |
+| **memory_words_sum_after** | `UInt64` | *SUM(ceil(memory_bytes/32)) after each opcode executes.* |
+| **memory_words_sq_sum_before** | `UInt64` | *SUM(words_before²).* |
+| **memory_words_sq_sum_after** | `UInt64` | *SUM(words_after²).* |
+| **memory_expansion_gas** | `UInt64` | *SUM(memory_expansion_gas). Exact per-opcode memory expansion cost.* |
+| **cold_access_count** | `UInt64` | *Number of cold storage/account accesses (EIP-2929).* |
 | **gas_refund** | `Nullable(UInt64)` | *Gas refund (root summary row only)* |
 | **intrinsic_gas** | `Nullable(UInt64)` | *Intrinsic gas (root summary row only, computed)* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
