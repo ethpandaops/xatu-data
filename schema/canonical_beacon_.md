@@ -27,7 +27,7 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 <!-- schema_start -->
 ## canonical_beacon_block
 
-Contains finalized beacon block data. Each row represents a canonical block. Partition: monthly by `slot_start_date_time`.
+Contains beacon block from a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -144,7 +144,7 @@ echo """
 
 ## canonical_beacon_committee
 
-Contains finalized beacon committee assignments. Each row represents a committee with its validator indices for a given slot. Partition: monthly by `slot_start_date_time`.
+Contains canonical beacon API /eth/v1/beacon/committees data.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -241,7 +241,7 @@ echo """
 
 ## canonical_beacon_block_attester_slashing
 
-Contains attester slashings from finalized beacon blocks. Each row represents two conflicting attestations from a slashed validator. Partition: monthly by `slot_start_date_time`.
+Contains attester slashing from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -566,7 +566,7 @@ echo """
 
 ## canonical_beacon_block_execution_transaction
 
-Contains execution layer transactions from finalized beacon blocks. Each row represents a transaction from the execution payload. Partition: monthly by `slot_start_date_time`.
+Contains execution transaction from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -681,7 +681,7 @@ echo """
 
 ## canonical_beacon_block_voluntary_exit
 
-Contains voluntary exits from finalized beacon blocks. Each row represents a validator initiating an exit. Partition: monthly by `slot_start_date_time`.
+Contains a voluntary exit from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -781,7 +781,7 @@ echo """
 
 ## canonical_beacon_block_deposit
 
-Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.
+Contains a deposit from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1295,14 +1295,14 @@ echo """
 
 ## canonical_beacon_validators
 
-Contains finalized validator state snapshots. Each row represents a validator\'s status, balance, and lifecycle epochs at a specific epoch. Partition: monthly by `epoch_start_date_time`.
+Contains a validator state for an epoch.
 
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-02-19`
+- **mainnet**: `2020-12-01` to `2026-02-20`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-02-19`
+- **sepolia**: `2022-06-20` to `2026-02-20`
 
 ### Examples
 
@@ -1314,7 +1314,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/2/19/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/2/20/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

@@ -28,7 +28,7 @@ Events derived from the Beacon API event stream. This data is usually useful for
 <!-- schema_start -->
 ## beacon_api_eth_v1_beacon_committee
 
-Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
+Xatu Sentry calls the Beacon API `/eth/v1/beacon/states/{state_id}/committees` endpoint to fetch committee assignments. Each row contains validator committee assignments for a slot. Partition: monthly by `slot_start_date_time`.
 
 
 > Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
@@ -232,7 +232,7 @@ echo """
 
 ## beacon_api_eth_v1_events_blob_sidecar
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures blob sidecar events. Each row represents a `blob_sidecar` event from the Beacon API `/eth/v1/events?topics=blob_sidecar` (EIP-4844) with KZG commitment data. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -333,7 +333,7 @@ echo """
 
 ## beacon_api_eth_v1_events_block
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures block events. Each row represents a `block` event from the Beacon API `/eth/v1/events?topics=block`, indicating a new block has been imported. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -432,7 +432,7 @@ echo """
 
 ## beacon_api_eth_v1_events_block_gossip
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures block gossip events. Each row represents a `block_gossip` event from the Beacon API `/eth/v1/events?topics=block_gossip` used for measuring block propagation timing across the network. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1137,7 +1137,7 @@ echo """
 
 ## beacon_api_eth_v1_validator_attestation_data
 
-Contains beacon API validator attestation data from each sentry client attached to a beacon node.
+Xatu Sentry calls the Beacon API `/eth/v1/validator/attestation_data` endpoint to fetch attestation data. Each row contains attestation data with request timing metrics. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1244,7 +1244,7 @@ echo """
 
 ## beacon_api_eth_v2_beacon_block
 
-Xatu Sentry calls the Beacon API `/eth/v2/beacon/blocks/{block_id}` endpoint to fetch beacon blocks. Each row contains full beacon block data including execution payload. Partition: monthly by `slot_start_date_time`.
+Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1460,7 +1460,7 @@ echo """
 
 ## beacon_api_eth_v3_validator_block
 
-Xatu Sentry calls the Beacon API `/eth/v3/validator/blocks/{slot}` endpoint. Contains UNSIGNED simulated blocks - what the beacon node would have built if asked to propose at that slot. NOT actual proposed blocks. Useful for MEV research and block building analysis. Partition: monthly by `slot_start_date_time`.
+Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
