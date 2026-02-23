@@ -2734,12 +2734,6 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet, hoodi, sepolia
 - **Description**: Table for libp2p handle status events
 
-### `libp2p_identify`
-- **Database**: `default`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p identify events
-
 ### `libp2p_rpc_meta_control_ihave`
 - **Database**: `default`
 - **Partitioning**: `event_date_time` (datetime, daily)

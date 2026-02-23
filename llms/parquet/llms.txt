@@ -388,11 +388,6 @@ head(df)
 - **Networks**: mainnet, hoodi, sepolia
 - **Description**: Table for libp2p handle status events
 
-### `libp2p_identify`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p identify events
-
 ### `libp2p_rpc_meta_control_ihave`
 - **Partitioning**: `event_date_time` (datetime, daily)
 - **Networks**: mainnet, hoodi, sepolia
