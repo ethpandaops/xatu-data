@@ -135,6 +135,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_validator_balance`](#fct_validator_balance)
 - [`fct_validator_balance_daily`](#fct_validator_balance_daily)
 - [`fct_validator_balance_hourly`](#fct_validator_balance_hourly)
+- [`fct_validator_count_by_entity_by_status_daily`](#fct_validator_count_by_entity_by_status_daily)
 - [`helper_contract_storage_next_touch_latest_state`](#helper_contract_storage_next_touch_latest_state)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
 - [`int_address_first_access`](#int_address_first_access)
@@ -7627,6 +7628,63 @@ echo """
 | **effective_balance** | `Nullable(UInt64)` | *Effective balance at end of hour in Gwei* |
 | **status** | `LowCardinality(String)` | *Validator status at end of hour* |
 | **slashed** | `Bool` | *Whether the validator was slashed (as of end of hour)* |
+
+## fct_validator_count_by_entity_by_status_daily
+
+Daily validator count by entity and status, derived from canonical_beacon_validators joined with dim_node
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_count_by_entity_by_status_daily`
+- **sepolia**: `sepolia.fct_validator_count_by_entity_by_status_daily`
+- **holesky**: `holesky.fct_validator_count_by_entity_by_status_daily`
+- **hoodi**: `hoodi.fct_validator_count_by_entity_by_status_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_count_by_entity_by_status_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_validator_count_by_entity_by_status_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **entity** | `LowCardinality(String)` | *Entity name from dim_node mapping* |
+| **status** | `LowCardinality(String)` | *Validator status (active_ongoing, pending_queued, etc)* |
+| **validator_count** | `UInt32` | *Number of validators with this status for this entity on this day* |
 
 ## helper_contract_storage_next_touch_latest_state
 
