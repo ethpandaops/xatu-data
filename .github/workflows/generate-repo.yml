@@ -7,7 +7,9 @@ on:
 
 jobs:
   generate-repo:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted-ghr
+      - size-l-x64
     permissions:
       contents: write
     steps:
