@@ -113,7 +113,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 
 - **mainnet**: `2024-05-01` to `2026-02-22`
 - **holesky**: `2024-05-01` to `2025-10-26`
-- **sepolia**: `2024-05-01` to `2026-02-21`
+- **sepolia**: `2024-05-01` to `2026-02-22`
 
 ### Examples
 
@@ -762,7 +762,7 @@ echo """
 
 ## libp2p_disconnected
 
-Contains DISCONNECTED events when connections to remote peers are closed. Collected from deep instrumentation within forked consensus layer clients. Each row includes remote peer agent info and geolocation. Partition: monthly by `event_date_time`.
+Contains the details of the DISCONNECTED events from the libp2p client.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -870,7 +870,7 @@ echo """
 
 ## libp2p_add_peer
 
-Contains ADD_PEER events when peers are added to the libp2p peer store. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
+Contains the details of the peers added to the libp2p client.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1958,7 +1958,7 @@ echo """
 
 ## libp2p_handle_status
 
-Contains status protocol handling events (req/resp). Collected from deep instrumentation within forked consensus layer clients. Each row represents a status exchange with a peer including their head and finalized info. Partition: monthly by `event_date_time`.
+Contains the status handling events for libp2p peers.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2341,7 +2341,7 @@ echo """
 
 ## libp2p_rpc_meta_control_graft
 
-Contains GRAFT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers request to join the mesh for a topic. Partition: monthly by `event_date_time`.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
