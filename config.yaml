@@ -1110,24 +1110,6 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p handle status events
-  - name: libp2p_identify
-    database: default
-    excluded_columns: []
-    partitioning:
-      type: datetime
-      column: event_date_time
-      interval: daily
-    networks:
-      mainnet:
-        from: '2026-02-23'
-      hoodi:
-        from: '2026-02-23'
-      sepolia:
-        from: '2026-02-23'
-    tags:
-      - Consensus layer
-      - P2P
-    description: Table for libp2p identify events
   - name: libp2p_rpc_meta_control_ihave
     database: default
     excluded_columns: []
@@ -1764,14 +1746,11 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: '2024-04-24'
-        to: '2026-02-21'
+        from: '2026-02-23'
       hoodi:
-        from: '2025-03-17'
-        to: '2026-02-21'
+        from: '2026-02-23'
       sepolia:
-        from: '2024-04-22'
-        to: '2026-02-21'
+        from: '2026-02-23'
     tags:
       - Consensus layer
       - P2P
