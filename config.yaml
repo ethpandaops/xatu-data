@@ -1119,11 +1119,11 @@ tables:
       interval: daily
     networks:
       mainnet:
-        from: '2026-02-20'
+        from: '2026-02-23'
       hoodi:
-        from: '2026-02-20'
+        from: '2026-02-23'
       sepolia:
-        from: '2026-02-20'
+        from: '2026-02-23'
     tags:
       - Consensus layer
       - P2P
@@ -1755,6 +1755,27 @@ tables:
       - Consensus layer
       - P2P
     description: Table for libp2p RPC data column custody probe events.
+  - name: libp2p_identify
+    database: default
+    excluded_columns: []
+    partitioning:
+      type: datetime
+      column: event_date_time
+      interval: daily
+    networks:
+      mainnet:
+        from: '2024-04-24'
+        to: '2026-02-21'
+      hoodi:
+        from: '2025-03-17'
+        to: '2026-02-21'
+      sepolia:
+        from: '2024-04-22'
+        to: '2026-02-21'
+    tags:
+      - Consensus layer
+      - P2P
+    description: Table for libp2p identify events containing peer identification data including agent version, protocols, and connection metadata.
   - name: libp2p_synthetic_heartbeat
     database: default
     excluded_columns: []
