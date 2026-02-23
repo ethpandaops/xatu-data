@@ -548,6 +548,11 @@ head(df)
 - **Networks**: mainnet, hoodi, sepolia
 - **Description**: Table for libp2p RPC data column custody probe events.
 
+### `libp2p_identify`
+- **Partitioning**: `event_date_time` (datetime, daily)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Table for libp2p identify events containing peer identification data including agent version, protocols, and connection metadata.
+
 ### `libp2p_synthetic_heartbeat`
 - **Partitioning**: `event_date_time` (datetime, daily)
 - **Networks**: mainnet, holesky, hoodi, sepolia
