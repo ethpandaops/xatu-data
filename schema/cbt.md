@@ -91,6 +91,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_execution_gas_limit_signalling_hourly`](#fct_execution_gas_limit_signalling_hourly)
 - [`fct_execution_gas_used_daily`](#fct_execution_gas_used_daily)
 - [`fct_execution_gas_used_hourly`](#fct_execution_gas_used_hourly)
+- [`fct_execution_receipt_size_daily`](#fct_execution_receipt_size_daily)
+- [`fct_execution_receipt_size_hourly`](#fct_execution_receipt_size_hourly)
 - [`fct_execution_state_size_daily`](#fct_execution_state_size_daily)
 - [`fct_execution_state_size_hourly`](#fct_execution_state_size_hourly)
 - [`fct_execution_tps_daily`](#fct_execution_tps_daily)
@@ -151,6 +153,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
 - [`int_block_opcode_gas`](#int_block_opcode_gas)
 - [`int_block_proposer_canonical`](#int_block_proposer_canonical)
+- [`int_block_receipt_size`](#int_block_receipt_size)
 - [`int_block_resource_gas`](#int_block_resource_gas)
 - [`int_contract_creation`](#int_contract_creation)
 - [`int_contract_selfdestruct`](#int_contract_selfdestruct)
@@ -202,6 +205,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_transaction_call_frame_opcode_gas`](#int_transaction_call_frame_opcode_gas)
 - [`int_transaction_call_frame_opcode_resource_gas`](#int_transaction_call_frame_opcode_resource_gas)
 - [`int_transaction_opcode_gas`](#int_transaction_opcode_gas)
+- [`int_transaction_receipt_size`](#int_transaction_receipt_size)
 - [`int_transaction_resource_gas`](#int_transaction_resource_gas)
 <!-- schema_toc_end -->
 
@@ -4878,6 +4882,152 @@ echo """
 | **lower_band_gas_used** | `Int64` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
 | **moving_avg_gas_used** | `UInt64` | *Moving average gas used (6-hour window)* |
 
+## fct_execution_receipt_size_daily
+
+Daily aggregation of receipt size with standard statistics.
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_receipt_size_daily`
+- **sepolia**: `sepolia.fct_execution_receipt_size_daily`
+- **holesky**: `holesky.fct_execution_receipt_size_daily`
+- **hoodi**: `hoodi.fct_execution_receipt_size_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_receipt_size_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_daily) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The start date of the day* |
+| **block_count** | `UInt32` | *Number of blocks in this day* |
+| **transaction_count** | `UInt64` | *Number of transactions in this day* |
+| **total_receipt_bytes** | `UInt64` | *Total receipt bytes across all blocks* |
+| **avg_receipt_bytes_per_block** | `Float64` | *Average total receipt bytes per block* |
+| **min_receipt_bytes_per_block** | `UInt64` | *Minimum total receipt bytes in a single block* |
+| **max_receipt_bytes_per_block** | `UInt64` | *Maximum total receipt bytes in a single block* |
+| **p05_receipt_bytes_per_block** | `UInt64` | *5th percentile of total receipt bytes per block* |
+| **p50_receipt_bytes_per_block** | `UInt64` | *50th percentile of total receipt bytes per block* |
+| **p95_receipt_bytes_per_block** | `UInt64` | *95th percentile of total receipt bytes per block* |
+| **stddev_receipt_bytes_per_block** | `Float64` | *Standard deviation of total receipt bytes per block* |
+| **upper_band_receipt_bytes_per_block** | `Float64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_receipt_bytes_per_block** | `Float64` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_receipt_bytes_per_block** | `Float64` | *7-day moving average of receipt bytes per block* |
+| **avg_receipt_bytes_per_transaction** | `Float64` | *Average receipt bytes per transaction* |
+| **p50_receipt_bytes_per_transaction** | `UInt64` | *50th percentile of receipt bytes per transaction* |
+| **p95_receipt_bytes_per_transaction** | `UInt64` | *95th percentile of receipt bytes per transaction* |
+| **total_log_count** | `UInt64` | *Total logs emitted across all transactions* |
+| **avg_log_count_per_transaction** | `Float64` | *Average logs per transaction* |
+| **cumulative_receipt_bytes** | `UInt64` | *Running total of receipt bytes since genesis* |
+
+## fct_execution_receipt_size_hourly
+
+Hourly aggregation of receipt size with standard statistics.
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_execution_receipt_size_hourly`
+- **sepolia**: `sepolia.fct_execution_receipt_size_hourly`
+- **holesky**: `holesky.fct_execution_receipt_size_hourly`
+- **hoodi**: `hoodi.fct_execution_receipt_size_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_execution_receipt_size_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_hourly) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start time of the hour* |
+| **block_count** | `UInt32` | *Number of blocks in this hour* |
+| **transaction_count** | `UInt64` | *Number of transactions in this hour* |
+| **total_receipt_bytes** | `UInt64` | *Total receipt bytes across all blocks* |
+| **avg_receipt_bytes_per_block** | `Float64` | *Average total receipt bytes per block* |
+| **min_receipt_bytes_per_block** | `UInt64` | *Minimum total receipt bytes in a single block* |
+| **max_receipt_bytes_per_block** | `UInt64` | *Maximum total receipt bytes in a single block* |
+| **p05_receipt_bytes_per_block** | `UInt64` | *5th percentile of total receipt bytes per block* |
+| **p50_receipt_bytes_per_block** | `UInt64` | *50th percentile of total receipt bytes per block* |
+| **p95_receipt_bytes_per_block** | `UInt64` | *95th percentile of total receipt bytes per block* |
+| **stddev_receipt_bytes_per_block** | `Float64` | *Standard deviation of total receipt bytes per block* |
+| **upper_band_receipt_bytes_per_block** | `Float64` | *Upper Bollinger band (avg + 2*stddev)* |
+| **lower_band_receipt_bytes_per_block** | `Float64` | *Lower Bollinger band (avg - 2*stddev)* |
+| **moving_avg_receipt_bytes_per_block** | `Float64` | *6-hour moving average of receipt bytes per block* |
+| **avg_receipt_bytes_per_transaction** | `Float64` | *Average receipt bytes per transaction* |
+| **p50_receipt_bytes_per_transaction** | `UInt64` | *50th percentile of receipt bytes per transaction* |
+| **p95_receipt_bytes_per_transaction** | `UInt64` | *95th percentile of receipt bytes per transaction* |
+| **total_log_count** | `UInt64` | *Total logs emitted across all transactions* |
+| **avg_log_count_per_transaction** | `Float64` | *Average logs per transaction* |
+| **cumulative_receipt_bytes** | `UInt64` | *Running total of receipt bytes since genesis* |
+
 ## fct_execution_state_size_daily
 
 Execution layer state size metrics aggregated by day
@@ -8617,6 +8767,70 @@ echo """
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
 | **block_root** | `Nullable(String)` | *The beacon block root hash. Null if a slot was missed* |
 
+## int_block_receipt_size
+
+Per-block receipt size totals. Derived from int_transaction_receipt_size.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_receipt_size`
+- **sepolia**: `sepolia.int_block_receipt_size`
+- **holesky**: `holesky.int_block_receipt_size`
+- **hoodi**: `hoodi.int_block_receipt_size`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_receipt_size FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_block_receipt_size) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **receipt_bytes** | `UInt64` | *Total RLP-encoded receipt bytes across all transactions in the block* |
+| **transaction_count** | `UInt32` | *Number of transactions in the block* |
+| **log_count** | `UInt32` | *Total logs emitted across all transactions in the block* |
+| **log_data_bytes** | `UInt64` | *Total raw bytes of log data fields across all transactions* |
+| **log_topic_count** | `UInt32` | *Total number of topics across all logs in the block* |
+| **avg_receipt_bytes_per_transaction** | `Float64` | *Average receipt bytes per transaction in this block* |
+| **max_receipt_bytes_per_transaction** | `UInt64` | *Largest single transaction receipt in this block* |
+| **p50_receipt_bytes_per_transaction** | `UInt64` | *50th percentile of receipt bytes per transaction* |
+| **p95_receipt_bytes_per_transaction** | `UInt64` | *95th percentile of receipt bytes per transaction* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
 ## int_block_resource_gas
 
 Per-block resource gas totals. Derived from int_transaction_resource_gas.
@@ -11764,6 +11978,67 @@ echo """
 | **gas** | `UInt64` | *Gas consumed by this opcode. sum(gas) = transaction executed gas* |
 | **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_transaction_receipt_size
+
+Per-transaction exact RLP-encoded receipt size derived from logs and transaction data.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_receipt_size`
+- **sepolia**: `sepolia.int_transaction_receipt_size`
+- **holesky**: `holesky.int_transaction_receipt_size`
+- **hoodi**: `hoodi.int_transaction_receipt_size`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_receipt_size FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_transaction_receipt_size) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number containing the transaction* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *The index of the transaction within the block* |
+| **receipt_bytes** | `UInt64` | *Exact RLP-encoded receipt size in bytes (matches eth_getTransactionReceipt)* |
+| **log_count** | `UInt32` | *Number of logs emitted by this transaction* |
+| **log_data_bytes** | `UInt64` | *Total raw bytes of log data fields (before RLP encoding)* |
+| **log_topic_count** | `UInt32` | *Total number of topics across all logs* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 ## int_transaction_resource_gas
