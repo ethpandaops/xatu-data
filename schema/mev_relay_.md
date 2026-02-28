@@ -126,7 +126,7 @@ echo """
 
 ## mev_relay_proposer_payload_delivered
 
-Contains delivered payloads collected by polling MEV relay data APIs. Each row represents a payload that was delivered to a proposer. Partition: monthly by `slot_start_date_time`.
+Contains MEV relay proposer payload delivered data.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
