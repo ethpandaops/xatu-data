@@ -1300,9 +1300,9 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-02-26`
+- **mainnet**: `2020-12-01` to `2026-02-27`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-02-26`
+- **sepolia**: `2022-06-20` to `2026-02-27`
 
 ### Examples
 
@@ -1314,7 +1314,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/2/26/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/2/27/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2212900`
+- **mainnet**: `0` to `2213100`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
