@@ -44,3 +44,4 @@ ENGINE = ReplicatedMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, meta_network_name, meta_client_name)
 SETTINGS index_granularity = 8192
+COMMENT 'Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.'
