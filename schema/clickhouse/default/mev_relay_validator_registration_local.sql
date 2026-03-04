@@ -15,7 +15,7 @@ CREATE TABLE default.mev_relay_validator_registration_local
     `wallclock_slot_start_date_time` DateTime COMMENT 'The start time for the slot when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
     `wallclock_epoch` UInt32 COMMENT 'The wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
     `wallclock_epoch_start_date_time` DateTime COMMENT 'The start time for the wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -36,4 +36,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(event_date_time)
 ORDER BY (event_date_time, meta_network_name, meta_client_name, relay_name, validator_index, timestamp)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains validator registrations collected by polling MEV relay data APIs. Each row represents a validator registering their fee recipient and gas limit preferences. Partition: monthly by `event_date_time`.'
+COMMENT 'Contains MEV relay validator registrations data.'
