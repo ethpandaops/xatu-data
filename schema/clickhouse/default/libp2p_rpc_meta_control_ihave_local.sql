@@ -12,7 +12,7 @@ CREATE TABLE default.libp2p_rpc_meta_control_ihave_local
     `topic_encoding` LowCardinality(String),
     `message_id` String CODEC(ZSTD(1)),
     `peer_id_unique_key` Int64,
-    `meta_client_name` LowCardinality(String),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String),
     `meta_client_implementation` LowCardinality(String),
@@ -33,3 +33,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toYYYYMM(event_date_time)
 ORDER BY (event_date_time, unique_key, control_index, message_index, meta_network_name, meta_client_name)
 SETTINGS index_granularity = 8192
+COMMENT 'Contains IHAVE control messages from gossipsub. Collected from deep instrumentation within forked consensus layer clients. Peers advertise message IDs they have available. Partition: monthly by `event_date_time`.'
