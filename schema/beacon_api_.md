@@ -129,7 +129,7 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures attestation events. Each row represents an `attestation` event from the Beacon API `/eth/v1/events?topics=attestation`. High-volume table - filter by `slot_start_date_time` and `meta_network_name` to avoid full scans. Partition: monthly by `slot_start_date_time`.
+
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
@@ -1037,7 +1037,7 @@ echo """
 
 ## beacon_api_eth_v1_events_voluntary_exit
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures voluntary exit events. Each row represents a `voluntary_exit` event from the Beacon API `/eth/v1/events?topics=voluntary_exit`, when a validator initiates an exit. Partition: monthly by `wallclock_epoch_start_date_time`.
+Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
