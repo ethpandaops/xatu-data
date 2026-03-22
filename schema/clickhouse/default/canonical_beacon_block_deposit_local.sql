@@ -12,7 +12,7 @@ CREATE TABLE default.canonical_beacon_block_deposit_local
     `deposit_data_withdrawal_credentials` FixedString(66) COMMENT 'The withdrawal credentials of the validator from the deposit data' CODEC(ZSTD(1)),
     `deposit_data_amount` UInt128 COMMENT 'The amount of the deposit from the deposit data' CODEC(ZSTD(1)),
     `deposit_data_signature` String COMMENT 'The signature of the deposit data' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
     `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -39,4 +39,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/defa
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, meta_network_name, block_root, deposit_data_pubkey, deposit_proof)
 SETTINGS index_granularity = 8192
-COMMENT 'Contains a deposit from a beacon block.'
+COMMENT 'Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.'
