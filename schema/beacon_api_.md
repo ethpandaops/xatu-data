@@ -129,7 +129,7 @@ echo """
 
 ## beacon_api_eth_v1_events_attestation
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures attestation events. Each row represents an `attestation` event from the Beacon API `/eth/v1/events?topics=attestation`. High-volume table - filter by `slot_start_date_time` and `meta_network_name` to avoid full scans. Partition: monthly by `slot_start_date_time`.
+
 
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
