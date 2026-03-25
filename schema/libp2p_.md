@@ -870,7 +870,7 @@ echo """
 
 ## libp2p_add_peer
 
-Contains the details of the peers added to the libp2p client.
+Contains ADD_PEER events when peers are added to the libp2p peer store. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1045,7 +1045,7 @@ echo """
 
 ## libp2p_recv_rpc
 
-
+Contains RPC messages received from peers. Collected from deep instrumentation within forked consensus layer clients. Control messages are split into separate tables referencing this via rpc_meta_unique_key. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -1958,7 +1958,7 @@ echo """
 
 ## libp2p_handle_status
 
-Contains status protocol handling events (req/resp). Collected from deep instrumentation within forked consensus layer clients. Each row represents a status exchange with a peer including their head and finalized info. Partition: monthly by `event_date_time`.
+Contains the status handling events for libp2p peers.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2341,7 +2341,7 @@ echo """
 
 ## libp2p_rpc_meta_control_graft
 
-
+Contains GRAFT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers request to join the mesh for a topic. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2842,7 +2842,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/3/17.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/3/18.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
