@@ -1,0 +1,72 @@
+name: Export Hourly Tables
+
+on:
+  schedule:
+    - cron: '15 * * * *'  # 15 minutes past every hour
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Date to export (YYYY-MM-DD)'
+        required: false
+        type: string
+      environment:
+        description: 'Environment to use'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+        default: production
+      dry_run:
+        description: 'Dry run only'
+        type: boolean
+        default: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Export hourly tables
+        env:
+          # Production secrets
+          CLICKHOUSE_PASSWORD: ${{ secrets.CLICKHOUSE_PASSWORD }}
+          EXPERIMENTAL_CLICKHOUSE_PASSWORD: ${{ secrets.EXPERIMENTAL_CLICKHOUSE_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # Staging secrets
+          CLICKHOUSE_STAGING_PASSWORD: ${{ secrets.CLICKHOUSE_STAGING_PASSWORD }}
+          EXPERIMENTAL_CLICKHOUSE_STAGING_PASSWORD: ${{ secrets.EXPERIMENTAL_CLICKHOUSE_STAGING_PASSWORD }}
+          STAGING_AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          STAGING_AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ENVIRONMENT="${{ github.event.inputs.environment || 'production' }}"
+          DATE="${{ github.event.inputs.date || '' }}"
+          DRY_RUN_FLAG="${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+          
+          if [ -n "$DATE" ]; then
+            python scripts/export_all.py -e $ENVIRONMENT -g hourly -d $DATE $DRY_RUN_FLAG
+          else
+            python scripts/export_all.py -e $ENVIRONMENT -g hourly $DRY_RUN_FLAG
+          fi
+      
+      - name: Export summary
+        if: always()
+        run: |
+          echo "### Export Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ github.event.inputs.environment || 'production' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Date: ${{ github.event.inputs.date || 'last hour' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Dry Run: ${{ github.event.inputs.dry_run || 'false' }}" >> $GITHUB_STEP_SUMMARY
