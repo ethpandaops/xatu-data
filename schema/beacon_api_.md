@@ -232,7 +232,7 @@ echo """
 
 ## beacon_api_eth_v1_events_blob_sidecar
 
-Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
+Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures blob sidecar events. Each row represents a `blob_sidecar` event from the Beacon API `/eth/v1/events?topics=blob_sidecar` (EIP-4844) with KZG commitment data. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -935,7 +935,7 @@ echo """
 
 ## beacon_api_eth_v1_events_head
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures head events. Each row represents a `head` event from the Beacon API `/eth/v1/events?topics=head`, indicating the chain\'s canonical head has been updated. Sentry adds client metadata and propagation timing. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
