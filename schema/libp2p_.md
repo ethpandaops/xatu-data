@@ -958,7 +958,7 @@ echo """
 
 ## libp2p_remove_peer
 
-Contains REMOVE_PEER events when peers are removed from the libp2p peer store. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
+Contains the details of the peers removed from the libp2p client.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2842,7 +2842,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

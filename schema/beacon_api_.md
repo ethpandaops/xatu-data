@@ -737,7 +737,7 @@ echo """
 
 ## beacon_api_eth_v1_events_data_column_sidecar
 
-Xatu Sentry subscribes to a beacon node\'s Beacon API event-stream and captures data column sidecar events. Each row represents a `data_column_sidecar` event from the Beacon API `/eth/v1/events?topics=data_column_sidecar` (PeerDAS) with data availability sampling info. Partition: monthly by `slot_start_date_time`.
+Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
