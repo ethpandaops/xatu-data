@@ -1137,7 +1137,7 @@ echo """
 
 ## beacon_api_eth_v1_validator_attestation_data
 
-Contains beacon API validator attestation data from each sentry client attached to a beacon node.
+Xatu Sentry calls the Beacon API `/eth/v1/validator/attestation_data` endpoint to fetch attestation data. Each row contains attestation data with request timing metrics. Partition: monthly by `slot_start_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
