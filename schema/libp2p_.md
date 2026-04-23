@@ -325,7 +325,7 @@ echo """
 
 ## libp2p_gossipsub_blob_sidecar
 
-Contains blob sidecar messages received via libp2p gossipsub. Collected from deep instrumentation within forked consensus layer clients. Each row represents a blob gossiped on the p2p network with timing and peer metadata. Partition: monthly by `slot_start_date_time`.
+Table for libp2p gossipsub blob sidecar data
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -2341,7 +2341,7 @@ echo """
 
 ## libp2p_rpc_meta_control_graft
 
-Contains GRAFT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers request to join the mesh for a topic. Partition: monthly by `event_date_time`.
+
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2842,7 +2842,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/15.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/16.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
