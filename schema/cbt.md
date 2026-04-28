@@ -34,6 +34,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_correctness_by_validator_head`](#fct_attestation_correctness_by_validator_head)
 - [`fct_attestation_correctness_canonical`](#fct_attestation_correctness_canonical)
 - [`fct_attestation_correctness_head`](#fct_attestation_correctness_head)
+- [`fct_attestation_first_seen_by_validator`](#fct_attestation_first_seen_by_validator)
 - [`fct_attestation_first_seen_chunked_50ms`](#fct_attestation_first_seen_chunked_50ms)
 - [`fct_attestation_inclusion_delay_daily`](#fct_attestation_inclusion_delay_daily)
 - [`fct_attestation_inclusion_delay_hourly`](#fct_attestation_inclusion_delay_hourly)
@@ -147,6 +148,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_attestation_attested_canonical`](#int_attestation_attested_canonical)
 - [`int_attestation_attested_head`](#int_attestation_attested_head)
 - [`int_attestation_first_seen`](#int_attestation_first_seen)
+- [`int_attestation_first_seen_aggregate`](#int_attestation_first_seen_aggregate)
 - [`int_beacon_committee_head`](#int_beacon_committee_head)
 - [`int_block_blob_count_canonical`](#int_block_blob_count_canonical)
 - [`int_block_canonical`](#int_block_canonical)
@@ -1143,6 +1145,74 @@ echo """
 | **votes_max** | `UInt32` | *The maximum number of scheduled votes for the block* |
 | **votes_head** | `Nullable(UInt32)` | *The number of votes for the block proposed in the current slot* |
 | **votes_other** | `Nullable(UInt32)` | *The number of votes for any blocks proposed in previous slots* |
+
+## fct_attestation_first_seen_by_validator
+
+One row per (slot, validator, vote) carrying raw and aggregate first-seen times. ORDER BY includes vote fields so slashable double votes stay as separate rows instead of being collapsed by the ReplacingMergeTree.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_first_seen_by_validator`
+- **sepolia**: `sepolia.fct_attestation_first_seen_by_validator`
+- **holesky**: `holesky.fct_attestation_first_seen_by_validator`
+- **hoodi**: `hoodi.fct_attestation_first_seen_by_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_first_seen_by_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_first_seen_by_validator) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot the validator was attesting for* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **validator_index** | `UInt32` | *The validator index* |
+| **committee_index** | `LowCardinality(String)` | *The committee the validator was assigned to for this slot* |
+| **block_root** | `String` | *Head vote (beacon block root) for this attestation* |
+| **source_epoch** | `UInt32` | *Source checkpoint epoch for this attestation* |
+| **source_root** | `String` | *Source checkpoint root for this attestation* |
+| **target_epoch** | `UInt32` | *Target checkpoint epoch for this attestation* |
+| **target_root** | `String` | *Target checkpoint root for this attestation* |
+| **raw_seen_slot_start_diff** | `Nullable(UInt32)` | *Earliest time (ms after slot start) this (validator, vote) was seen as an unaggregated attestation. NULL if never seen raw.* |
+| **raw_source** | `LowCardinality(String)` | *Source the raw attestation was first observed from (beacon_api_eth_v1_events_attestation, libp2p_gossipsub_beacon_attestation, or empty)* |
+| **agg_seen_slot_start_diff** | `Nullable(UInt32)` | *Earliest time (ms after slot start) this (validator, vote) was seen inside an aggregate. NULL if never seen in an aggregate.* |
+| **agg_source** | `LowCardinality(String)` | *Source the earliest aggregate was observed from (beacon_api_eth_v1_events_attestation, libp2p_gossipsub_aggregate_and_proof, or empty)* |
 
 ## fct_attestation_first_seen_chunked_50ms
 
@@ -8380,6 +8450,76 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+| **source_epoch** | `UInt32` | *Source checkpoint epoch of the attestation* |
+| **source_root** | `String` | *Source checkpoint root of the attestation* |
+| **target_epoch** | `UInt32` | *Target checkpoint epoch of the attestation* |
+| **target_root** | `String` | *Target checkpoint root of the attestation* |
+
+## int_attestation_first_seen_aggregate
+
+Each row is one (slot, validator, vote) pair seen inside an aggregate attestation. Two rows for the same (slot, validator) indicate slashable double attestation.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_attestation_first_seen_aggregate`
+- **sepolia**: `sepolia.int_attestation_first_seen_aggregate`
+- **holesky**: `holesky.int_attestation_first_seen_aggregate`
+- **hoodi**: `hoodi.int_attestation_first_seen_aggregate`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_attestation_first_seen_aggregate FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_attestation_first_seen_aggregate) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **attesting_validator_index** | `UInt32` | *The index of the validator attesting* |
+| **committee_index** | `LowCardinality(String)` | *The committee index the validator is assigned to* |
+| **block_root** | `String` | *The head vote (beacon block root) from this aggregate* |
+| **source_epoch** | `UInt32` | *Source checkpoint epoch from this aggregate* |
+| **source_root** | `String` | *Source checkpoint root from this aggregate* |
+| **target_epoch** | `UInt32` | *Target checkpoint epoch from this aggregate* |
+| **target_root** | `String` | *Target checkpoint root from this aggregate* |
+| **seen_slot_start_diff** | `UInt32` | *The earliest time (ms after slot start) the validator was seen attesting this specific vote inside an aggregate* |
+| **source** | `LowCardinality(String)` | *The first source this aggregate was observed from (beacon_api or libp2p)* |
 
 ## int_beacon_committee_head
 

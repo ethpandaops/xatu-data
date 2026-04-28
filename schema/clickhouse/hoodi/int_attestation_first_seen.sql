@@ -25,7 +25,11 @@ CREATE TABLE hoodi.int_attestation_first_seen
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation',
+    `source_epoch` UInt32 COMMENT 'Source checkpoint epoch of the attestation',
+    `source_root` String COMMENT 'Source checkpoint root of the attestation',
+    `target_epoch` UInt32 COMMENT 'Target checkpoint epoch of the attestation',
+    `target_root` String COMMENT 'Target checkpoint root of the attestation'
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'int_attestation_first_seen_local', cityHash64(slot_start_date_time, attesting_validator_index))
 COMMENT 'When the attestation was first seen on the network by a sentry node'

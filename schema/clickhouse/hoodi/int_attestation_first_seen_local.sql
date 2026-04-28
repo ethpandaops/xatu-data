@@ -25,7 +25,11 @@ CREATE TABLE hoodi.int_attestation_first_seen_local
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation',
+    `source_epoch` UInt32 COMMENT 'Source checkpoint epoch of the attestation' CODEC(DoubleDelta, ZSTD(1)),
+    `source_root` String COMMENT 'Source checkpoint root of the attestation' CODEC(ZSTD(1)),
+    `target_epoch` UInt32 COMMENT 'Target checkpoint epoch of the attestation' CODEC(DoubleDelta, ZSTD(1)),
+    `target_root` String COMMENT 'Target checkpoint root of the attestation' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_attestation_first_seen_local', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(slot_start_date_time)
