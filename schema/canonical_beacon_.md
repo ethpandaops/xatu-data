@@ -27,7 +27,7 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 <!-- schema_start -->
 ## canonical_beacon_block
 
-Contains finalized beacon block data. Each row represents a canonical block. Partition: monthly by `slot_start_date_time`.
+Contains beacon block from a beacon node.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-04-29`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-04-28`
+- **sepolia**: `2022-06-20` to `2026-04-29`
 
 ### Examples
 
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2265250`
+- **mainnet**: `0` to `2265950`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
