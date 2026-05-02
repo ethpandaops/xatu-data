@@ -1768,7 +1768,7 @@ echo """
 
 ## libp2p_deliver_message
 
-Contains the details of the DELIVER_MESSAGE events from the libp2p client.
+Contains DELIVER_MESSAGE events when messages are delivered to local subscribers. Collected from deep instrumentation within forked consensus layer clients. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2249,7 +2249,7 @@ echo """
 
 ## libp2p_rpc_meta_control_idontwant
 
-Contains the details of the IDONTWANT control messages from the peer.
+Contains IDONTWANT control messages from gossipsub RPC. Collected from deep instrumentation within forked consensus layer clients. Peers indicate they do not want certain messages. Partition: monthly by `event_date_time`.
 
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
@@ -2842,7 +2842,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/24.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/4/25.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
