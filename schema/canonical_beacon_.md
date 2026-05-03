@@ -781,7 +781,7 @@ echo """
 
 ## canonical_beacon_block_deposit
 
-Contains validator deposits from finalized beacon blocks. Each row represents a deposit with pubkey, withdrawal credentials, and amount. Partition: monthly by `slot_start_date_time`.
+Contains a deposit from a beacon block.
 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
@@ -1302,7 +1302,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-05-01`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-04-30`
+- **sepolia**: `2022-06-20` to `2026-05-01`
 
 ### Examples
 
@@ -1405,7 +1405,7 @@ echo """
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2267200`
+- **mainnet**: `0` to `2267850`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `1900`
 
