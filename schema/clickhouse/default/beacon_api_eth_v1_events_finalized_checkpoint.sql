@@ -7,8 +7,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_finalized_checkpoint
     `epoch` UInt32 COMMENT 'The epoch number in the beacon API event stream payload' CODEC(DoubleDelta, ZSTD(1)),
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `execution_optimistic` Bool COMMENT 'Whether the execution of the epoch was optimistic',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the Sentry client that collected the event. The table contains data from multiple Sentry clients',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -21,14 +20,12 @@ CREATE TABLE default.beacon_api_eth_v1_events_finalized_checkpoint
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
     `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
     `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
     `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event'
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_finalized_checkpoint_local', cityHash64(epoch_start_date_time, meta_network_name, meta_client_name, block, state))
-COMMENT 'Xatu Sentry subscribes to a beacon node\\'s Beacon API event-stream and captures finalized checkpoint events. Each row represents a `finalized_checkpoint` event from the Beacon API `/eth/v1/events?topics=finalized_checkpoint`, when the chain finalizes a new epoch. Partition: monthly by `epoch_start_date_time`.'
+COMMENT 'Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.'

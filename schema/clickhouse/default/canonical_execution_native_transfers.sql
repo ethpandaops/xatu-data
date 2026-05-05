@@ -9,8 +9,7 @@ CREATE TABLE default.canonical_execution_native_transfers
     `from_address` String COMMENT 'The from address' CODEC(ZSTD(1)),
     `to_address` String COMMENT 'The to address' CODEC(ZSTD(1)),
     `value` UInt256 COMMENT 'The value of the approval' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_native_transfers_local', cityHash64(block_number, meta_network_name, transaction_hash, internal_index))
+ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_native_transfers_local', cityHash64(block_number, meta_network_name, transaction_hash))
 COMMENT 'Contains canonical execution native transfer data.'

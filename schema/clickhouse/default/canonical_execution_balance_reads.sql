@@ -7,8 +7,7 @@ CREATE TABLE default.canonical_execution_balance_reads
     `internal_index` UInt32 COMMENT 'The internal index of the balance read within the transaction' CODEC(DoubleDelta, ZSTD(1)),
     `address` String COMMENT 'The address of the balance read' CODEC(ZSTD(1)),
     `balance` UInt256 COMMENT 'The balance that was read' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_balance_reads_local', cityHash64(block_number, meta_network_name, transaction_hash, internal_index))
+ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_balance_reads_local', cityHash64(block_number, meta_network_name, transaction_hash))
 COMMENT 'Contains canonical execution balance read data.'

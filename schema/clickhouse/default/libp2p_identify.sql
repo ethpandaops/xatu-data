@@ -33,7 +33,6 @@ CREATE TABLE default.libp2p_identify
     `direction` LowCardinality(String),
     `remote_multiaddr` String CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String),
-    `meta_client_id` String CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String),
     `meta_client_implementation` LowCardinality(String),
     `meta_client_os` LowCardinality(String),
@@ -46,7 +45,7 @@ CREATE TABLE default.libp2p_identify
     `meta_client_geo_latitude` Nullable(Float64) CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) CODEC(ZSTD(1)),
-    `meta_network_id` Int32 CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String)
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_identify_local', cityHash64(event_date_time, meta_network_name, meta_client_name, remote_peer_id_unique_key, direction))
+COMMENT 'Contains libp2p identify protocol exchange results including remote peer agent info, supported protocols, and connection metadata'

@@ -16,7 +16,6 @@ CREATE TABLE default.mev_relay_validator_registration_local
     `wallclock_epoch` UInt32 COMMENT 'The wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
     `wallclock_epoch_start_date_time` DateTime COMMENT 'The start time for the wallclock epoch when the request was sent' CODEC(DoubleDelta, ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -29,11 +28,10 @@ CREATE TABLE default.mev_relay_validator_registration_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/mev_relay_validator_registration_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY toStartOfMonth(event_date_time)
-ORDER BY (event_date_time, meta_network_name, meta_client_name, relay_name, validator_index, timestamp)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/mev_relay_validator_registration_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, toYYYYMM(event_date_time))
+ORDER BY (meta_network_name, event_date_time, meta_client_name, relay_name, validator_index, timestamp)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains MEV relay validator registrations data.'

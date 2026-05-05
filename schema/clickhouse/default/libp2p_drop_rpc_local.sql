@@ -5,7 +5,6 @@ CREATE TABLE default.libp2p_drop_rpc_local
     `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event' CODEC(DoubleDelta, ZSTD(1)),
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer receiver',
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -18,11 +17,10 @@ CREATE TABLE default.libp2p_drop_rpc_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/libp2p_drop_rpc_local', '{replica}', updated_date_time)
-PARTITION BY toYYYYMM(event_date_time)
-ORDER BY (event_date_time, unique_key, meta_network_name, meta_client_name)
+PARTITION BY (meta_network_name, toYYYYMM(event_date_time))
+ORDER BY (meta_network_name, event_date_time, unique_key, meta_client_name)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains the details of the RPC messages dropped by the peer.'

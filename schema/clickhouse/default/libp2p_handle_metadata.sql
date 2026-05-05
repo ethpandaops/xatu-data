@@ -5,14 +5,13 @@ CREATE TABLE default.libp2p_handle_metadata
     `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer involved in the RPC',
     `error` Nullable(String) COMMENT 'Error message if the metadata handling failed' CODEC(ZSTD(1)),
     `protocol` LowCardinality(String) COMMENT 'The protocol of the metadata handling event',
-    `direction` LowCardinality(Nullable(String)) COMMENT 'Direction of the RPC request (inbound or outbound)' CODEC(ZSTD(1)),
+    `direction` LowCardinality(String) COMMENT 'Direction of the RPC request (inbound or outbound)' CODEC(ZSTD(1)),
     `attnets` String COMMENT 'Attestation subnets the peer is subscribed to' CODEC(ZSTD(1)),
     `seq_number` UInt64 COMMENT 'Sequence number of the metadata' CODEC(DoubleDelta, ZSTD(1)),
     `syncnets` String COMMENT 'Sync subnets the peer is subscribed to' CODEC(ZSTD(1)),
     `custody_group_count` Nullable(UInt8) COMMENT 'Number of custody groups (0-127)' CODEC(ZSTD(1)),
     `latency_milliseconds` Decimal(10, 3) COMMENT 'How long it took to handle the metadata request in milliseconds' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -25,8 +24,7 @@ CREATE TABLE default.libp2p_handle_metadata
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_handle_metadata_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, latency_milliseconds))
-COMMENT 'Contains metadata protocol handling events (req/resp). Collected from deep instrumentation within forked consensus layer clients. Each row represents a metadata exchange with a peer including their attnets and syncnets. Partition: monthly by `event_date_time`.'
+COMMENT 'Contains the metadata handling events for libp2p peers.'

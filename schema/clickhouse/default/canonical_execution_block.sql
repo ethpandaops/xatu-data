@@ -10,7 +10,6 @@ CREATE TABLE default.canonical_execution_block
     `extra_data` Nullable(String) COMMENT 'The block extra data in hex' CODEC(ZSTD(1)),
     `extra_data_string` Nullable(String) COMMENT 'The block extra data in UTF-8 string' CODEC(ZSTD(1)),
     `base_fee_per_gas` Nullable(UInt64) COMMENT 'The block base fee per gas' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_block_local', cityHash64(block_number, meta_network_name))

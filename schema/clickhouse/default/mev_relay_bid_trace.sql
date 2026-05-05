@@ -26,8 +26,7 @@ CREATE TABLE default.mev_relay_bid_trace
     `timestamp` Int64 COMMENT 'The timestamp of the bid' CODEC(DoubleDelta, ZSTD(1)),
     `timestamp_ms` Int64 COMMENT 'The timestamp of the bid in milliseconds' CODEC(DoubleDelta, ZSTD(1)),
     `optimistic_submission` Bool COMMENT 'Whether the bid was optimistic' CODEC(ZSTD(1)),
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -40,8 +39,7 @@ CREATE TABLE default.mev_relay_bid_trace
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'mev_relay_bid_trace_local', cityHash64(slot, meta_network_name))
-COMMENT 'Contains block bids collected by polling MEV relay data APIs. Each row represents a bid from a builder to a relay with value and block details. Partition: monthly by `slot_start_date_time`.'
+COMMENT 'Contains MEV relay block bids data.'

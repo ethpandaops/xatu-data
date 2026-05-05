@@ -1,7 +1,6 @@
 CREATE TABLE default.libp2p_gossipsub_aggregate_and_proof_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `version` UInt32 DEFAULT 4294967295 - propagation_slot_start_diff COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but lowest propagation_slot_start_diff time' CODEC(DoubleDelta, ZSTD(1)),
     `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event with millisecond precision' CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'Slot number associated with the event' CODEC(DoubleDelta, ZSTD(1)),
     `slot_start_date_time` DateTime COMMENT 'Start date and time of the slot' CODEC(DoubleDelta, ZSTD(1)),
@@ -28,7 +27,6 @@ CREATE TABLE default.libp2p_gossipsub_aggregate_and_proof_local
     `target_epoch` UInt32 COMMENT 'Target epoch from the attestation' CODEC(DoubleDelta, ZSTD(1)),
     `target_root` FixedString(66) COMMENT 'Target root from the attestation' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -41,11 +39,10 @@ CREATE TABLE default.libp2p_gossipsub_aggregate_and_proof_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Network ID associated with the client' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Name of the network associated with the client'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/libp2p_gossipsub_aggregate_and_proof_local/{shard}', '{replica}', version)
-PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/libp2p_gossipsub_aggregate_and_proof_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))
+ORDER BY (meta_network_name, slot_start_date_time, meta_client_name, peer_id_unique_key, message_id)
 SETTINGS index_granularity = 8192
 COMMENT 'Table for libp2p gossipsub aggregate and proof data.'

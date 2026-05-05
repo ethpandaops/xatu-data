@@ -6,11 +6,10 @@ CREATE TABLE default.canonical_execution_address_appearances_local
     `internal_index` UInt32 COMMENT 'The internal index of the address appearance within the transaction' CODEC(DoubleDelta, ZSTD(1)),
     `address` String COMMENT 'The address of the address appearance' CODEC(ZSTD(1)),
     `relationship` LowCardinality(String) COMMENT 'The relationship of the address to the transaction',
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_address_appearances_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY intDiv(block_number, 5000000)
-ORDER BY (block_number, meta_network_name, transaction_hash, internal_index)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_address_appearances_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, intDiv(block_number, 5000000))
+ORDER BY (meta_network_name, block_number, transaction_hash, internal_index)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains canonical execution address appearance data.'

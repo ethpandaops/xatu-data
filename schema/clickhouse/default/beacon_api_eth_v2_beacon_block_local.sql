@@ -1,7 +1,7 @@
 CREATE TABLE default.beacon_api_eth_v2_beacon_block_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `event_date_time` DateTime64(3) COMMENT 'When the sentry fetched the beacon block from a beacon node',
+    `event_date_time` DateTime64(3) CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'The slot number from beacon block payload',
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
     `epoch` UInt32 COMMENT 'The epoch number from beacon block payload',
@@ -15,9 +15,9 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block_local
     `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
     `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
     `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
-    `execution_payload_block_hash` FixedString(66) COMMENT 'The block hash of the execution payload',
-    `execution_payload_block_number` UInt32 COMMENT 'The block number of the execution payload',
-    `execution_payload_fee_recipient` String COMMENT 'The recipient of the fee for this execution payload',
+    `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload',
+    `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload',
+    `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload',
     `execution_payload_base_fee_per_gas` Nullable(UInt128) COMMENT 'Base fee per gas for execution payload' CODEC(ZSTD(1)),
     `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
     `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
@@ -29,7 +29,6 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block_local
     `execution_payload_transactions_total_bytes` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload',
     `execution_payload_transactions_total_bytes_compressed` Nullable(UInt32) COMMENT 'The transaction total bytes of the execution payload when compressed using snappy',
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -42,17 +41,15 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event',
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event',
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event',
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID',
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
     `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
     `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
     `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/beacon_api_eth_v2_beacon_block_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, meta_network_name, meta_client_name, block_root, parent_root, state_root)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/beacon_api_eth_v2_beacon_block_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))
+ORDER BY (meta_network_name, slot_start_date_time, meta_client_name, block_root, parent_root, state_root)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.'

@@ -1,7 +1,6 @@
 CREATE TABLE default.libp2p_gossipsub_data_column_sidecar
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `version` UInt32 DEFAULT 4294967295 - propagation_slot_start_diff COMMENT 'Version of this row, to help with de-duplication we want the latest updated_date_time but lowest propagation_slot_start_diff time' CODEC(DoubleDelta, ZSTD(1)),
     `event_date_time` DateTime64(3) COMMENT 'Timestamp of the event with millisecond precision' CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'Slot number associated with the event' CODEC(DoubleDelta, ZSTD(1)),
     `slot_start_date_time` DateTime COMMENT 'Start date and time of the slot' CODEC(DoubleDelta, ZSTD(1)),
@@ -25,8 +24,7 @@ CREATE TABLE default.libp2p_gossipsub_data_column_sidecar
     `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
     `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
     `topic_encoding` LowCardinality(String) COMMENT 'Encoding used for the topic',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -39,8 +37,7 @@ CREATE TABLE default.libp2p_gossipsub_data_column_sidecar
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Network ID associated with the client' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Name of the network associated with the client'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_gossipsub_data_column_sidecar_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id))
-COMMENT 'Contains data column sidecar messages received via libp2p gossipsub (PeerDAS). Collected from deep instrumentation within forked consensus layer clients. Each row represents a data column gossiped on the p2p network. Partition: monthly by `slot_start_date_time`.'
+COMMENT 'Table for libp2p gossipsub data column sidecar data'

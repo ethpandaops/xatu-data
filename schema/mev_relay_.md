@@ -21,9 +21,9 @@ Contains MEV relay block bids data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-09-13` to `2026-05-02`
+- **mainnet**: `2024-09-13` to `2026-05-03`
 - **holesky**: `2024-09-13` to `2025-10-26`
-- **sepolia**: `2024-09-13` to `2026-05-02`
+- **sepolia**: `2024-09-13` to `2026-05-03`
 
 ### Examples
 
@@ -35,7 +35,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2026/5/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_bid_trace/2026/5/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -107,8 +107,7 @@ echo """
 | **timestamp** | `Int64` | *The timestamp of the bid* |
 | **timestamp_ms** | `Int64` | *The timestamp of the bid in milliseconds* |
 | **optimistic_submission** | `Bool` | *Whether the bid was optimistic* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
 | **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
@@ -122,7 +121,6 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## mev_relay_proposer_payload_delivered
 
@@ -131,9 +129,9 @@ Contains MEV relay proposer payload delivered data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-05-02`
+- **mainnet**: `2020-12-01` to `2026-05-03`
 - **holesky**: `2024-09-16` to `2025-08-17`
-- **sepolia**: `2024-09-16` to `2026-05-02`
+- **sepolia**: `2024-09-16` to `2026-05-03`
 
 ### Examples
 
@@ -145,7 +143,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2026/5/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_proposer_payload_delivered/2026/5/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -211,8 +209,7 @@ echo """
 | **gas_used** | `UInt64` | *The gas used by the payload* |
 | **value** | `UInt256` | *The bid value in wei* |
 | **num_tx** | `UInt32` | *The number of transactions in the payload* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
 | **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
@@ -226,7 +223,6 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 ## mev_relay_validator_registration
 
@@ -235,9 +231,9 @@ Contains MEV relay validator registrations data.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2024-12-11` to `2026-05-02`
+- **mainnet**: `2024-12-11` to `2026-05-03`
 - **holesky**: `2024-12-11` to `2025-04-27`
-- **sepolia**: `2024-12-11` to `2026-05-02`
+- **sepolia**: `2024-12-11` to `2026-05-03`
 
 ### Examples
 
@@ -249,7 +245,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2026/5/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mev_relay_validator_registration/2026/5/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -310,8 +306,7 @@ echo """
 | **wallclock_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
 | **wallclock_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
 | **wallclock_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
 | **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
@@ -325,6 +320,5 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 <!-- schema_end -->

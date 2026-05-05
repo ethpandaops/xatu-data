@@ -36,7 +36,7 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -118,7 +118,6 @@ echo """
 | **extra_data** | `Nullable(String)` | *The block extra data in hex* |
 | **extra_data_string** | `Nullable(String)` | *The block extra data in UTF-8 string* |
 | **base_fee_per_gas** | `Nullable(UInt64)` | *The block base fee per gas* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_transaction
@@ -128,7 +127,7 @@ Contains canonical execution transaction data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -211,15 +210,14 @@ echo """
 | **input** | `Nullable(String)` | *The transaction input in hex* |
 | **gas_limit** | `UInt64` | *The transaction gas limit* |
 | **gas_used** | `UInt64` | *The transaction gas used* |
-| **gas_price** | `UInt64` | *The transaction gas price* |
-| **transaction_type** | `UInt32` | *The transaction type* |
+| **gas_price** | `UInt128` | *The transaction gas price* |
+| **transaction_type** | `UInt8` | *The transaction type* |
 | **max_priority_fee_per_gas** | `UInt64` | *The transaction max priority fee per gas* |
 | **max_fee_per_gas** | `UInt64` | *The transaction max fee per gas* |
 | **success** | `Bool` | *The transaction success* |
 | **n_input_bytes** | `UInt32` | *The transaction input bytes* |
 | **n_input_zero_bytes** | `UInt32` | *The transaction input zero bytes* |
 | **n_input_nonzero_bytes** | `UInt32` | *The transaction input nonzero bytes* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_traces
@@ -229,7 +227,7 @@ Contains canonical execution traces data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `9569000`
 
@@ -302,27 +300,26 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number* |
-| **transaction_index** | `UInt32` | *The transaction index* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_index** | `UInt64` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
 | **internal_index** | `UInt32` | *The internal index of the trace within the transaction* |
 | **action_from** | `String` | *The from address of the action* |
 | **action_to** | `Nullable(String)` | *The to address of the action* |
-| **action_value** | `String` | *The value of the action* |
-| **action_gas** | `UInt32` | *The gas provided for the action* |
+| **action_value** | `UInt256` | *The value of the action* |
+| **action_gas** | `UInt64` | *The gas provided for the action* |
 | **action_input** | `Nullable(String)` | *The input data for the action* |
 | **action_call_type** | `LowCardinality(String)` | *The call type of the action* |
 | **action_init** | `Nullable(String)` | *The initialization code for the action* |
 | **action_reward_type** | `String` | *The reward type for the action* |
 | **action_type** | `LowCardinality(String)` | *The type of the action* |
-| **result_gas_used** | `UInt32` | *The gas used in the result* |
+| **result_gas_used** | `UInt64` | *The gas used in the result* |
 | **result_output** | `Nullable(String)` | *The output of the result* |
 | **result_code** | `Nullable(String)` | *The code returned in the result* |
 | **result_address** | `Nullable(String)` | *The address returned in the result* |
 | **trace_address** | `Nullable(String)` | *The trace address* |
 | **subtraces** | `UInt32` | *The number of subtraces* |
 | **error** | `Nullable(String)` | *The error, if any, in the trace* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_logs
@@ -332,7 +329,7 @@ Contains canonical execution logs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -405,8 +402,8 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number* |
-| **transaction_index** | `UInt32` | *The transaction index* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_index** | `UInt64` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the log* |
 | **internal_index** | `UInt32` | *The internal index of the log within the transaction* |
 | **log_index** | `UInt32` | *The log index within the block* |
@@ -416,7 +413,6 @@ echo """
 | **topic2** | `Nullable(String)` | *The third topic of the log* |
 | **topic3** | `Nullable(String)` | *The fourth topic of the log* |
 | **data** | `Nullable(String)` | *The data associated with the log* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_contracts
@@ -426,7 +422,7 @@ Contains canonical execution contract data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -499,7 +495,7 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number* |
+| **block_number** | `UInt64` | *The block number* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash that created the contract* |
 | **internal_index** | `UInt32` | *The internal index of the contract creation within the transaction* |
 | **create_index** | `UInt32` | *The create index* |
@@ -512,7 +508,6 @@ echo """
 | **n_init_code_bytes** | `UInt32` | *Number of bytes in the initialization code* |
 | **n_code_bytes** | `UInt32` | *Number of bytes in the contract code* |
 | **code_hash** | `String` | *The hash of the contract code* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_four_byte_counts
@@ -525,7 +520,7 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -604,7 +599,6 @@ echo """
 | **signature** | `String` | *The signature of the four byte count* |
 | **size** | `UInt64` | *The size of the four byte count* |
 | **count** | `UInt64` | *The count of the four byte count* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_address_appearances
@@ -614,7 +608,7 @@ Contains canonical execution address appearance data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4659000`
 - **sepolia**: `0` to `10073000`
 
@@ -692,7 +686,6 @@ echo """
 | **internal_index** | `UInt32` | *The internal index of the address appearance within the transaction* |
 | **address** | `String` | *The address of the address appearance* |
 | **relationship** | `LowCardinality(String)` | *The relationship of the address to the transaction* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_balance_diffs
@@ -702,7 +695,7 @@ Contains canonical execution balance diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -782,7 +775,6 @@ echo """
 | **address** | `String` | *The address of the balance diff* |
 | **from_value** | `UInt256` | *The from value of the balance diff* |
 | **to_value** | `UInt256` | *The to value of the balance diff* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_balance_reads
@@ -795,7 +787,7 @@ Contains canonical execution balance read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4652000`
 - **sepolia**: `0` to `10073000`
 
@@ -874,7 +866,6 @@ echo """
 | **internal_index** | `UInt32` | *The internal index of the balance read within the transaction* |
 | **address** | `String` | *The address of the balance read* |
 | **balance** | `UInt256` | *The balance that was read* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_erc20_transfers
@@ -884,7 +875,7 @@ Contains canonical execution erc20 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -966,7 +957,6 @@ echo """
 | **from_address** | `String` | *The from address* |
 | **to_address** | `String` | *The to address* |
 | **value** | `UInt256` | *The value of the transfer* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_erc721_transfers
@@ -976,7 +966,7 @@ Contains canonical execution erc721 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1054,11 +1044,10 @@ echo """
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
 | **internal_index** | `UInt32` | *The internal index of the transfer within the transaction* |
 | **log_index** | `UInt64` | *The log index in the block* |
-| **erc20** | `String` | *The erc20 address* |
+| **erc721** | `String` | *The erc20 address* |
 | **from_address** | `String` | *The from address* |
 | **to_address** | `String` | *The to address* |
 | **token** | `UInt256` | *The token id* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_native_transfers
@@ -1068,7 +1057,7 @@ Contains canonical execution native transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1149,7 +1138,6 @@ echo """
 | **from_address** | `String` | *The from address* |
 | **to_address** | `String` | *The to address* |
 | **value** | `UInt256` | *The value of the approval* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_nonce_diffs
@@ -1159,7 +1147,7 @@ Contains canonical execution nonce diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1239,7 +1227,6 @@ echo """
 | **address** | `String` | *The address of the nonce diff* |
 | **from_value** | `UInt64` | *The from value of the nonce diff* |
 | **to_value** | `UInt64` | *The to value of the nonce diff* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_nonce_reads
@@ -1252,7 +1239,7 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4657000`
 - **sepolia**: `0` to `10073000`
 
@@ -1331,7 +1318,6 @@ echo """
 | **internal_index** | `UInt32` | *The internal index of the nonce read within the transaction* |
 | **address** | `String` | *The address of the nonce read* |
 | **nonce** | `UInt64` | *The nonce that was read* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_storage_diffs
@@ -1341,7 +1327,7 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `25010000`
+- **mainnet**: `0` to `25017000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1414,15 +1400,14 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number* |
-| **transaction_index** | `UInt32` | *The transaction index* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_index** | `UInt64` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the storage diff* |
 | **internal_index** | `UInt32` | *The internal index of the storage diff within the transaction* |
 | **address** | `String` | *The address associated with the storage diff* |
 | **slot** | `String` | *The storage slot key* |
 | **from_value** | `String` | *The original value before the storage diff* |
 | **to_value** | `String` | *The new value after the storage diff* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_storage_reads
@@ -1507,14 +1492,13 @@ echo """
 | Name | Type | Description |
 |--------|------|-------------|
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **block_number** | `UInt32` | *The block number* |
-| **transaction_index** | `UInt32` | *The transaction index* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_index** | `UInt64` | *The transaction index* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash associated with the storage read* |
 | **internal_index** | `UInt32` | *The internal index of the storage read within the transaction* |
 | **contract_address** | `String` | *The contract address associated with the storage read* |
 | **slot** | `String` | *The storage slot key* |
 | **value** | `String` | *The value read from the storage slot* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## canonical_execution_transaction_structlog
@@ -1597,7 +1581,7 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **transaction_index** | `UInt32` | *The transaction position in the block* |
+| **transaction_index** | `UInt64` | *The transaction position in the block* |
 | **transaction_gas** | `UInt64` | *The transaction gas* |
 | **transaction_failed** | `Bool` | *The transaction failed* |
 | **transaction_return_value** | `Nullable(String)` | *The transaction return value* |
@@ -1696,7 +1680,7 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_number** | `UInt64` | *The block number* |
 | **transaction_hash** | `FixedString(66)` | *The transaction hash* |
-| **transaction_index** | `UInt32` | *The transaction position in the block* |
+| **transaction_index** | `UInt64` | *The transaction position in the block* |
 | **call_frame_id** | `UInt32` | *Sequential frame ID within the transaction (0=root)* |
 | **parent_call_frame_id** | `Nullable(UInt32)` | *Parent frame ID (NULL for root frame)* |
 | **call_frame_path** | `Array(UInt32)` | *Path of frame IDs from root to current frame* |
@@ -1710,12 +1694,12 @@ echo """
 | **gas_cumulative** | `UInt64` | *Cumulative gas: SUM(gas_used) for per-opcode, frame total for summary* |
 | **min_depth** | `UInt32` | *Minimum depth where opcode appeared (per-opcode rows)* |
 | **max_depth** | `UInt32` | *Maximum depth where opcode appeared (per-opcode rows)* |
-| **memory_words_sum_before** | `UInt64` | *SUM(ceil(memory_bytes/32)) before each opcode executes.* |
+| **memory_words_sum_before** | `UInt64` | *SUM(ceil(memory_bytes/32)) before each opcode executes. Used with sq_sum to compute memory expansion gas.* |
 | **memory_words_sum_after** | `UInt64` | *SUM(ceil(memory_bytes/32)) after each opcode executes.* |
-| **memory_words_sq_sum_before** | `UInt64` | *SUM(words_before²).* |
-| **memory_words_sq_sum_after** | `UInt64` | *SUM(words_after²).* |
-| **memory_expansion_gas** | `UInt64` | *SUM(memory_expansion_gas). Exact per-opcode memory expansion cost.* |
-| **cold_access_count** | `UInt64` | *Number of cold storage/account accesses (EIP-2929).* |
+| **memory_words_sq_sum_before** | `UInt64` | *SUM(words_before²). With sum_before, enables exact memory gas via E[cost(after)] - E[cost(before)].* |
+| **memory_words_sq_sum_after** | `UInt64` | *SUM(words_after²). With sum_after, enables exact memory gas via E[cost(after)] - E[cost(before)].* |
+| **memory_expansion_gas** | `UInt64` | *SUM(memory_expansion_gas). Exact per-opcode memory expansion cost, pre-computed to avoid intDiv rounding in SQL reconstruction.* |
+| **cold_access_count** | `UInt64` | *Number of cold storage/account accesses (EIP-2929). cold_gas = cold_count * (cold_cost - warm_cost).* |
 | **gas_refund** | `Nullable(UInt64)` | *Gas refund (root summary row only)* |
 | **intrinsic_gas** | `Nullable(UInt64)` | *Intrinsic gas (root summary row only, computed)* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |

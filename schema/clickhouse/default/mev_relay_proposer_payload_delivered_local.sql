@@ -21,7 +21,6 @@ CREATE TABLE default.mev_relay_proposer_payload_delivered_local
     `value` UInt256 COMMENT 'The bid value in wei' CODEC(ZSTD(1)),
     `num_tx` UInt32 COMMENT 'The number of transactions in the payload' CODEC(DoubleDelta, ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -34,11 +33,10 @@ CREATE TABLE default.mev_relay_proposer_payload_delivered_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/mev_relay_proposer_payload_delivered_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, meta_network_name, relay_name, block_hash, meta_client_name, builder_pubkey, proposer_pubkey)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/mev_relay_proposer_payload_delivered_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))
+ORDER BY (meta_network_name, slot_start_date_time, relay_name, block_hash, meta_client_name, builder_pubkey, proposer_pubkey)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains MEV relay proposer payload delivered data.'

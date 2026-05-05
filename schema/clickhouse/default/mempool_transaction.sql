@@ -19,8 +19,7 @@ CREATE TABLE default.mempool_transaction
     `blob_hashes` Array(String) COMMENT 'The hashes of the blob commitments for blob transactions',
     `blob_sidecars_size` Nullable(UInt32) COMMENT 'The total size of the sidecars for blob transactions in bytes',
     `blob_sidecars_empty_size` Nullable(UInt32) COMMENT 'The total empty size of the sidecars for blob transactions in bytes',
-    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that collected the data. The table contains data from multiple clients',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.' CODEC(ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -33,11 +32,9 @@ CREATE TABLE default.mempool_transaction
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
     `meta_execution_fork_id_hash` LowCardinality(String) COMMENT 'The hash of the fork ID of the current Ethereum network',
-    `meta_execution_fork_id_next` LowCardinality(String) COMMENT 'The fork ID of the next planned Ethereum network upgrade',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_execution_fork_id_next` LowCardinality(String) COMMENT 'The fork ID of the next planned Ethereum network upgrade'
 )
 ENGINE = Distributed('{cluster}', 'default', 'mempool_transaction_local', cityHash64(event_date_time, meta_network_name, meta_client_name, hash, from, nonce, gas))
-COMMENT 'Contains pending transactions observed in the mempool. Each row represents a transaction first seen at a specific time with its gas parameters. Partition: monthly by `event_date_time`.'
+COMMENT 'Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.'

@@ -3,7 +3,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
     `block_number` UInt64 COMMENT 'The block number' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_hash` FixedString(66) COMMENT 'The transaction hash' CODEC(ZSTD(1)),
-    `transaction_index` UInt32 COMMENT 'The transaction position in the block' CODEC(DoubleDelta, ZSTD(1)),
+    `transaction_index` UInt64 COMMENT 'The transaction position in the block' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_gas` UInt64 COMMENT 'The transaction gas' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_failed` Bool COMMENT 'The transaction failed' CODEC(ZSTD(1)),
     `transaction_return_value` Nullable(String) COMMENT 'The transaction return value' CODEC(ZSTD(1)),

@@ -8,11 +8,10 @@ CREATE TABLE default.canonical_execution_nonce_diffs_local
     `address` String COMMENT 'The address of the nonce diff' CODEC(ZSTD(1)),
     `from_value` UInt64 COMMENT 'The from value of the nonce diff' CODEC(ZSTD(1)),
     `to_value` UInt64 COMMENT 'The to value of the nonce diff' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_nonce_diffs_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY intDiv(block_number, 5000000)
-ORDER BY (block_number, meta_network_name, transaction_hash, internal_index)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_nonce_diffs_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, intDiv(block_number, 5000000))
+ORDER BY (meta_network_name, block_number, transaction_hash, internal_index)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains canonical execution nonce diff data.'

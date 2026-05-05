@@ -3,7 +3,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
     `block_number` UInt64 COMMENT 'The block number' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_hash` FixedString(66) COMMENT 'The transaction hash' CODEC(ZSTD(1)),
-    `transaction_index` UInt32 COMMENT 'The transaction position in the block' CODEC(DoubleDelta, ZSTD(1)),
+    `transaction_index` UInt64 COMMENT 'The transaction position in the block' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_gas` UInt64 COMMENT 'The transaction gas' CODEC(DoubleDelta, ZSTD(1)),
     `transaction_failed` Bool COMMENT 'The transaction failed' CODEC(ZSTD(1)),
     `transaction_return_value` Nullable(String) COMMENT 'The transaction return value' CODEC(ZSTD(1)),
@@ -22,8 +22,8 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `call_frame_path` Array(UInt32) DEFAULT [0] COMMENT 'Path of frame IDs from root to current frame' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_transaction_structlog_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY intDiv(block_number, 201600)
-ORDER BY (block_number, meta_network_name, transaction_hash, index)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_transaction_structlog_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, intDiv(block_number, 201600))
+ORDER BY (meta_network_name, block_number, transaction_hash, index)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains canonical execution transaction structlog data.'

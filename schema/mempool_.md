@@ -19,9 +19,9 @@ Each row represents a transaction that was seen in the mempool by a sentry clien
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2023-03-03` to `2026-05-02`
+- **mainnet**: `2023-03-03` to `2026-05-03`
 - **holesky**: `2024-01-08` to `2025-10-26`
-- **sepolia**: `2024-01-08` to `2026-05-02`
+- **sepolia**: `2024-01-08` to `2026-05-03`
 
 ### Examples
 
@@ -33,7 +33,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2026/5/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/mempool_transaction/2026/5/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -98,8 +98,7 @@ echo """
 | **blob_hashes** | `Array(String)` | *The hashes of the blob commitments for blob transactions* |
 | **blob_sidecars_size** | `Nullable(UInt32)` | *The total size of the sidecars for blob transactions in bytes* |
 | **blob_sidecars_empty_size** | `Nullable(UInt32)` | *The total empty size of the sidecars for blob transactions in bytes* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that collected the data. The table contains data from multiple clients* |
-| **meta_client_id** | `String` | *Unique Session ID of the client that generated the event. This changes every time the client is restarted.* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
 | **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
@@ -112,10 +111,8 @@ echo """
 | **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_id** | `Int32` | *Ethereum network ID* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 | **meta_execution_fork_id_hash** | `LowCardinality(String)` | *The hash of the fork ID of the current Ethereum network* |
 | **meta_execution_fork_id_next** | `LowCardinality(String)` | *The fork ID of the next planned Ethereum network upgrade* |
-| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
 
 <!-- schema_end -->

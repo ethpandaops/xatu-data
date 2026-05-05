@@ -1,7 +1,7 @@
 CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `event_date_time` DateTime64(3) COMMENT 'When the sentry received the event from a beacon node',
+    `event_date_time` DateTime64(3) CODEC(DoubleDelta, ZSTD(1)),
     `slot` UInt32 COMMENT 'The slot number of the chain reorg event in the beacon API event stream payload',
     `slot_start_date_time` DateTime COMMENT 'The wall clock time when the reorg slot started',
     `propagation_slot_start_diff` UInt32 COMMENT 'Difference in slots between when the reorg occurred and when the sentry received the event',
@@ -14,7 +14,6 @@ CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg_local
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started',
     `execution_optimistic` Bool COMMENT 'Whether the execution of the epoch was optimistic',
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client that generated the event. This changes every time the client is restarted.',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client that generated the event',
@@ -27,17 +26,15 @@ CREATE TABLE default.beacon_api_eth_v1_events_chain_reorg_local
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event',
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event',
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event',
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID',
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version that generated the event',
     `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
     `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
     `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/beacon_api_eth_v1_events_chain_reorg_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, meta_network_name, meta_client_name, old_head_block, new_head_block)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/beacon_api_eth_v1_events_chain_reorg_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))
+ORDER BY (meta_network_name, slot_start_date_time, meta_client_name, old_head_block, new_head_block)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.'

@@ -7,11 +7,10 @@ CREATE TABLE default.canonical_execution_four_byte_counts_local
     `signature` String COMMENT 'The signature of the four byte count' CODEC(ZSTD(1)),
     `size` UInt64 COMMENT 'The size of the four byte count' CODEC(ZSTD(1)),
     `count` UInt64 COMMENT 'The count of the four byte count' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_execution_four_byte_counts_local/{shard}', '{replica}', updated_date_time)
-PARTITION BY intDiv(block_number, 5000000)
-ORDER BY (block_number, meta_network_name, transaction_hash)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_four_byte_counts_local', '{replica}', updated_date_time)
+PARTITION BY (meta_network_name, intDiv(block_number, 5000000))
+ORDER BY (meta_network_name, block_number, transaction_hash)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains canonical execution four byte count data.'

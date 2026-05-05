@@ -8,8 +8,7 @@ CREATE TABLE default.canonical_execution_nonce_diffs
     `address` String COMMENT 'The address of the nonce diff' CODEC(ZSTD(1)),
     `from_value` UInt64 COMMENT 'The from value of the nonce diff' CODEC(ZSTD(1)),
     `to_value` UInt64 COMMENT 'The to value of the nonce diff' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_nonce_diffs_local', cityHash64(block_number, meta_network_name, transaction_hash, internal_index))
+ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_nonce_diffs_local', cityHash64(block_number, meta_network_name, transaction_hash))
 COMMENT 'Contains canonical execution nonce diff data.'

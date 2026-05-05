@@ -11,15 +11,14 @@ CREATE TABLE default.canonical_execution_transaction
     `input` Nullable(String) COMMENT 'The transaction input in hex' CODEC(ZSTD(1)),
     `gas_limit` UInt64 COMMENT 'The transaction gas limit' CODEC(ZSTD(1)),
     `gas_used` UInt64 COMMENT 'The transaction gas used' CODEC(ZSTD(1)),
-    `gas_price` UInt64 COMMENT 'The transaction gas price' CODEC(ZSTD(1)),
-    `transaction_type` UInt32 COMMENT 'The transaction type' CODEC(ZSTD(1)),
+    `gas_price` UInt128 COMMENT 'The transaction gas price' CODEC(ZSTD(1)),
+    `transaction_type` UInt8 COMMENT 'The transaction type' CODEC(ZSTD(1)),
     `max_priority_fee_per_gas` UInt64 COMMENT 'The transaction max priority fee per gas' CODEC(ZSTD(1)),
     `max_fee_per_gas` UInt64 COMMENT 'The transaction max fee per gas' CODEC(ZSTD(1)),
     `success` Bool COMMENT 'The transaction success' CODEC(ZSTD(1)),
     `n_input_bytes` UInt32 COMMENT 'The transaction input bytes' CODEC(ZSTD(1)),
     `n_input_zero_bytes` UInt32 COMMENT 'The transaction input zero bytes' CODEC(ZSTD(1)),
     `n_input_nonzero_bytes` UInt32 COMMENT 'The transaction input nonzero bytes' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_transaction_local', cityHash64(block_number, meta_network_name, transaction_hash))

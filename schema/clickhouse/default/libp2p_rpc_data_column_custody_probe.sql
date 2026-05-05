@@ -18,7 +18,6 @@ CREATE TABLE default.libp2p_rpc_data_column_custody_probe
     `response_time_ms` Int32 COMMENT 'Response time in milliseconds' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'Error message if probe failed' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that executed the probe',
-    `meta_client_id` String COMMENT 'Unique Session ID of the client' CODEC(ZSTD(1)),
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
     `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client',
@@ -31,9 +30,7 @@ CREATE TABLE default.libp2p_rpc_data_column_custody_probe
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
-    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_data_column_custody_probe_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, slot, column_index))
 COMMENT 'Contains custody probe events for data column availability verification'

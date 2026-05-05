@@ -6,8 +6,7 @@ CREATE TABLE default.canonical_execution_address_appearances
     `internal_index` UInt32 COMMENT 'The internal index of the address appearance within the transaction' CODEC(DoubleDelta, ZSTD(1)),
     `address` String COMMENT 'The address of the address appearance' CODEC(ZSTD(1)),
     `relationship` LowCardinality(String) COMMENT 'The relationship of the address to the transaction',
-    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_address_appearances_local', cityHash64(block_number, meta_network_name, transaction_hash, internal_index))
+ENGINE = Distributed('{cluster}', 'default', 'canonical_execution_address_appearances_local', cityHash64(block_number, meta_network_name, transaction_hash))
 COMMENT 'Contains canonical execution address appearance data.'
