@@ -17,5 +17,5 @@ CREATE TABLE hoodi.int_transaction_call_frame_opcode_resource_gas
     `gas_block_size` UInt64 COMMENT 'Gas attributed to block size (always 0 at opcode level)' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
-ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_call_frame_opcode_resource_gas_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_call_frame_opcode_resource_gas_local', cityHash64(block_number))
 COMMENT 'Per-frame per-opcode resource gas decomposition into 7 categories.'

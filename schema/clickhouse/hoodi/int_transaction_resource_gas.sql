@@ -14,5 +14,5 @@ CREATE TABLE hoodi.int_transaction_resource_gas
     `gas_refund` UInt64 COMMENT 'Gas refund from SSTORE operations' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
-ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_resource_gas_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_resource_gas_local', cityHash64(block_number))
 COMMENT 'Per-transaction resource gas totals including intrinsic gas decomposition.'

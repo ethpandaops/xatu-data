@@ -10,5 +10,5 @@ CREATE TABLE holesky.int_transaction_receipt_size
     `log_topic_count` UInt32 COMMENT 'Total number of topics across all logs' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
-ENGINE = Distributed('{cluster}', 'holesky', 'int_transaction_receipt_size_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'holesky', 'int_transaction_receipt_size_local', cityHash64(block_number))
 COMMENT 'Per-transaction exact RLP-encoded receipt size derived from logs and transaction data.'

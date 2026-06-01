@@ -31,5 +31,5 @@ CREATE TABLE sepolia.int_attestation_first_seen
     `target_epoch` UInt32 COMMENT 'Target checkpoint epoch of the attestation',
     `target_root` String COMMENT 'Target checkpoint root of the attestation'
 )
-ENGINE = Distributed('{cluster}', 'sepolia', 'int_attestation_first_seen_local', cityHash64(slot_start_date_time, attesting_validator_index))
+ENGINE = Distributed('{cluster}', 'sepolia', 'int_attestation_first_seen_local', cityHash64(slot_start_date_time))
 COMMENT 'When the attestation was first seen on the network by a sentry node'

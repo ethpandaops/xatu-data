@@ -18,5 +18,5 @@ CREATE TABLE holesky.int_transaction_call_frame
     `intrinsic_gas` Nullable(UInt64) COMMENT 'Intrinsic tx cost (21000 + calldata). Only populated for root frame of successful txs.' CODEC(ZSTD(1)),
     `receipt_gas_used` Nullable(UInt64) COMMENT 'Actual gas used from transaction receipt. Only populated for root frame (call_frame_id=0). Source of truth for total gas display.' CODEC(ZSTD(1))
 )
-ENGINE = Distributed('{cluster}', 'holesky', 'int_transaction_call_frame_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'holesky', 'int_transaction_call_frame_local', cityHash64(block_number))
 COMMENT 'Aggregated call frame activity per transaction for call tree analysis'

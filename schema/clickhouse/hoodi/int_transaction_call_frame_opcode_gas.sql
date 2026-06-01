@@ -18,5 +18,5 @@ CREATE TABLE hoodi.int_transaction_call_frame_opcode_gas
     `cold_access_count` UInt64 DEFAULT 0 COMMENT 'Number of cold storage/account accesses (EIP-2929).',
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
-ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_call_frame_opcode_gas_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_call_frame_opcode_gas_local', cityHash64(block_number))
 COMMENT 'Aggregated opcode-level gas usage per call frame. Enables per-frame opcode analysis.'

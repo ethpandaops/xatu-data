@@ -11,5 +11,5 @@ CREATE TABLE hoodi.int_transaction_opcode_gas
     `error_count` UInt64 COMMENT 'Number of times this opcode resulted in an error' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
-ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_opcode_gas_local', cityHash64(block_number, transaction_hash))
+ENGINE = Distributed('{cluster}', 'hoodi', 'int_transaction_opcode_gas_local', cityHash64(block_number))
 COMMENT 'Aggregated opcode-level gas usage per transaction. Source: canonical_execution_transaction_structlog'

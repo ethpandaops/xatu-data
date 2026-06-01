@@ -14,7 +14,7 @@ CREATE TABLE hoodi.dim_validator_status_local
     `slashed` Bool COMMENT 'Whether the validator was slashed at this transition'
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/dim_validator_status_local', '{replica}', version)
-PARTITION BY toStartOfMonth(epoch_start_date_time)
+PARTITION BY tuple()
 ORDER BY (validator_index, status)
 SETTINGS index_granularity = 8192
 COMMENT 'Validator lifecycle status transitions — one row per (validator_index, status) with the first epoch observed'

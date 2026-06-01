@@ -36,5 +36,5 @@ CREATE TABLE sepolia.int_custody_probe
     `meta_peer_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the probed peer' CODEC(ZSTD(1)),
     `meta_peer_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the probed peer' CODEC(ZSTD(1))
 )
-ENGINE = Distributed('{cluster}', 'sepolia', 'int_custody_probe_local', cityHash64(probe_date_time, slot, peer_id_unique_key))
+ENGINE = Distributed('{cluster}', 'sepolia', 'int_custody_probe_local', cityHash64(slot, peer_id_unique_key))
 COMMENT 'Custody probe results per slot with aggregated column indices'
