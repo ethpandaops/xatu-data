@@ -172,6 +172,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_engine_new_payload`](#int_engine_new_payload)
 - [`int_engine_new_payload_fastest_execution_by_node_class`](#int_engine_new_payload_fastest_execution_by_node_class)
 - [`int_execution_block_by_date`](#int_execution_block_by_date)
+- [`int_execution_state_size_by_block`](#int_execution_state_size_by_block)
 - [`int_storage_selfdestruct_diffs`](#int_storage_selfdestruct_diffs)
 - [`int_storage_slot_diff`](#int_storage_slot_diff)
 - [`int_storage_slot_diff_by_address_slot`](#int_storage_slot_diff_by_address_slot)
@@ -10052,6 +10053,70 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **block_date_time** | `DateTime64(3)` | *The block timestamp* |
 | **block_number** | `UInt64` | *The block number* |
+
+## int_execution_state_size_by_block
+
+Cumulative execution layer state size per block, reconstructed from execution_state_size_delta. Drop-in replacement for the deprecated execution_state_size snapshot table.
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_execution_state_size_by_block`
+- **sepolia**: `sepolia.int_execution_state_size_by_block`
+- **holesky**: `holesky.int_execution_state_size_by_block`
+- **hoodi**: `hoodi.int_execution_state_size_by_block`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_execution_state_size_by_block FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_execution_state_size_by_block) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *Block number at which the cumulative state size is measured* |
+| **accounts** | `UInt64` | *Cumulative total number of accounts in the state* |
+| **account_bytes** | `UInt64` | *Cumulative total bytes used by account data* |
+| **account_trienodes** | `UInt64` | *Cumulative number of trie nodes in the account trie* |
+| **account_trienode_bytes** | `UInt64` | *Cumulative total bytes used by account trie nodes* |
+| **contract_codes** | `UInt64` | *Cumulative total number of contract codes stored* |
+| **contract_code_bytes** | `UInt64` | *Cumulative total bytes used by contract code* |
+| **storages** | `UInt64` | *Cumulative total number of storage slots in the state* |
+| **storage_bytes** | `UInt64` | *Cumulative total bytes used by storage data* |
+| **storage_trienodes** | `UInt64` | *Cumulative number of trie nodes in the storage trie* |
+| **storage_trienode_bytes** | `UInt64` | *Cumulative total bytes used by storage trie nodes* |
 
 ## int_storage_selfdestruct_diffs
 
