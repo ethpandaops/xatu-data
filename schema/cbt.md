@@ -181,6 +181,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_storage_slot_expiry_1m`](#int_storage_slot_expiry_1m)
 - [`int_storage_slot_expiry_24m`](#int_storage_slot_expiry_24m)
 - [`int_storage_slot_expiry_6m`](#int_storage_slot_expiry_6m)
+- [`int_storage_slot_lifecycle`](#int_storage_slot_lifecycle)
+- [`int_storage_slot_lifecycle_boundary`](#int_storage_slot_lifecycle_boundary)
 - [`int_storage_slot_next_touch`](#int_storage_slot_next_touch)
 - [`int_storage_slot_reactivation_12m`](#int_storage_slot_reactivation_12m)
 - [`int_storage_slot_reactivation_18m`](#int_storage_slot_reactivation_18m)
@@ -10584,6 +10586,133 @@ echo """
 | **slot_key** | `String` | *The storage slot key* |
 | **touch_block** | `UInt32` | *The original touch block that led to this expiry (propagates through waterfall chain)* |
 | **effective_bytes** | `UInt8` | *Number of effective bytes that were set (0-32)* |
+
+## int_storage_slot_lifecycle
+
+Per-slot lifecycle metrics: birth/death blocks, touch counts, and touch-to-touch interval statistics. A lifecycle starts when a slot transitions from zero to non-zero (birth) and ends at the reverse (death). A slot can have multiple lifecycles.
+
+### Availability
+Data is partitioned by **intDiv(birth_block, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_lifecycle`
+- **sepolia**: `sepolia.int_storage_slot_lifecycle`
+- **holesky**: `holesky.int_storage_slot_lifecycle`
+- **hoodi**: `hoodi.int_storage_slot_lifecycle`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_lifecycle FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **lifecycle_number** | `UInt32` | *Reincarnation counter for this slot (1 = first lifecycle, 2 = second, etc.)* |
+| **birth_block** | `UInt32` | *Block where the slot transitioned from 0 to non-zero effective bytes* |
+| **death_block** | `Nullable(UInt32)` | *Block where the slot transitioned from non-zero to 0 effective bytes (NULL if still alive)* |
+| **lifespan_blocks** | `Nullable(UInt32)` | *Number of blocks between birth and death (NULL if still alive)* |
+| **touch_count** | `UInt32` | *Total number of times this slot was touched during this lifecycle* |
+| **effective_bytes_birth** | `UInt8` | *Number of effective bytes at birth (the to_value of the 0->non-zero transition)* |
+| **effective_bytes_peak** | `UInt8` | *Maximum effective bytes observed during this lifecycle* |
+| **effective_bytes_death** | `Nullable(UInt8)` | *Number of effective bytes before death (the from_value of the non-zero->0 transition, NULL if still alive)* |
+| **last_touch_block** | `UInt32` | *Most recent block where this slot was touched in this lifecycle* |
+| **interval_count** | `UInt32` | *Number of touch-to-touch intervals observed (touch_count - 1 when > 1)* |
+| **interval_sum** | `UInt64` | *Sum of all touch-to-touch intervals in blocks (for computing mean)* |
+| **interval_max** | `UInt32` | *Maximum touch-to-touch interval in blocks* |
+
+## int_storage_slot_lifecycle_boundary
+
+Lifecycle boundaries per storage slot: birth (0→non-zero) and death (non-zero→0) blocks with effective bytes at each transition.
+
+### Availability
+Data is partitioned by **intDiv(birth_block, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_storage_slot_lifecycle_boundary`
+- **sepolia**: `sepolia.int_storage_slot_lifecycle_boundary`
+- **holesky**: `holesky.int_storage_slot_lifecycle_boundary`
+- **hoodi**: `hoodi.int_storage_slot_lifecycle_boundary`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_storage_slot_lifecycle_boundary FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle_boundary) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **address** | `String` | *The contract address* |
+| **slot_key** | `String` | *The storage slot key* |
+| **lifecycle_number** | `UInt32` | *Reincarnation counter for this slot (1 = first lifecycle, 2 = second, etc.)* |
+| **birth_block** | `UInt32` | *Block where the slot transitioned from 0 to non-zero effective bytes* |
+| **death_block** | `Nullable(UInt32)` | *Block where the slot transitioned from non-zero to 0 effective bytes (NULL if still alive)* |
+| **effective_bytes_birth** | `UInt8` | *Number of effective bytes at birth (the to_value of the 0->non-zero transition)* |
+| **effective_bytes_death** | `Nullable(UInt8)` | *Number of effective bytes before death (the from_value of the non-zero->0 transition, NULL if still alive)* |
 
 ## int_storage_slot_next_touch
 
