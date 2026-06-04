@@ -169,7 +169,7 @@ SELECT * FROM sepolia.table_name LIMIT 10;
 
 ### Code:
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -179,7 +179,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -190,12 +190,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.Code:`), sepolia (`sepolia.Code:`), holesky (`holesky.Code:`), hoodi (`hoodi.Code:`)
 - **Tags**: 
 ### 194.
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -205,7 +205,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -216,12 +216,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.194.`), sepolia (`sepolia.194.`), holesky (`holesky.194.`), hoodi (`hoodi.194.`)
 - **Tags**: 
 ### DB::Exception:
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -231,7 +231,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -242,12 +242,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.DB::Exception:`), sepolia (`sepolia.DB::Exception:`), holesky (`holesky.DB::Exception:`), hoodi (`hoodi.DB::Exception:`)
 - **Tags**: 
 ### default:
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -257,7 +257,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -268,12 +268,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.default:`), sepolia (`sepolia.default:`), holesky (`holesky.default:`), hoodi (`hoodi.default:`)
 - **Tags**: 
 ### Authentication
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -283,7 +283,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -294,12 +294,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.Authentication`), sepolia (`sepolia.Authentication`), holesky (`holesky.Authentication`), hoodi (`hoodi.Authentication`)
 - **Tags**: 
 ### failed:
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -309,7 +309,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -320,12 +320,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.failed:`), sepolia (`sepolia.failed:`), holesky (`holesky.failed:`), hoodi (`hoodi.failed:`)
 - **Tags**: 
 ### password
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -335,7 +335,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -346,12 +346,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.password`), sepolia (`sepolia.password`), holesky (`holesky.password`), hoodi (`hoodi.password`)
 - **Tags**: 
 ### is
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -361,7 +361,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -372,12 +372,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.is`), sepolia (`sepolia.is`), holesky (`holesky.is`), hoodi (`hoodi.is`)
 - **Tags**: 
 ### incorrect,
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -387,7 +387,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -398,12 +398,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.incorrect,`), sepolia (`sepolia.incorrect,`), holesky (`holesky.incorrect,`), hoodi (`hoodi.incorrect,`)
 - **Tags**: 
 ### or
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -413,7 +413,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -424,12 +424,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.or`), sepolia (`sepolia.or`), holesky (`holesky.or`), hoodi (`hoodi.or`)
 - **Tags**: 
 ### there
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -439,7 +439,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -450,12 +450,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.there`), sepolia (`sepolia.there`), holesky (`holesky.there`), hoodi (`hoodi.there`)
 - **Tags**: 
 ### is
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -465,7 +465,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -476,12 +476,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.is`), sepolia (`sepolia.is`), holesky (`holesky.is`), hoodi (`hoodi.is`)
 - **Tags**: 
 ### no
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -491,7 +491,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -502,12 +502,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.no`), sepolia (`sepolia.no`), holesky (`holesky.no`), hoodi (`hoodi.no`)
 - **Tags**: 
 ### user
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -517,7 +517,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -528,12 +528,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.user`), sepolia (`sepolia.user`), holesky (`holesky.user`), hoodi (`hoodi.user`)
 - **Tags**: 
 ### with
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -543,7 +543,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -554,12 +554,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.with`), sepolia (`sepolia.with`), holesky (`holesky.with`), hoodi (`hoodi.with`)
 - **Tags**: 
 ### such
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -569,7 +569,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -580,12 +580,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.such`), sepolia (`sepolia.such`), holesky (`holesky.such`), hoodi (`hoodi.such`)
 - **Tags**: 
-### name.
+### name
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -595,7 +595,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -606,12 +606,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
-- **Networks**: mainnet (`mainnet.name.`), sepolia (`sepolia.name.`), holesky (`holesky.name.`), hoodi (`hoodi.name.`)
+. (REQUIRED_PASSWORD) (none), 
+- **Networks**: mainnet (`mainnet.name`), sepolia (`sepolia.name`), holesky (`holesky.name`), hoodi (`hoodi.name`)
 - **Tags**: 
 ### If
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -621,7 +621,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -632,12 +632,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.If`), sepolia (`sepolia.If`), holesky (`holesky.If`), hoodi (`hoodi.If`)
 - **Tags**: 
 ### you
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -647,7 +647,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -658,12 +658,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.you`), sepolia (`sepolia.you`), holesky (`holesky.you`), hoodi (`hoodi.you`)
 - **Tags**: 
 ### use
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -673,7 +673,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -684,12 +684,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.use`), sepolia (`sepolia.use`), holesky (`holesky.use`), hoodi (`hoodi.use`)
 - **Tags**: 
 ### ClickHouse
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -699,7 +699,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -710,12 +710,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.ClickHouse`), sepolia (`sepolia.ClickHouse`), holesky (`holesky.ClickHouse`), hoodi (`hoodi.ClickHouse`)
 - **Tags**: 
 ### Cloud,
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -725,7 +725,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -736,12 +736,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.Cloud,`), sepolia (`sepolia.Cloud,`), holesky (`holesky.Cloud,`), hoodi (`hoodi.Cloud,`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -751,7 +751,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -762,12 +762,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### password
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -777,7 +777,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -788,12 +788,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.password`), sepolia (`sepolia.password`), holesky (`holesky.password`), hoodi (`hoodi.password`)
 - **Tags**: 
 ### can
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -803,7 +803,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -814,12 +814,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.can`), sepolia (`sepolia.can`), holesky (`holesky.can`), hoodi (`hoodi.can`)
 - **Tags**: 
 ### be
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -829,7 +829,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -840,12 +840,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.be`), sepolia (`sepolia.be`), holesky (`holesky.be`), hoodi (`hoodi.be`)
 - **Tags**: 
 ### reset
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -855,7 +855,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -866,12 +866,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.reset`), sepolia (`sepolia.reset`), holesky (`holesky.reset`), hoodi (`hoodi.reset`)
 - **Tags**: 
 ### at
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -881,7 +881,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -892,12 +892,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.at`), sepolia (`sepolia.at`), holesky (`holesky.at`), hoodi (`hoodi.at`)
 - **Tags**: 
 ### https://clickhouse.cloud/
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -907,7 +907,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -918,12 +918,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.https://clickhouse.cloud/`), sepolia (`sepolia.https://clickhouse.cloud/`), holesky (`holesky.https://clickhouse.cloud/`), hoodi (`hoodi.https://clickhouse.cloud/`)
 - **Tags**: 
 ### on
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -933,7 +933,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -944,12 +944,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.on`), sepolia (`sepolia.on`), holesky (`holesky.on`), hoodi (`hoodi.on`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -959,7 +959,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -970,12 +970,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### settings
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -985,7 +985,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -996,12 +996,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.settings`), sepolia (`sepolia.settings`), holesky (`holesky.settings`), hoodi (`hoodi.settings`)
 - **Tags**: 
 ### page
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1011,7 +1011,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1022,12 +1022,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.page`), sepolia (`sepolia.page`), holesky (`holesky.page`), hoodi (`hoodi.page`)
 - **Tags**: 
 ### for
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1037,7 +1037,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1048,12 +1048,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.for`), sepolia (`sepolia.for`), holesky (`holesky.for`), hoodi (`hoodi.for`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1063,7 +1063,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1074,12 +1074,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### corresponding
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1089,7 +1089,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1100,12 +1100,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.corresponding`), sepolia (`sepolia.corresponding`), holesky (`holesky.corresponding`), hoodi (`hoodi.corresponding`)
 - **Tags**: 
 ### service.
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1115,7 +1115,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1126,12 +1126,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.service.`), sepolia (`sepolia.service.`), holesky (`holesky.service.`), hoodi (`hoodi.service.`)
 - **Tags**: 
 ### If
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1141,7 +1141,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1152,12 +1152,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.If`), sepolia (`sepolia.If`), holesky (`holesky.If`), hoodi (`hoodi.If`)
 - **Tags**: 
 ### you
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1167,7 +1167,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1178,12 +1178,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.you`), sepolia (`sepolia.you`), holesky (`holesky.you`), hoodi (`hoodi.you`)
 - **Tags**: 
 ### have
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1193,7 +1193,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1204,12 +1204,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.have`), sepolia (`sepolia.have`), holesky (`holesky.have`), hoodi (`hoodi.have`)
 - **Tags**: 
 ### installed
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1219,7 +1219,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1230,12 +1230,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.installed`), sepolia (`sepolia.installed`), holesky (`holesky.installed`), hoodi (`hoodi.installed`)
 - **Tags**: 
 ### ClickHouse
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1245,7 +1245,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1256,12 +1256,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.ClickHouse`), sepolia (`sepolia.ClickHouse`), holesky (`holesky.ClickHouse`), hoodi (`hoodi.ClickHouse`)
 - **Tags**: 
 ### and
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1271,7 +1271,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1282,12 +1282,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.and`), sepolia (`sepolia.and`), holesky (`holesky.and`), hoodi (`hoodi.and`)
 - **Tags**: 
 ### forgot
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1297,7 +1297,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1308,12 +1308,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.forgot`), sepolia (`sepolia.forgot`), holesky (`holesky.forgot`), hoodi (`hoodi.forgot`)
 - **Tags**: 
 ### password
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1323,7 +1323,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1334,12 +1334,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.password`), sepolia (`sepolia.password`), holesky (`holesky.password`), hoodi (`hoodi.password`)
 - **Tags**: 
 ### you
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1349,7 +1349,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1360,12 +1360,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.you`), sepolia (`sepolia.you`), holesky (`holesky.you`), hoodi (`hoodi.you`)
 - **Tags**: 
 ### can
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1375,7 +1375,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1386,12 +1386,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.can`), sepolia (`sepolia.can`), holesky (`holesky.can`), hoodi (`hoodi.can`)
 - **Tags**: 
 ### reset
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1401,7 +1401,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1412,12 +1412,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.reset`), sepolia (`sepolia.reset`), holesky (`holesky.reset`), hoodi (`hoodi.reset`)
 - **Tags**: 
 ### it
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1427,7 +1427,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1438,12 +1438,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.it`), sepolia (`sepolia.it`), holesky (`holesky.it`), hoodi (`hoodi.it`)
 - **Tags**: 
 ### in
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1453,7 +1453,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1464,12 +1464,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.in`), sepolia (`sepolia.in`), holesky (`holesky.in`), hoodi (`hoodi.in`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1479,7 +1479,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1490,12 +1490,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### configuration
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1505,7 +1505,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1516,12 +1516,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.configuration`), sepolia (`sepolia.configuration`), holesky (`holesky.configuration`), hoodi (`hoodi.configuration`)
 - **Tags**: 
 ### file.
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1531,7 +1531,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1542,12 +1542,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.file.`), sepolia (`sepolia.file.`), holesky (`holesky.file.`), hoodi (`hoodi.file.`)
 - **Tags**: 
 ### The
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1557,7 +1557,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1568,12 +1568,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.The`), sepolia (`sepolia.The`), holesky (`holesky.The`), hoodi (`hoodi.The`)
 - **Tags**: 
 ### password
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1583,7 +1583,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1594,12 +1594,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.password`), sepolia (`sepolia.password`), holesky (`holesky.password`), hoodi (`hoodi.password`)
 - **Tags**: 
 ### for
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1609,7 +1609,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1620,12 +1620,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.for`), sepolia (`sepolia.for`), holesky (`holesky.for`), hoodi (`hoodi.for`)
 - **Tags**: 
 ### default
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1635,7 +1635,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1646,12 +1646,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.default`), sepolia (`sepolia.default`), holesky (`holesky.default`), hoodi (`hoodi.default`)
 - **Tags**: 
 ### user
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1661,7 +1661,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1672,12 +1672,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.user`), sepolia (`sepolia.user`), holesky (`holesky.user`), hoodi (`hoodi.user`)
 - **Tags**: 
 ### is
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1687,7 +1687,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1698,12 +1698,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.is`), sepolia (`sepolia.is`), holesky (`holesky.is`), hoodi (`hoodi.is`)
 - **Tags**: 
 ### typically
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1713,7 +1713,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1724,12 +1724,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.typically`), sepolia (`sepolia.typically`), holesky (`holesky.typically`), hoodi (`hoodi.typically`)
 - **Tags**: 
 ### located
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1739,7 +1739,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1750,12 +1750,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.located`), sepolia (`sepolia.located`), holesky (`holesky.located`), hoodi (`hoodi.located`)
 - **Tags**: 
 ### at
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1765,7 +1765,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1776,12 +1776,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.at`), sepolia (`sepolia.at`), holesky (`holesky.at`), hoodi (`hoodi.at`)
 - **Tags**: 
 ### /etc/clickhouse-server/users.d/default-password.xml
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1791,7 +1791,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1802,12 +1802,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet./etc/clickhouse-server/users.d/default-password.xml`), sepolia (`sepolia./etc/clickhouse-server/users.d/default-password.xml`), holesky (`holesky./etc/clickhouse-server/users.d/default-password.xml`), hoodi (`hoodi./etc/clickhouse-server/users.d/default-password.xml`)
 - **Tags**: 
 ### and
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1817,7 +1817,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1828,12 +1828,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.and`), sepolia (`sepolia.and`), holesky (`holesky.and`), hoodi (`hoodi.and`)
 - **Tags**: 
 ### deleting
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1843,7 +1843,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1854,12 +1854,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.deleting`), sepolia (`sepolia.deleting`), holesky (`holesky.deleting`), hoodi (`hoodi.deleting`)
 - **Tags**: 
 ### this
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1869,7 +1869,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1880,12 +1880,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.this`), sepolia (`sepolia.this`), holesky (`holesky.this`), hoodi (`hoodi.this`)
 - **Tags**: 
 ### file
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1895,7 +1895,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1906,12 +1906,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.file`), sepolia (`sepolia.file`), holesky (`holesky.file`), hoodi (`hoodi.file`)
 - **Tags**: 
 ### will
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1921,7 +1921,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1932,12 +1932,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.will`), sepolia (`sepolia.will`), holesky (`holesky.will`), hoodi (`hoodi.will`)
 - **Tags**: 
 ### reset
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1947,7 +1947,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1958,12 +1958,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.reset`), sepolia (`sepolia.reset`), holesky (`holesky.reset`), hoodi (`hoodi.reset`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1973,7 +1973,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -1984,12 +1984,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### password.
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -1999,7 +1999,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2010,12 +2010,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.password.`), sepolia (`sepolia.password.`), holesky (`holesky.password.`), hoodi (`hoodi.password.`)
 - **Tags**: 
 ### See
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2025,7 +2025,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2036,12 +2036,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.See`), sepolia (`sepolia.See`), holesky (`holesky.See`), hoodi (`hoodi.See`)
 - **Tags**: 
 ### also
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2051,7 +2051,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2062,12 +2062,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.also`), sepolia (`sepolia.also`), holesky (`holesky.also`), hoodi (`hoodi.also`)
 - **Tags**: 
 ### /etc/clickhouse-server/users.xml
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2077,7 +2077,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2088,12 +2088,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet./etc/clickhouse-server/users.xml`), sepolia (`sepolia./etc/clickhouse-server/users.xml`), holesky (`holesky./etc/clickhouse-server/users.xml`), hoodi (`hoodi./etc/clickhouse-server/users.xml`)
 - **Tags**: 
 ### on
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2103,7 +2103,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2114,12 +2114,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.on`), sepolia (`sepolia.on`), holesky (`holesky.on`), hoodi (`hoodi.on`)
 - **Tags**: 
 ### the
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2129,7 +2129,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2140,12 +2140,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.the`), sepolia (`sepolia.the`), holesky (`holesky.the`), hoodi (`hoodi.the`)
 - **Tags**: 
 ### server
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2155,7 +2155,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2166,12 +2166,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.server`), sepolia (`sepolia.server`), holesky (`holesky.server`), hoodi (`hoodi.server`)
 - **Tags**: 
 ### where
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2181,7 +2181,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2192,12 +2192,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.where`), sepolia (`sepolia.where`), holesky (`holesky.where`), hoodi (`hoodi.where`)
 - **Tags**: 
 ### ClickHouse
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2207,7 +2207,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2218,12 +2218,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.ClickHouse`), sepolia (`sepolia.ClickHouse`), holesky (`holesky.ClickHouse`), hoodi (`hoodi.ClickHouse`)
 - **Tags**: 
 ### is
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2233,7 +2233,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2244,12 +2244,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.is`), sepolia (`sepolia.is`), holesky (`holesky.is`), hoodi (`hoodi.is`)
 - **Tags**: 
 ### installed.
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2259,7 +2259,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2270,12 +2270,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.installed.`), sepolia (`sepolia.installed.`), holesky (`holesky.installed.`), hoodi (`hoodi.installed.`)
 - **Tags**: 
 ### .
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2285,7 +2285,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2296,12 +2296,12 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet..`), sepolia (`sepolia..`), holesky (`holesky..`), hoodi (`hoodi..`)
 - **Tags**: 
 ### (REQUIRED_PASSWORD)
 - **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
+- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name
 
 If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
 on the settings page for the corresponding service.
@@ -2311,7 +2311,7 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
+. (REQUIRED_PASSWORD)
 - **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
 
 If you use ClickHouse Cloud
@@ -2322,112 +2322,8 @@ The password for default user is typically located at /etc/clickhouse-server/use
 and deleting this file will reset the password.
 See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
 
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
+. (REQUIRED_PASSWORD) (none), 
 - **Networks**: mainnet (`mainnet.(REQUIRED_PASSWORD)`), sepolia (`sepolia.(REQUIRED_PASSWORD)`), holesky (`holesky.(REQUIRED_PASSWORD)`), hoodi (`hoodi.(REQUIRED_PASSWORD)`)
-- **Tags**: 
-### (version
-- **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
-
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
-- **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
-
-If you use ClickHouse Cloud
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
-- **Networks**: mainnet (`mainnet.(version`), sepolia (`sepolia.(version`), holesky (`holesky.(version`), hoodi (`hoodi.(version`)
-- **Tags**: 
-### 25.5.10.95
-- **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
-
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
-- **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
-
-If you use ClickHouse Cloud
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
-- **Networks**: mainnet (`mainnet.25.5.10.95`), sepolia (`sepolia.25.5.10.95`), holesky (`holesky.25.5.10.95`), hoodi (`hoodi.25.5.10.95`)
-- **Tags**: 
-### (official
-- **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
-
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
-- **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
-
-If you use ClickHouse Cloud
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
-- **Networks**: mainnet (`mainnet.(official`), sepolia (`sepolia.(official`), holesky (`holesky.(official`), hoodi (`hoodi.(official`)
-- **Tags**: 
-### build))
-- **Database**: Network-specific (see Networks below)
-- **Description**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect, or there is no user with such name.
-
-If you use ClickHouse Cloud, the password can be reset at https://clickhouse.cloud/
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build))
-- **Partitioning**: Code: 194. DB::Exception: default: Authentication failed: password is incorrect
-
-If you use ClickHouse Cloud
-on the settings page for the corresponding service.
-
-If you have installed ClickHouse and forgot password you can reset it in the configuration file.
-The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml
-and deleting this file will reset the password.
-See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.
-
-. (REQUIRED_PASSWORD) (version 25.5.10.95 (official build)) (none), 
-- **Networks**: mainnet (`mainnet.build))`), sepolia (`sepolia.build))`), holesky (`holesky.build))`), hoodi (`hoodi.build))`)
 - **Tags**: 
 
 ## Table Catalog

@@ -7869,6 +7869,10 @@ echo """
 | **block_root** | `String` | *The beacon block root hash* |
 | **attesting_validator_index** | `UInt32` | *The index of the validator attesting* |
 | **attesting_validator_committee_index** | `LowCardinality(String)` | *The committee index of the attesting validator* |
+| **source_epoch** | `UInt32` | *Source checkpoint epoch of the attestation* |
+| **source_root** | `String` | *Source checkpoint root of the attestation* |
+| **target_epoch** | `UInt32` | *Target checkpoint epoch of the attestation* |
+| **target_root** | `String` | *Target checkpoint root of the attestation* |
 | **username** | `LowCardinality(String)` | *Username of the node* |
 | **node_id** | `String` | *ID of the node* |
 | **classification** | `LowCardinality(String)` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
@@ -7885,10 +7889,6 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
-| **source_epoch** | `UInt32` | *Source checkpoint epoch of the attestation* |
-| **source_root** | `String` | *Source checkpoint root of the attestation* |
-| **target_epoch** | `UInt32` | *Target checkpoint epoch of the attestation* |
-| **target_root** | `String` | *Target checkpoint root of the attestation* |
 
 ## int_attestation_first_seen_aggregate
 
@@ -11607,13 +11607,13 @@ echo """
 | **count** | `UInt64` | *Number of times this opcode was executed in this frame* |
 | **gas** | `UInt64` | *Gas consumed by this opcode in this frame. sum(gas) = frame gas* |
 | **gas_cumulative** | `UInt64` | *For CALL opcodes: includes all descendant frame gas. For others: same as gas* |
-| **error_count** | `UInt64` | *Number of times this opcode resulted in an error in this frame* |
 | **memory_words_sum_before** | `UInt64` | *SUM(ceil(memory_bytes/32)) before each opcode executes.* |
 | **memory_words_sum_after** | `UInt64` | *SUM(ceil(memory_bytes/32)) after each opcode executes.* |
 | **memory_words_sq_sum_before** | `UInt64` | *SUM(words_before²).* |
 | **memory_words_sq_sum_after** | `UInt64` | *SUM(words_after²).* |
 | **memory_expansion_gas** | `UInt64` | *SUM(memory_expansion_gas). Exact per-opcode memory expansion cost.* |
 | **cold_access_count** | `UInt64` | *Number of cold storage/account accesses (EIP-2929).* |
+| **error_count** | `UInt64` | *Number of times this opcode resulted in an error in this frame* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 ## int_transaction_call_frame_opcode_resource_gas
