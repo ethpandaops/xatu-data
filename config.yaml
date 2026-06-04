@@ -675,7 +675,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2294650'
+        to: '2294900'
       holesky:
         from: '0'
         to: '1923800'
@@ -1329,7 +1329,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1350,7 +1350,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1371,7 +1371,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1392,7 +1392,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1413,7 +1413,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1434,7 +1434,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1456,7 +1456,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4659000'
@@ -1477,7 +1477,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1498,7 +1498,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4652000'
@@ -1520,7 +1520,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1541,7 +1541,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1562,7 +1562,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1583,7 +1583,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1604,7 +1604,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4657000'
@@ -1626,7 +1626,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25188000'
+        to: '25239000'
       holesky:
         from: '0'
         to: '4710000'
