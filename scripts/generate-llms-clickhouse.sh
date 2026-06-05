@@ -93,7 +93,7 @@ Xatu is a data collection and processing pipeline for Ethereum network data.
 
 ### Production Endpoint
 ```
-https://clickhouse.xatu.ethpandaops.io
+https://clickhouse-raw.xatu.ethpandaops.io
 ```
 **Networks**: Mainnet, Sepolia, Holesky, Hoodi
 
@@ -122,7 +122,7 @@ WHERE
     AND meta_network_name = 'mainnet'
 GROUP BY date
 FORMAT JSON
-""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" \
     -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-binary @- | jq
 ```
@@ -134,7 +134,7 @@ import pandas as pd
 import os
 
 # Credentials from environment
-endpoint = "clickhouse.xatu.ethpandaops.io"
+endpoint = "clickhouse-raw.xatu.ethpandaops.io"
 user = os.environ["CLICKHOUSE_USER"]
 password = os.environ["CLICKHOUSE_PASSWORD"]
 
@@ -165,7 +165,7 @@ df = pd.read_sql(query, engine)
 %load_ext sql
 
 # Set connection
-%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse-raw.xatu.ethpandaops.io:443/default?protocol=https
 
 # Query directly in cell
 %%sql
@@ -400,7 +400,7 @@ if [ "$detail_level" = "full" ]; then
 # superset_config.py
 from sqlalchemy import create_engine
 
-SQLALCHEMY_DATABASE_URI = f"clickhouse+http://{user}:{password}@clickhouse.xatu.ethpandaops.io:443/default?protocol=https"
+SQLALCHEMY_DATABASE_URI = f"clickhouse+http://{user}:{password}@clickhouse-raw.xatu.ethpandaops.io:443/default?protocol=https"
 
 # Create saved query
 """
@@ -530,7 +530,7 @@ WHERE slot_start_date_time >= today() - 1
     AND meta_network_name = 'mainnet'
 GROUP BY meta_client_name
 SETTINGS use_query_cache = 1
-""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" \
     -u "$USER:$PASS" \
     --data-binary @-
 ```
