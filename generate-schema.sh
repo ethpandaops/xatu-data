@@ -271,7 +271,7 @@ generate_table_schema() {
     fi
     echo "    LIMIT 3"
     echo "    FORMAT Pretty"
-    echo "\"\"\" | curl \"https://clickhouse.xatu.ethpandaops.io\" -u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" --data-binary @-"
+    echo "\"\"\" | curl \"https://clickhouse-raw.xatu.ethpandaops.io\" -u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" --data-binary @-"
     echo "\`\`\`"
     echo "</details>"
     echo ""

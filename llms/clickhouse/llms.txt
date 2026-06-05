@@ -12,7 +12,7 @@ Xatu is a data collection and processing pipeline for Ethereum network data.
 
 ### Production Endpoint
 ```
-https://clickhouse.xatu.ethpandaops.io
+https://clickhouse-raw.xatu.ethpandaops.io
 ```
 **Networks**: Mainnet, Sepolia, Holesky, Hoodi
 
@@ -41,7 +41,7 @@ WHERE
     AND meta_network_name = 'mainnet'
 GROUP BY date
 FORMAT JSON
-""" | curl "https://clickhouse.xatu.ethpandaops.io" \
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" \
     -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" \
     --data-binary @- | jq
 ```
@@ -53,7 +53,7 @@ import pandas as pd
 import os
 
 # Credentials from environment
-endpoint = "clickhouse.xatu.ethpandaops.io"
+endpoint = "clickhouse-raw.xatu.ethpandaops.io"
 user = os.environ["CLICKHOUSE_USER"]
 password = os.environ["CLICKHOUSE_PASSWORD"]
 
@@ -84,7 +84,7 @@ df = pd.read_sql(query, engine)
 %load_ext sql
 
 # Set connection
-%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+%sql clickhouse+http://$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD@clickhouse-raw.xatu.ethpandaops.io:443/default?protocol=https
 
 # Query directly in cell
 %%sql

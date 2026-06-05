@@ -360,7 +360,7 @@ EOF
 The ethPandaOps Clickhouse database provides direct access to all Xatu data with lower latency and no redactions. This access method requires authentication.
 
 **Available Endpoints:**
-- 🌐 **Mainnet Endpoint:** `https://clickhouse.xatu.ethpandaops.io`
+- 🌐 **Mainnet Endpoint:** `https://clickhouse-raw.xatu.ethpandaops.io`
   - Supported networks: Mainnet, Hoodi, Sepolia, Holesky
 - 🧪 **Experimental Endpoint:** `https://clickhouse.xatu-experimental.ethpandaops.io`
   - Supported networks: Devnets, Experimental Networks
@@ -384,7 +384,7 @@ echo """
         AND meta_network_name = 'mainnet'
     LIMIT 5
     FORMAT JSON
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @- | jq
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @- | jq
 ```
 
 **Table Schemas:**
@@ -404,7 +404,7 @@ import os
 from sqlalchemy import create_engine
 
 # Set credentials (use environment variables for security)
-ENDPOINT = "clickhouse.xatu.ethpandaops.io"
+ENDPOINT = "clickhouse-raw.xatu.ethpandaops.io"
 CLICKHOUSE_USER = os.environ.get("CLICKHOUSE_USER", "your-username")
 CLICKHOUSE_PASSWORD = os.environ.get("CLICKHOUSE_PASSWORD", "your-password")
 
@@ -435,7 +435,7 @@ for row in result:
 ```python
 # Using JupySQL with magic commands
 %load_ext sql
-%sql clickhouse+http://{{CLICKHOUSE_USER}}:{{CLICKHOUSE_PASSWORD}}@clickhouse.xatu.ethpandaops.io:443/default?protocol=https
+%sql clickhouse+http://{{CLICKHOUSE_USER}}:{{CLICKHOUSE_PASSWORD}}@clickhouse-raw.xatu.ethpandaops.io:443/default?protocol=https
 
 %%sql
 SELECT

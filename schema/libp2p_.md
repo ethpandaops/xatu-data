@@ -164,7 +164,7 @@ echo """
         slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -275,7 +275,7 @@ echo """
         slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -377,7 +377,7 @@ echo """
         slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -483,7 +483,7 @@ echo """
         slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -589,7 +589,7 @@ echo """
         slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -697,7 +697,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -803,7 +803,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -909,7 +909,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -995,7 +995,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1080,7 +1080,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1166,7 +1166,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1252,7 +1252,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1338,7 +1338,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1427,7 +1427,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1516,7 +1516,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1605,7 +1605,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1694,7 +1694,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1787,7 +1787,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1880,7 +1880,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1973,7 +1973,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2074,7 +2074,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2168,7 +2168,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2258,7 +2258,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2348,7 +2348,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2440,7 +2440,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2534,7 +2534,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2627,7 +2627,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2720,7 +2720,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2819,7 +2819,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2934,7 +2934,7 @@ echo """
         event_date_time >= NOW() - INTERVAL '1 HOUR'
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 

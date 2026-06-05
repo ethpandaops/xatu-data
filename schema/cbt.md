@@ -249,7 +249,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_block_blob_submitter) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -308,7 +308,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_contract_owner) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -368,7 +368,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_function_signature) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -424,7 +424,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -483,7 +483,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_validator_pubkey) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -538,7 +538,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.dim_validator_status) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -602,7 +602,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_by_validator_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -664,7 +664,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_by_validator_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -725,7 +725,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -786,7 +786,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -847,7 +847,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_first_seen_by_validator) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -915,7 +915,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_first_seen_chunked_50ms) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -975,7 +975,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_inclusion_delay_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1040,7 +1040,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_inclusion_delay_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1105,7 +1105,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_liveness_by_entity_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1165,7 +1165,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_observation_by_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1244,7 +1244,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_participation_rate_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1309,7 +1309,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_participation_rate_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1374,7 +1374,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1435,7 +1435,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1497,7 +1497,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1559,7 +1559,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_blob_count_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1625,7 +1625,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_blob_count_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1691,7 +1691,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1771,7 +1771,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_count) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1831,7 +1831,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_count_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1890,7 +1890,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_first_seen_by_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -1967,7 +1967,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_data_column_sidecar_first_seen) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2045,7 +2045,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_data_column_sidecar_first_seen_by_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2123,7 +2123,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_first_seen_by_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2199,7 +2199,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2278,7 +2278,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_mev) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2349,7 +2349,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_mev_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2419,7 +2419,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposal_status_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2475,7 +2475,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposal_status_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2531,7 +2531,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2592,7 +2592,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_by_validator) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2653,7 +2653,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_entity) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2711,7 +2711,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2771,7 +2771,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_address_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2828,7 +2828,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_address_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2885,7 +2885,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_block_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2942,7 +2942,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_block_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -2999,7 +2999,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_address_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3057,7 +3057,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_address_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3115,7 +3115,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_block_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3173,7 +3173,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_block_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3231,7 +3231,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_epoch) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3302,7 +3302,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_slot) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3382,7 +3382,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_slot_blob) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3459,7 +3459,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3528,7 +3528,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3597,7 +3597,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_el_client) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3668,7 +3668,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_el_client_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3739,7 +3739,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_slot) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3811,7 +3811,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_duration_chunked_50ms) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3876,7 +3876,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_el_client) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -3950,7 +3950,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_el_client_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4023,7 +4023,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_slot) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4100,7 +4100,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_duration_chunked_50ms) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4163,7 +4163,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_winrate_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4220,7 +4220,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_winrate_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4277,7 +4277,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4343,7 +4343,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4409,7 +4409,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_signalling_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4464,7 +4464,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_signalling_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4519,7 +4519,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_used_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4586,7 +4586,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_used_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4653,7 +4653,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4726,7 +4726,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4799,7 +4799,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_state_size_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4864,7 +4864,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_state_size_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4929,7 +4929,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_tps_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -4996,7 +4996,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_tps_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5063,7 +5063,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_transactions_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5130,7 +5130,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_execution_transactions_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5197,7 +5197,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_head_first_seen_by_node) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5273,7 +5273,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_head_vote_correctness_rate_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5338,7 +5338,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_head_vote_correctness_rate_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5403,7 +5403,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_count_by_builder) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5462,7 +5462,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_count_by_relay) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5521,7 +5521,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5584,7 +5584,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_missed_slot_rate_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5642,7 +5642,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_missed_slot_rate_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5700,7 +5700,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_node_active_last_24h) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5770,7 +5770,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_node_cpu_utilization_by_process) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5835,7 +5835,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_node_disk_io_by_process) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5899,7 +5899,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_node_memory_usage_by_process) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -5964,7 +5964,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_node_network_io_by_process) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6029,7 +6029,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6091,7 +6091,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6153,7 +6153,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6221,7 +6221,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6289,7 +6289,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_prepared_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6363,7 +6363,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_proposer_reward_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6429,7 +6429,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_proposer_reward_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6495,7 +6495,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_reorg_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6551,7 +6551,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_reorg_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6607,7 +6607,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_address_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6664,7 +6664,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_address_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6721,7 +6721,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_block_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6777,7 +6777,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_block_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6833,7 +6833,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_address_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6891,7 +6891,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_address_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -6949,7 +6949,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_block_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7006,7 +7006,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_block_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7063,7 +7063,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_top_100_by_bytes) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7126,7 +7126,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_top_100_by_slots) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7189,7 +7189,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7246,7 +7246,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7304,7 +7304,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7362,7 +7362,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7422,7 +7422,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7486,7 +7486,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_hourly) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7550,7 +7550,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.fct_validator_count_by_entity_by_status_daily) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7607,7 +7607,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.helper_contract_storage_next_touch_latest_state) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7663,7 +7663,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.helper_storage_slot_next_touch_latest_state) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7720,7 +7720,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_attestation_attested_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7786,7 +7786,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_attestation_attested_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7852,7 +7852,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_attestation_first_seen) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -7934,7 +7934,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_attestation_first_seen_aggregate) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8000,7 +8000,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_beacon_committee_head) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8059,7 +8059,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_blob_count_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8118,7 +8118,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8197,7 +8197,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_mev_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8267,7 +8267,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_opcode_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8326,7 +8326,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_proposer_canonical) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8386,7 +8386,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_receipt_size) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8450,7 +8450,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_block_resource_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8513,7 +8513,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_creation) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8574,7 +8574,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_selfdestruct) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8638,7 +8638,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_12m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8696,7 +8696,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_18m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8754,7 +8754,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_1m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8812,7 +8812,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_24m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8870,7 +8870,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_6m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8928,7 +8928,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_next_touch) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -8984,7 +8984,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_12m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9042,7 +9042,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_18m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9100,7 +9100,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_1m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9158,7 +9158,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_24m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9216,7 +9216,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_6m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9274,7 +9274,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9333,7 +9333,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_by_address) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9392,7 +9392,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_by_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9452,7 +9452,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9516,7 +9516,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry_by_address) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9574,7 +9574,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry_by_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9632,7 +9632,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_custody_probe) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9719,7 +9719,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_custody_probe_order_by_slot) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9806,7 +9806,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_engine_get_blobs) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9891,7 +9891,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_engine_new_payload) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -9982,7 +9982,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_engine_new_payload_fastest_execution_by_node_class) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10045,7 +10045,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_execution_block_by_date) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10100,7 +10100,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_execution_state_size_by_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10164,7 +10164,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_selfdestruct_diffs) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10225,7 +10225,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_diff) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10283,7 +10283,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_diff_by_address_slot) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10341,7 +10341,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_12m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10399,7 +10399,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_18m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10457,7 +10457,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_1m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10515,7 +10515,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_24m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10573,7 +10573,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_6m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10631,7 +10631,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10698,7 +10698,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle_boundary) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10758,7 +10758,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_next_touch) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10815,7 +10815,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_12m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10873,7 +10873,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_18m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10931,7 +10931,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_1m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -10989,7 +10989,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_24m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11047,7 +11047,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_6m) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11105,7 +11105,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_read) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11161,7 +11161,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11220,7 +11220,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_by_address) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11279,7 +11279,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_by_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11337,7 +11337,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11399,7 +11399,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry_by_address) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11461,7 +11461,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry_by_block) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11522,7 +11522,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11591,7 +11591,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11660,7 +11660,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_resource_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11728,7 +11728,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_opcode_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11790,7 +11790,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_receipt_size) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
@@ -11851,7 +11851,7 @@ echo """
     FROM cluster('{cbt_cluster}', mainnet.int_transaction_resource_gas) FINAL
     LIMIT 3
     FORMAT Pretty
-""" | curl "https://clickhouse.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
 ```
 </details>
 
