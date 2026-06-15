@@ -257,7 +257,7 @@ generate_table_schema() {
     echo "    SELECT"
     echo "        *"
     if [ "$is_cbt_table" = "true" ]; then
-        echo "    FROM cluster('{cbt_cluster}', ${example_database}.${table_name})$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
+        echo "    FROM cluster('{refined}', ${example_database}.${table_name}_local)$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
     else
         echo "    FROM ${example_database}.${table_name}$(if [ "$should_use_final" = true ]; then echo " FINAL"; fi)"
     fi
