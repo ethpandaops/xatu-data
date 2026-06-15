@@ -246,7 +246,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_block_blob_submitter) FINAL
+    FROM cluster('{refined}', mainnet.dim_block_blob_submitter_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -305,7 +305,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_contract_owner) FINAL
+    FROM cluster('{refined}', mainnet.dim_contract_owner_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -365,7 +365,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_function_signature) FINAL
+    FROM cluster('{refined}', mainnet.dim_function_signature_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -421,7 +421,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_node) FINAL
+    FROM cluster('{refined}', mainnet.dim_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -480,7 +480,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_validator_pubkey) FINAL
+    FROM cluster('{refined}', mainnet.dim_validator_pubkey_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -535,7 +535,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.dim_validator_status) FINAL
+    FROM cluster('{refined}', mainnet.dim_validator_status_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -599,7 +599,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_by_validator_canonical) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_by_validator_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -661,7 +661,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_by_validator_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_by_validator_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -722,7 +722,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_canonical) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -783,7 +783,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_correctness_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -844,7 +844,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_first_seen_by_validator) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_first_seen_by_validator_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -912,7 +912,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_first_seen_chunked_50ms) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_first_seen_chunked_50ms_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -972,7 +972,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_inclusion_delay_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_inclusion_delay_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1037,7 +1037,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_inclusion_delay_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_inclusion_delay_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1102,7 +1102,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_liveness_by_entity_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_liveness_by_entity_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1162,7 +1162,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_observation_by_node) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_observation_by_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1241,7 +1241,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_participation_rate_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_participation_rate_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1306,7 +1306,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_participation_rate_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_participation_rate_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1371,7 +1371,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_validator_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1432,7 +1432,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_validator_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1494,7 +1494,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_attestation_vote_correctness_by_validator_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_validator_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1556,7 +1556,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_blob_count_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_blob_count_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1622,7 +1622,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_blob_count_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_blob_count_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1688,7 +1688,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1768,7 +1768,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_count) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_blob_count_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1828,7 +1828,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_count_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_blob_count_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1887,7 +1887,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_blob_first_seen_by_node) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_blob_first_seen_by_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -1964,7 +1964,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_data_column_sidecar_first_seen) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_data_column_sidecar_first_seen_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2042,7 +2042,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_data_column_sidecar_first_seen_by_node) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_data_column_sidecar_first_seen_by_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2120,7 +2120,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_first_seen_by_node) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_first_seen_by_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2196,7 +2196,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2275,7 +2275,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_mev) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_mev_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2346,7 +2346,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_mev_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_mev_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2416,7 +2416,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposal_status_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposal_status_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2472,7 +2472,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposal_status_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposal_status_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2528,7 +2528,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposer_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2589,7 +2589,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_by_validator) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposer_by_validator_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2650,7 +2650,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_entity) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposer_entity_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2708,7 +2708,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_block_proposer_head) FINAL
+    FROM cluster('{refined}', mainnet.fct_block_proposer_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2768,7 +2768,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_address_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_by_address_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2825,7 +2825,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_address_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_by_address_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2882,7 +2882,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_block_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_by_block_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2939,7 +2939,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_by_block_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_by_block_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -2996,7 +2996,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_address_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_with_expiry_by_address_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3054,7 +3054,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_address_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_with_expiry_by_address_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3112,7 +3112,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_block_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_with_expiry_by_block_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3170,7 +3170,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_contract_storage_state_with_expiry_by_block_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_contract_storage_state_with_expiry_by_block_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3228,7 +3228,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_epoch) FINAL
+    FROM cluster('{refined}', mainnet.fct_data_column_availability_by_epoch_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3299,7 +3299,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_slot) FINAL
+    FROM cluster('{refined}', mainnet.fct_data_column_availability_by_slot_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3379,7 +3379,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_by_slot_blob) FINAL
+    FROM cluster('{refined}', mainnet.fct_data_column_availability_by_slot_blob_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3456,7 +3456,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_data_column_availability_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3525,7 +3525,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_data_column_availability_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_data_column_availability_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3594,7 +3594,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_el_client) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_by_el_client_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3665,7 +3665,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_el_client_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_by_el_client_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3736,7 +3736,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_by_slot) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_by_slot_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3808,7 +3808,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_get_blobs_duration_chunked_50ms) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_duration_chunked_50ms_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3873,7 +3873,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_el_client) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_by_el_client_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -3947,7 +3947,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_el_client_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_by_el_client_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4020,7 +4020,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_by_slot) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_by_slot_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4097,7 +4097,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_duration_chunked_50ms) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_chunked_50ms_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4160,7 +4160,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_winrate_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_winrate_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4217,7 +4217,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_engine_new_payload_winrate_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_winrate_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4274,7 +4274,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_limit_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4340,7 +4340,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_limit_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4406,7 +4406,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_signalling_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_limit_signalling_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4461,7 +4461,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_limit_signalling_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_limit_signalling_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4516,7 +4516,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_used_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_used_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4583,7 +4583,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_gas_used_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_gas_used_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4650,7 +4650,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_receipt_size_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4723,7 +4723,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_receipt_size_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_receipt_size_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4796,7 +4796,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_state_size_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_state_size_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4861,7 +4861,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_state_size_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_state_size_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4926,7 +4926,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_tps_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_tps_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -4993,7 +4993,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_tps_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_tps_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5060,7 +5060,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_transactions_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_transactions_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5127,7 +5127,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_execution_transactions_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_execution_transactions_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5194,7 +5194,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_head_first_seen_by_node) FINAL
+    FROM cluster('{refined}', mainnet.fct_head_first_seen_by_node_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5270,7 +5270,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_head_vote_correctness_rate_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_head_vote_correctness_rate_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5335,7 +5335,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_head_vote_correctness_rate_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_head_vote_correctness_rate_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5400,7 +5400,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_count_by_builder) FINAL
+    FROM cluster('{refined}', mainnet.fct_mev_bid_count_by_builder_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5459,7 +5459,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_count_by_relay) FINAL
+    FROM cluster('{refined}', mainnet.fct_mev_bid_count_by_relay_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5518,7 +5518,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms) FINAL
+    FROM cluster('{refined}', mainnet.fct_mev_bid_highest_value_by_builder_chunked_50ms_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5581,7 +5581,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_missed_slot_rate_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_missed_slot_rate_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5639,7 +5639,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_missed_slot_rate_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_missed_slot_rate_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5697,7 +5697,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_node_active_last_24h) FINAL
+    FROM cluster('{refined}', mainnet.fct_node_active_last_24h_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5767,7 +5767,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_node_cpu_utilization_by_process) FINAL
+    FROM cluster('{refined}', mainnet.fct_node_cpu_utilization_by_process_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5832,7 +5832,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_node_disk_io_by_process) FINAL
+    FROM cluster('{refined}', mainnet.fct_node_disk_io_by_process_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5896,7 +5896,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_node_memory_usage_by_process) FINAL
+    FROM cluster('{refined}', mainnet.fct_node_memory_usage_by_process_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -5961,7 +5961,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_node_network_io_by_process) FINAL
+    FROM cluster('{refined}', mainnet.fct_node_network_io_by_process_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6026,7 +6026,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_opcode_gas_by_opcode_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6088,7 +6088,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_gas_by_opcode_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_opcode_gas_by_opcode_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6150,7 +6150,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_opcode_ops_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6218,7 +6218,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_opcode_ops_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_opcode_ops_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6286,7 +6286,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_prepared_block) FINAL
+    FROM cluster('{refined}', mainnet.fct_prepared_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6360,7 +6360,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_proposer_reward_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_proposer_reward_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6426,7 +6426,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_proposer_reward_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_proposer_reward_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6492,7 +6492,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_reorg_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_reorg_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6548,7 +6548,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_reorg_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_reorg_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6604,7 +6604,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_address_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_by_address_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6661,7 +6661,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_address_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_by_address_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6718,7 +6718,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_block_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_by_block_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6774,7 +6774,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_by_block_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_by_block_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6830,7 +6830,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_address_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_with_expiry_by_address_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6888,7 +6888,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_address_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_with_expiry_by_address_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6946,7 +6946,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_block_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_with_expiry_by_block_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7003,7 +7003,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_state_with_expiry_by_block_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_state_with_expiry_by_block_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7060,7 +7060,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_top_100_by_bytes) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_top_100_by_bytes_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7123,7 +7123,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_storage_slot_top_100_by_slots) FINAL
+    FROM cluster('{refined}', mainnet.fct_storage_slot_top_100_by_slots_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7186,7 +7186,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator) FINAL
+    FROM cluster('{refined}', mainnet.fct_sync_committee_participation_by_validator_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7243,7 +7243,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_sync_committee_participation_by_validator_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7301,7 +7301,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_sync_committee_participation_by_validator_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_sync_committee_participation_by_validator_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7359,7 +7359,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance) FINAL
+    FROM cluster('{refined}', mainnet.fct_validator_balance_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7419,7 +7419,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_validator_balance_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7483,7 +7483,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_validator_balance_hourly) FINAL
+    FROM cluster('{refined}', mainnet.fct_validator_balance_hourly_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7547,7 +7547,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.fct_validator_count_by_entity_by_status_daily) FINAL
+    FROM cluster('{refined}', mainnet.fct_validator_count_by_entity_by_status_daily_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7604,7 +7604,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.helper_contract_storage_next_touch_latest_state) FINAL
+    FROM cluster('{refined}', mainnet.helper_contract_storage_next_touch_latest_state_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7660,7 +7660,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.helper_storage_slot_next_touch_latest_state) FINAL
+    FROM cluster('{refined}', mainnet.helper_storage_slot_next_touch_latest_state_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7717,7 +7717,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_attestation_attested_canonical) FINAL
+    FROM cluster('{refined}', mainnet.int_attestation_attested_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7783,7 +7783,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_attestation_attested_head) FINAL
+    FROM cluster('{refined}', mainnet.int_attestation_attested_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7849,7 +7849,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_attestation_first_seen) FINAL
+    FROM cluster('{refined}', mainnet.int_attestation_first_seen_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7931,7 +7931,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_attestation_first_seen_aggregate) FINAL
+    FROM cluster('{refined}', mainnet.int_attestation_first_seen_aggregate_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -7997,7 +7997,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_beacon_committee_head) FINAL
+    FROM cluster('{refined}', mainnet.int_beacon_committee_head_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8056,7 +8056,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_blob_count_canonical) FINAL
+    FROM cluster('{refined}', mainnet.int_block_blob_count_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8115,7 +8115,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_canonical) FINAL
+    FROM cluster('{refined}', mainnet.int_block_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8194,7 +8194,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_mev_canonical) FINAL
+    FROM cluster('{refined}', mainnet.int_block_mev_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8264,7 +8264,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_opcode_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_block_opcode_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8323,7 +8323,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_proposer_canonical) FINAL
+    FROM cluster('{refined}', mainnet.int_block_proposer_canonical_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8383,7 +8383,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_receipt_size) FINAL
+    FROM cluster('{refined}', mainnet.int_block_receipt_size_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8447,7 +8447,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_block_resource_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_block_resource_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8510,7 +8510,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_creation) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_creation_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8571,7 +8571,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_selfdestruct) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_selfdestruct_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8635,7 +8635,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_12m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_expiry_12m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8693,7 +8693,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_18m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_expiry_18m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8751,7 +8751,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_1m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_expiry_1m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8809,7 +8809,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_24m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_expiry_24m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8867,7 +8867,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_expiry_6m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_expiry_6m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8925,7 +8925,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_next_touch) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_next_touch_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -8981,7 +8981,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_12m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_reactivation_12m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9039,7 +9039,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_18m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_reactivation_18m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9097,7 +9097,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_1m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_reactivation_1m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9155,7 +9155,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_24m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_reactivation_24m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9213,7 +9213,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_reactivation_6m) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_reactivation_6m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9271,7 +9271,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9330,7 +9330,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_by_address) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_by_address_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9389,7 +9389,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_by_block) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_by_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9449,7 +9449,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_with_expiry_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9513,7 +9513,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry_by_address) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_with_expiry_by_address_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9571,7 +9571,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_contract_storage_state_with_expiry_by_block) FINAL
+    FROM cluster('{refined}', mainnet.int_contract_storage_state_with_expiry_by_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9629,7 +9629,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_custody_probe) FINAL
+    FROM cluster('{refined}', mainnet.int_custody_probe_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9716,7 +9716,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_custody_probe_order_by_slot) FINAL
+    FROM cluster('{refined}', mainnet.int_custody_probe_order_by_slot_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9803,7 +9803,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_engine_get_blobs) FINAL
+    FROM cluster('{refined}', mainnet.int_engine_get_blobs_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9888,7 +9888,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_engine_new_payload) FINAL
+    FROM cluster('{refined}', mainnet.int_engine_new_payload_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -9979,7 +9979,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_engine_new_payload_fastest_execution_by_node_class) FINAL
+    FROM cluster('{refined}', mainnet.int_engine_new_payload_fastest_execution_by_node_class_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10042,7 +10042,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_execution_block_by_date) FINAL
+    FROM cluster('{refined}', mainnet.int_execution_block_by_date_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10097,7 +10097,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_execution_state_size_by_block) FINAL
+    FROM cluster('{refined}', mainnet.int_execution_state_size_by_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10161,7 +10161,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_selfdestruct_diffs) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_selfdestruct_diffs_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10222,7 +10222,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_diff) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_diff_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10280,7 +10280,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_diff_by_address_slot) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_diff_by_address_slot_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10338,7 +10338,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_12m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_expiry_12m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10396,7 +10396,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_18m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_expiry_18m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10454,7 +10454,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_1m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_expiry_1m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10512,7 +10512,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_24m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_expiry_24m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10570,7 +10570,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_expiry_6m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_expiry_6m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10628,7 +10628,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_lifecycle_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10695,7 +10695,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_lifecycle_boundary) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_lifecycle_boundary_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10755,7 +10755,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_next_touch) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_next_touch_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10812,7 +10812,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_12m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_reactivation_12m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10870,7 +10870,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_18m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_reactivation_18m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10928,7 +10928,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_1m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_reactivation_1m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10986,7 +10986,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_24m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_reactivation_24m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11044,7 +11044,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_reactivation_6m) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_reactivation_6m_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11102,7 +11102,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_read) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_read_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11158,7 +11158,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11217,7 +11217,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_by_address) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_by_address_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11276,7 +11276,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_by_block) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_by_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11334,7 +11334,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_with_expiry_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11396,7 +11396,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry_by_address) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_with_expiry_by_address_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11458,7 +11458,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_storage_slot_state_with_expiry_by_block) FINAL
+    FROM cluster('{refined}', mainnet.int_storage_slot_state_with_expiry_by_block_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11519,7 +11519,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_call_frame_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11588,7 +11588,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_call_frame_opcode_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11657,7 +11657,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_call_frame_opcode_resource_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_call_frame_opcode_resource_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11725,7 +11725,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_opcode_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_opcode_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11787,7 +11787,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_receipt_size) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_receipt_size_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -11848,7 +11848,7 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 echo """
     SELECT
         *
-    FROM cluster('{cbt_cluster}', mainnet.int_transaction_resource_gas) FINAL
+    FROM cluster('{refined}', mainnet.int_transaction_resource_gas_local) FINAL
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
