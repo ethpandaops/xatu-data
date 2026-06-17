@@ -6,7 +6,7 @@ CREATE TABLE default.libp2p_join
     `topic_fork_digest_value` LowCardinality(String) COMMENT 'Fork digest value of the topic',
     `topic_name` LowCardinality(String) COMMENT 'Name of the topic',
     `topic_encoding` LowCardinality(String) COMMENT 'Encoding of the topic',
-    `peer_id_unique_key` Int64 COMMENT 'Unique key associated with the identifier of the peer that joined the topic',
+    `local_peer_id_unique_key` Int64 COMMENT 'Unique key derived from the libp2p peer.ID of the local host that joined the topic',
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',
@@ -22,5 +22,5 @@ CREATE TABLE default.libp2p_join
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
     `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
 )
-ENGINE = Distributed('{cluster}', 'default', 'libp2p_join_local', cityHash64(event_date_time, meta_network_name, meta_client_name, peer_id_unique_key, topic_fork_digest_value, topic_name))
+ENGINE = Distributed('{cluster}', 'default', 'libp2p_join_local', cityHash64(event_date_time, meta_network_name, meta_client_name, local_peer_id_unique_key, topic_fork_digest_value, topic_name))
 COMMENT 'Contains the details of the JOIN events from the libp2p client.'

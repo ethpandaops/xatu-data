@@ -22,6 +22,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
+- [`dim_token_contract`](#dim_token_contract)
 - [`dim_validator_pubkey`](#dim_validator_pubkey)
 - [`dim_validator_status`](#dim_validator_status)
 - [`fct_attestation_correctness_by_validator_canonical`](#fct_attestation_correctness_by_validator_canonical)
@@ -129,6 +130,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_sync_committee_participation_by_validator`](#fct_sync_committee_participation_by_validator)
 - [`fct_sync_committee_participation_by_validator_daily`](#fct_sync_committee_participation_by_validator_daily)
 - [`fct_sync_committee_participation_by_validator_hourly`](#fct_sync_committee_participation_by_validator_hourly)
+- [`fct_token_contract_storage_state_by_block_daily`](#fct_token_contract_storage_state_by_block_daily)
 - [`fct_validator_balance`](#fct_validator_balance)
 - [`fct_validator_balance_daily`](#fct_validator_balance_daily)
 - [`fct_validator_balance_hourly`](#fct_validator_balance_hourly)
@@ -196,6 +198,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_storage_slot_state_with_expiry`](#int_storage_slot_state_with_expiry)
 - [`int_storage_slot_state_with_expiry_by_address`](#int_storage_slot_state_with_expiry_by_address)
 - [`int_storage_slot_state_with_expiry_by_block`](#int_storage_slot_state_with_expiry_by_block)
+- [`int_token_contract_storage_state_by_block`](#int_token_contract_storage_state_by_block)
 - [`int_transaction_call_frame`](#int_transaction_call_frame)
 - [`int_transaction_call_frame_opcode_gas`](#int_transaction_call_frame_opcode_gas)
 - [`int_transaction_call_frame_opcode_resource_gas`](#int_transaction_call_frame_opcode_resource_gas)
@@ -438,6 +441,61 @@ echo """
 | **tags** | `Array(String)` | *Tags associated with the node* |
 | **attributes** | `Map(String, String)` | *Additional attributes of the node* |
 | **source** | `String` | *The source entity of the node* |
+
+## dim_token_contract
+
+Contracts that have emitted ERC20/ERC721 Transfer events, classified into a single token_standard by their first transfer
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_token_contract`
+- **sepolia**: `sepolia.dim_token_contract`
+- **holesky**: `holesky.dim_token_contract`
+- **hoodi**: `hoodi.dim_token_contract`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_token_contract FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_token_contract_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **contract_address** | `String` | *The token contract address* |
+| **token_standard** | `LowCardinality(String)` | *Mutually-exclusive classification by the standard of the first Transfer event the contract emitted (first-come-first-serve): erc20 or erc721* |
 
 ## dim_validator_pubkey
 
@@ -7318,6 +7376,62 @@ echo """
 | **participated_count** | `UInt32` | *Number of slots where validator participated* |
 | **missed_count** | `UInt32` | *Number of slots where validator missed* |
 
+## fct_token_contract_storage_state_by_block_daily
+
+Daily live storage slots owned by ERC20/ERC721 contracts, by token_standard
+
+### Availability
+Data is partitioned by **toYYYYMM(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_token_contract_storage_state_by_block_daily`
+- **sepolia**: `sepolia.fct_token_contract_storage_state_by_block_daily`
+- **holesky**: `holesky.fct_token_contract_storage_state_by_block_daily`
+- **hoodi**: `hoodi.fct_token_contract_storage_state_by_block_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_token_contract_storage_state_by_block_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_token_contract_storage_state_by_block_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **token_standard** | `LowCardinality(String)` | *Token standard: erc20 or erc721* |
+| **active_slots** | `Int64` | *Cumulative active storage slots owned by contracts of this standard at end of day* |
+
 ## fct_validator_balance
 
 Per-epoch validator balance and status
@@ -11477,6 +11591,63 @@ echo """
 | **cumulative_net_bytes** | `Int64` | *Cumulative net bytes adjustment up to this block* |
 | **active_slots** | `Int64` | *Cumulative count of active storage slots at this block (with expiry applied)* |
 | **effective_bytes** | `Int64` | *Cumulative sum of effective bytes at this block (with expiry applied)* |
+
+## int_token_contract_storage_state_by_block
+
+Cumulative live storage slots owned by ERC20/ERC721 contracts per block, split by token_standard
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_token_contract_storage_state_by_block`
+- **sepolia**: `sepolia.int_token_contract_storage_state_by_block`
+- **holesky**: `holesky.int_token_contract_storage_state_by_block`
+- **hoodi**: `hoodi.int_token_contract_storage_state_by_block`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_token_contract_storage_state_by_block FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_token_contract_storage_state_by_block_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *The block number* |
+| **token_standard** | `LowCardinality(String)` | *Token standard: erc20 or erc721* |
+| **slots_delta** | `Int32` | *Change in active slots owned by contracts of this standard at this block* |
+| **active_slots** | `Int64` | *Cumulative active storage slots owned by contracts of this standard at this block* |
 
 ## int_transaction_call_frame
 
