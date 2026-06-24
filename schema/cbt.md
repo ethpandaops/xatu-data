@@ -22,6 +22,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
+- [`dim_rocketpool_node`](#dim_rocketpool_node)
 - [`dim_token_contract`](#dim_token_contract)
 - [`dim_validator_pubkey`](#dim_validator_pubkey)
 - [`dim_validator_status`](#dim_validator_status)
@@ -46,6 +47,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_blob_count`](#fct_block_blob_count)
 - [`fct_block_blob_count_head`](#fct_block_blob_count_head)
 - [`fct_block_blob_first_seen_by_node`](#fct_block_blob_first_seen_by_node)
+- [`fct_block_blob_head`](#fct_block_blob_head)
 - [`fct_block_data_column_sidecar_first_seen`](#fct_block_data_column_sidecar_first_seen)
 - [`fct_block_data_column_sidecar_first_seen_by_node`](#fct_block_data_column_sidecar_first_seen_by_node)
 - [`fct_block_first_seen_by_node`](#fct_block_first_seen_by_node)
@@ -117,6 +119,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_proposer_reward_hourly`](#fct_proposer_reward_hourly)
 - [`fct_reorg_daily`](#fct_reorg_daily)
 - [`fct_reorg_hourly`](#fct_reorg_hourly)
+- [`fct_rocketpool_validator`](#fct_rocketpool_validator)
 - [`fct_storage_slot_state_by_address_daily`](#fct_storage_slot_state_by_address_daily)
 - [`fct_storage_slot_state_by_address_hourly`](#fct_storage_slot_state_by_address_hourly)
 - [`fct_storage_slot_state_by_block_daily`](#fct_storage_slot_state_by_block_daily)
@@ -175,6 +178,10 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_engine_new_payload_fastest_execution_by_node_class`](#int_engine_new_payload_fastest_execution_by_node_class)
 - [`int_execution_block_by_date`](#int_execution_block_by_date)
 - [`int_execution_state_size_by_block`](#int_execution_state_size_by_block)
+- [`int_rocketpool_megapool`](#int_rocketpool_megapool)
+- [`int_rocketpool_minipool`](#int_rocketpool_minipool)
+- [`int_rocketpool_node_event`](#int_rocketpool_node_event)
+- [`int_rocketpool_node_timezone`](#int_rocketpool_node_timezone)
 - [`int_storage_selfdestruct_diffs`](#int_storage_selfdestruct_diffs)
 - [`int_storage_slot_diff`](#int_storage_slot_diff)
 - [`int_storage_slot_diff_by_address_slot`](#int_storage_slot_diff_by_address_slot)
@@ -441,6 +448,70 @@ echo """
 | **tags** | `Array(String)` | *Tags associated with the node* |
 | **attributes** | `Map(String, String)` | *Additional attributes of the node* |
 | **source** | `String` | *The source entity of the node* |
+
+## dim_rocketpool_node
+
+Rocket Pool node operators with timezone, RPL stake, smoothing pool membership and minipool/validator counts
+
+### Availability
+Data is partitioned by **toStartOfMonth(first_seen_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_rocketpool_node`
+- **sepolia**: `sepolia.dim_rocketpool_node`
+- **holesky**: `holesky.dim_rocketpool_node`
+- **hoodi**: `hoodi.dim_rocketpool_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_rocketpool_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_rocketpool_node_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **node_operator** | `String` | *The Rocket Pool node operator address, lowercase 0x-prefixed* |
+| **timezone** | `String` | *The self-reported timezone location string (e.g. Europe/London), empty if unknown* |
+| **registered_date_time** | `DateTime` | *Wall clock time the node registered with Rocket Pool* |
+| **minipool_count** | `UInt32` | *Total number of minipools ever created by this node operator* |
+| **active_minipool_count** | `UInt32` | *Number of minipools created minus destroyed for this node operator* |
+| **megapool_validator_count** | `UInt32` | *Number of Saturn megapool validators for this node operator* |
+| **validator_count** | `UInt32` | *Total number of beacon chain validators (minipool and megapool) linked to this node operator* |
+| **rpl_staked_wei** | `UInt256` | *Net RPL staked in wei (lifetime staked minus withdrawn), derived from events* |
+| **in_smoothing_pool** | `Bool` | *Whether the node operator is currently registered for the smoothing pool* |
+| **first_seen_date_time** | `DateTime` | *Wall clock time of the node operators earliest observed Rocket Pool activity* |
+| **last_activity_date_time** | `DateTime` | *Wall clock time of the node operators latest observed minipool or megapool activity* |
 
 ## dim_token_contract
 
@@ -1980,6 +2051,67 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_block_blob_head
+
+One row per (slot, block root, blob index) carrying the blob versioned hash and KZG commitment, sourced from the head beacon blob sidecar event stream. Available at head without waiting for finalization.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_blob_head`
+- **sepolia**: `sepolia.fct_block_blob_head`
+- **holesky**: `holesky.fct_block_blob_head`
+- **hoodi**: `hoodi.fct_block_blob_head`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_blob_head FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_blob_head_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root hash containing the blob* |
+| **blob_index** | `UInt32` | *The index of the blob within the block* |
+| **versioned_hash** | `String` | *The versioned hash derived from the KZG commitment, used as the blob archive key* |
+| **kzg_commitment** | `String` | *The KZG commitment of the blob* |
 
 ## fct_block_data_column_sidecar_first_seen
 
@@ -6621,6 +6753,65 @@ echo """
 | **depth** | `UInt16` | *Reorg depth (number of consecutive orphaned slots)* |
 | **reorg_count** | `UInt32` | *Number of reorg events at this depth* |
 
+## fct_rocketpool_validator
+
+Beacon chain validators operated via Rocket Pool (minipool and megapool), linked to their node operator
+
+### Availability
+Data is partitioned by **toStartOfMonth(created_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_rocketpool_validator`
+- **sepolia**: `sepolia.fct_rocketpool_validator`
+- **holesky**: `holesky.fct_rocketpool_validator`
+- **hoodi**: `hoodi.fct_rocketpool_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_rocketpool_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_rocketpool_validator_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **validator_index** | `UInt32` | *The beacon chain validator index* |
+| **pubkey** | `String` | *The validator BLS public key, lowercase 0x-prefixed* |
+| **node_operator** | `String` | *The Rocket Pool node operator address, lowercase 0x-prefixed* |
+| **pool_type** | `LowCardinality(String)` | *The Rocket Pool staking mechanism backing this validator: minipool or megapool* |
+| **pool_address** | `String` | *The minipool contract address (minipool) or the validator withdrawal credential address (megapool), lowercase 0x-prefixed* |
+| **created_date_time** | `DateTime` | *Wall clock time the backing minipool was created or the megapool deposit was made* |
+
 ## fct_storage_slot_state_by_address_daily
 
 Storage slot state metrics per address aggregated by day
@@ -10233,6 +10424,241 @@ echo """
 | **storage_bytes** | `UInt64` | *Cumulative total bytes used by storage data* |
 | **storage_trienodes** | `UInt64` | *Cumulative number of trie nodes in the storage trie* |
 | **storage_trienode_bytes** | `UInt64` | *Cumulative total bytes used by storage trie nodes* |
+
+## int_rocketpool_megapool
+
+Rocket Pool Saturn megapool contracts mapped to their node operator
+
+### Availability
+Data is partitioned by **toStartOfMonth(created_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_rocketpool_megapool`
+- **sepolia**: `sepolia.int_rocketpool_megapool`
+- **holesky**: `holesky.int_rocketpool_megapool`
+- **hoodi**: `hoodi.int_rocketpool_megapool`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_rocketpool_megapool FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_rocketpool_megapool_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **megapool_address** | `String` | *The Rocket Pool megapool contract address, lowercase 0x-prefixed* |
+| **node_operator** | `String` | *The Rocket Pool node operator that owns the megapool, lowercase 0x-prefixed* |
+| **created_block_number** | `UInt64` | *Execution block number the megapool was deployed in* |
+| **created_date_time** | `DateTime` | *Wall clock time the megapool was deployed (decoded from the deposit event)* |
+| **transaction_hash** | `FixedString(66)` | *Execution transaction hash that deployed the megapool* |
+
+## int_rocketpool_minipool
+
+Rocket Pool minipool lifecycle events (created/destroyed) decoded from execution layer logs
+
+### Availability
+Data is partitioned by **toStartOfMonth(event_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_rocketpool_minipool`
+- **sepolia**: `sepolia.int_rocketpool_minipool`
+- **holesky**: `holesky.int_rocketpool_minipool`
+- **hoodi**: `hoodi.int_rocketpool_minipool`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_rocketpool_minipool FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_rocketpool_minipool_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_name** | `LowCardinality(String)` | *Minipool lifecycle event name (created or destroyed)* |
+| **minipool_address** | `String` | *The Rocket Pool minipool contract address, lowercase 0x-prefixed* |
+| **node_operator** | `String` | *The Rocket Pool node operator address that owns the minipool, lowercase 0x-prefixed* |
+| **event_block_number** | `UInt64` | *Execution block number the event was emitted in* |
+| **event_date_time** | `DateTime` | *Wall clock time the event occurred, decoded from the event payload* |
+| **transaction_hash** | `FixedString(66)` | *Execution transaction hash that emitted the event* |
+| **log_index** | `UInt32` | *Log index of the event within the block* |
+
+## int_rocketpool_node_event
+
+Rocket Pool node lifecycle events (registration, RPL stake/withdraw, smoothing pool) decoded from execution layer logs
+
+### Availability
+Data is partitioned by **toStartOfMonth(event_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_rocketpool_node_event`
+- **sepolia**: `sepolia.int_rocketpool_node_event`
+- **holesky**: `holesky.int_rocketpool_node_event`
+- **hoodi**: `hoodi.int_rocketpool_node_event`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_rocketpool_node_event FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_rocketpool_node_event_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_name** | `LowCardinality(String)` | *Node event name: node_registered, rpl_staked, rpl_withdrawn or smoothing_pool_state_changed* |
+| **node_address** | `String` | *The Rocket Pool node operator address, lowercase 0x-prefixed* |
+| **rpl_amount_wei** | `UInt256` | *RPL amount in wei for rpl_staked/rpl_withdrawn events, otherwise 0* |
+| **smoothing_state** | `Bool` | *Smoothing pool membership state for smoothing_pool_state_changed events, otherwise false* |
+| **event_block_number** | `UInt64` | *Execution block number the event was emitted in* |
+| **event_date_time** | `DateTime` | *Wall clock time of the block the event was emitted in* |
+| **log_index** | `UInt32` | *Log index of the event within the block* |
+
+## int_rocketpool_node_timezone
+
+Rocket Pool node timezone locations decoded from registerNode/setTimezoneLocation calldata
+
+### Availability
+Data is partitioned by **toStartOfMonth(set_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_rocketpool_node_timezone`
+- **sepolia**: `sepolia.int_rocketpool_node_timezone`
+- **holesky**: `holesky.int_rocketpool_node_timezone`
+- **hoodi**: `hoodi.int_rocketpool_node_timezone`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_rocketpool_node_timezone FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_rocketpool_node_timezone_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **node_address** | `String` | *The Rocket Pool node operator address, lowercase 0x-prefixed* |
+| **timezone** | `String` | *The self-reported timezone location string (e.g. Europe/London)* |
+| **set_block_number** | `UInt64` | *Execution block number the timezone was set in* |
+| **set_date_time** | `DateTime` | *Wall clock time of the block the timezone was set in* |
 
 ## int_storage_selfdestruct_diffs
 
