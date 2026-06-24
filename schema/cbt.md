@@ -26,6 +26,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_token_contract`](#dim_token_contract)
 - [`dim_validator_pubkey`](#dim_validator_pubkey)
 - [`dim_validator_status`](#dim_validator_status)
+- [`fct_attestation_correctness`](#fct_attestation_correctness)
+- [`fct_attestation_correctness_by_validator`](#fct_attestation_correctness_by_validator)
 - [`fct_attestation_correctness_by_validator_canonical`](#fct_attestation_correctness_by_validator_canonical)
 - [`fct_attestation_correctness_by_validator_head`](#fct_attestation_correctness_by_validator_head)
 - [`fct_attestation_correctness_canonical`](#fct_attestation_correctness_canonical)
@@ -34,6 +36,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_first_seen_chunked_50ms`](#fct_attestation_first_seen_chunked_50ms)
 - [`fct_attestation_inclusion_delay_daily`](#fct_attestation_inclusion_delay_daily)
 - [`fct_attestation_inclusion_delay_hourly`](#fct_attestation_inclusion_delay_hourly)
+- [`fct_attestation_liveness_by_entity`](#fct_attestation_liveness_by_entity)
 - [`fct_attestation_liveness_by_entity_head`](#fct_attestation_liveness_by_entity_head)
 - [`fct_attestation_observation_by_node`](#fct_attestation_observation_by_node)
 - [`fct_attestation_participation_rate_daily`](#fct_attestation_participation_rate_daily)
@@ -140,10 +143,12 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_validator_count_by_entity_by_status_daily`](#fct_validator_count_by_entity_by_status_daily)
 - [`helper_contract_storage_next_touch_latest_state`](#helper_contract_storage_next_touch_latest_state)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
+- [`int_attestation_attested`](#int_attestation_attested)
 - [`int_attestation_attested_canonical`](#int_attestation_attested_canonical)
 - [`int_attestation_attested_head`](#int_attestation_attested_head)
 - [`int_attestation_first_seen`](#int_attestation_first_seen)
 - [`int_attestation_first_seen_aggregate`](#int_attestation_first_seen_aggregate)
+- [`int_beacon_committee`](#int_beacon_committee)
 - [`int_beacon_committee_head`](#int_beacon_committee_head)
 - [`int_block_blob_count_canonical`](#int_block_blob_count_canonical)
 - [`int_block_canonical`](#int_block_canonical)
@@ -687,6 +692,130 @@ echo """
 | **withdrawable_epoch** | `Nullable(UInt64)` | *Epoch when withdrawal becomes possible* |
 | **slashed** | `Bool` | *Whether the validator was slashed at this transition* |
 
+## fct_attestation_correctness
+
+Attestation correctness of a block, preferring finalized canonical data and falling back to real-time head data for slots not yet finalized. Forks in the chain may cause multiple block roots for the same slot to be present
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_correctness`
+- **sepolia**: `sepolia.fct_attestation_correctness`
+- **holesky**: `holesky.fct_attestation_correctness`
+- **hoodi**: `hoodi.fct_attestation_correctness`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_correctness FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `Nullable(String)` | *The beacon block root hash* |
+| **votes_max** | `UInt32` | *The maximum number of scheduled votes for the block* |
+| **votes_head** | `Nullable(UInt32)` | *The number of votes for the block proposed in the current slot* |
+| **votes_other** | `Nullable(UInt32)` | *The number of votes for any blocks proposed in previous slots* |
+
+## fct_attestation_correctness_by_validator
+
+Attestation correctness by validator, canonical-preferred merge of the canonical and head sources
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_correctness_by_validator`
+- **sepolia**: `sepolia.fct_attestation_correctness_by_validator`
+- **holesky**: `holesky.fct_attestation_correctness_by_validator`
+- **hoodi**: `hoodi.fct_attestation_correctness_by_validator`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_correctness_by_validator FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_correctness_by_validator_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **attesting_validator_index** | `UInt32` | *The index of the validator attesting* |
+| **block_root** | `Nullable(String)` | *The beacon block root hash that was attested, null means the attestation was missed* |
+| **slot_distance** | `Nullable(UInt32)` | *The distance from the slot to the attested block. If the attested block is the same as the slot, the distance is 0, if the attested block is the previous slot, the distance is 1, etc. If null, the attestation was missed, the block was orphaned and never seen by a sentry or the block was more than 64 slots ago* |
+| **propagation_distance** | `Nullable(UInt32)` | *The distance from the slot when the attestation was propagated, sourced from head. 0 means the attestation was propagated within the same slot as its duty was assigned, 1 means the attestation was propagated within the next slot, etc. Null when only the canonical source is present* |
+| **inclusion_distance** | `Nullable(UInt32)` | *The distance from the slot when the attestation was included in a block, sourced from canonical. Null when only the head source is present* |
+| **status** | `LowCardinality(Nullable(String))` | *Sourced from canonical: "canonical", "orphaned", "missed" or "unknown" (validator attested but block data not available). Null when only the head source is present (not yet finalized)* |
+
 ## fct_attestation_correctness_by_validator_canonical
 
 Attestation correctness by validator for the finalized chain
@@ -1189,6 +1318,66 @@ echo """
 | **upper_band_inclusion_delay** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
 | **lower_band_inclusion_delay** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
 | **moving_avg_inclusion_delay** | `Float32` | *Moving average inclusion delay (6-hour window)* |
+
+## fct_attestation_liveness_by_entity
+
+Attestation liveness aggregated by entity, preferring settled canonical participation over the real-time head view. One row per (slot, entity) with counts for both attested and missed attestations.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_liveness_by_entity`
+- **sepolia**: `sepolia.fct_attestation_liveness_by_entity`
+- **holesky**: `holesky.fct_attestation_liveness_by_entity`
+- **hoodi**: `hoodi.fct_attestation_liveness_by_entity`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_liveness_by_entity FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_liveness_by_entity_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **entity** | `String` | *The entity (staking provider) associated with the validators, unknown if not mapped* |
+| **attestation_count** | `UInt32` | *Number of attestations for this entity* |
+| **missed_count** | `UInt32` | *Number of missed attestations for this entity* |
 
 ## fct_attestation_liveness_by_entity_head
 
@@ -7981,6 +8170,73 @@ echo """
 | **block_number** | `UInt32` | *The block number of the latest touch for this slot* |
 | **next_touch_block** | `Nullable(UInt32)` | *The next block where this slot was touched (NULL if no subsequent touch yet)* |
 
+## int_attestation_attested
+
+Canonical-preferred merge of attested head and canonical attestations. Prefers finalized canonical values per validator and slot, falling back to real-time head.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_attestation_attested`
+- **sepolia**: `sepolia.int_attestation_attested`
+- **holesky**: `holesky.int_attestation_attested`
+- **hoodi**: `hoodi.int_attestation_attested`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_attestation_attested FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_attestation_attested_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **source_epoch** | `UInt32` | *The source epoch number in the attestation group* |
+| **source_epoch_start_date_time** | `DateTime` | *The wall clock time when the source epoch started* |
+| **source_root** | `FixedString(66)` | *The source beacon block root hash in the attestation group* |
+| **target_epoch** | `UInt32` | *The target epoch number in the attestation group* |
+| **target_epoch_start_date_time** | `DateTime` | *The wall clock time when the target epoch started* |
+| **target_root** | `FixedString(66)` | *The target beacon block root hash in the attestation group* |
+| **block_root** | `String` | *The beacon block root hash* |
+| **attesting_validator_index** | `UInt32` | *The index of the validator attesting* |
+| **inclusion_distance** | `Nullable(UInt32)` | *The distance from the slot when the attestation was included on-chain. Taken from the canonical variant. Null when only the head variant recorded the attestation.* |
+| **propagation_distance** | `Nullable(UInt32)` | *The distance from the slot when the attestation was propagated over gossip. 0 means the attestation was propagated within the same slot as its duty was assigned, 1 means the next slot, etc. Taken from the head variant. Null when only the canonical variant recorded the attestation.* |
+
 ## int_attestation_attested_canonical
 
 Attested head of a block for the unfinalized chain.
@@ -8260,6 +8516,65 @@ echo """
 | **target_root** | `String` | *Target checkpoint root from this aggregate* |
 | **seen_slot_start_diff** | `UInt32` | *The earliest time (ms after slot start) the validator was seen attesting this specific vote inside an aggregate* |
 | **source** | `LowCardinality(String)` | *The first source this aggregate was observed from (beacon_api or libp2p)* |
+
+## int_beacon_committee
+
+Beacon committee, canonical-preferred merge of the head-event stream and the canonical table
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_beacon_committee`
+- **sepolia**: `sepolia.int_beacon_committee`
+- **holesky**: `holesky.int_beacon_committee`
+- **hoodi**: `hoodi.int_beacon_committee`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_beacon_committee FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_beacon_committee_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **committee_index** | `LowCardinality(String)` | *The committee index in the beacon API committee payload* |
+| **validators** | `Array(UInt32)` | *The validator indices in the beacon API committee payload* |
 
 ## int_beacon_committee_head
 
