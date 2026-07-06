@@ -1,0 +1,1735 @@
+{
+  "generated_at": "2026-07-06T08:07:04Z",
+  "dataset": {
+    "name": "Canonical Execution",
+    "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
+    "tables": {
+      "prefix": "canonical_execution_"
+    },
+    "availability": [
+      "ethpandaops-clickhouse",
+      "public"
+    ],
+    "additional_info": ""
+  },
+  "tables": [
+    {
+      "name": "canonical_execution_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11141000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution block data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_date_time",
+          "type": "DateTime64(3)",
+          "description": "The block timestamp"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The block hash"
+        },
+        {
+          "name": "author",
+          "type": "Nullable(String)",
+          "description": "The block author"
+        },
+        {
+          "name": "gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "The block gas used"
+        },
+        {
+          "name": "gas_limit",
+          "type": "UInt64",
+          "description": "The block gas limit"
+        },
+        {
+          "name": "extra_data",
+          "type": "Nullable(String)",
+          "description": "The block extra data in hex"
+        },
+        {
+          "name": "extra_data_string",
+          "type": "Nullable(String)",
+          "description": "The block extra data in UTF-8 string"
+        },
+        {
+          "name": "base_fee_per_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The block base fee per gas"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_transaction",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11141000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution transaction data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The transaction nonce"
+        },
+        {
+          "name": "from_address",
+          "type": "String",
+          "description": "The transaction from address"
+        },
+        {
+          "name": "to_address",
+          "type": "Nullable(String)",
+          "description": "The transaction to address"
+        },
+        {
+          "name": "value",
+          "type": "UInt256",
+          "description": "The transaction value in float64"
+        },
+        {
+          "name": "input",
+          "type": "Nullable(String)",
+          "description": "The transaction input in hex"
+        },
+        {
+          "name": "gas_limit",
+          "type": "UInt64",
+          "description": "The transaction gas limit"
+        },
+        {
+          "name": "gas_used",
+          "type": "UInt64",
+          "description": "The transaction gas used"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The transaction gas price"
+        },
+        {
+          "name": "transaction_type",
+          "type": "UInt8",
+          "description": "The transaction type"
+        },
+        {
+          "name": "max_priority_fee_per_gas",
+          "type": "UInt64",
+          "description": "The transaction max priority fee per gas"
+        },
+        {
+          "name": "max_fee_per_gas",
+          "type": "UInt64",
+          "description": "The transaction max fee per gas"
+        },
+        {
+          "name": "success",
+          "type": "Bool",
+          "description": "The transaction success"
+        },
+        {
+          "name": "n_input_bytes",
+          "type": "UInt32",
+          "description": "The transaction input bytes"
+        },
+        {
+          "name": "n_input_zero_bytes",
+          "type": "UInt32",
+          "description": "The transaction input zero bytes"
+        },
+        {
+          "name": "n_input_nonzero_bytes",
+          "type": "UInt32",
+          "description": "The transaction input nonzero bytes"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_traces",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "9569000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution traces data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the trace within the transaction"
+        },
+        {
+          "name": "action_from",
+          "type": "String",
+          "description": "The from address of the action"
+        },
+        {
+          "name": "action_to",
+          "type": "Nullable(String)",
+          "description": "The to address of the action"
+        },
+        {
+          "name": "action_value",
+          "type": "UInt256",
+          "description": "The value of the action"
+        },
+        {
+          "name": "action_gas",
+          "type": "UInt64",
+          "description": "The gas provided for the action"
+        },
+        {
+          "name": "action_input",
+          "type": "Nullable(String)",
+          "description": "The input data for the action"
+        },
+        {
+          "name": "action_call_type",
+          "type": "LowCardinality(String)",
+          "description": "The call type of the action"
+        },
+        {
+          "name": "action_init",
+          "type": "Nullable(String)",
+          "description": "The initialization code for the action"
+        },
+        {
+          "name": "action_reward_type",
+          "type": "String",
+          "description": "The reward type for the action"
+        },
+        {
+          "name": "action_type",
+          "type": "LowCardinality(String)",
+          "description": "The type of the action"
+        },
+        {
+          "name": "result_gas_used",
+          "type": "UInt64",
+          "description": "The gas used in the result"
+        },
+        {
+          "name": "result_output",
+          "type": "Nullable(String)",
+          "description": "The output of the result"
+        },
+        {
+          "name": "result_code",
+          "type": "Nullable(String)",
+          "description": "The code returned in the result"
+        },
+        {
+          "name": "result_address",
+          "type": "Nullable(String)",
+          "description": "The address returned in the result"
+        },
+        {
+          "name": "trace_address",
+          "type": "Nullable(String)",
+          "description": "The trace address"
+        },
+        {
+          "name": "subtraces",
+          "type": "UInt32",
+          "description": "The number of subtraces"
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": "The error, if any, in the trace"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_logs",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11141000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution logs data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash associated with the log"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the log within the transaction"
+        },
+        {
+          "name": "log_index",
+          "type": "UInt32",
+          "description": "The log index within the block"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address associated with the log"
+        },
+        {
+          "name": "topic0",
+          "type": "String",
+          "description": "The first topic of the log"
+        },
+        {
+          "name": "topic1",
+          "type": "Nullable(String)",
+          "description": "The second topic of the log"
+        },
+        {
+          "name": "topic2",
+          "type": "Nullable(String)",
+          "description": "The third topic of the log"
+        },
+        {
+          "name": "topic3",
+          "type": "Nullable(String)",
+          "description": "The fourth topic of the log"
+        },
+        {
+          "name": "data",
+          "type": "Nullable(String)",
+          "description": "The data associated with the log"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_contracts",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution contract data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that created the contract"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the contract creation within the transaction"
+        },
+        {
+          "name": "create_index",
+          "type": "UInt32",
+          "description": "The create index"
+        },
+        {
+          "name": "contract_address",
+          "type": "String",
+          "description": "The contract address"
+        },
+        {
+          "name": "deployer",
+          "type": "String",
+          "description": "The address of the contract deployer"
+        },
+        {
+          "name": "factory",
+          "type": "String",
+          "description": "The address of the factory that deployed the contract"
+        },
+        {
+          "name": "init_code",
+          "type": "String",
+          "description": "The initialization code of the contract"
+        },
+        {
+          "name": "code",
+          "type": "Nullable(String)",
+          "description": "The code of the contract"
+        },
+        {
+          "name": "init_code_hash",
+          "type": "String",
+          "description": "The hash of the initialization code"
+        },
+        {
+          "name": "n_init_code_bytes",
+          "type": "UInt32",
+          "description": "Number of bytes in the initialization code"
+        },
+        {
+          "name": "n_code_bytes",
+          "type": "UInt32",
+          "description": "Number of bytes in the contract code"
+        },
+        {
+          "name": "code_hash",
+          "type": "String",
+          "description": "The hash of the contract code"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_four_byte_counts",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11127000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "quirks": "Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).",
+      "description": "Contains canonical execution four byte count data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "signature",
+          "type": "String",
+          "description": "The signature of the four byte count"
+        },
+        {
+          "name": "size",
+          "type": "UInt64",
+          "description": "The size of the four byte count"
+        },
+        {
+          "name": "count",
+          "type": "UInt64",
+          "description": "The count of the four byte count"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_address_appearances",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4659000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution address appearance data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that caused the address appearance"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the address appearance within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address of the address appearance"
+        },
+        {
+          "name": "relationship",
+          "type": "LowCardinality(String)",
+          "description": "The relationship of the address to the transaction"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_balance_diffs",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution balance diff data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that caused the balance diff"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the balance diff within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address of the balance diff"
+        },
+        {
+          "name": "from_value",
+          "type": "UInt256",
+          "description": "The from value of the balance diff"
+        },
+        {
+          "name": "to_value",
+          "type": "UInt256",
+          "description": "The to value of the balance diff"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_balance_reads",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4652000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11127000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "quirks": "Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).",
+      "description": "Contains canonical execution balance read data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that caused the balance read"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the balance read within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address of the balance read"
+        },
+        {
+          "name": "balance",
+          "type": "UInt256",
+          "description": "The balance that was read"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_erc20_transfers",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11141000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution erc20 transfer data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the transfer within the transaction"
+        },
+        {
+          "name": "log_index",
+          "type": "UInt64",
+          "description": "The log index in the block"
+        },
+        {
+          "name": "erc20",
+          "type": "String",
+          "description": "The erc20 address"
+        },
+        {
+          "name": "from_address",
+          "type": "String",
+          "description": "The from address"
+        },
+        {
+          "name": "to_address",
+          "type": "String",
+          "description": "The to address"
+        },
+        {
+          "name": "value",
+          "type": "UInt256",
+          "description": "The value of the transfer"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_erc721_transfers",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11141000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution erc721 transfer data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the transfer within the transaction"
+        },
+        {
+          "name": "log_index",
+          "type": "UInt64",
+          "description": "The log index in the block"
+        },
+        {
+          "name": "erc721",
+          "type": "String",
+          "description": "The erc20 address"
+        },
+        {
+          "name": "from_address",
+          "type": "String",
+          "description": "The from address"
+        },
+        {
+          "name": "to_address",
+          "type": "String",
+          "description": "The to address"
+        },
+        {
+          "name": "token",
+          "type": "UInt256",
+          "description": "The token id"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_native_transfers",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution native transfer data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the transfer within the transaction"
+        },
+        {
+          "name": "transfer_index",
+          "type": "UInt64",
+          "description": "The transfer index"
+        },
+        {
+          "name": "from_address",
+          "type": "String",
+          "description": "The from address"
+        },
+        {
+          "name": "to_address",
+          "type": "String",
+          "description": "The to address"
+        },
+        {
+          "name": "value",
+          "type": "UInt256",
+          "description": "The value of the approval"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_nonce_diffs",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution nonce diff data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that caused the nonce diff"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the nonce diff within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address of the nonce diff"
+        },
+        {
+          "name": "from_value",
+          "type": "UInt64",
+          "description": "The from value of the nonce diff"
+        },
+        {
+          "name": "to_value",
+          "type": "UInt64",
+          "description": "The to value of the nonce diff"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_nonce_reads",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4657000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11127000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "quirks": "Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).",
+      "description": "Contains canonical execution nonce read data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash that caused the nonce read"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the nonce read within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address of the nonce read"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce that was read"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_storage_diffs",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "25462000"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "4710000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "10073000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution storage diffs data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash associated with the storage diff"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the storage diff within the transaction"
+        },
+        {
+          "name": "address",
+          "type": "String",
+          "description": "The address associated with the storage diff"
+        },
+        {
+          "name": "slot",
+          "type": "String",
+          "description": "The storage slot key"
+        },
+        {
+          "name": "from_value",
+          "type": "String",
+          "description": "The original value before the storage diff"
+        },
+        {
+          "name": "to_value",
+          "type": "String",
+          "description": "The new value after the storage diff"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_storage_reads",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 1000
+      },
+      "networks": {
+        "holesky": {
+          "from": "0",
+          "to": "4652000"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "11127000"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "quirks": "Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).",
+      "description": "Contains canonical execution storage reads data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction index"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash associated with the storage read"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "The internal index of the storage read within the transaction"
+        },
+        {
+          "name": "contract_address",
+          "type": "String",
+          "description": "The contract address associated with the storage read"
+        },
+        {
+          "name": "slot",
+          "type": "String",
+          "description": "The storage slot key"
+        },
+        {
+          "name": "value",
+          "type": "String",
+          "description": "The value read from the storage slot"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_transaction_structlog",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 100
+      },
+      "networks": {
+        "mainnet": {
+          "from": "22731300",
+          "to": "24294300"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical execution transaction structlog data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction position in the block"
+        },
+        {
+          "name": "transaction_gas",
+          "type": "UInt64",
+          "description": "The transaction gas"
+        },
+        {
+          "name": "transaction_failed",
+          "type": "Bool",
+          "description": "The transaction failed"
+        },
+        {
+          "name": "transaction_return_value",
+          "type": "Nullable(String)",
+          "description": "The transaction return value"
+        },
+        {
+          "name": "index",
+          "type": "UInt32",
+          "description": "The index of this structlog in this transaction"
+        },
+        {
+          "name": "operation",
+          "type": "LowCardinality(String)",
+          "description": "The operation"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The gas"
+        },
+        {
+          "name": "gas_cost",
+          "type": "UInt64",
+          "description": "The gas cost"
+        },
+        {
+          "name": "gas_used",
+          "type": "UInt64",
+          "description": "Actual gas consumed (computed from consecutive gas values)"
+        },
+        {
+          "name": "gas_self",
+          "type": "UInt64",
+          "description": "Gas consumed by this opcode only, excludes child frame gas for CALL/CREATE opcodes. sum(gas_self) = total execution gas without double counting"
+        },
+        {
+          "name": "depth",
+          "type": "UInt64",
+          "description": "The depth"
+        },
+        {
+          "name": "return_data",
+          "type": "Nullable(String)",
+          "description": "The return data"
+        },
+        {
+          "name": "refund",
+          "type": "Nullable(UInt64)",
+          "description": "The refund"
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": "The error"
+        },
+        {
+          "name": "call_to_address",
+          "type": "Nullable(String)",
+          "description": "Address of a CALL operation"
+        },
+        {
+          "name": "call_frame_id",
+          "type": "UInt32",
+          "description": "Sequential identifier for the call frame within the transaction"
+        },
+        {
+          "name": "call_frame_path",
+          "type": "Array(UInt32)",
+          "description": "Path of frame IDs from root to current frame"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_execution_transaction_structlog_agg",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "block_number",
+        "interval": 100
+      },
+      "networks": {
+        "mainnet": {
+          "from": null,
+          "to": null
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Finalized"
+      ],
+      "description": "Aggregated EVM execution data. Summary rows (operation=\"\") contain frame metadata. Per-opcode rows contain aggregated gas/count per (frame, opcode).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt64",
+          "description": "The transaction position in the block"
+        },
+        {
+          "name": "call_frame_id",
+          "type": "UInt32",
+          "description": "Sequential frame ID within the transaction (0=root)"
+        },
+        {
+          "name": "parent_call_frame_id",
+          "type": "Nullable(UInt32)",
+          "description": "Parent frame ID (NULL for root frame)"
+        },
+        {
+          "name": "call_frame_path",
+          "type": "Array(UInt32)",
+          "description": "Path of frame IDs from root to current frame"
+        },
+        {
+          "name": "depth",
+          "type": "UInt32",
+          "description": "Call nesting depth (0=root)"
+        },
+        {
+          "name": "target_address",
+          "type": "Nullable(String)",
+          "description": "Contract address being called"
+        },
+        {
+          "name": "call_type",
+          "type": "LowCardinality(String)",
+          "description": "Call type: CALL/DELEGATECALL/STATICCALL/CALLCODE/CREATE/CREATE2 (empty for root)"
+        },
+        {
+          "name": "operation",
+          "type": "LowCardinality(String)",
+          "description": "Opcode name for per-opcode rows, empty string for frame summary rows"
+        },
+        {
+          "name": "opcode_count",
+          "type": "UInt64",
+          "description": "Number of opcodes (total for summary row, count for per-opcode row)"
+        },
+        {
+          "name": "error_count",
+          "type": "UInt64",
+          "description": "Number of errors"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "Gas consumed: SUM(gas_self) for per-opcode, frame self gas for summary"
+        },
+        {
+          "name": "gas_cumulative",
+          "type": "UInt64",
+          "description": "Cumulative gas: SUM(gas_used) for per-opcode, frame total for summary"
+        },
+        {
+          "name": "min_depth",
+          "type": "UInt32",
+          "description": "Minimum depth where opcode appeared (per-opcode rows)"
+        },
+        {
+          "name": "max_depth",
+          "type": "UInt32",
+          "description": "Maximum depth where opcode appeared (per-opcode rows)"
+        },
+        {
+          "name": "memory_words_sum_before",
+          "type": "UInt64",
+          "description": "SUM(ceil(memory_bytes/32)) before each opcode executes. Used with sq_sum to compute memory expansion gas."
+        },
+        {
+          "name": "memory_words_sum_after",
+          "type": "UInt64",
+          "description": "SUM(ceil(memory_bytes/32)) after each opcode executes."
+        },
+        {
+          "name": "memory_words_sq_sum_before",
+          "type": "UInt64",
+          "description": "SUM(words_before²). With sum_before, enables exact memory gas via E[cost(after)] - E[cost(before)]."
+        },
+        {
+          "name": "memory_words_sq_sum_after",
+          "type": "UInt64",
+          "description": "SUM(words_after²). With sum_after, enables exact memory gas via E[cost(after)] - E[cost(before)]."
+        },
+        {
+          "name": "memory_expansion_gas",
+          "type": "UInt64",
+          "description": "SUM(memory_expansion_gas). Exact per-opcode memory expansion cost, pre-computed to avoid intDiv rounding in SQL reconstruction."
+        },
+        {
+          "name": "cold_access_count",
+          "type": "UInt64",
+          "description": "Number of cold storage/account accesses (EIP-2929). cold_gas = cold_count * (cold_cost - warm_cost)."
+        },
+        {
+          "name": "gas_refund",
+          "type": "Nullable(UInt64)",
+          "description": "Gas refund (root summary row only)"
+        },
+        {
+          "name": "intrinsic_gas",
+          "type": "Nullable(UInt64)",
+          "description": "Intrinsic gas (root summary row only, computed)"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    }
+  ]
+}

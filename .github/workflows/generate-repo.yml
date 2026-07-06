@@ -55,6 +55,8 @@ jobs:
       #     MODE: all
       #     SCHEMA: SCHEMA.all.md
       #   run: ./generate-schema.sh
+      - name: Run generate-catalog.sh
+        run: ./generate-catalog.sh
       - name: Run generate-readme.sh for README.md
         run: ./generate-readme.sh
       - name: Run generate-readme.sh for README.hugo.md

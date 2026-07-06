@@ -1,0 +1,5186 @@
+{
+  "generated_at": "2026-07-06T08:07:04Z",
+  "dataset": {
+    "name": "Consensus Layer P2P",
+    "description": "Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.",
+    "tables": {
+      "prefix": "libp2p_"
+    },
+    "availability": [
+      "ethpandaops-clickhouse",
+      "public"
+    ],
+    "additional_info": "The libp2p dataset captures peer-to-peer network events from the consensus layer, however due to the large volume of network traffic, data is sampled using a sharding strategy. This ensures manageable data sizes while maintaining significance. Not all events are captured - the sampling rate varies by event type and topic, with high-volume topics being more aggressively sampled.\n\n## Event Categorization\n\nEvents are categorized into four groups based on their available sharding keys:\n\n### Group A: Topic + MsgID Events\nEvents with both topic and message ID, enabling full sharding flexibility:\n- `PUBLISH_MESSAGE`, `DELIVER_MESSAGE`, `DUPLICATE_MESSAGE`, `REJECT_MESSAGE`\n- `GOSSIPSUB_BEACON_BLOCK`, `GOSSIPSUB_BEACON_ATTESTATION`, `GOSSIPSUB_BLOB_SIDECAR`\n- `RPC_META_MESSAGE`, `RPC_META_CONTROL_IHAVE`\n\n**Sharding**: Uses message ID for sharding, with topic-based configuration\n\n### Group B: Topic-Only Events\nEvents with only topic information:\n- `JOIN`, `LEAVE`, `GRAFT`, `PRUNE`\n- `RPC_META_CONTROL_GRAFT`, `RPC_META_CONTROL_PRUNE`, `RPC_META_SUBSCRIPTION`\n\n**Sharding**: Uses topic hash for sharding decisions\n\n### Group C: MsgID-Only Events\nEvents with only message ID:\n- `RPC_META_CONTROL_IWANT`, `RPC_META_CONTROL_IDONTWANT`\n\n**Sharding**: Uses message ID with default configuration\n\n### Group D: No Sharding Key Events\nEvents without sharding keys:\n- `ADD_PEER`, `REMOVE_PEER`, `CONNECTED`, `DISCONNECTED`\n- `RECV_RPC`, `SEND_RPC`, `DROP_RPC` (parent events only)\n- `HANDLE_METADATA`, `HANDLE_STATUS`\n\n**Sharding**: All-or-nothing based on configuration\n\n### Sharding Decision Flow\n```\n┌─────────────┐\n│Event Arrives│\n└──────┬──────┘\n       │\n       ▼\n┌──────────────┐     ┌─────────────────┐\n│Get Event Info├────►│ Event Category? │\n└──────────────┘     └────────┬────────┘\n                              │\n        ┌─────────────────────┼─────────────────────┬─────────────────────┐\n        ▼                     ▼                     ▼                     ▼\n   ┌─────────┐         ┌─────────┐           ┌─────────┐           ┌─────────┐\n   │ Group A │         │ Group B │           │ Group C │           │ Group D │\n   │Topic+Msg│         │Topic Only│          │Msg Only │           │ No Keys │\n   └────┬────┘         └────┬────┘           └────┬────┘           └────┬────┘\n        │                   │                     │                     │\n        ▼                   ▼                     ▼                     ▼\n   Topic Config?       Topic Config?         Default Shard         Enabled?\n        │                   │                     │                     │\n     Yes/No              Yes/No                   │                  Yes/No\n        │                   │                     │                     │\n        ▼                   ▼                     ▼                     ▼\n   Shard by Msg       Shard by Topic        Shard by Msg         Process/Drop\n```"
+  },
+  "tables": [
+    {
+      "name": "libp2p_gossipsub_beacon_attestation",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "hourly"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-05-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-05-01",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2024-05-01",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Table for libp2p gossipsub beacon attestation data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event with millisecond precision"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number associated with the event"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the slot"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the attestation"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index in the attestation"
+        },
+        {
+          "name": "attesting_validator_index",
+          "type": "Nullable(UInt32)",
+          "description": "The index of the validator attesting to the event"
+        },
+        {
+          "name": "attesting_validator_committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index of the attesting validator"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slot start time for propagation"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic in the gossipsub protocol"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding used for the topic"
+        },
+        {
+          "name": "aggregation_bits",
+          "type": "String",
+          "description": "The aggregation bits of the event in the attestation"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the attestation"
+        },
+        {
+          "name": "source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch number in the attestation"
+        },
+        {
+          "name": "source_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the source epoch started"
+        },
+        {
+          "name": "source_root",
+          "type": "FixedString(66)",
+          "description": "The source beacon block root hash in the attestation"
+        },
+        {
+          "name": "target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch number in the attestation"
+        },
+        {
+          "name": "target_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the target epoch started"
+        },
+        {
+          "name": "target_root",
+          "type": "FixedString(66)",
+          "description": "The target beacon block root hash in the attestation"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the network associated with the client"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_gossipsub_beacon_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-04-26",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2024-04-26",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Table for libp2p gossipsub beacon block data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event with millisecond precision"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number associated with the event"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the slot"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number associated with the event"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the epoch"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slot start time for propagation"
+        },
+        {
+          "name": "block",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The proposer index of the beacon block"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic in the gossipsub protocol"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding used for the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the network associated with the client"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_gossipsub_blob_sidecar",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2025-12-09"
+        },
+        "holesky": {
+          "from": "2024-06-03",
+          "to": "2025-10-07"
+        },
+        "sepolia": {
+          "from": "2024-06-03",
+          "to": "2025-10-20"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Table for libp2p gossipsub blob sidecar data",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event with millisecond precision"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number associated with the event"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the slot"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number associated with the event"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the epoch"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slot start time for propagation"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The proposer index of the beacon block"
+        },
+        {
+          "name": "blob_index",
+          "type": "UInt32",
+          "description": "Blob index associated with the record"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": ""
+        },
+        {
+          "name": "parent_root",
+          "type": "FixedString(66)",
+          "description": "Parent root of the beacon block"
+        },
+        {
+          "name": "state_root",
+          "type": "FixedString(66)",
+          "description": "State root of the beacon block"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic in the gossipsub protocol"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding used for the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the network associated with the client"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_gossipsub_data_column_sidecar",
+      "database": "default",
+      "fork": "fulu",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-12-03",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2025-10-01",
+          "to": "2025-10-26"
+        },
+        "hoodi": {
+          "from": "2025-10-28",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-10-14",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Table for libp2p gossipsub data column sidecar data",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event with millisecond precision"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number associated with the event"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the slot"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number associated with the event"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the epoch"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slot start time for propagation"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The proposer index of the beacon block"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt64",
+          "description": "Column index associated with the record"
+        },
+        {
+          "name": "kzg_commitments_count",
+          "type": "UInt32",
+          "description": "Number of KZG commitments associated with the record"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": ""
+        },
+        {
+          "name": "parent_root",
+          "type": "FixedString(66)",
+          "description": "Parent root of the beacon block"
+        },
+        {
+          "name": "state_root",
+          "type": "FixedString(66)",
+          "description": "State root of the beacon block"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic in the gossipsub protocol"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding used for the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the network associated with the client"
+        }
+      ],
+      "fork_display_name": "Fusaka"
+    },
+    {
+      "name": "libp2p_gossipsub_aggregate_and_proof",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-07-11",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2025-07-11",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2025-07-11",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Table for libp2p gossipsub aggregate and proof data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event with millisecond precision"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number associated with the event"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the slot"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number associated with the event"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the epoch"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slot start time for propagation"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic in the gossipsub protocol"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding used for the topic"
+        },
+        {
+          "name": "aggregator_index",
+          "type": "UInt32",
+          "description": "Index of the validator who created this aggregate"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "Committee index from the attestation"
+        },
+        {
+          "name": "aggregation_bits",
+          "type": "String",
+          "description": "Bitfield of aggregated attestation"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "Root of the beacon block being attested to"
+        },
+        {
+          "name": "source_epoch",
+          "type": "UInt32",
+          "description": "Source epoch from the attestation"
+        },
+        {
+          "name": "source_root",
+          "type": "FixedString(66)",
+          "description": "Source root from the attestation"
+        },
+        {
+          "name": "target_epoch",
+          "type": "UInt32",
+          "description": "Target epoch from the attestation"
+        },
+        {
+          "name": "target_root",
+          "type": "FixedString(66)",
+          "description": "Target root from the attestation"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the network associated with the client"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_connected",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the CONNECTED events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "remote_peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the remote peer"
+        },
+        {
+          "name": "remote_protocol",
+          "type": "LowCardinality(String)",
+          "description": "Protocol of the remote peer"
+        },
+        {
+          "name": "remote_transport_protocol",
+          "type": "LowCardinality(String)",
+          "description": "Transport protocol of the remote peer"
+        },
+        {
+          "name": "remote_port",
+          "type": "Nullable(UInt16)",
+          "description": "Port of the remote peer"
+        },
+        {
+          "name": "remote_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_agent_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the remote peer"
+        },
+        {
+          "name": "remote_agent_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Major version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Minor version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Patch version of the remote peer"
+        },
+        {
+          "name": "remote_agent_platform",
+          "type": "LowCardinality(String)",
+          "description": "Platform of the remote peer"
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": "Connection direction"
+        },
+        {
+          "name": "opened",
+          "type": "DateTime",
+          "description": "Timestamp when the connection was opened"
+        },
+        {
+          "name": "transient",
+          "type": "Bool",
+          "description": "Whether the connection is transient"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_disconnected",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the DISCONNECTED events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "remote_peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the remote peer"
+        },
+        {
+          "name": "remote_protocol",
+          "type": "LowCardinality(String)",
+          "description": "Protocol of the remote peer"
+        },
+        {
+          "name": "remote_transport_protocol",
+          "type": "LowCardinality(String)",
+          "description": "Transport protocol of the remote peer"
+        },
+        {
+          "name": "remote_port",
+          "type": "Nullable(UInt16)",
+          "description": "Port of the remote peer"
+        },
+        {
+          "name": "remote_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the remote peer that generated the event"
+        },
+        {
+          "name": "remote_agent_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the remote peer"
+        },
+        {
+          "name": "remote_agent_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Major version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Minor version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Patch version of the remote peer"
+        },
+        {
+          "name": "remote_agent_platform",
+          "type": "LowCardinality(String)",
+          "description": "Platform of the remote peer"
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": "Connection direction"
+        },
+        {
+          "name": "opened",
+          "type": "DateTime",
+          "description": "Timestamp when the connection was opened"
+        },
+        {
+          "name": "transient",
+          "type": "Bool",
+          "description": "Whether the connection is transient"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_add_peer",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-06-29"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-06-29"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the peers added to the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "protocol",
+          "type": "LowCardinality(String)",
+          "description": "Protocol used by the peer"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_remove_peer",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-06-29"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-06-29"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the peers removed from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_recv_rpc",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the RPC messages received by the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer sender"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_send_rpc",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the RPC messages sent by the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer receiver"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_drop_rpc",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-30",
+          "to": "2026-05-16"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the RPC messages dropped by the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer receiver"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_join",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-05-01",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2024-05-01",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the JOIN events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "local_peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key derived from the libp2p peer.ID of the local host that joined the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_leave",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-06-01",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-06-01",
+          "to": "2025-06-01"
+        },
+        "sepolia": {
+          "from": "2025-06-01",
+          "to": "2025-06-01"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the LEAVE events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "local_peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key derived from the libp2p peer.ID of the local host that left the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_graft",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the GRAFT events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key for the peer that initiated the GRAFT (eg joined the mesh for this topic) identifies mesh membership changes per peer."
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_prune",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the PRUNE events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key for the peer that was PRUNED (eg removed from the mesh for this topic) identifies mesh membership changes per peer."
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_duplicate_message",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "seq_number",
+          "type": "UInt64",
+          "description": "A linearly increasing number that is unique among messages originating from the given peer"
+        },
+        {
+          "name": "local_delivery",
+          "type": "Bool",
+          "description": "Indicates if the message was duplicated locally"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key for the peer that sent the duplicate message"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_deliver_message",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the DELIVER_MESSAGE events from the libp2p client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "seq_number",
+          "type": "UInt64",
+          "description": "A linearly increasing number that is unique among messages originating from the given peer"
+        },
+        {
+          "name": "local_delivery",
+          "type": "Bool",
+          "description": "Indicates if the message was delivered to in-process subscribers only"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key for the peer that delivered the message"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "message_size",
+          "type": "UInt32",
+          "description": "Size of the message in bytes"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_handle_metadata",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the metadata handling events for libp2p peers.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the RPC"
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": "Error message if the metadata handling failed"
+        },
+        {
+          "name": "protocol",
+          "type": "LowCardinality(String)",
+          "description": "The protocol of the metadata handling event"
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": "Direction of the RPC request (inbound or outbound)"
+        },
+        {
+          "name": "attnets",
+          "type": "String",
+          "description": "Attestation subnets the peer is subscribed to"
+        },
+        {
+          "name": "seq_number",
+          "type": "UInt64",
+          "description": "Sequence number of the metadata"
+        },
+        {
+          "name": "syncnets",
+          "type": "String",
+          "description": "Sync subnets the peer is subscribed to"
+        },
+        {
+          "name": "custody_group_count",
+          "type": "Nullable(UInt8)",
+          "description": "Number of custody groups (0-127)"
+        },
+        {
+          "name": "latency_milliseconds",
+          "type": "Decimal(10, 3)",
+          "description": "How long it took to handle the metadata request in milliseconds"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_handle_status",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-24",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-03-17",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2024-04-22",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the status handling events for libp2p peers.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the event"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": "Error message if the status handling failed"
+        },
+        {
+          "name": "protocol",
+          "type": "LowCardinality(String)",
+          "description": "The protocol of the status handling event"
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": "Direction of the RPC request (inbound or outbound)"
+        },
+        {
+          "name": "request_finalized_epoch",
+          "type": "Nullable(UInt32)",
+          "description": "Requested finalized epoch"
+        },
+        {
+          "name": "request_finalized_root",
+          "type": "Nullable(String)",
+          "description": "Requested finalized root"
+        },
+        {
+          "name": "request_fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Requested fork digest"
+        },
+        {
+          "name": "request_head_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "Requested head root"
+        },
+        {
+          "name": "request_head_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Requested head slot"
+        },
+        {
+          "name": "request_earliest_available_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Requested earliest available slot"
+        },
+        {
+          "name": "response_finalized_epoch",
+          "type": "Nullable(UInt32)",
+          "description": "Response finalized epoch"
+        },
+        {
+          "name": "response_finalized_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "Response finalized root"
+        },
+        {
+          "name": "response_fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Response fork digest"
+        },
+        {
+          "name": "response_head_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "Response head root"
+        },
+        {
+          "name": "response_head_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Response head slot"
+        },
+        {
+          "name": "response_earliest_available_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Response earliest available slot"
+        },
+        {
+          "name": "latency_milliseconds",
+          "type": "Decimal(10, 3)",
+          "description": "How long it took to handle the status request in milliseconds"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_control_ihave",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the \"I have\" control messages from the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each \"I have\" control record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the \"I have\" control record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the \"I have\" control event"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the \"I have\" control metadata"
+        },
+        {
+          "name": "message_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control IWANT message_ids array"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control IWANT array"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message associated with the \"I have\" control"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the I have control"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_control_iwant",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains IWANT control messages from gossipsub. Collected from deep instrumentation within forked consensus layer clients. Peers request specific message IDs. Partition: monthly by `event_date_time`",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each \"I want\" control record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the \"I want\" control record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the \"I want\" control event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control IWANT array"
+        },
+        {
+          "name": "message_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control IWANT message_ids array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the \"I want\" control metadata"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message associated with the \"I want\" control"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the I want control"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_control_idontwant",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the IDONTWANT control messages from the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each IDONTWANT control record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the IDONTWANT control record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the IDONTWANT control event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control idontwant array"
+        },
+        {
+          "name": "message_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control idontwant message_ids array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the IDONTWANT control metadata"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message associated with the IDONTWANT control"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the IDONTWANT control"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_control_graft",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the \"Graft\" control messages from the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each \"Graft\" control record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the \"Graft\" control record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the \"Graft\" control event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control GRAFT array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the \"Graft\" control metadata"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the Graft control"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_control_prune",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-07-02",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-06-23",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-06-23",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the \"Prune\" control messages from the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each \"Prune\" control record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the \"Prune\" control record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the \"Prune\" control event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta control PRUNE array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the \"Prune\" control metadata"
+        },
+        {
+          "name": "peer_id_index",
+          "type": "Int32",
+          "description": ""
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the Prune control"
+        },
+        {
+          "name": "graft_peer_id_unique_key",
+          "type": "Nullable(Int64)",
+          "description": "Unique key associated with the identifier of the graft peer involved in the Prune control"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_subscription",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the RPC subscriptions from the peer.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each RPC subscription record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the RPC subscription record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the RPC subscription event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta subscription array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the RPC subscription metadata"
+        },
+        {
+          "name": "subscribe",
+          "type": "Bool",
+          "description": "Boolean indicating if it is a subscription or unsubscription"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the subscription"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_meta_message",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-30",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-05-29",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains the details of the RPC meta messages from the peer",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "unique_key",
+          "type": "Int64",
+          "description": "Unique identifier for each RPC message record"
+        },
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the RPC message record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the RPC event"
+        },
+        {
+          "name": "control_index",
+          "type": "Int32",
+          "description": "Position in the RPC meta message array"
+        },
+        {
+          "name": "rpc_meta_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the RPC metadata"
+        },
+        {
+          "name": "message_id",
+          "type": "String",
+          "description": "Identifier of the message"
+        },
+        {
+          "name": "topic_layer",
+          "type": "LowCardinality(String)",
+          "description": "Layer of the topic"
+        },
+        {
+          "name": "topic_fork_digest_value",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest value of the topic"
+        },
+        {
+          "name": "topic_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the topic"
+        },
+        {
+          "name": "topic_encoding",
+          "type": "LowCardinality(String)",
+          "description": "Encoding of the topic"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer involved in the RPC"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "libp2p_rpc_data_column_custody_probe",
+      "database": "default",
+      "fork": "fulu",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-12-03",
+          "to": "2026-07-04"
+        },
+        "hoodi": {
+          "from": "2025-12-03",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-12-03",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains custody probe events for data column availability verification",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the probe was executed"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number being probed"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the slot being probed"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "wallclock_request_slot",
+          "type": "UInt32",
+          "description": "The wallclock slot when the request was sent"
+        },
+        {
+          "name": "wallclock_request_slot_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the slot when the request was sent"
+        },
+        {
+          "name": "wallclock_request_epoch",
+          "type": "UInt32",
+          "description": "The wallclock epoch when the request was sent"
+        },
+        {
+          "name": "wallclock_request_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the wallclock epoch when the request was sent"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt64",
+          "description": "Column index being probed"
+        },
+        {
+          "name": "column_rows_count",
+          "type": "UInt16",
+          "description": "Number of rows in the column"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "Root of the beacon block"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key associated with the identifier of the peer"
+        },
+        {
+          "name": "result",
+          "type": "LowCardinality(String)",
+          "description": "Result of the probe"
+        },
+        {
+          "name": "response_time_ms",
+          "type": "Int32",
+          "description": "Response time in milliseconds"
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": "Error message if probe failed"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that executed the probe"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Fusaka"
+    },
+    {
+      "name": "libp2p_identify",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2026-02-23"
+        },
+        "hoodi": {
+          "from": "2026-02-23"
+        },
+        "sepolia": {
+          "from": "2026-02-23"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains libp2p identify protocol exchange results including remote peer agent info, supported protocols, and connection metadata",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "remote_peer_id_unique_key",
+          "type": "Int64",
+          "description": ""
+        },
+        {
+          "name": "success",
+          "type": "Bool",
+          "description": ""
+        },
+        {
+          "name": "error",
+          "type": "Nullable(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_protocol",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_transport_protocol",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_port",
+          "type": "UInt16",
+          "description": ""
+        },
+        {
+          "name": "remote_ip",
+          "type": "Nullable(IPv6)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_city",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_country",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": ""
+        },
+        {
+          "name": "remote_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_implementation",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_version",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_version_major",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_version_minor",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_version_patch",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_agent_platform",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "protocol_version",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "protocols",
+          "type": "Array(String)",
+          "description": ""
+        },
+        {
+          "name": "listen_addrs",
+          "type": "Array(String)",
+          "description": ""
+        },
+        {
+          "name": "observed_addr",
+          "type": "String",
+          "description": ""
+        },
+        {
+          "name": "transport",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "security",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "muxer",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "remote_multiaddr",
+          "type": "String",
+          "description": ""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "libp2p_synthetic_heartbeat",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-08-21",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2025-09-29",
+          "to": "2025-10-20"
+        },
+        "hoodi": {
+          "from": "2025-08-21",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-08-21",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "P2P"
+      ],
+      "description": "Contains heartbeat events from libp2p peers",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "Timestamp of the heartbeat event"
+        },
+        {
+          "name": "remote_peer_id_unique_key",
+          "type": "Int64",
+          "description": "Unique key of the remote peer"
+        },
+        {
+          "name": "remote_maddrs",
+          "type": "String",
+          "description": "Multiaddress of the remote peer"
+        },
+        {
+          "name": "latency_ms",
+          "type": "Nullable(Int64)",
+          "description": "EWMA latency in milliseconds (0 if unavailable)"
+        },
+        {
+          "name": "direction",
+          "type": "LowCardinality(String)",
+          "description": "Connection direction (Unknown/Inbound/Outbound)"
+        },
+        {
+          "name": "protocols",
+          "type": "Array(String)",
+          "description": "List of supported protocols"
+        },
+        {
+          "name": "connection_age_ms",
+          "type": "Nullable(Int64)",
+          "description": "Connection age in milliseconds"
+        },
+        {
+          "name": "remote_agent_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the remote peer"
+        },
+        {
+          "name": "remote_agent_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Major version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Minor version of the remote peer"
+        },
+        {
+          "name": "remote_agent_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Patch version of the remote peer"
+        },
+        {
+          "name": "remote_agent_platform",
+          "type": "LowCardinality(String)",
+          "description": "Platform of the remote peer"
+        },
+        {
+          "name": "remote_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the remote peer"
+        },
+        {
+          "name": "remote_port",
+          "type": "Nullable(UInt16)",
+          "description": "Port of the remote peer"
+        },
+        {
+          "name": "remote_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the remote peer"
+        },
+        {
+          "name": "remote_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the remote peer"
+        },
+        {
+          "name": "remote_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the remote peer"
+        },
+        {
+          "name": "remote_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the remote peer"
+        },
+        {
+          "name": "remote_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the remote peer"
+        },
+        {
+          "name": "remote_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the remote peer"
+        },
+        {
+          "name": "remote_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "ASN of the remote peer"
+        },
+        {
+          "name": "remote_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "AS organization of the remote peer"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "ASN of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "AS organization of the client"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    }
+  ]
+}

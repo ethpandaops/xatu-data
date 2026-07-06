@@ -1,0 +1,2894 @@
+{
+  "generated_at": "2026-07-06T08:07:04Z",
+  "dataset": {
+    "name": "Beacon API Event Stream",
+    "description": "Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. These tables can be joined with the canonical tables to get a more complete view of the data. For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block.",
+    "tables": {
+      "prefix": "beacon_api_"
+    },
+    "availability": [
+      "public",
+      "ethpandaops-clickhouse"
+    ],
+    "additional_info": ""
+  },
+  "tables": [
+    {
+      "name": "beacon_api_eth_v1_beacon_committee",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "hourly"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-09-04",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-28",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-25",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "quirks": "Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.",
+      "description": "Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API committee payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index in the beacon API committee payload"
+        },
+        {
+          "name": "validators",
+          "type": "Array(UInt32)",
+          "description": "The validator indices in the beacon API committee payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API committee payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_attestation",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "hourly"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-06-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-18",
+          "to": "2025-11-17"
+        },
+        "sepolia": {
+          "from": "2023-08-31",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API attestation events from each sentry client attached to a beacon node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index in the beacon API event stream payload"
+        },
+        {
+          "name": "attesting_validator_index",
+          "type": "Nullable(UInt32)",
+          "description": "The index of the validator attesting to the event"
+        },
+        {
+          "name": "attesting_validator_committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index of the attesting validator"
+        },
+        {
+          "name": "aggregation_bits",
+          "type": "String",
+          "description": "The aggregation bits of the event in the beacon API event stream payload"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "source_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the source epoch started"
+        },
+        {
+          "name": "source_root",
+          "type": "FixedString(66)",
+          "description": "The source beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "target_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the target epoch started"
+        },
+        {
+          "name": "target_root",
+          "type": "FixedString(66)",
+          "description": "The target beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_blob_sidecar",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-03-13",
+          "to": "2025-12-09"
+        },
+        "holesky": {
+          "from": "2024-02-07",
+          "to": "2025-11-03"
+        },
+        "sepolia": {
+          "from": "2024-01-30",
+          "to": "2025-10-20"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"blob_sidecar\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "blob_index",
+          "type": "UInt64",
+          "description": "The index of blob sidecar in the beacon API event stream payload"
+        },
+        {
+          "name": "kzg_commitment",
+          "type": "FixedString(98)",
+          "description": "The KZG commitment in the beacon API event stream payload"
+        },
+        {
+          "name": "versioned_hash",
+          "type": "FixedString(66)",
+          "description": "The versioned hash in the beacon API event stream payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2020-12-02",
+          "to": "2026-06-02"
+        },
+        "sepolia": {
+          "from": "2023-12-24",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"block\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "block",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "execution_optimistic",
+          "type": "Bool",
+          "description": "If the attached beacon node is running in execution optimistic mode"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_block_gossip",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-05-14",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2025-05-14",
+          "to": "2025-11-22"
+        },
+        "sepolia": {
+          "from": "2025-05-14",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"block_gossip\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "block",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_chain_reorg",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-03-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-02-05",
+          "to": "2026-06-02"
+        },
+        "sepolia": {
+          "from": "2023-12-30",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"chain reorg\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the chain reorg event in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the reorg slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slots between when the reorg occurred and when the sentry received the event"
+        },
+        {
+          "name": "depth",
+          "type": "UInt16",
+          "description": "The depth of the chain reorg in the beacon API event stream payload"
+        },
+        {
+          "name": "old_head_block",
+          "type": "FixedString(66)",
+          "description": "The old head block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "new_head_block",
+          "type": "FixedString(66)",
+          "description": "The new head block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "old_head_state",
+          "type": "FixedString(66)",
+          "description": "The old head state root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "new_head_state",
+          "type": "FixedString(66)",
+          "description": "The new head state root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "execution_optimistic",
+          "type": "Bool",
+          "description": "Whether the execution of the epoch was optimistic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_contribution_and_proof",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "contribution_slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-08-31",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-12-24",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2023-12-24",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"contribution and proof\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "aggregator_index",
+          "type": "UInt32",
+          "description": "The validator index of the aggregator in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_slot",
+          "type": "UInt32",
+          "description": "The slot number of the contribution in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the contribution slot started"
+        },
+        {
+          "name": "contribution_propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "Difference in slots between when the contribution occurred and when the sentry received the event"
+        },
+        {
+          "name": "contribution_beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_subcommittee_index",
+          "type": "LowCardinality(String)",
+          "description": "The subcommittee index of the contribution in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_aggregation_bits",
+          "type": "String",
+          "description": "The aggregation bits of the contribution in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_signature",
+          "type": "String",
+          "description": "The signature of the contribution in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_epoch",
+          "type": "UInt32",
+          "description": "The epoch number of the contribution in the beacon API event stream payload"
+        },
+        {
+          "name": "contribution_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the contribution epoch started"
+        },
+        {
+          "name": "selection_proof",
+          "type": "String",
+          "description": "The selection proof in the beacon API event stream payload"
+        },
+        {
+          "name": "signature",
+          "type": "String",
+          "description": "The signature in the beacon API event stream payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_data_column_sidecar",
+      "database": "default",
+      "fork": "fulu",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2025-12-03",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2025-10-01",
+          "to": "2025-11-09"
+        },
+        "hoodi": {
+          "from": "2025-10-28",
+          "to": "2026-07-04"
+        },
+        "sepolia": {
+          "from": "2025-10-14",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"data_column_sidecar\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt64",
+          "description": "The index of column in the beacon API event stream payload"
+        },
+        {
+          "name": "kzg_commitments_count",
+          "type": "UInt32",
+          "description": "Number of KZG commitments associated with the record"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ],
+      "fork_display_name": "Fusaka"
+    },
+    {
+      "name": "beacon_api_eth_v1_events_finalized_checkpoint",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "epoch_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-03-26",
+          "to": "2026-06-02"
+        },
+        "sepolia": {
+          "from": "2023-03-26",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"finalized checkpoint\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "block",
+          "type": "FixedString(66)",
+          "description": "The finalized block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "state",
+          "type": "FixedString(66)",
+          "description": "The finalized state root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "execution_optimistic",
+          "type": "Bool",
+          "description": "Whether the execution of the epoch was optimistic"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_head",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-12-05",
+          "to": "2026-06-02"
+        },
+        "sepolia": {
+          "from": "2023-12-05",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"head\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API event stream payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "propagation_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the event_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "block",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "epoch_transition",
+          "type": "Bool",
+          "description": "If the event is an epoch transition"
+        },
+        {
+          "name": "execution_optimistic",
+          "type": "Bool",
+          "description": "If the attached beacon node is running in execution optimistic mode"
+        },
+        {
+          "name": "previous_duty_dependent_root",
+          "type": "FixedString(66)",
+          "description": "The previous duty dependent root in the beacon API event stream payload"
+        },
+        {
+          "name": "current_duty_dependent_root",
+          "type": "FixedString(66)",
+          "description": "The current duty dependent root in the beacon API event stream payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_events_voluntary_exit",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "wallclock_epoch_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-28",
+          "to": "2025-08-12"
+        },
+        "sepolia": {
+          "from": "2023-10-01",
+          "to": "null"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API eventstream \"voluntary exit\" data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "wallclock_slot",
+          "type": "UInt32",
+          "description": "Slot number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_slot_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock slot when the event was received"
+        },
+        {
+          "name": "wallclock_epoch",
+          "type": "UInt32",
+          "description": "Epoch number of the wall clock when the event was received"
+        },
+        {
+          "name": "wallclock_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Start date and time of the wall clock epoch when the event was received"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator making the voluntary exit"
+        },
+        {
+          "name": "signature",
+          "type": "String",
+          "description": "The signature of the voluntary exit in the beacon API event stream payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_validator_attestation_data",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-08-31",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-12-24",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2023-12-24",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API validator attestation data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch number in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "source_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the source epoch started"
+        },
+        {
+          "name": "source_root",
+          "type": "FixedString(66)",
+          "description": "The source beacon block root hash in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch number in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "target_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the target epoch started"
+        },
+        {
+          "name": "target_root",
+          "type": "FixedString(66)",
+          "description": "The target beacon block root hash in the beacon API validator attestation data payload"
+        },
+        {
+          "name": "request_date_time",
+          "type": "DateTime",
+          "description": "When the request was sent to the beacon node"
+        },
+        {
+          "name": "request_duration",
+          "type": "UInt32",
+          "description": "The request duration in milliseconds"
+        },
+        {
+          "name": "request_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the request_date_time and the slot_start_date_time"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v2_beacon_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-28",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": ""
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the reorg slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload"
+        },
+        {
+          "name": "block_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload when compressed using snappy"
+        },
+        {
+          "name": "parent_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the parent beacon block"
+        },
+        {
+          "name": "state_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon state at this block"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The index of the validator that proposed the beacon block"
+        },
+        {
+          "name": "eth1_data_block_hash",
+          "type": "FixedString(66)",
+          "description": "The block hash of the associated execution block"
+        },
+        {
+          "name": "eth1_data_deposit_root",
+          "type": "FixedString(66)",
+          "description": "The root of the deposit tree in the associated execution block"
+        },
+        {
+          "name": "execution_payload_block_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The block hash of the execution payload"
+        },
+        {
+          "name": "execution_payload_block_number",
+          "type": "Nullable(UInt32)",
+          "description": "The block number of the execution payload"
+        },
+        {
+          "name": "execution_payload_fee_recipient",
+          "type": "Nullable(String)",
+          "description": "The recipient of the fee for this execution payload"
+        },
+        {
+          "name": "execution_payload_base_fee_per_gas",
+          "type": "Nullable(UInt128)",
+          "description": "Base fee per gas for execution payload"
+        },
+        {
+          "name": "execution_payload_blob_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_excess_blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "Excess gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_gas_limit",
+          "type": "Nullable(UInt64)",
+          "description": "Gas limit for execution payload"
+        },
+        {
+          "name": "execution_payload_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for execution payload"
+        },
+        {
+          "name": "execution_payload_state_root",
+          "type": "FixedString(66)",
+          "description": "The state root of the execution payload"
+        },
+        {
+          "name": "execution_payload_parent_hash",
+          "type": "FixedString(66)",
+          "description": "The parent hash of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_count",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction count of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload when compressed using snappy"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v1_proposer_duty",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-04-03",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-04-03",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2024-04-03",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains a proposer duty from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the client fetched the beacon block from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "proposer_validator_index",
+          "type": "UInt32",
+          "description": "The validator index from the proposer duty payload"
+        },
+        {
+          "name": "proposer_pubkey",
+          "type": "String",
+          "description": "The BLS public key of the validator from the proposer duty payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "beacon_api_eth_v3_validator_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-11-25",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-11-25",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2024-11-25",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer"
+      ],
+      "description": "Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the sentry received the event from a beacon node"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number within the payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API event stream payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload"
+        },
+        {
+          "name": "block_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload when compressed using snappy"
+        },
+        {
+          "name": "consensus_payload_value",
+          "type": "Nullable(UInt64)",
+          "description": "Consensus rewards paid to the proposer for this block, in Wei. Use to determine relative value of consensus blocks."
+        },
+        {
+          "name": "execution_payload_value",
+          "type": "Nullable(UInt64)",
+          "description": "Execution payload value in Wei. Use to determine relative value of execution payload."
+        },
+        {
+          "name": "execution_payload_block_number",
+          "type": "UInt32",
+          "description": "The block number of the execution payload"
+        },
+        {
+          "name": "execution_payload_base_fee_per_gas",
+          "type": "Nullable(UInt128)",
+          "description": "Base fee per gas for execution payload"
+        },
+        {
+          "name": "execution_payload_blob_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_excess_blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "Excess gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_gas_limit",
+          "type": "Nullable(UInt64)",
+          "description": "Gas limit for execution payload"
+        },
+        {
+          "name": "execution_payload_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_count",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction count of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload when compressed using snappy"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client major version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client minor version that generated the event"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client patch version that generated the event"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation that generated the event"
+        }
+      ]
+    }
+  ]
+}
