@@ -33,8 +33,8 @@ config_file=${CONFIG:-config.yaml}
 output_yaml=${EXPERIMENTAL_CONFIG:-experimental.yaml}
 output_json=${EXPERIMENTAL_JSON:-experimental.json}
 output_md=${EXPERIMENTAL_SCHEMA:-schema/experimental.md}
-# Base path of the schema pages on ethpandaops.io, used for cross-page links
-site_base=${SITE_BASE:-/data/xatu/schema}
+# Site paths on ethpandaops.io, used for links in generated output
+fork_page_base=${FORK_PAGE_BASE:-/data/xatu/forks}
 
 tmp_dir=$(mktemp -d)
 trap 'rm -rf "$tmp_dir"' EXIT
@@ -259,10 +259,10 @@ render_overview() {
     echo ""
     echo "| Upgrade | CL fork | Xatu branch | Devnet-only tables | In main catalog | Active devnets |"
     echo "|---------|---------|-------------|--------------------|-----------------|----------------|"
-    jq -r --arg base "$site_base" '
+    jq -r --arg base "$fork_page_base" '
         .forks[]
         | [
-            "**[" + .display_name + "](" + $base + "/experimental/" + .slug + ")**",
+            "**[" + .display_name + "](" + $base + "/" + .slug + ")**",
             "`" + .name + "`",
             (if .xatu_branch == null then "-" else "[`" + .xatu_branch + "`](https://github.com/ethpandaops/xatu/tree/" + .xatu_branch + ")" end),
             (.tables | length | tostring),
@@ -276,14 +276,14 @@ render_overview() {
     echo ""
     echo "| Network | Upgrade | Fork-specific tables | Source |"
     echo "|---------|---------|----------------------|--------|"
-    jq -r --arg base "$site_base" '
+    jq -r --arg base "$fork_page_base" '
         . as $root
         | .networks[]
         | .fork as $f
         | ([$root.forks[] | select(.name == $f)] | first) as $fork_info
         | [
             "`" + .name + "`",
-            (if $fork_info == null then "-" else "[" + $fork_info.display_name + "](" + $base + "/experimental/" + $fork_info.slug + ") (`" + $f + "`)" end),
+            (if $fork_info == null then "-" else "[" + $fork_info.display_name + "](" + $base + "/" + $fork_info.slug + ") (`" + $f + "`)" end),
             (.new_tables | length | tostring),
             "[" + .repository + "](https://github.com/" + .repository + ")"
         ]

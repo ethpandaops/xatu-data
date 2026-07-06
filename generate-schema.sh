@@ -54,7 +54,7 @@ get_availability_override() {
 fork_page_link() {
     local slug=$1
     if [ "$mode" = "docusaurus" ]; then
-        echo "/data/xatu/schema/experimental/${slug}/"
+        echo "/data/xatu/forks/${slug}/"
     elif [ "$mode" = "hugo" ]; then
         echo "./experimental/${slug}"
     elif [ "$mode" = "all" ]; then
@@ -597,7 +597,7 @@ generate_datasets_table() {
             dataset_link="./${schema_file}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="/data/xatu/schema/${schema_file}/"
+            dataset_link="/data/xatu/datasets/${schema_file}/"
         fi
         if [ "${mode}" = "all" ]; then
             dataset_link="#${schema_file}"
