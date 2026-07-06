@@ -167,8 +167,8 @@ generate_table_schema() {
         local table_engine=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
         local partition_key=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT partition_key FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
     else
-        local table_description=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
-        local table_engine=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        local table_description=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '${database}' AND table = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${database}' AND table = '${table_name}_local' FORMAT TabSeparated")
     fi
 
     local should_use_final=false
