@@ -12,6 +12,7 @@ clickhouse_password=${CLICKHOUSE_PASSWORD:-supersecret}
 mode=${MODE:-}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
+experimental_file=${EXPERIMENTAL_CONFIG:-experimental.yaml}
 
 # Build curl auth args if credentials are provided
 clickhouse_curl_auth=""
@@ -47,6 +48,61 @@ get_availability_override() {
         fi
     done
     echo "$key"
+}
+
+# Link to an upgrade's experimental deep-dive page, respecting output mode
+fork_page_link() {
+    local slug=$1
+    if [ "$mode" = "docusaurus" ]; then
+        echo "/data/xatu/schema/experimental/${slug}/"
+    elif [ "$mode" = "hugo" ]; then
+        echo "./experimental/${slug}"
+    elif [ "$mode" = "all" ]; then
+        echo "./schema/experimental/${slug}.md"
+    else
+        echo "./experimental/${slug}.md"
+    fi
+}
+
+# Pre-release (devnet-only) tables for a dataset prefix, discovered by
+# generate-experimental.sh. Emits one JSON object per table.
+list_prerelease_tables() {
+    local table_prefix=$1
+    if [ ! -f "$experimental_file" ]; then
+        log "WARNING: $experimental_file not found, skipping pre-release tables"
+        return
+    fi
+    yq e -o=json '.' "$experimental_file" | jq -c --arg prefix "$table_prefix" '
+        .forks[]
+        | {fork: .name, display_name: .display_name, slug: .slug} as $f
+        | .tables[]
+        | select(.name | startswith($prefix))
+        | $f + {name: .name, description: (.description // ""), networks: .networks}
+    '
+}
+
+# A compact schema entry for a pre-release table: the full column schema and
+# examples live on the upgrade's experimental page.
+generate_prerelease_table_schema() {
+    local table_json=$1
+    local table_name=$(echo "$table_json" | jq -r '.name')
+    local description=$(echo "$table_json" | jq -r '.description')
+    local fork=$(echo "$table_json" | jq -r '.fork')
+    local display=$(echo "$table_json" | jq -r '.display_name')
+    local slug=$(echo "$table_json" | jq -r '.slug')
+    local link=$(fork_page_link "$slug")
+
+    echo "## $table_name"
+    echo ""
+    echo "$description"
+    echo ""
+    echo "> 🧪 **Pre-release** — introduced by the **${display}** upgrade (\`${fork}\`). Not yet merged to xatu master and not available on production networks. See the [${display} page](${link}) for the full schema and query examples."
+    echo ""
+    echo "### Availability"
+    echo "Available in the following devnet databases:"
+    echo ""
+    echo "$table_json" | jq -r '.networks[] | "- **" + . + "**: `" + . + "`.`'"$table_name"'`"'
+    echo ""
 }
 
 # Generate schema for a single table
@@ -459,6 +515,11 @@ generate_dataset_schema() {
         for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
             echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
         done
+        list_prerelease_tables "$table_prefix" | while read -r table_json; do
+            table_name=$(echo "$table_json" | jq -r '.name')
+            display=$(echo "$table_json" | jq -r '.display_name')
+            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g')) 🧪 *Pre-release ($display)*"
+        done
     fi
     echo "<!-- schema_toc_end -->"
     echo
@@ -479,6 +540,9 @@ generate_dataset_schema() {
         for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
             table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
             generate_table_schema "$table_name" "$table_config"
+        done
+        list_prerelease_tables "$table_prefix" | while read -r table_json; do
+            generate_prerelease_table_schema "$table_json"
         done
     fi
     echo "<!-- schema_end -->"
