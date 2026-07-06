@@ -10,7 +10,9 @@
 #      the matching xatu release/<fork> branch
 #   3. Introspects each devnet's database and diffs its tables against the
 #      `default` database to find fork-specific tables
-#   4. Writes experimental.yaml (machine-readable) and schema/experimental.md
+#   4. Writes experimental.json (full catalog including column schemas, consumed
+#      by the ethpandaops.io experimental pages), experimental.yaml (skimmable
+#      variant without columns), and schema/experimental.md (overview index)
 #
 # Fork attribution for tables that have merged to xatu master lives in
 # config.yaml as a per-table `fork:` field; this script only discovers tables
@@ -29,8 +31,8 @@ clickhouse_password=${XATU_CLICKHOUSE_PASSWORD:?XATU_CLICKHOUSE_PASSWORD is requ
 xatu_repo_url=${XATU_REPO_URL:-https://github.com/ethpandaops/xatu}
 config_file=${CONFIG:-config.yaml}
 output_yaml=${EXPERIMENTAL_CONFIG:-experimental.yaml}
+output_json=${EXPERIMENTAL_JSON:-experimental.json}
 output_md=${EXPERIMENTAL_SCHEMA:-schema/experimental.md}
-output_md_dir=${EXPERIMENTAL_SCHEMA_DIR:-schema/experimental}
 # Base path of the schema pages on ethpandaops.io, used for cross-page links
 site_base=${SITE_BASE:-/data/xatu/schema}
 
@@ -80,26 +82,6 @@ resolve_xatu_branch() {
         fi
     fi
     cat "$cache_file"
-}
-
-markdown_anchor() {
-    echo "$1" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'
-}
-
-# Wrap each element of a comma-separated list in backticks: a,b -> `a`, `b`
-backtick_list() {
-    echo "$1" | sed 's/[^,][^,]*/`&`/g; s/,/, /g'
-}
-
-# Find the schema page (dataset prefix) a table belongs to
-schema_page_for_table() {
-    local table_name=$1
-    yq e '.datasets[].tables.prefix' "$config_file" | while read -r prefix; do
-        if [ -n "$prefix" ] && [ "$prefix" != "null" ] && [[ "$table_name" == ${prefix}* ]]; then
-            echo "$prefix"
-            break
-        fi
-    done
 }
 
 log "Fetching cartographoor networks from $cartographoor_url"
@@ -210,77 +192,47 @@ jq -s \
         )
     }' "$tmp_dir/results.jsonl" > "$tmp_dir/experimental.json.raw"
 
-# Enrich devnet-only tables with their descriptions so downstream consumers
-# (generate-schema.sh) don't need ClickHouse access to the devnet databases
-> "$tmp_dir/descriptions.jsonl"
+# Enrich devnet-only tables with their descriptions, sorting key, and full
+# column schemas so downstream consumers (generate-schema.sh, the homepage)
+# don't need ClickHouse access to the devnet databases
+> "$tmp_dir/details.jsonl"
 jq -c '.forks[].tables[] | {name: .name, db: .networks[0]}' "$tmp_dir/experimental.json.raw" | sort -u | while read -r entry; do
     t=$(echo "$entry" | jq -r '.name')
     db=$(echo "$entry" | jq -r '.db')
     comment=$(ch_query "SELECT comment FROM system.tables WHERE database = '$db' AND name = '${t}_local' FORMAT TabSeparated")
-    jq -n -c --arg name "$t" --arg description "$comment" '{name: $name, description: $description}' >> "$tmp_dir/descriptions.jsonl"
+    sorting_key=$(ch_query "SELECT sorting_key FROM system.tables WHERE database = '$db' AND name = '${t}_local' FORMAT TabSeparated")
+    columns_tsv=$(ch_query "SELECT name, type, comment FROM system.columns WHERE database = '$db' AND table = '$t' FORMAT TabSeparated")
+    jq -n -c \
+        --arg name "$t" \
+        --arg description "$comment" \
+        --arg sorting_key "$sorting_key" \
+        --arg columns "$columns_tsv" \
+        '{
+            name: $name,
+            description: $description,
+            sorting_key: $sorting_key,
+            columns: ($columns | split("\n") | map(select(. != "") | split("\t") | {name: .[0], type: .[1], description: (.[2] // "")}))
+        }' >> "$tmp_dir/details.jsonl"
 done
 
-if [ -s "$tmp_dir/descriptions.jsonl" ]; then
-    jq -s 'INDEX(.name)' "$tmp_dir/descriptions.jsonl" > "$tmp_dir/descriptions.json"
+if [ -s "$tmp_dir/details.jsonl" ]; then
+    jq -s 'INDEX(.name)' "$tmp_dir/details.jsonl" > "$tmp_dir/details.json"
 else
-    echo '{}' > "$tmp_dir/descriptions.json"
+    echo '{}' > "$tmp_dir/details.json"
 fi
-jq --slurpfile desc "$tmp_dir/descriptions.json" '
-    .forks[].tables[] |= (.description = ($desc[0][.name].description // ""))
+jq --slurpfile details "$tmp_dir/details.json" '
+    .forks[].tables[] |= (. + {
+        description: ($details[0][.name].description // ""),
+        sorting_key: ($details[0][.name].sorting_key // ""),
+        columns: ($details[0][.name].columns // [])
+    })
 ' "$tmp_dir/experimental.json.raw" > "$tmp_dir/experimental.json"
 
-yq e -P -o=yaml '.' "$tmp_dir/experimental.json" > "$output_yaml"
+jq '.' "$tmp_dir/experimental.json" > "$output_json"
+log "Wrote $output_json"
+# The yaml variant carries everything except column schemas, to stay skimmable
+jq 'del(.forks[].tables[].columns)' "$tmp_dir/experimental.json" | yq e -P -o=yaml '.' - > "$output_yaml"
 log "Wrote $output_yaml"
-
-# Render the human-readable schema page
-render_table_section() {
-    local table_name=$1
-    local networks_csv=$2
-    local ref_database=$3
-
-    local table_comment=$(ch_query "SELECT comment FROM system.tables WHERE database = '$ref_database' AND name = '${table_name}_local' FORMAT TabSeparated")
-    local sorting_key=$(ch_query "SELECT sorting_key FROM system.tables WHERE database = '$ref_database' AND name = '${table_name}_local' FORMAT TabSeparated")
-    local first_sort_column=$(echo "$sorting_key" | sed 's/,.*//; s/^[[:space:]]*//; s/[[:space:]]*$//')
-    local first_sort_type=""
-    if [ -n "$first_sort_column" ]; then
-        first_sort_type=$(ch_query "SELECT type FROM system.columns WHERE database = '$ref_database' AND table = '${table_name}_local' AND name = '$first_sort_column' FORMAT TabSeparated")
-    fi
-
-    echo "### $table_name"
-    echo ""
-    if [ -n "$table_comment" ]; then
-        echo "$table_comment"
-        echo ""
-    fi
-    echo "Available on: $(backtick_list "$networks_csv")"
-    echo ""
-    echo "<details>"
-    echo "<summary>EthPandaOps Clickhouse</summary>"
-    echo ""
-    echo '```bash'
-    echo "echo '"
-    echo "    SELECT"
-    echo "        *"
-    echo "    FROM \`${ref_database}\`.${table_name}"
-    if [[ "$first_sort_type" =~ ^DateTime || "$first_sort_type" =~ ^Date ]]; then
-        echo "    WHERE"
-        echo "        $first_sort_column >= NOW() - INTERVAL 1 DAY"
-    fi
-    echo "    LIMIT 3"
-    echo "    FORMAT Pretty"
-    echo "' | curl \"$public_endpoint\" -u \"\$CLICKHOUSE_USER:\$CLICKHOUSE_PASSWORD\" --data-binary @-"
-    echo '```'
-    echo "</details>"
-    echo ""
-    echo "#### Columns"
-    echo "| Name | Type | Description |"
-    echo "|--------|------|-------------|"
-    ch_query "SELECT name, type, comment FROM system.columns WHERE database = '$ref_database' AND table = '$table_name' FORMAT TabSeparated" \
-        | while IFS=$'\t' read -r col_name col_type col_comment; do
-            echo "| **$col_name** | \`$col_type\` | *$col_comment* |"
-        done
-    echo ""
-}
 
 # The overview page: a scannable index of upgrades and devnets. Full table
 # detail lives on the per-fork pages.
@@ -340,102 +292,8 @@ render_overview() {
     echo ""
 }
 
-# A per-upgrade deep-dive page: devnets, querying, merged tables, and full
-# schemas for devnet-only tables.
-render_fork_page() {
-    local fork_json=$1
-    local fork=$(echo "$fork_json" | jq -r '.name')
-    local display=$(echo "$fork_json" | jq -r '.display_name')
-    local branch=$(echo "$fork_json" | jq -r '.xatu_branch // ""')
-    local first_db=$(echo "$fork_json" | jq -r '.networks[0].name')
-
-    echo "# ${display} (\`${fork}\`)"
-    echo ""
-    echo "<!-- This file is generated by generate-experimental.sh. Do not edit manually. -->"
-    echo ""
-    echo -n "**${display}** is an upcoming Ethereum network upgrade; \`${fork}\` is its consensus-layer fork."
-    if [ -n "$branch" ]; then
-        echo -n " Xatu collects data from ${display} devnets using its [\`$branch\`](https://github.com/ethpandaops/xatu/tree/$branch) branch."
-    fi
-    echo ""
-    echo ""
-    echo "## Active devnets"
-    echo ""
-    echo "| Network | Fork-specific tables | Explorer | Source |"
-    echo "|---------|----------------------|----------|--------|"
-    echo "$fork_json" | jq -r '
-        .networks[]
-        | [
-            "`" + .name + "`",
-            (.new_table_count | tostring),
-            (if .dora == null then "-" else "[Dora](" + .dora + ")" end),
-            "[" + .repository + "](https://github.com/" + .repository + ")"
-        ]
-        | "| " + join(" | ") + " |"
-    '
-    echo ""
-    echo "## Querying"
-    echo ""
-    echo "Devnet data lives on the same ClickHouse endpoint as production networks: \`$public_endpoint\`. Each devnet has its **own database**, named after the network — no \`meta_network_name\` filter needed:"
-    echo ""
-    echo '```sql'
-    echo "SELECT * FROM \`${first_db}\`.beacon_api_eth_v1_events_block LIMIT 3"
-    echo '```'
-    echo ""
-    echo "> Devnets are ephemeral. Databases disappear when a devnet is deprovisioned, and schemas drift between devnets — always check what a devnet actually has before relying on it."
-    echo ""
-
-    local merged_count=$(echo "$fork_json" | jq -r '.merged_tables | length')
-    if [ "$merged_count" -gt 0 ]; then
-        echo "## Tables in the main catalog"
-        echo ""
-        echo "These tables were introduced for ${display} and have since merged to xatu master — they are part of the main catalog and available on production networks:"
-        echo ""
-        echo "$fork_json" | jq -r '.merged_tables[]' | while read -r merged_table; do
-            local page=$(schema_page_for_table "$merged_table")
-            if [ -n "$page" ]; then
-                echo "- [\`$merged_table\`](${site_base}/${page}/#$(markdown_anchor "$merged_table"))"
-            else
-                echo "- \`$merged_table\`"
-            fi
-        done
-        echo ""
-    fi
-
-    local new_count=$(echo "$fork_json" | jq -r '.tables | length')
-    if [ "$new_count" -gt 0 ]; then
-        echo "## Devnet-only tables"
-        echo ""
-        echo "These tables only exist on ${display} devnets and have not merged to xatu master yet:"
-        echo ""
-        echo "$fork_json" | jq -r '.tables[] | .name' | while read -r t; do
-            echo "- [\`$t\`](#$(markdown_anchor "$t"))"
-        done
-        echo ""
-        echo "$fork_json" | jq -c '.tables[]' | while read -r table_json; do
-            local t=$(echo "$table_json" | jq -r '.name')
-            local t_networks=$(echo "$table_json" | jq -r '.networks | join(",")')
-            local ref_db=$(echo "$table_json" | jq -r '.networks[0]')
-            render_table_section "$t" "$t_networks" "$ref_db"
-        done
-    else
-        echo "## Devnet-only tables"
-        echo ""
-        echo "None — these devnets run the standard xatu schema."
-        echo ""
-    fi
-}
-
 log "Rendering $output_md"
 mkdir -p "$(dirname "$output_md")"
 render_overview > "$output_md"
-
-rm -rf "$output_md_dir"
-mkdir -p "$output_md_dir"
-jq -c '.forks[]' "$tmp_dir/experimental.json" | while read -r fork_json; do
-    slug=$(echo "$fork_json" | jq -r '.slug')
-    log "Rendering $output_md_dir/$slug.md"
-    render_fork_page "$fork_json" > "$output_md_dir/$slug.md"
-done
 
 log "Experimental catalog generation completed"

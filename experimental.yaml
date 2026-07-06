@@ -1,4 +1,4 @@
-generated_at: "2026-07-06T07:47:27Z"
+generated_at: "2026-07-06T07:56:29Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bal-devnet-7
@@ -74,64 +74,80 @@ forks:
         networks:
           - glamsterdam-devnet-6
         description: Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, block_root
       - name: beacon_api_eth_v1_events_execution_payload_available
         networks:
           - glamsterdam-devnet-6
         description: Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, block_root
       - name: beacon_api_eth_v1_events_execution_payload_bid
         networks:
           - glamsterdam-devnet-6
         description: Builder bids from beacon API SSE (execution_payload_bid event).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, block_hash
       - name: beacon_api_eth_v1_events_execution_payload_gossip
         networks:
           - glamsterdam-devnet-6
         description: Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, block_root
       - name: beacon_api_eth_v1_events_payload_attestation
         networks:
           - glamsterdam-devnet-6
         description: Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index
       - name: beacon_api_eth_v1_events_proposer_preferences
         networks:
           - glamsterdam-devnet-6
         description: Proposer preferences from beacon API SSE (proposer_preferences event).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, validator_index
       - name: beacon_synthetic_builder_pending_payment_settlement
         networks:
           - glamsterdam-devnet-6
         description: Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).
+        sorting_key: epoch_start_date_time, meta_network_name, meta_client_name, builder_index, outcome
       - name: beacon_synthetic_payload_attestation_processed
         networks:
           - glamsterdam-devnet-6
         description: PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Enrichment counterpart to beacon_api_eth_v1_events_payload_attestation. Multi-witness (per-node).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index
       - name: beacon_synthetic_payload_status_resolved
         networks:
           - glamsterdam-devnet-6
         description: Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, block_root, status
       - name: canonical_beacon_block_access_list
         networks:
           - glamsterdam-devnet-6
         description: ""
+        sorting_key: slot_start_date_time, meta_network_name, block_hash, address, change_type, storage_key, block_access_index
       - name: canonical_beacon_block_execution_payload_bid
         networks:
           - glamsterdam-devnet-6
         description: Winning execution payload bid from canonical beacon blocks (1 per block).
+        sorting_key: slot_start_date_time, meta_network_name, block_root
       - name: canonical_beacon_block_payload_attestation
         networks:
           - glamsterdam-devnet-6
         description: Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).
+        sorting_key: slot_start_date_time, meta_network_name, block_root, position
       - name: libp2p_gossipsub_execution_payload_bid
         networks:
           - glamsterdam-devnet-6
         description: Builder bid gossip propagation from libp2p.
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id
       - name: libp2p_gossipsub_execution_payload_envelope
         networks:
           - glamsterdam-devnet-6
         description: Execution payload envelope gossip propagation from libp2p.
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id
       - name: libp2p_gossipsub_payload_attestation_message
         networks:
           - glamsterdam-devnet-6
         description: Individual PTC payload attestation messages from libp2p gossip (~512 per slot).
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id
       - name: libp2p_gossipsub_proposer_preferences
         networks:
           - glamsterdam-devnet-6
         description: Proposer preferences gossip propagation from libp2p.
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id
     merged_tables: []
