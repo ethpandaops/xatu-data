@@ -155,7 +155,7 @@ Xatu provides Ethereum network data through two primary access methods. Select t
 👉 **See https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms.txt** for complete ClickHouse documentation
 - Direct database access with lower latency
 - No redactions or delays
-- Production and experimental endpoints
+- Production networks and devnets on a single endpoint
 - Advanced query capabilities
 
 📚 **Advanced ClickHouse usage:** https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms-full.txt
@@ -183,7 +183,7 @@ Xatu is a comprehensive Ethereum network data collection and processing pipeline
 - Holesky (testnet)
 - Sepolia (testnet)
 - Hoodi (devnet)
-- Experimental networks like devnets (via experimental endpoint)
+- Devnets (each in its own database, e.g. `glamsterdam-devnet-6`)
 
 ## ⚠️ Critical: Query Performance
 
@@ -359,11 +359,9 @@ EOF
 
 The ethPandaOps Clickhouse database provides direct access to all Xatu data with lower latency and no redactions. This access method requires authentication.
 
-**Available Endpoints:**
-- 🌐 **Mainnet Endpoint:** `https://clickhouse-raw.xatu.ethpandaops.io`
-  - Supported networks: Mainnet, Hoodi, Sepolia, Holesky
-- 🧪 **Experimental Endpoint:** `https://clickhouse.xatu-experimental.ethpandaops.io`
-  - Supported networks: Devnets, Experimental Networks
+**Endpoint:** `https://clickhouse.xatu.ethpandaops.io`
+- Production networks (Mainnet, Hoodi, Sepolia, Holesky) live in the `default` database — filter with `meta_network_name`
+- Devnets each get their own database named after the network, e.g. `` `glamsterdam-devnet-6`.beacon_api_eth_v1_events_block `` — see https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/experimental.md
 
 **Authentication:**
 - Contact ethpandaops@ethereum.org for access credentials

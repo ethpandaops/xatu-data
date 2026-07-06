@@ -61,6 +61,7 @@ generate_table_schema() {
     fi
     local database=$(echo "$table_config" | yq e '.database' -)
     local quirks=$(echo "$table_config" | yq e '.quirks' -)
+    local fork=$(echo "$table_config" | yq e '.fork // ""' -)
     local is_cbt_table=$(echo "$table_config" | yq e '.cbt_table // false' -)
     local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
@@ -137,6 +138,13 @@ generate_table_schema() {
     if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
         echo ""
         echo "> $quirks"
+        echo ""
+    fi
+
+    if [ ! -z "$fork" ] && [ "$fork" != "null" ]; then
+        local fork_display=$(yq e ".forks.${fork}.display_name // \"${fork}\"" "$config_file")
+        echo ""
+        echo "> 🔀 Introduced in the **${fork_display}** network upgrade (\`${fork}\` fork)."
         echo ""
     fi
     echo "### Availability"

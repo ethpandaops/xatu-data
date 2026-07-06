@@ -64,6 +64,11 @@ jobs:
         run: ./generate-readme.sh
       # - name: Run generate-bigquery.sh
       #   run: ./generate-bigquery.sh
+      - name: Run generate-experimental.sh
+        env:
+          XATU_CLICKHOUSE_USER: ${{ secrets.XATU_CLICKHOUSE_USER }}
+          XATU_CLICKHOUSE_PASSWORD: ${{ secrets.XATU_CLICKHOUSE_PASSWORD }}
+        run: ./generate-experimental.sh
       - name: Run generate-llmstxt.sh
         run: ./generate-llmstxt.sh
       - name: Cleanup before commit
