@@ -24,7 +24,7 @@ Xatu provides Ethereum network data through two primary access methods. Select t
 👉 **See https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms.txt** for complete ClickHouse documentation
 - Direct database access with lower latency
 - No redactions or delays
-- Production and experimental endpoints
+- Production networks and devnets on a single endpoint
 - Advanced query capabilities
 
 📚 **Advanced ClickHouse usage:** https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/clickhouse/llms-full.txt
@@ -52,7 +52,7 @@ Xatu is a comprehensive Ethereum network data collection and processing pipeline
 - Holesky (testnet)
 - Sepolia (testnet)
 - Hoodi (devnet)
-- Experimental networks like devnets (via experimental endpoint)
+- Devnets (each in its own database, e.g. `glamsterdam-devnet-6`)
 
 ## ⚠️ Critical: Query Performance
 

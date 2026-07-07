@@ -426,6 +426,9 @@ echo """
 
 Table for libp2p gossipsub data column sidecar data
 
+
+> 🔀 Introduced in the **Fusaka** network upgrade (`fulu` fork).
+
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
@@ -2664,6 +2667,9 @@ echo """
 
 Contains custody probe events for data column availability verification
 
+
+> 🔀 Introduced in the **Fusaka** network upgrade (`fulu` fork).
+
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
@@ -2780,7 +2786,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/6/29.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/6/30.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

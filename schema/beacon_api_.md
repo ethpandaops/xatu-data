@@ -723,6 +723,9 @@ echo """
 
 Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
 
+
+> 🔀 Introduced in the **Fusaka** network upgrade (`fulu` fork).
+
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
