@@ -62,10 +62,13 @@ list_tables() {
     " | grep -E '^[a-zA-Z_][a-zA-Z0-9_]*$' || true
 }
 
+# The public readonly user is granted system.tables but NOT system.databases
+# (system.* is revoked with a small re-grant allowlist), so probe for tables
+# rather than the database itself.
 database_exists() {
     local database=$1
-    local count=$(ch_query "SELECT count() FROM system.databases WHERE name = '$database' FORMAT TabSeparated")
-    [ "$count" = "1" ]
+    local count=$(ch_query "SELECT count() FROM system.tables WHERE database = '$database' FORMAT TabSeparated")
+    [ -n "$count" ] && [ "$count" -gt 0 ] 2>/dev/null
 }
 
 # Resolve the xatu branch for a fork: config override, else release/<fork>.
@@ -99,6 +102,11 @@ log "Found $(wc -l < "$tmp_dir/devnets.jsonl" | tr -d ' ') active devnet(s)"
 
 log "Listing tables in the default database"
 list_tables "default" > "$tmp_dir/tables_default"
+
+if [ ! -s "$tmp_dir/tables_default" ]; then
+    log "ERROR: could not list tables in the default database — check ClickHouse credentials and grants"
+    exit 1
+fi
 
 # Introspect each devnet
 > "$tmp_dir/results.jsonl"
