@@ -23,6 +23,12 @@ Events derived from the Beacon API event stream. This data is usually useful for
 - [`beacon_api_eth_v2_beacon_block`](#beacon_api_eth_v2_beacon_block)
 - [`beacon_api_eth_v1_proposer_duty`](#beacon_api_eth_v1_proposer_duty)
 - [`beacon_api_eth_v3_validator_block`](#beacon_api_eth_v3_validator_block)
+- [`beacon_api_eth_v1_events_execution_payload`](#beacon_api_eth_v1_events_execution_payload) 🧪 *Pre-release (Glamsterdam)*
+- [`beacon_api_eth_v1_events_execution_payload_available`](#beacon_api_eth_v1_events_execution_payload_available) 🧪 *Pre-release (Glamsterdam)*
+- [`beacon_api_eth_v1_events_execution_payload_bid`](#beacon_api_eth_v1_events_execution_payload_bid) 🧪 *Pre-release (Glamsterdam)*
+- [`beacon_api_eth_v1_events_execution_payload_gossip`](#beacon_api_eth_v1_events_execution_payload_gossip) 🧪 *Pre-release (Glamsterdam)*
+- [`beacon_api_eth_v1_events_payload_attestation`](#beacon_api_eth_v1_events_payload_attestation) 🧪 *Pre-release (Glamsterdam)*
+- [`beacon_api_eth_v1_events_proposer_preferences`](#beacon_api_eth_v1_events_proposer_preferences) 🧪 *Pre-release (Glamsterdam)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -1530,5 +1536,71 @@ echo """
 | **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
 | **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
+
+## beacon_api_eth_v1_events_execution_payload
+
+Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_execution_payload`
+
+## beacon_api_eth_v1_events_execution_payload_available
+
+Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_execution_payload_available`
+
+## beacon_api_eth_v1_events_execution_payload_bid
+
+Builder bids from beacon API SSE (execution_payload_bid event).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_execution_payload_bid`
+
+## beacon_api_eth_v1_events_execution_payload_gossip
+
+Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_execution_payload_gossip`
+
+## beacon_api_eth_v1_events_payload_attestation
+
+Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_payload_attestation`
+
+## beacon_api_eth_v1_events_proposer_preferences
+
+Proposer preferences from beacon API SSE (proposer_preferences event).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`beacon_api_eth_v1_events_proposer_preferences`
 
 <!-- schema_end -->

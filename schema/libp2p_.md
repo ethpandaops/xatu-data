@@ -101,6 +101,10 @@ Events without sharding keys:
 - [`libp2p_rpc_data_column_custody_probe`](#libp2p_rpc_data_column_custody_probe)
 - [`libp2p_identify`](#libp2p_identify)
 - [`libp2p_synthetic_heartbeat`](#libp2p_synthetic_heartbeat)
+- [`libp2p_gossipsub_execution_payload_bid`](#libp2p_gossipsub_execution_payload_bid) 🧪 *Pre-release (Glamsterdam)*
+- [`libp2p_gossipsub_execution_payload_envelope`](#libp2p_gossipsub_execution_payload_envelope) 🧪 *Pre-release (Glamsterdam)*
+- [`libp2p_gossipsub_payload_attestation_message`](#libp2p_gossipsub_payload_attestation_message) 🧪 *Pre-release (Glamsterdam)*
+- [`libp2p_gossipsub_proposer_preferences`](#libp2p_gossipsub_proposer_preferences) 🧪 *Pre-release (Glamsterdam)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -2985,5 +2989,49 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## libp2p_gossipsub_execution_payload_bid
+
+Builder bid gossip propagation from libp2p.
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`libp2p_gossipsub_execution_payload_bid`
+
+## libp2p_gossipsub_execution_payload_envelope
+
+Execution payload envelope gossip propagation from libp2p.
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`libp2p_gossipsub_execution_payload_envelope`
+
+## libp2p_gossipsub_payload_attestation_message
+
+Individual PTC payload attestation messages from libp2p gossip (~512 per slot).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`libp2p_gossipsub_payload_attestation_message`
+
+## libp2p_gossipsub_proposer_preferences
+
+Proposer preferences gossip propagation from libp2p.
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`libp2p_gossipsub_proposer_preferences`
 
 <!-- schema_end -->

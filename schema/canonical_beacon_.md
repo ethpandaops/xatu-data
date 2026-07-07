@@ -22,6 +22,9 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 - [`canonical_beacon_elaborated_attestation`](#canonical_beacon_elaborated_attestation)
 - [`canonical_beacon_validators`](#canonical_beacon_validators)
 - [`canonical_beacon_validators_pubkeys`](#canonical_beacon_validators_pubkeys)
+- [`canonical_beacon_block_access_list`](#canonical_beacon_block_access_list) 🧪 *Pre-release (Glamsterdam)*
+- [`canonical_beacon_block_execution_payload_bid`](#canonical_beacon_block_execution_payload_bid) 🧪 *Pre-release (Glamsterdam)*
+- [`canonical_beacon_block_payload_attestation`](#canonical_beacon_block_payload_attestation) 🧪 *Pre-release (Glamsterdam)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -1210,5 +1213,38 @@ echo """
 | **index** | `UInt32` | *The index of the validator* |
 | **pubkey** | `String` | *The public key of the validator* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_block_access_list
+
+
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`canonical_beacon_block_access_list`
+
+## canonical_beacon_block_execution_payload_bid
+
+Winning execution payload bid from canonical beacon blocks (1 per block).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`canonical_beacon_block_execution_payload_bid`
+
+## canonical_beacon_block_payload_attestation
+
+Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).
+
+> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **glamsterdam-devnet-6**: `glamsterdam-devnet-6`.`canonical_beacon_block_payload_attestation`
 
 <!-- schema_end -->
