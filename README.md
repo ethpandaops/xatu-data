@@ -39,6 +39,8 @@ Information for LLMs can be found here:
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
 
+Xatu also collects data from devnets testing upcoming network upgrades — including tables that don't exist on production networks yet. See the [experimental data catalog](./schema/experimental.md).
+
 Check out the visual representation of the [extraction process](./assets/extraction.png).
 
 ### Schema

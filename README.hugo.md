@@ -41,6 +41,8 @@ This **dataset** contains a wealth of information about the **Ethereum network**
 
 >Note: **Public parquet files are available to everyone.** Access to EthPandaOps Clickhouse is restricted. If you need access please reach out to us at ethpandaops at ethereum.org.
 
+Xatu also collects data from devnets testing upcoming network upgrades — including tables that don't exist on production networks yet. See the [experimental data catalog](./schema/experimental).
+
 Check out the visual representation of the [extraction process](https://github.com/ethpandaops/xatu-data/blob/master/assets/extraction.png?raw=true).
 
 ### Schema

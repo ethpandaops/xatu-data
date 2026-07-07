@@ -12,6 +12,7 @@ clickhouse_password=${CLICKHOUSE_PASSWORD:-supersecret}
 mode=${MODE:-}
 config_file=${CONFIG:-config.yaml}
 main_schema_file=${SCHEMA:-SCHEMA.md}
+experimental_file=${EXPERIMENTAL_CONFIG:-experimental.yaml}
 
 # Build curl auth args if credentials are provided
 clickhouse_curl_auth=""
@@ -49,6 +50,61 @@ get_availability_override() {
     echo "$key"
 }
 
+# Link to an upgrade's experimental deep-dive page, respecting output mode
+fork_page_link() {
+    local slug=$1
+    if [ "$mode" = "docusaurus" ]; then
+        echo "/data/xatu/forks/${slug}/"
+    elif [ "$mode" = "hugo" ]; then
+        echo "./experimental/${slug}"
+    elif [ "$mode" = "all" ]; then
+        echo "./schema/experimental/${slug}.md"
+    else
+        echo "./experimental/${slug}.md"
+    fi
+}
+
+# Pre-release (devnet-only) tables for a dataset prefix, discovered by
+# generate-experimental.sh. Emits one JSON object per table.
+list_prerelease_tables() {
+    local table_prefix=$1
+    if [ ! -f "$experimental_file" ]; then
+        log "WARNING: $experimental_file not found, skipping pre-release tables"
+        return
+    fi
+    yq e -o=json '.' "$experimental_file" | jq -c --arg prefix "$table_prefix" '
+        .forks[]
+        | {fork: .name, display_name: .display_name, slug: .slug} as $f
+        | .tables[]
+        | select(.name | startswith($prefix))
+        | $f + {name: .name, description: (.description // ""), networks: .networks}
+    '
+}
+
+# A compact schema entry for a pre-release table: the full column schema and
+# examples live on the upgrade's experimental page.
+generate_prerelease_table_schema() {
+    local table_json=$1
+    local table_name=$(echo "$table_json" | jq -r '.name')
+    local description=$(echo "$table_json" | jq -r '.description')
+    local fork=$(echo "$table_json" | jq -r '.fork')
+    local display=$(echo "$table_json" | jq -r '.display_name')
+    local slug=$(echo "$table_json" | jq -r '.slug')
+    local link=$(fork_page_link "$slug")
+
+    echo "## $table_name"
+    echo ""
+    echo "$description"
+    echo ""
+    echo "> 🧪 **Pre-release** — introduced by the **${display}** upgrade (\`${fork}\`). Not yet merged to xatu master and not available on production networks. See the [${display} page](${link}) for the full schema and query examples."
+    echo ""
+    echo "### Availability"
+    echo "Available in the following devnet databases:"
+    echo ""
+    echo "$table_json" | jq -r '.networks[] | "- **" + . + "**: `" + . + "`.`'"$table_name"'`"'
+    echo ""
+}
+
 # Generate schema for a single table
 generate_table_schema() {
     set -e;
@@ -61,6 +117,7 @@ generate_table_schema() {
     fi
     local database=$(echo "$table_config" | yq e '.database' -)
     local quirks=$(echo "$table_config" | yq e '.quirks' -)
+    local fork=$(echo "$table_config" | yq e '.fork // ""' -)
     local is_cbt_table=$(echo "$table_config" | yq e '.cbt_table // false' -)
     local partition_column=$(echo "$table_config" | yq e '.partitioning.column' -)
     local partition_type=$(echo "$table_config" | yq e '.partitioning.type' -)
@@ -110,8 +167,8 @@ generate_table_schema() {
         local table_engine=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
         local partition_key=$(curl -s $clickhouse_curl_auth "$cbt_clickhouse_host" --data "SELECT partition_key FROM system.tables WHERE database = '${actual_database}' AND name = '${table_name}_local' FORMAT TabSeparated")
     else
-        local table_description=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
-        local table_engine=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE table = '${table_name}_local' FORMAT TabSeparated")
+        local table_description=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT comment FROM system.tables WHERE database = '${database}' AND table = '${table_name}_local' FORMAT TabSeparated")
+        local table_engine=$(curl -s $clickhouse_curl_auth "$clickhouse_host" --data "SELECT engine FROM system.tables WHERE database = '${database}' AND table = '${table_name}_local' FORMAT TabSeparated")
     fi
 
     local should_use_final=false
@@ -137,6 +194,13 @@ generate_table_schema() {
     if [ ! -z "$quirks" ] && [ "$quirks" != "null" ]; then
         echo ""
         echo "> $quirks"
+        echo ""
+    fi
+
+    if [ ! -z "$fork" ] && [ "$fork" != "null" ]; then
+        local fork_display=$(yq e ".forks.${fork}.display_name // \"${fork}\"" "$config_file")
+        echo ""
+        echo "> 🔀 Introduced in the **${fork_display}** network upgrade (\`${fork}\` fork)."
         echo ""
     fi
     echo "### Availability"
@@ -451,6 +515,11 @@ generate_dataset_schema() {
         for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
             echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g'))"
         done
+        list_prerelease_tables "$table_prefix" | while read -r table_json; do
+            table_name=$(echo "$table_json" | jq -r '.name')
+            display=$(echo "$table_json" | jq -r '.display_name')
+            echo "- [\`$table_name\`](#$(echo "$table_name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g')) 🧪 *Pre-release ($display)*"
+        done
     fi
     echo "<!-- schema_toc_end -->"
     echo
@@ -471,6 +540,9 @@ generate_dataset_schema() {
         for table_name in $(yq e '.tables[] | select(.name | test("^'"$table_prefix"'")) | .name' "$config_file"); do
             table_config=$(yq e '.tables[] | select(.name == "'"$table_name"'")' "$config_file")
             generate_table_schema "$table_name" "$table_config"
+        done
+        list_prerelease_tables "$table_prefix" | while read -r table_json; do
+            generate_prerelease_table_schema "$table_json"
         done
     fi
     echo "<!-- schema_end -->"
@@ -525,7 +597,7 @@ generate_datasets_table() {
             dataset_link="./${schema_file}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="/data/xatu/schema/${schema_file}/"
+            dataset_link="/data/xatu/datasets/${schema_file}/"
         fi
         if [ "${mode}" = "all" ]; then
             dataset_link="#${schema_file}"

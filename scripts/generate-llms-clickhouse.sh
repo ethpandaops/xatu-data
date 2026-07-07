@@ -89,19 +89,15 @@ Xatu is a data collection and processing pipeline for Ethereum network data.
 ## Looking for Public Parquet Files?
 **If you want public access without authentication**, see https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/llms/parquet/llms.txt for Parquet file documentation.
 
-## Endpoints
+## Endpoint
 
-### Production Endpoint
 ```
-https://clickhouse-raw.xatu.ethpandaops.io
+https://clickhouse.xatu.ethpandaops.io
 ```
-**Networks**: Mainnet, Sepolia, Holesky, Hoodi
 
-### Experimental Endpoint
-```
-https://clickhouse.xatu-experimental.ethpandaops.io
-```
-**Networks**: Devnets, experimental networks
+**Production networks** (Mainnet, Sepolia, Holesky, Hoodi): tables live in the `default` database — filter with `meta_network_name`.
+
+**Devnets**: each active devnet gets its own database named after the network (e.g. `` `glamsterdam-devnet-6`.table_name ``) — no `meta_network_name` filter needed. See https://raw.githubusercontent.com/ethpandaops/xatu-data/refs/heads/master/schema/experimental.md for the experimental catalog.
 
 ## Quick Start Examples
 

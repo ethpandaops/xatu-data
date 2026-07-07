@@ -59,7 +59,7 @@ generate_datasets_table() {
             dataset_link="./schema/${schema_file}"
         fi
         if [ "${mode}" = "docusaurus" ]; then
-            dataset_link="/data/xatu/schema/${schema_file}/"
+            dataset_link="/data/xatu/datasets/${schema_file}/"
         fi
         if [ "${mode}" = "" ]; then
             dataset_link="./schema/${schema_file}.md"

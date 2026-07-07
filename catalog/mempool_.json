@@ -1,0 +1,226 @@
+{
+  "generated_at": "2026-07-06T08:07:04Z",
+  "dataset": {
+    "name": "Execution Layer P2P",
+    "description": "Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances.",
+    "tables": {
+      "prefix": "mempool_"
+    },
+    "availability": [
+      "ethpandaops-clickhouse",
+      "public"
+    ],
+    "additional_info": ""
+  },
+  "tables": [
+    {
+      "name": "mempool_transaction",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "event_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-03-03",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-01-08",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2024-01-08",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Execution layer",
+        "Transaction",
+        "Mempool"
+      ],
+      "description": "Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "event_date_time",
+          "type": "DateTime64(3)",
+          "description": "The time when the sentry saw the transaction in the mempool"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The hash of the transaction"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the account that is the transaction recipient"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the sender account at the time of the transaction"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the transaction in wei"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) the user has set for the transaction"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the transaction in wei"
+        },
+        {
+          "name": "type",
+          "type": "Nullable(UInt8)",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "The size of the transaction data in bytes"
+        },
+        {
+          "name": "call_data_size",
+          "type": "UInt32",
+          "description": "The size of the call data of the transaction in bytes"
+        },
+        {
+          "name": "blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The maximum gas provided for the blob transaction execution"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction"
+        },
+        {
+          "name": "blob_hashes",
+          "type": "Array(String)",
+          "description": "The hashes of the blob commitments for blob transactions"
+        },
+        {
+          "name": "blob_sidecars_size",
+          "type": "Nullable(UInt32)",
+          "description": "The total size of the sidecars for blob transactions in bytes"
+        },
+        {
+          "name": "blob_sidecars_empty_size",
+          "type": "Nullable(UInt32)",
+          "description": "The total empty size of the sidecars for blob transactions in bytes"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client that generated the event"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client that generated the event"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client that generated the event"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client that generated the event"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client that generated the event"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_execution_fork_id_hash",
+          "type": "LowCardinality(String)",
+          "description": "The hash of the fork ID of the current Ethereum network"
+        },
+        {
+          "name": "meta_execution_fork_id_next",
+          "type": "LowCardinality(String)",
+          "description": "The fork ID of the next planned Ethereum network upgrade"
+        }
+      ]
+    }
+  ]
+}

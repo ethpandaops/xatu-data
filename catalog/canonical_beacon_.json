@@ -1,0 +1,1575 @@
+{
+  "generated_at": "2026-07-06T08:07:04Z",
+  "dataset": {
+    "name": "Canonical Beacon",
+    "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
+    "tables": {
+      "prefix": "canonical_beacon_"
+    },
+    "availability": [
+      "ethpandaops-clickhouse",
+      "public"
+    ],
+    "additional_info": ""
+  },
+  "tables": [
+    {
+      "name": "canonical_beacon_block",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains beacon block from a beacon node.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload"
+        },
+        {
+          "name": "block_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The total bytes of the beacon block payload when compressed using snappy"
+        },
+        {
+          "name": "parent_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the parent beacon block"
+        },
+        {
+          "name": "state_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon state at this block"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The index of the validator that proposed the beacon block"
+        },
+        {
+          "name": "eth1_data_block_hash",
+          "type": "FixedString(66)",
+          "description": "The block hash of the associated execution block"
+        },
+        {
+          "name": "eth1_data_deposit_root",
+          "type": "FixedString(66)",
+          "description": "The root of the deposit tree in the associated execution block"
+        },
+        {
+          "name": "execution_payload_block_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The block hash of the execution payload"
+        },
+        {
+          "name": "execution_payload_block_number",
+          "type": "Nullable(UInt32)",
+          "description": "The block number of the execution payload"
+        },
+        {
+          "name": "execution_payload_fee_recipient",
+          "type": "Nullable(String)",
+          "description": "The recipient of the fee for this execution payload"
+        },
+        {
+          "name": "execution_payload_base_fee_per_gas",
+          "type": "Nullable(UInt128)",
+          "description": "Base fee per gas for execution payload"
+        },
+        {
+          "name": "execution_payload_blob_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_excess_blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "Excess gas used for blobs in execution payload"
+        },
+        {
+          "name": "execution_payload_gas_limit",
+          "type": "Nullable(UInt64)",
+          "description": "Gas limit for execution payload"
+        },
+        {
+          "name": "execution_payload_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used for execution payload"
+        },
+        {
+          "name": "execution_payload_state_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "The state root of the execution payload"
+        },
+        {
+          "name": "execution_payload_parent_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The parent hash of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_count",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction count of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload"
+        },
+        {
+          "name": "execution_payload_transactions_total_bytes_compressed",
+          "type": "Nullable(UInt32)",
+          "description": "The transaction total bytes of the execution payload when compressed using snappy"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_committee",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains canonical beacon API /eth/v1/beacon/committees data.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number in the beacon API committee payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The committee index in the beacon API committee payload"
+        },
+        {
+          "name": "validators",
+          "type": "Array(UInt32)",
+          "description": "The validator indices in the beacon API committee payload"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number in the beacon API committee payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_attester_slashing",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-04-06"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-03"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "null"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains attester slashing from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "attestation_1_attesting_indices",
+          "type": "Array(UInt32)",
+          "description": "The attesting indices from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_signature",
+          "type": "String",
+          "description": "The signature from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_slot",
+          "type": "UInt32",
+          "description": "The slot number from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_index",
+          "type": "UInt32",
+          "description": "The attestor index from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch number from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_source_root",
+          "type": "FixedString(66)",
+          "description": "The source root from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch number from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_1_data_target_root",
+          "type": "FixedString(66)",
+          "description": "The target root from the first attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_attesting_indices",
+          "type": "Array(UInt32)",
+          "description": "The attesting indices from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_signature",
+          "type": "String",
+          "description": "The signature from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_slot",
+          "type": "UInt32",
+          "description": "The slot number from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_index",
+          "type": "UInt32",
+          "description": "The attestor index from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch number from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_source_root",
+          "type": "FixedString(66)",
+          "description": "The source root from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch number from the second attestation in the slashing payload"
+        },
+        {
+          "name": "attestation_2_data_target_root",
+          "type": "FixedString(66)",
+          "description": "The target root from the second attestation in the slashing payload"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_proposer_slashing",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2025-04-27"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-04-27"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "null"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains proposer slashing from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "signed_header_1_message_slot",
+          "type": "UInt32",
+          "description": "The slot number from the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_1_message_proposer_index",
+          "type": "UInt32",
+          "description": "The proposer index from the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_1_message_body_root",
+          "type": "FixedString(66)",
+          "description": "The body root from the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_1_message_parent_root",
+          "type": "FixedString(66)",
+          "description": "The parent root from the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_1_message_state_root",
+          "type": "FixedString(66)",
+          "description": "The state root from the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_1_signature",
+          "type": "String",
+          "description": "The signature for the first signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_message_slot",
+          "type": "UInt32",
+          "description": "The slot number from the second signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_message_proposer_index",
+          "type": "UInt32",
+          "description": "The proposer index from the second signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_message_body_root",
+          "type": "FixedString(66)",
+          "description": "The body root from the second signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_message_parent_root",
+          "type": "FixedString(66)",
+          "description": "The parent root from the second signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_message_state_root",
+          "type": "FixedString(66)",
+          "description": "The state root from the second signed header in the slashing payload"
+        },
+        {
+          "name": "signed_header_2_signature",
+          "type": "String",
+          "description": "The signature for the second signed header in the slashing payload"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_bls_to_execution_change",
+      "database": "default",
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "excluded_columns": [],
+      "networks": {
+        "mainnet": {
+          "from": "2023-04-12",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-28",
+          "to": "2025-05-09"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "2025-05-16"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains bls to execution change from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "exchanging_message_validator_index",
+          "type": "UInt32",
+          "description": "The validator index from the exchanging message"
+        },
+        {
+          "name": "exchanging_message_from_bls_pubkey",
+          "type": "String",
+          "description": "The BLS public key from the exchanging message"
+        },
+        {
+          "name": "exchanging_message_to_execution_address",
+          "type": "FixedString(42)",
+          "description": "The execution address from the exchanging message"
+        },
+        {
+          "name": "exchanging_signature",
+          "type": "String",
+          "description": "The signature for the exchanging message"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_execution_transaction",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2022-09-06",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains execution transaction from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "position",
+          "type": "UInt32",
+          "description": "The position of the transaction in the beacon block"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The hash of the transaction"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the account that is the transaction recipient"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the sender account at the time of the transaction"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the transaction in wei"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) the user has set for the transaction"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the transaction in wei"
+        },
+        {
+          "name": "type",
+          "type": "UInt8",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "The size of the transaction data in bytes"
+        },
+        {
+          "name": "call_data_size",
+          "type": "UInt32",
+          "description": "The size of the call data of the transaction in bytes"
+        },
+        {
+          "name": "blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The maximum gas provided for the blob transaction execution"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction"
+        },
+        {
+          "name": "blob_hashes",
+          "type": "Array(String)",
+          "description": "The hashes of the blob commitments for blob transactions"
+        },
+        {
+          "name": "blob_sidecars_size",
+          "type": "Nullable(UInt32)",
+          "description": "The total size of the sidecars for blob transactions in bytes"
+        },
+        {
+          "name": "blob_sidecars_empty_size",
+          "type": "Nullable(UInt32)",
+          "description": "The total empty size of the sidecars for blob transactions in bytes"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_voluntary_exit",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-08-06"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "2025-10-22"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a voluntary exit from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "voluntary_exit_message_epoch",
+          "type": "UInt32",
+          "description": "The epoch number from the exit message"
+        },
+        {
+          "name": "voluntary_exit_message_validator_index",
+          "type": "UInt32",
+          "description": "The validator index from the exit message"
+        },
+        {
+          "name": "voluntary_exit_signature",
+          "type": "String",
+          "description": "The signature of the exit message"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_deposit",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2025-05-14"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-04-27"
+        },
+        "sepolia": {
+          "from": "2022-06-22",
+          "to": "2025-04-27"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a deposit from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "deposit_proof",
+          "type": "Array(String)",
+          "description": "The proof of the deposit data"
+        },
+        {
+          "name": "deposit_data_pubkey",
+          "type": "String",
+          "description": "The BLS public key of the validator from the deposit data"
+        },
+        {
+          "name": "deposit_data_withdrawal_credentials",
+          "type": "FixedString(66)",
+          "description": "The withdrawal credentials of the validator from the deposit data"
+        },
+        {
+          "name": "deposit_data_amount",
+          "type": "UInt128",
+          "description": "The amount of the deposit from the deposit data"
+        },
+        {
+          "name": "deposit_data_signature",
+          "type": "String",
+          "description": "The signature of the deposit data"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_block_withdrawal",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2023-04-12",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2023-02-28",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a withdrawal from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "withdrawal_index",
+          "type": "UInt32",
+          "description": "The index of the withdrawal"
+        },
+        {
+          "name": "withdrawal_validator_index",
+          "type": "UInt32",
+          "description": "The validator index from the withdrawal data"
+        },
+        {
+          "name": "withdrawal_address",
+          "type": "FixedString(42)",
+          "description": "The address of the account that is the withdrawal recipient"
+        },
+        {
+          "name": "withdrawal_amount",
+          "type": "UInt128",
+          "description": "The amount of the withdrawal from the withdrawal data"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_blob_sidecar",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2024-03-13",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2024-02-07",
+          "to": "2025-10-15"
+        },
+        "sepolia": {
+          "from": "2024-01-30",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a blob sidecar from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_parent_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the parent beacon block"
+        },
+        {
+          "name": "versioned_hash",
+          "type": "FixedString(66)",
+          "description": "The versioned hash in the beacon API event stream payload"
+        },
+        {
+          "name": "kzg_commitment",
+          "type": "FixedString(98)",
+          "description": "The KZG commitment in the blob sidecar payload"
+        },
+        {
+          "name": "kzg_proof",
+          "type": "FixedString(98)",
+          "description": "The KZG proof in the blob sidecar payload"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The index of the validator that proposed the beacon block"
+        },
+        {
+          "name": "blob_index",
+          "type": "UInt64",
+          "description": "The index of blob sidecar in the blob sidecar payload"
+        },
+        {
+          "name": "blob_size",
+          "type": "UInt32",
+          "description": "The total bytes of the blob"
+        },
+        {
+          "name": "blob_empty_size",
+          "type": "Nullable(UInt32)",
+          "description": "The total empty size of the blob in bytes"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_proposer_duty",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a proposer duty from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number for which the proposer duty is assigned"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "proposer_validator_index",
+          "type": "UInt32",
+          "description": "The validator index of the proposer for the slot"
+        },
+        {
+          "name": "proposer_pubkey",
+          "type": "String",
+          "description": "The public key of the validator proposer"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_elaborated_attestation",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains elaborated attestations from beacon blocks.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "block_slot",
+          "type": "UInt32",
+          "description": "The slot number of the block containing the attestation"
+        },
+        {
+          "name": "block_slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the block slot started"
+        },
+        {
+          "name": "block_epoch",
+          "type": "UInt32",
+          "description": "The epoch number of the block containing the attestation"
+        },
+        {
+          "name": "block_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the block epoch started"
+        },
+        {
+          "name": "position_in_block",
+          "type": "UInt32",
+          "description": "The position of the attestation in the block"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root of the block containing the attestation"
+        },
+        {
+          "name": "validators",
+          "type": "Array(UInt32)",
+          "description": "Array of validator indices participating in the attestation"
+        },
+        {
+          "name": "committee_index",
+          "type": "LowCardinality(String)",
+          "description": "The index of the committee making the attestation"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The root of the beacon block being attested to"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number being attested to"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": ""
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "source_epoch",
+          "type": "UInt32",
+          "description": "The source epoch referenced in the attestation"
+        },
+        {
+          "name": "source_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the source epoch started"
+        },
+        {
+          "name": "source_root",
+          "type": "FixedString(66)",
+          "description": "The root of the source checkpoint in the attestation"
+        },
+        {
+          "name": "target_epoch",
+          "type": "UInt32",
+          "description": "The target epoch referenced in the attestation"
+        },
+        {
+          "name": "target_epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the target epoch started"
+        },
+        {
+          "name": "target_root",
+          "type": "FixedString(66)",
+          "description": "The root of the target checkpoint in the attestation"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_validators",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "epoch_start_date_time",
+        "interval": "hourly"
+      },
+      "networks": {
+        "mainnet": {
+          "from": "2020-12-01",
+          "to": "2026-07-04"
+        },
+        "holesky": {
+          "from": "2023-09-23",
+          "to": "2025-10-26"
+        },
+        "sepolia": {
+          "from": "2022-06-20",
+          "to": "2026-07-04"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a validator state for an epoch.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "balance",
+          "type": "Nullable(UInt64)",
+          "description": "The balance of the validator"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "The status of the validator"
+        },
+        {
+          "name": "effective_balance",
+          "type": "Nullable(UInt64)",
+          "description": "The effective balance of the validator"
+        },
+        {
+          "name": "slashed",
+          "type": "Bool",
+          "description": "Whether the validator is slashed"
+        },
+        {
+          "name": "activation_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "The epoch when the validator was activated"
+        },
+        {
+          "name": "activation_eligibility_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "The epoch when the validator was activated"
+        },
+        {
+          "name": "exit_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "The epoch when the validator exited"
+        },
+        {
+          "name": "withdrawable_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "The epoch when the validator can withdraw"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    },
+    {
+      "name": "canonical_beacon_validators_pubkeys",
+      "database": "default",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "integer",
+        "column": "index",
+        "interval": 50
+      },
+      "networks": {
+        "mainnet": {
+          "from": "0",
+          "to": "2304800"
+        },
+        "holesky": {
+          "from": "0",
+          "to": "1923800"
+        },
+        "sepolia": {
+          "from": "0",
+          "to": "1900"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "quirks": "A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.",
+      "description": "Contains a validator state for an epoch.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "pubkey",
+          "type": "String",
+          "description": "The public key of the validator"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ]
+    }
+  ]
+}

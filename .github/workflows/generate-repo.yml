@@ -33,6 +33,11 @@ jobs:
           go run ./cmd/xatu-cbt infra start --run-migrations
       - name: Go to root directory
         run: cd ..
+      - name: Run generate-experimental.sh
+        env:
+          XATU_CLICKHOUSE_USER: ${{ secrets.XATU_CLICKHOUSE_USER }}
+          XATU_CLICKHOUSE_PASSWORD: ${{ secrets.XATU_CLICKHOUSE_PASSWORD }}
+        run: ./generate-experimental.sh
       - name: Run generate-schema.sh for SCHEMA.md
         run: ./generate-schema.sh
       - name: Run generate-schema.sh for SCHEMA.hugo.md
@@ -50,6 +55,8 @@ jobs:
       #     MODE: all
       #     SCHEMA: SCHEMA.all.md
       #   run: ./generate-schema.sh
+      - name: Run generate-catalog.sh
+        run: ./generate-catalog.sh
       - name: Run generate-readme.sh for README.md
         run: ./generate-readme.sh
       - name: Run generate-readme.sh for README.hugo.md
