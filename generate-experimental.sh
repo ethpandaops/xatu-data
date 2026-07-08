@@ -71,6 +71,40 @@ database_exists() {
     [ -n "$count" ] && [ "$count" -gt 0 ] 2>/dev/null
 }
 
+# Derive a {type, column, interval} partitioning descriptor from a ClickHouse
+# partition_key expression, matching the hand-curated shape production tables
+# carry in config.yaml so the homepage renders the same partition-key hints.
+# Xatu tables partition by (meta_network_name, <bucket>); the bucket is either a
+# time function over a datetime column, e.g. "toYYYYMM(slot_start_date_time)", or
+# an integer bucket, e.g. "intDiv(block_number, 5000000)". Prints a JSON object,
+# or "null" when there is no time/integer column to filter on.
+derive_partitioning() {
+    local pk=$1
+
+    if [[ $pk =~ intDiv\(([a-zA-Z_][a-zA-Z0-9_]*),[[:space:]]*([0-9]+)\) ]]; then
+        jq -n -c --arg column "${BASH_REMATCH[1]}" --argjson interval "${BASH_REMATCH[2]}" \
+            '{type: "integer", column: $column, interval: $interval}'
+        return
+    fi
+
+    if [[ $pk =~ to([A-Za-z]+)\(([a-zA-Z_][a-zA-Z0-9_]*)\) ]]; then
+        local interval
+        case "${BASH_REMATCH[1]}" in
+            StartOfHour) interval="hourly" ;;
+            StartOfDay | Date | YYYYMMDD | StartOfWeek | Monday) interval="daily" ;;
+            YYYYMM | StartOfMonth) interval="monthly" ;;
+            StartOfQuarter) interval="quarterly" ;;
+            StartOfYear) interval="yearly" ;;
+            *) interval="monthly" ;;
+        esac
+        jq -n -c --arg column "${BASH_REMATCH[2]}" --arg interval "$interval" \
+            '{type: "datetime", column: $column, interval: $interval}'
+        return
+    fi
+
+    echo "null"
+}
+
 # Resolve the xatu branch for a fork: config override, else release/<fork>.
 # Prints the branch name if it exists on the remote, empty string otherwise.
 resolve_xatu_branch() {
@@ -200,25 +234,29 @@ jq -s \
         )
     }' "$tmp_dir/results.jsonl" > "$tmp_dir/experimental.json.raw"
 
-# Enrich devnet-only tables with their descriptions, sorting key, and full
-# column schemas so downstream consumers (generate-schema.sh, the homepage)
-# don't need ClickHouse access to the devnet databases
+# Enrich devnet-only tables with their descriptions, sorting key, partitioning,
+# and full column schemas so downstream consumers (generate-schema.sh, the
+# homepage) don't need ClickHouse access to the devnet databases
 > "$tmp_dir/details.jsonl"
 jq -c '.forks[].tables[] | {name: .name, db: .networks[0]}' "$tmp_dir/experimental.json.raw" | sort -u | while read -r entry; do
     t=$(echo "$entry" | jq -r '.name')
     db=$(echo "$entry" | jq -r '.db')
     comment=$(ch_query "SELECT comment FROM system.tables WHERE database = '$db' AND name = '${t}_local' FORMAT TabSeparated")
     sorting_key=$(ch_query "SELECT sorting_key FROM system.tables WHERE database = '$db' AND name = '${t}_local' FORMAT TabSeparated")
+    partition_key=$(ch_query "SELECT partition_key FROM system.tables WHERE database = '$db' AND name = '${t}_local' FORMAT TabSeparated")
+    partitioning=$(derive_partitioning "$partition_key")
     columns_tsv=$(ch_query "SELECT name, type, comment FROM system.columns WHERE database = '$db' AND table = '$t' FORMAT TabSeparated")
     jq -n -c \
         --arg name "$t" \
         --arg description "$comment" \
         --arg sorting_key "$sorting_key" \
+        --argjson partitioning "$partitioning" \
         --arg columns "$columns_tsv" \
         '{
             name: $name,
             description: $description,
             sorting_key: $sorting_key,
+            partitioning: $partitioning,
             columns: ($columns | split("\n") | map(select(. != "") | split("\t") | {name: .[0], type: .[1], description: (.[2] // "")}))
         }' >> "$tmp_dir/details.jsonl"
 done
@@ -232,6 +270,7 @@ jq --slurpfile details "$tmp_dir/details.json" '
     .forks[].tables[] |= (. + {
         description: ($details[0][.name].description // ""),
         sorting_key: ($details[0][.name].sorting_key // ""),
+        partitioning: ($details[0][.name].partitioning // null),
         columns: ($details[0][.name].columns // [])
     })
 ' "$tmp_dir/experimental.json.raw" > "$tmp_dir/experimental.json"
