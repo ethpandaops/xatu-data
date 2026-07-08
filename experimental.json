@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T05:05:14Z",
+  "generated_at": "2026-07-08T08:11:06Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -155,14 +155,9 @@
               "description": "Execution block hash"
             },
             {
-              "name": "state_root",
-              "type": "FixedString(66)",
-              "description": "Execution state root"
-            },
-            {
-              "name": "slot_number",
-              "type": "Nullable(UInt64)",
-              "description": "EIP-7843 SLOTNUM: the execution payload slot_number field (typically equals the beacon slot)"
+              "name": "execution_optimistic",
+              "type": "Bool",
+              "description": "Whether the node considered the payload optimistically imported"
             },
             {
               "name": "meta_client_name",
@@ -708,16 +703,6 @@
               "name": "block_hash",
               "type": "FixedString(66)",
               "description": "Execution block hash"
-            },
-            {
-              "name": "state_root",
-              "type": "FixedString(66)",
-              "description": "Execution state root"
-            },
-            {
-              "name": "slot_number",
-              "type": "Nullable(UInt64)",
-              "description": "EIP-7843 SLOTNUM: the execution payload slot_number field (typically equals the beacon slot)"
             },
             {
               "name": "meta_client_name",
