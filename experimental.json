@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T19:44:32Z",
+  "generated_at": "2026-07-08T05:05:14Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -98,6 +98,11 @@
           ],
           "description": "Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -278,6 +283,11 @@
           ],
           "description": "Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -438,6 +448,11 @@
           ],
           "description": "Builder bids from beacon API SSE (execution_payload_bid event).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_hash",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -638,6 +653,11 @@
           ],
           "description": "Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -818,6 +838,11 @@
           ],
           "description": "Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -993,6 +1018,11 @@
           ],
           "description": "Proposer preferences from beacon API SSE (proposer_preferences event).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, validator_index",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -1163,6 +1193,11 @@
           ],
           "description": "Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
           "sorting_key": "epoch_start_date_time, meta_network_name, meta_client_name, builder_index, outcome",
+          "partitioning": {
+            "type": "datetime",
+            "column": "epoch_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -1333,6 +1368,11 @@
           ],
           "description": "PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Enrichment counterpart to beacon_api_eth_v1_events_payload_attestation. Multi-witness (per-node).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -1523,6 +1563,11 @@
           ],
           "description": "Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root, status",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -1733,6 +1778,11 @@
           ],
           "description": "",
           "sorting_key": "slot_start_date_time, meta_network_name, block_hash, address, change_type, storage_key, block_access_index",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -1918,6 +1968,11 @@
           ],
           "description": "Winning execution payload bid from canonical beacon blocks (1 per block).",
           "sorting_key": "slot_start_date_time, meta_network_name, block_root",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -2123,6 +2178,11 @@
           ],
           "description": "Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).",
           "sorting_key": "slot_start_date_time, meta_network_name, block_root, position",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -2308,6 +2368,11 @@
           ],
           "description": "Builder bid gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -2528,6 +2593,11 @@
           ],
           "description": "Execution payload envelope gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -2723,6 +2793,11 @@
           ],
           "description": "Individual PTC payload attestation messages from libp2p gossip (~512 per slot).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
@@ -2923,6 +2998,11 @@
           ],
           "description": "Proposer preferences gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
           "columns": [
             {
               "name": "updated_date_time",
