@@ -1,4 +1,4 @@
-generated_at: "2026-07-09T19:25:29Z"
+generated_at: "2026-07-10T09:21:45Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bal-devnet-7
@@ -11,7 +11,7 @@ networks:
     new_tables: []
   - name: blob-devnet-0
     repository: ethpandaops/blob-devnets
-    dora: https://dora.blob-devnet-0.ethpandaops.io
+    dora: null
     fork: fulu
     xatu_branch: release/fulu
     database: blob-devnet-0
@@ -49,7 +49,7 @@ forks:
     networks:
       - name: blob-devnet-0
         repository: ethpandaops/blob-devnets
-        dora: https://dora.blob-devnet-0.ethpandaops.io
+        dora: null
         new_table_count: 0
     tables: []
     merged_tables:
