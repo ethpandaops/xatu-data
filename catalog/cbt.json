@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-11T07:45:30Z",
+  "generated_at": "2026-07-11T18:51:11Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
