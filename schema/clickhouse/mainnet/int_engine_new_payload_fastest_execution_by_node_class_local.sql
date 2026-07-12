@@ -14,6 +14,6 @@ CREATE TABLE mainnet.int_engine_new_payload_fastest_execution_by_node_class_loca
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_engine_new_payload_fastest_execution_by_node_class_local', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, slot, node_class)
+ORDER BY (slot_start_date_time, slot, node_class, meta_execution_implementation)
 SETTINGS index_granularity = 8192
-COMMENT 'Fastest valid engine_newPayload observation per slot per node_class'
+COMMENT 'Fastest valid engine_newPayload observations per slot per node_class with one row per implementation tied at the minimum duration'

@@ -10560,7 +10560,7 @@ echo """
 
 ## int_engine_new_payload_fastest_execution_by_node_class
 
-Fastest valid engine_newPayload observation per slot per node_class
+Fastest valid engine_newPayload observations per slot per node_class with one row per implementation tied at the minimum duration
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.

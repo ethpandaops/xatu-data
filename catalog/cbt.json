@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-11T18:51:11Z",
+  "generated_at": "2026-07-12T08:02:48Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -14629,7 +14629,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Fastest valid engine_newPayload observation per slot per node_class",
+      "description": "Fastest valid engine_newPayload observations per slot per node_class with one row per implementation tied at the minimum duration",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [

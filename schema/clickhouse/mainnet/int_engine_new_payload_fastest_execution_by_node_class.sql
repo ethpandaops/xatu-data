@@ -13,4 +13,4 @@ CREATE TABLE mainnet.int_engine_new_payload_fastest_execution_by_node_class
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'int_engine_new_payload_fastest_execution_by_node_class_local', cityHash64(slot_start_date_time, slot, node_class))
-COMMENT 'Fastest valid engine_newPayload observation per slot per node_class'
+COMMENT 'Fastest valid engine_newPayload observations per slot per node_class with one row per implementation tied at the minimum duration'
