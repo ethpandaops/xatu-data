@@ -1,4 +1,4 @@
-generated_at: "2026-07-12T08:00:24Z"
+generated_at: "2026-07-12T18:53:54Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bal-devnet-7
