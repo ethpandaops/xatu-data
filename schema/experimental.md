@@ -21,7 +21,7 @@ Each upgrade has a dedicated page with the full table schemas and query examples
 | Upgrade | CL fork | Xatu branch | Devnet-only tables | In main catalog | Active devnets |
 |---------|---------|-------------|--------------------|-----------------|----------------|
 | **[Fusaka](/data/xatu/forks/fusaka)** | `fulu` | [`release/fulu`](https://github.com/ethpandaops/xatu/tree/release/fulu) | 0 | 3 | `blob-devnet-0` |
-| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`release/gloas`](https://github.com/ethpandaops/xatu/tree/release/gloas) | 16 | 0 | `bal-devnet-7`, `glamsterdam-devnet-6` |
+| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`release/gloas`](https://github.com/ethpandaops/xatu/tree/release/gloas) | 17 | 0 | `bal-devnet-7`, `glamsterdam-devnet-6`, `glamsterdam-devnet-7` |
 
 ## Active devnets
 
@@ -30,4 +30,5 @@ Each upgrade has a dedicated page with the full table schemas and query examples
 | `bal-devnet-7` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/bal-devnets](https://github.com/ethpandaops/bal-devnets) |
 | `blob-devnet-0` | [Fusaka](/data/xatu/forks/fusaka) (`fulu`) | 0 | [ethpandaops/blob-devnets](https://github.com/ethpandaops/blob-devnets) |
 | `glamsterdam-devnet-6` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 16 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
+| `glamsterdam-devnet-7` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 17 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
 

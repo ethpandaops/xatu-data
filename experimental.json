@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T07:50:07Z",
+  "generated_at": "2026-07-14T19:02:46Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -35,6 +35,34 @@
         "beacon_api_eth_v1_events_execution_payload_available",
         "beacon_api_eth_v1_events_execution_payload_bid",
         "beacon_api_eth_v1_events_execution_payload_gossip",
+        "beacon_api_eth_v1_events_payload_attestation",
+        "beacon_api_eth_v1_events_proposer_preferences",
+        "beacon_synthetic_builder_pending_payment_settlement",
+        "beacon_synthetic_payload_attestation_processed",
+        "beacon_synthetic_payload_status_resolved",
+        "canonical_beacon_block_access_list",
+        "canonical_beacon_block_execution_payload_bid",
+        "canonical_beacon_block_payload_attestation",
+        "libp2p_gossipsub_execution_payload_bid",
+        "libp2p_gossipsub_execution_payload_envelope",
+        "libp2p_gossipsub_payload_attestation_message",
+        "libp2p_gossipsub_proposer_preferences"
+      ]
+    },
+    {
+      "name": "glamsterdam-devnet-7",
+      "repository": "ethpandaops/glamsterdam-devnets",
+      "dora": "https://dora.glamsterdam-devnet-7.ethpandaops.io",
+      "fork": "gloas",
+      "xatu_branch": "release/gloas",
+      "database": "glamsterdam-devnet-7",
+      "tables_total": 136,
+      "new_tables": [
+        "beacon_api_eth_v1_events_execution_payload",
+        "beacon_api_eth_v1_events_execution_payload_available",
+        "beacon_api_eth_v1_events_execution_payload_bid",
+        "beacon_api_eth_v1_events_execution_payload_gossip",
+        "beacon_api_eth_v1_events_head_v2",
         "beacon_api_eth_v1_events_payload_attestation",
         "beacon_api_eth_v1_events_proposer_preferences",
         "beacon_synthetic_builder_pending_payment_settlement",
@@ -88,13 +116,20 @@
           "repository": "ethpandaops/glamsterdam-devnets",
           "dora": "https://dora.glamsterdam-devnet-6.ethpandaops.io",
           "new_table_count": 16
+        },
+        {
+          "name": "glamsterdam-devnet-7",
+          "repository": "ethpandaops/glamsterdam-devnets",
+          "dora": "https://dora.glamsterdam-devnet-7.ethpandaops.io",
+          "new_table_count": 17
         }
       ],
       "tables": [
         {
           "name": "beacon_api_eth_v1_events_execution_payload",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
@@ -274,7 +309,8 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_available",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
@@ -439,7 +475,8 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Builder bids from beacon API SSE (execution_payload_bid event).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_hash",
@@ -644,7 +681,8 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_gossip",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root",
@@ -817,9 +855,185 @@
           ]
         },
         {
+          "name": "beacon_api_eth_v1_events_head_v2",
+          "networks": [
+            "glamsterdam-devnet-7"
+          ],
+          "description": "Contains beacon API eventstream \"head_v2\" data from each sentry client attached to a beacon node.",
+          "sorting_key": "meta_network_name, slot_start_date_time, meta_client_name, block, current_epoch_dependent_root, payload_status",
+          "partitioning": {
+            "type": "datetime",
+            "column": "slot_start_date_time",
+            "interval": "monthly"
+          },
+          "columns": [
+            {
+              "name": "updated_date_time",
+              "type": "DateTime",
+              "description": "Timestamp when the record was last updated"
+            },
+            {
+              "name": "event_date_time",
+              "type": "DateTime64(3)",
+              "description": ""
+            },
+            {
+              "name": "slot",
+              "type": "UInt32",
+              "description": "Slot number in the beacon API event stream payload"
+            },
+            {
+              "name": "slot_start_date_time",
+              "type": "DateTime",
+              "description": "The wall clock time when the slot started"
+            },
+            {
+              "name": "propagation_slot_start_diff",
+              "type": "UInt32",
+              "description": "The difference between the event_date_time and the slot_start_date_time"
+            },
+            {
+              "name": "block",
+              "type": "FixedString(66)",
+              "description": "The beacon block root hash in the beacon API event stream payload"
+            },
+            {
+              "name": "epoch",
+              "type": "UInt32",
+              "description": "The epoch number in the beacon API event stream payload"
+            },
+            {
+              "name": "epoch_start_date_time",
+              "type": "DateTime",
+              "description": "The wall clock time when the epoch started"
+            },
+            {
+              "name": "payload_status",
+              "type": "LowCardinality(String)",
+              "description": "The payload availability for the head block (empty/full) in the beacon API event stream payload"
+            },
+            {
+              "name": "epoch_transition",
+              "type": "Bool",
+              "description": "If the event is an epoch transition"
+            },
+            {
+              "name": "execution_optimistic",
+              "type": "Bool",
+              "description": "If the attached beacon node is running in execution optimistic mode"
+            },
+            {
+              "name": "current_epoch_dependent_root",
+              "type": "FixedString(66)",
+              "description": "The current epoch dependent root in the beacon API event stream payload"
+            },
+            {
+              "name": "next_epoch_dependent_root",
+              "type": "FixedString(66)",
+              "description": "The next epoch dependent root in the beacon API event stream payload"
+            },
+            {
+              "name": "meta_client_name",
+              "type": "LowCardinality(String)",
+              "description": "Name of the client that generated the event"
+            },
+            {
+              "name": "meta_client_version",
+              "type": "LowCardinality(String)",
+              "description": "Version of the client that generated the event"
+            },
+            {
+              "name": "meta_client_implementation",
+              "type": "LowCardinality(String)",
+              "description": "Implementation of the client that generated the event"
+            },
+            {
+              "name": "meta_client_os",
+              "type": "LowCardinality(String)",
+              "description": "Operating system of the client that generated the event"
+            },
+            {
+              "name": "meta_client_ip",
+              "type": "Nullable(IPv6)",
+              "description": "IP address of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_city",
+              "type": "LowCardinality(String)",
+              "description": "City of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_country",
+              "type": "LowCardinality(String)",
+              "description": "Country of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_country_code",
+              "type": "LowCardinality(String)",
+              "description": "Country code of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_continent_code",
+              "type": "LowCardinality(String)",
+              "description": "Continent code of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_longitude",
+              "type": "Nullable(Float64)",
+              "description": "Longitude of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_latitude",
+              "type": "Nullable(Float64)",
+              "description": "Latitude of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_autonomous_system_number",
+              "type": "Nullable(UInt32)",
+              "description": "Autonomous system number of the client that generated the event"
+            },
+            {
+              "name": "meta_client_geo_autonomous_system_organization",
+              "type": "Nullable(String)",
+              "description": "Autonomous system organization of the client that generated the event"
+            },
+            {
+              "name": "meta_network_name",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum network name"
+            },
+            {
+              "name": "meta_consensus_version",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum consensus client version that generated the event"
+            },
+            {
+              "name": "meta_consensus_version_major",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum consensus client major version that generated the event"
+            },
+            {
+              "name": "meta_consensus_version_minor",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum consensus client minor version that generated the event"
+            },
+            {
+              "name": "meta_consensus_version_patch",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum consensus client patch version that generated the event"
+            },
+            {
+              "name": "meta_consensus_implementation",
+              "type": "LowCardinality(String)",
+              "description": "Ethereum consensus client implementation that generated the event"
+            }
+          ]
+        },
+        {
           "name": "beacon_api_eth_v1_events_payload_attestation",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index",
@@ -999,7 +1213,8 @@
         {
           "name": "beacon_api_eth_v1_events_proposer_preferences",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Proposer preferences from beacon API SSE (proposer_preferences event).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, validator_index",
@@ -1174,7 +1389,8 @@
         {
           "name": "beacon_synthetic_builder_pending_payment_settlement",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
           "sorting_key": "epoch_start_date_time, meta_network_name, meta_client_name, builder_index, outcome",
@@ -1349,7 +1565,8 @@
         {
           "name": "beacon_synthetic_payload_attestation_processed",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Enrichment counterpart to beacon_api_eth_v1_events_payload_attestation. Multi-witness (per-node).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, beacon_block_root, validator_index",
@@ -1544,7 +1761,8 @@
         {
           "name": "beacon_synthetic_payload_status_resolved",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, block_root, status",
@@ -1759,7 +1977,8 @@
         {
           "name": "canonical_beacon_block_access_list",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "",
           "sorting_key": "slot_start_date_time, meta_network_name, block_hash, address, change_type, storage_key, block_access_index",
@@ -1949,7 +2168,8 @@
         {
           "name": "canonical_beacon_block_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Winning execution payload bid from canonical beacon blocks (1 per block).",
           "sorting_key": "slot_start_date_time, meta_network_name, block_root",
@@ -2159,7 +2379,8 @@
         {
           "name": "canonical_beacon_block_payload_attestation",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).",
           "sorting_key": "slot_start_date_time, meta_network_name, block_root, position",
@@ -2349,7 +2570,8 @@
         {
           "name": "libp2p_gossipsub_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Builder bid gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
@@ -2574,7 +2796,8 @@
         {
           "name": "libp2p_gossipsub_execution_payload_envelope",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Execution payload envelope gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
@@ -2774,7 +2997,8 @@
         {
           "name": "libp2p_gossipsub_payload_attestation_message",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Individual PTC payload attestation messages from libp2p gossip (~512 per slot).",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
@@ -2979,7 +3203,8 @@
         {
           "name": "libp2p_gossipsub_proposer_preferences",
           "networks": [
-            "glamsterdam-devnet-6"
+            "glamsterdam-devnet-6",
+            "glamsterdam-devnet-7"
           ],
           "description": "Proposer preferences gossip propagation from libp2p.",
           "sorting_key": "slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id",
