@@ -1,0 +1,47 @@
+environments:
+  staging:
+    clickhouse:
+      default:
+        host: clickhouse.staging.example.com
+        port: 8123
+        user: exporter_staging
+        password_env: CLICKHOUSE_STAGING_PASSWORD  # From env var
+      experimental:
+        host: clickhouse.experimental-staging.example.com
+        port: 8123
+        user: exporter_staging
+        password_env: EXPERIMENTAL_CLICKHOUSE_STAGING_PASSWORD
+    storage:
+      endpoint: https://xxx.r2.cloudflarestorage.com
+      bucket: xatu-staging
+      access_key_env: STAGING_AWS_ACCESS_KEY_ID
+      secret_key_env: STAGING_AWS_SECRET_ACCESS_KEY
+      public_url: https://staging-data.ethpandaops.io
+  
+  production:
+    clickhouse:
+      default:
+        host: chendpoint-xatu-clickhouse
+        port: 8123
+        user: exporter
+        password_env: CLICKHOUSE_PASSWORD
+      experimental:
+        host: clickhouse.xatu-experimental.ethpandaops.io
+        port: 8123
+        user: default
+        password_env: EXPERIMENTAL_CLICKHOUSE_PASSWORD
+    storage:
+      endpoint: https://xxx.r2.cloudflarestorage.com
+      bucket: xatu-public
+      access_key_env: AWS_ACCESS_KEY_ID
+      secret_key_env: AWS_SECRET_ACCESS_KEY
+      public_url: https://data.ethpandaops.io
+
+# Define which ClickHouse clusters export to which storage
+export_mappings:
+  - source: staging.default
+    destination: staging
+  - source: production.experimental
+    destination: staging
+  - source: production.default
+    destination: production

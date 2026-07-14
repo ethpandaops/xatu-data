@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xatu-exporter"
+version = "0.1.0"
+description = "Xatu data export pipeline for ClickHouse to Parquet with Iceberg metadata"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "click>=8.1.0",
+    "clickhouse-connect>=0.7.0",
+    "boto3>=1.26.0",
+    "pyiceberg>=0.6.0",
+    "pyyaml>=6.0",
+    "pyarrow>=14.0.0",
+    "structlog>=23.1.0",
+    "pandas>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-mock>=3.10.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+xatu-export = "scripts.export_table:export_table"
+xatu-export-all = "scripts.export_all:export_all"

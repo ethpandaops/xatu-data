@@ -1,0 +1,63 @@
+name: Export Chunked Tables
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to use'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+        default: production
+      dry_run:
+        description: 'Dry run only'
+        type: boolean
+        default: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Export chunked tables
+        env:
+          # Production secrets
+          CLICKHOUSE_PASSWORD: ${{ secrets.CLICKHOUSE_PASSWORD }}
+          EXPERIMENTAL_CLICKHOUSE_PASSWORD: ${{ secrets.EXPERIMENTAL_CLICKHOUSE_PASSWORD }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # Staging secrets
+          CLICKHOUSE_STAGING_PASSWORD: ${{ secrets.CLICKHOUSE_STAGING_PASSWORD }}
+          EXPERIMENTAL_CLICKHOUSE_STAGING_PASSWORD: ${{ secrets.EXPERIMENTAL_CLICKHOUSE_STAGING_PASSWORD }}
+          STAGING_AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          STAGING_AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+        run: |
+          ENVIRONMENT="${{ github.event.inputs.environment || 'production' }}"
+          DRY_RUN_FLAG="${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}"
+          
+          python scripts/export_all.py -e $ENVIRONMENT -g chunked -p 8 $DRY_RUN_FLAG
+      
+      - name: Export summary
+        if: always()
+        run: |
+          echo "### Export Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ github.event.inputs.environment || 'production' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Type: Chunked tables" >> $GITHUB_STEP_SUMMARY
+          echo "- Dry Run: ${{ github.event.inputs.dry_run || 'false' }}" >> $GITHUB_STEP_SUMMARY
