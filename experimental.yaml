@@ -1,4 +1,4 @@
-generated_at: "2026-07-16T18:56:50Z"
+generated_at: "2026-07-17T07:53:09Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bal-devnet-7
@@ -7,7 +7,7 @@ networks:
     fork: gloas
     xatu_branch: release/gloas
     database: bal-devnet-7
-    tables_total: 119
+    tables_total: 120
     new_tables: []
   - name: blob-devnet-0
     repository: ethpandaops/blob-devnets
@@ -15,7 +15,7 @@ networks:
     fork: fulu
     xatu_branch: release/fulu
     database: blob-devnet-0
-    tables_total: 119
+    tables_total: 120
     new_tables: []
   - name: glamsterdam-devnet-6
     repository: ethpandaops/glamsterdam-devnets
@@ -47,7 +47,7 @@ networks:
     fork: gloas
     xatu_branch: release/gloas
     database: glamsterdam-devnet-7
-    tables_total: 136
+    tables_total: 137
     new_tables:
       - beacon_api_eth_v1_events_execution_payload
       - beacon_api_eth_v1_events_execution_payload_available

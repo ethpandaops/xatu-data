@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16T18:56:50Z",
+  "generated_at": "2026-07-17T07:53:09Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -9,7 +9,7 @@
       "fork": "gloas",
       "xatu_branch": "release/gloas",
       "database": "bal-devnet-7",
-      "tables_total": 119,
+      "tables_total": 120,
       "new_tables": []
     },
     {
@@ -19,7 +19,7 @@
       "fork": "fulu",
       "xatu_branch": "release/fulu",
       "database": "blob-devnet-0",
-      "tables_total": 119,
+      "tables_total": 120,
       "new_tables": []
     },
     {
@@ -56,7 +56,7 @@
       "fork": "gloas",
       "xatu_branch": "release/gloas",
       "database": "glamsterdam-devnet-7",
-      "tables_total": 136,
+      "tables_total": 137,
       "new_tables": [
         "beacon_api_eth_v1_events_execution_payload",
         "beacon_api_eth_v1_events_execution_payload_available",
