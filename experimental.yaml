@@ -1,4 +1,4 @@
-generated_at: "2026-07-20T19:25:46Z"
+generated_at: "2026-07-21T08:08:27Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bal-devnet-7
@@ -19,7 +19,7 @@ networks:
     new_tables: []
   - name: glamsterdam-devnet-6
     repository: ethpandaops/glamsterdam-devnets
-    dora: null
+    dora: https://dora.glamsterdam-devnet-6.ethpandaops.io
     fork: gloas
     xatu_branch: release/gloas
     database: glamsterdam-devnet-6
@@ -92,7 +92,7 @@ forks:
         new_table_count: 0
       - name: glamsterdam-devnet-6
         repository: ethpandaops/glamsterdam-devnets
-        dora: null
+        dora: https://dora.glamsterdam-devnet-6.ethpandaops.io
         new_table_count: 16
       - name: glamsterdam-devnet-7
         repository: ethpandaops/glamsterdam-devnets
