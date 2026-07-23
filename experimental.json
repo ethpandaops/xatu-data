@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T18:58:23Z",
+  "generated_at": "2026-07-23T08:12:30Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -25,7 +25,7 @@
     {
       "name": "glamsterdam-devnet-6",
       "repository": "ethpandaops/glamsterdam-devnets",
-      "dora": "https://dora.glamsterdam-devnet-6.ethpandaops.io",
+      "dora": null,
       "fork": "gloas",
       "xatu_branch": "release/gloas",
       "database": "glamsterdam-devnet-6",
@@ -114,7 +114,7 @@
         {
           "name": "glamsterdam-devnet-6",
           "repository": "ethpandaops/glamsterdam-devnets",
-          "dora": "https://dora.glamsterdam-devnet-6.ethpandaops.io",
+          "dora": null,
           "new_table_count": 16
         },
         {
