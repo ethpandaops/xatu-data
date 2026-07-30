@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-30T08:08:19Z",
+  "generated_at": "2026-07-30T19:10:29Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
       "name": "blob-devnet-0",
       "repository": "ethpandaops/blob-devnets",
-      "dora": null,
+      "dora": "https://dora.blob-devnet-0.ethpandaops.io",
       "fork": "fulu",
       "xatu_branch": "release/fulu",
       "database": "blob-devnet-0",
@@ -51,7 +51,7 @@
         {
           "name": "blob-devnet-0",
           "repository": "ethpandaops/blob-devnets",
-          "dora": null,
+          "dora": "https://dora.blob-devnet-0.ethpandaops.io",
           "new_table_count": 0
         }
       ],
