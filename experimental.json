@@ -1,17 +1,7 @@
 {
-  "generated_at": "2026-07-31T08:34:27Z",
+  "generated_at": "2026-07-31T19:08:33Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
-    {
-      "name": "blob-devnet-0",
-      "repository": "ethpandaops/blob-devnets",
-      "dora": "https://dora.blob-devnet-0.ethpandaops.io",
-      "fork": "fulu",
-      "xatu_branch": "release/fulu",
-      "database": "blob-devnet-0",
-      "tables_total": 120,
-      "new_tables": []
-    },
     {
       "name": "glamsterdam-devnet-7",
       "repository": "ethpandaops/glamsterdam-devnets",
@@ -42,26 +32,6 @@
     }
   ],
   "forks": [
-    {
-      "name": "fulu",
-      "display_name": "Fusaka",
-      "slug": "fusaka",
-      "xatu_branch": "release/fulu",
-      "networks": [
-        {
-          "name": "blob-devnet-0",
-          "repository": "ethpandaops/blob-devnets",
-          "dora": "https://dora.blob-devnet-0.ethpandaops.io",
-          "new_table_count": 0
-        }
-      ],
-      "tables": [],
-      "merged_tables": [
-        "beacon_api_eth_v1_events_data_column_sidecar",
-        "libp2p_gossipsub_data_column_sidecar",
-        "libp2p_rpc_data_column_custody_probe"
-      ]
-    },
     {
       "name": "gloas",
       "display_name": "Glamsterdam",
