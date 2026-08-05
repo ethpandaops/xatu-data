@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-04T19:22:05Z",
+  "generated_at": "2026-08-05T08:19:29Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -1421,7 +1421,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-08-02"
+          "to": "2026-08-03"
         },
         "holesky": {
           "from": "2023-09-23",
