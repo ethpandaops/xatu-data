@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-18T18:25:49Z",
+  "generated_at": "2026-08-19T06:29:05Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -1429,7 +1429,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-08-16"
+          "to": "2026-08-17"
         }
       },
       "tags": [
