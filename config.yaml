@@ -11,109 +11,51 @@ forks:
     # xatu_branch: defaults to release/<fork>; set to override
 datasets:
   - name: Beacon API Event Stream
-    description: Events derived from the Beacon API event stream. This data is usually
-      useful for 'timing' events, such as when a block was seen by a sentry. Because
-      of this it usually has the same data but from many different instances. These
-      tables are usually fairly slim and contain only a few columns. These tables
-      can be joined with the canonical tables to get a more complete view of the data.
-      For example, you can join the beacon_api_eth_v1_events_block table on block_root
-      or slot with the canonical_beacon_block table to get the block data for each
-      block.
+    description: Events derived from the Beacon API event stream. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances. These tables are usually fairly slim and contain only a few columns. These tables can be joined with the canonical tables to get a more complete view of the data. For example, you can join the beacon_api_eth_v1_events_block table on block_root or slot with the canonical_beacon_block table to get the block data for each block.
     tables:
       prefix: beacon_api_
     availability:
       - public
       - ethpandaops-clickhouse
   - name: Execution Layer P2P
-    description: Events from the execution layer p2p network. This data is usually
-      useful for 'timing' events, such as when a transaction was seen in the mempool
-      by an instance. Because of this it usually has the same data but from many different
-      instances.
+    description: Events from the execution layer p2p network. This data is usually useful for 'timing' events, such as when a transaction was seen in the mempool by an instance. Because of this it usually has the same data but from many different instances.
     tables:
       prefix: mempool_
     availability:
       - ethpandaops-clickhouse
       - public
   - name: Canonical Beacon
-    description: Events derived from the finalized beacon chain. This data is only
-      derived by a single instance, are deduped, and are more complete and reliable
-      than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate
-      other tables with information
+    description: Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information
     tables:
       prefix: canonical_beacon_
     availability:
       - ethpandaops-clickhouse
       - public
   - name: Canonical Execution
-    description: Data extracted from the execution layer. This data is only derived
-      by a single instance, are deduped, and are more complete and reliable than the
-      execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate
-      other tables with information
+    description: Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information
     tables:
       prefix: canonical_execution_
     availability:
       - ethpandaops-clickhouse
       - public
   - name: Consensus Layer P2P
-    description: Events from the consensus layer p2p network. This data is usually
-      useful for 'timing' events, such as when a block was seen by a sentry. Because
-      of this it usually has the same data but from many different instances.
-    additional_info: "The libp2p dataset captures peer-to-peer network events from
-      the consensus layer, however due to the large volume of network traffic, data
-      is sampled using a sharding strategy. This ensures manageable data sizes while
-      maintaining significance. Not all events are captured - the sampling rate varies
-      by event type and topic, with high-volume topics being more aggressively sampled.\n\n##
-      Event Categorization\n\nEvents are categorized into four groups based on their
-      available sharding keys:\n\n### Group A: Topic + MsgID Events\nEvents with both
-      topic and message ID, enabling full sharding flexibility:\n- `PUBLISH_MESSAGE`,
-      `DELIVER_MESSAGE`, `DUPLICATE_MESSAGE`, `REJECT_MESSAGE`\n- `GOSSIPSUB_BEACON_BLOCK`,
-      `GOSSIPSUB_BEACON_ATTESTATION`, `GOSSIPSUB_BLOB_SIDECAR`\n- `RPC_META_MESSAGE`,
-      `RPC_META_CONTROL_IHAVE`\n\n**Sharding**: Uses message ID for sharding, with
-      topic-based configuration\n\n### Group B: Topic-Only Events\nEvents with only
-      topic information:\n- `JOIN`, `LEAVE`, `GRAFT`, `PRUNE`\n- `RPC_META_CONTROL_GRAFT`,
-      `RPC_META_CONTROL_PRUNE`, `RPC_META_SUBSCRIPTION`\n\n**Sharding**: Uses topic
-      hash for sharding decisions\n\n### Group C: MsgID-Only Events\nEvents with only
-      message ID:\n- `RPC_META_CONTROL_IWANT`, `RPC_META_CONTROL_IDONTWANT`\n\n**Sharding**:
-      Uses message ID with default configuration\n\n### Group D: No Sharding Key Events\nEvents
-      without sharding keys:\n- `ADD_PEER`, `REMOVE_PEER`, `CONNECTED`, `DISCONNECTED`\n-
-      `RECV_RPC`, `SEND_RPC`, `DROP_RPC` (parent events only)\n- `HANDLE_METADATA`,
-      `HANDLE_STATUS`\n\n**Sharding**: All-or-nothing based on configuration\n\n###
-      Sharding Decision Flow\n```\n┌─────────────┐\n│Event Arrives│\n└──────┬──────┘\n
-      \      │\n       ▼\n┌──────────────┐     ┌─────────────────┐\n│Get Event Info├────►│
-      Event Category? │\n└──────────────┘     └────────┬────────┘\n                              │\n
-      \       ┌─────────────────────┼─────────────────────┬─────────────────────┐\n
-      \       ▼                     ▼                     ▼                     ▼\n
-      \  ┌─────────┐         ┌─────────┐           ┌─────────┐           ┌─────────┐\n
-      \  │ Group A │         │ Group B │           │ Group C │           │ Group D
-      │\n   │Topic+Msg│         │Topic Only│          │Msg Only │           │ No Keys
-      │\n   └────┬────┘         └────┬────┘           └────┬────┘           └────┬────┘\n
-      \       │                   │                     │                     │\n
-      \       ▼                   ▼                     ▼                     ▼\n
-      \  Topic Config?       Topic Config?         Default Shard         Enabled?\n
-      \       │                   │                     │                     │\n
-      \    Yes/No              Yes/No                   │                  Yes/No\n
-      \       │                   │                     │                     │\n
-      \       ▼                   ▼                     ▼                     ▼\n
-      \  Shard by Msg       Shard by Topic        Shard by Msg         Process/Drop\n```\n"
+    description: Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.
+    additional_info: "The libp2p dataset captures peer-to-peer network events from the consensus layer, however due to the large volume of network traffic, data is sampled using a sharding strategy. This ensures manageable data sizes while maintaining significance. Not all events are captured - the sampling rate varies by event type and topic, with high-volume topics being more aggressively sampled.\n\n## Event Categorization\n\nEvents are categorized into four groups based on their available sharding keys:\n\n### Group A: Topic + MsgID Events\nEvents with both topic and message ID, enabling full sharding flexibility:\n- `PUBLISH_MESSAGE`, `DELIVER_MESSAGE`, `DUPLICATE_MESSAGE`, `REJECT_MESSAGE`\n- `GOSSIPSUB_BEACON_BLOCK`, `GOSSIPSUB_BEACON_ATTESTATION`, `GOSSIPSUB_BLOB_SIDECAR`\n- `RPC_META_MESSAGE`, `RPC_META_CONTROL_IHAVE`\n\n**Sharding**: Uses message ID for sharding, with topic-based configuration\n\n### Group B: Topic-Only Events\nEvents with only topic information:\n- `JOIN`, `LEAVE`, `GRAFT`, `PRUNE`\n- `RPC_META_CONTROL_GRAFT`, `RPC_META_CONTROL_PRUNE`, `RPC_META_SUBSCRIPTION`\n\n**Sharding**: Uses topic hash for sharding decisions\n\n### Group C: MsgID-Only Events\nEvents with only message ID:\n- `RPC_META_CONTROL_IWANT`, `RPC_META_CONTROL_IDONTWANT`\n\n**Sharding**: Uses message ID with default configuration\n\n### Group D: No Sharding Key Events\nEvents without sharding keys:\n- `ADD_PEER`, `REMOVE_PEER`, `CONNECTED`, `DISCONNECTED`\n- `RECV_RPC`, `SEND_RPC`, `DROP_RPC` (parent events only)\n- `HANDLE_METADATA`, `HANDLE_STATUS`\n\n**Sharding**: All-or-nothing based on configuration\n\n### Sharding Decision Flow\n```\n┌─────────────┐\n│Event Arrives│\n└──────┬──────┘\n       │\n       ▼\n┌──────────────┐     ┌─────────────────┐\n│Get Event Info├────►│ Event Category? │\n└──────────────┘     └────────┬────────┘\n                              │\n        ┌─────────────────────┼─────────────────────┬─────────────────────┐\n        ▼                     ▼                     ▼                     ▼\n   ┌─────────┐         ┌─────────┐           ┌─────────┐           ┌─────────┐\n   │ Group A │         │ Group B │           │ Group C │           │ Group D │\n   │Topic+Msg│         │Topic Only│          │Msg Only │           │ No Keys │\n   └────┬────┘         └────┬────┘           └────┬────┘           └────┬────┘\n        │                   │                     │                     │\n        ▼                   ▼                     ▼                     ▼\n   Topic Config?       Topic Config?         Default Shard         Enabled?\n        │                   │                     │                     │\n     Yes/No              Yes/No                   │                  Yes/No\n        │                   │                     │                     │\n        ▼                   ▼                     ▼                     ▼\n   Shard by Msg       Shard by Topic        Shard by Msg         Process/Drop\n```\n"
     tables:
       prefix: libp2p_
     availability:
       - ethpandaops-clickhouse
       - public
   - name: MEV Relay
-    description: Events derived from MEV relays. Data is scraped from multiple MEV
-      Relays by multiple instances.
+    description: Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.
     tables:
       prefix: mev_relay_
     availability:
       - public
       - ethpandaops-clickhouse
   - name: CBT (ClickHouse Build Tools)
-    description: Pre-aggregated analytical tables for common blockchain queries. These
-      tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt)
-      using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).
-    additional_info: 'CBT tables are organized by network-specific databases. To query
-      these tables, you must target the correct database for your network:
+    description: Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).
+    additional_info: 'CBT tables are organized by network-specific databases. To query these tables, you must target the correct database for your network:
 
       - `mainnet.table_name` for Mainnet data
 
@@ -124,12 +66,10 @@ datasets:
       - `hoodi.table_name` for Hoodi data
 
 
-      Unlike other Xatu datasets, CBT tables do not use `meta_network_name` for filtering.
-      The network is determined by the database you query.
+      Unlike other Xatu datasets, CBT tables do not use `meta_network_name` for filtering. The network is determined by the database you query.
 
 
-      CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixed
-      with `fct_`), and intermediate tables (prefixed with `int_`).
+      CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixed with `fct_`), and intermediate tables (prefixed with `int_`).
 
 '
     tables:
@@ -147,19 +87,17 @@ tables:
     networks:
       mainnet:
         from: '2023-09-04'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-28'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-25'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    quirks: Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288)
-      for the same epoch.
-    description: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data
-      from each sentry client attached to a beacon node.
+    quirks: Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
+    description: Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_attestation
     database: default
     excluded_columns: []
@@ -170,17 +108,16 @@ tables:
     networks:
       mainnet:
         from: '2023-06-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-18'
         to: '2025-11-17'
       sepolia:
         from: '2023-08-31'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "attestation" data from each sentry
-      client attached to a beacon node.
+    description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_blob_sidecar
     database: default
     excluded_columns: []
@@ -200,8 +137,7 @@ tables:
         to: '2025-10-20'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "blob_sidecar" data from each sentry
-      client attached to a beacon node.
+    description: Contains beacon API eventstream "blob_sidecar" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_block
     database: default
     excluded_columns: []
@@ -212,17 +148,16 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2020-12-02'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "block" data from each sentry client
-      attached to a beacon node.
+    description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_block_gossip
     database: default
     excluded_columns: []
@@ -233,17 +168,16 @@ tables:
     networks:
       mainnet:
         from: '2025-05-14'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2025-05-14'
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "block_gossip" data from each sentry
-      client attached to a beacon node.
+    description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_chain_reorg
     database: default
     excluded_columns: []
@@ -254,17 +188,16 @@ tables:
     networks:
       mainnet:
         from: '2023-03-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-02-05'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "chain reorg" data from each sentry
-      client attached to a beacon node.
+    description: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_contribution_and_proof
     database: default
     excluded_columns: []
@@ -275,17 +208,16 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "contribution and proof" data from
-      each sentry client attached to a beacon node.
+    description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_data_column_sidecar
     database: default
     fork: fulu
@@ -297,20 +229,19 @@ tables:
     networks:
       mainnet:
         from: '2025-12-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2025-10-01'
         to: '2025-11-09'
       hoodi:
         from: '2025-10-28'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-10-14'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "data_column_sidecar" data from each
-      sentry client attached to a beacon node.
+    description: Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_finalized_checkpoint
     database: default
     excluded_columns: []
@@ -321,17 +252,16 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-03-26'
         to: '2026-06-02'
       sepolia:
         from: '2023-03-26'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "finalized checkpoint" data from
-      each sentry client attached to a beacon node.
+    description: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_head
     database: default
     excluded_columns: []
@@ -342,17 +272,16 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-12-05'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-05'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "head" data from each sentry client
-      attached to a beacon node.
+    description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_events_voluntary_exit
     database: default
     excluded_columns: []
@@ -363,7 +292,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-28'
         to: '2025-08-12'
@@ -372,8 +301,7 @@ tables:
         to: 'null'
     tags:
       - Consensus layer
-    description: Contains beacon API eventstream "voluntary exit" data from each sentry
-      client attached to a beacon node.
+    description: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v1_validator_attestation_data
     database: default
     excluded_columns: []
@@ -384,17 +312,16 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API validator attestation data from each sentry client
-      attached to a beacon node.
+    description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
   - name: beacon_api_eth_v2_beacon_block
     database: default
     excluded_columns: []
@@ -405,17 +332,16 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-28'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each
-      sentry client attached to a beacon node.
+    description: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
   - name: mempool_transaction
     database: default
     excluded_columns: []
@@ -426,20 +352,18 @@ tables:
     networks:
       mainnet:
         from: '2023-03-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-01-08'
         to: '2025-10-26'
       sepolia:
         from: '2024-01-08'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Execution layer
       - Transaction
       - Mempool
-    description: Each row represents a transaction that was seen in the mempool by
-      a sentry client. Sentries can report the same transaction multiple times if
-      it has been long enough since the last report.
+    description: Each row represents a transaction that was seen in the mempool by a sentry client. Sentries can report the same transaction multiple times if it has been long enough since the last report.
   - name: beacon_api_eth_v1_proposer_duty
     database: default
     excluded_columns: []
@@ -450,13 +374,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-04-03'
         to: '2025-10-26'
       sepolia:
         from: '2024-04-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
     description: Contains a proposer duty from a beacon block.
@@ -470,17 +394,16 @@ tables:
     networks:
       mainnet:
         from: '2024-11-25'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-11-25'
         to: '2025-10-26'
       sepolia:
         from: '2024-11-25'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
-    description: Contains beacon API /eth/v3/validator/blocks/{slot} data from each
-      sentry client attached to a beacon node.
+    description: Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client attached to a beacon node.
   - name: canonical_beacon_block
     database: default
     excluded_columns: []
@@ -491,13 +414,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -512,13 +435,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -575,7 +498,7 @@ tables:
     networks:
       mainnet:
         from: '2023-04-12'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-28'
         to: '2025-05-09'
@@ -596,13 +519,13 @@ tables:
     networks:
       mainnet:
         from: '2022-09-06'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-22'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -617,7 +540,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-08-06'
@@ -659,13 +582,13 @@ tables:
     networks:
       mainnet:
         from: '2023-04-12'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2023-02-28'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -680,13 +603,13 @@ tables:
     networks:
       mainnet:
         from: '2024-03-13'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-02-07'
         to: '2025-10-15'
       sepolia:
         from: '2024-01-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -701,13 +624,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -722,13 +645,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Finalized
@@ -743,7 +666,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
@@ -764,7 +687,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2339150'
+        to: '2340250'
       holesky:
         from: '0'
         to: '1923800'
@@ -774,8 +697,7 @@ tables:
     tags:
       - Consensus layer
       - Finalized
-    quirks: A new parquet file is only created once there is 50 new validator index's
-      assigned and finalized. Also available in chunks of 10,000.
+    quirks: A new parquet file is only created once there is 50 new validator index's assigned and finalized. Also available in chunks of 10,000.
     description: Contains a validator state for an epoch.
   - name: libp2p_gossipsub_beacon_attestation
     database: default
@@ -787,13 +709,13 @@ tables:
     networks:
       mainnet:
         from: '2024-05-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-05-01'
         to: '2025-10-26'
       sepolia:
         from: '2024-05-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -808,13 +730,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-04-26'
         to: '2025-10-26'
       sepolia:
         from: '2024-04-26'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -851,16 +773,16 @@ tables:
     networks:
       mainnet:
         from: '2025-12-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2025-10-01'
         to: '2025-10-26'
       hoodi:
         from: '2025-10-28'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-10-14'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -875,13 +797,13 @@ tables:
     networks:
       mainnet:
         from: '2025-07-11'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2025-07-11'
         to: '2025-10-26'
       sepolia:
         from: '2025-07-11'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -896,13 +818,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-03-17'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2024-04-22'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -917,13 +839,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-03-17'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2024-04-22'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -980,13 +902,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1001,13 +923,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1022,10 +944,10 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-30'
         to: '2026-05-16'
@@ -1043,10 +965,10 @@ tables:
     networks:
       mainnet:
         from: '2024-05-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-03-17'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2024-05-01'
         to: '2026-07-28'
@@ -1064,7 +986,7 @@ tables:
     networks:
       mainnet:
         from: '2025-06-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-06-01'
         to: '2025-06-01'
@@ -1085,13 +1007,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1106,13 +1028,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1127,13 +1049,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1148,13 +1070,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1169,13 +1091,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-03-17'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2024-04-22'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1190,13 +1112,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-24'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-03-17'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2024-04-22'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1211,13 +1133,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1232,13 +1154,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1253,13 +1175,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1274,13 +1196,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1295,13 +1217,13 @@ tables:
     networks:
       mainnet:
         from: '2025-07-02'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-06-23'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-06-23'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1316,13 +1238,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1337,13 +1259,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-05-29'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1358,13 +1280,13 @@ tables:
     networks:
       mainnet:
         from: '2024-09-13'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-09-13'
         to: '2025-10-26'
       sepolia:
         from: '2024-09-13'
-        to: '2026-08-18'
+        to: '2026-08-19'
     description: Contains MEV relay block bids data.
   - name: mev_relay_proposer_payload_delivered
     database: default
@@ -1376,13 +1298,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-09-16'
         to: '2025-08-17'
       sepolia:
         from: '2024-09-16'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Execution layer
@@ -1398,13 +1320,13 @@ tables:
     networks:
       mainnet:
         from: '2024-12-11'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2024-12-11'
         to: '2025-04-27'
       sepolia:
         from: '2024-12-11'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - Execution layer
@@ -1420,7 +1342,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1441,7 +1363,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1462,7 +1384,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1483,7 +1405,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1504,7 +1426,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1525,7 +1447,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1535,8 +1457,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release
-      including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution four byte count data.
   - name: canonical_execution_address_appearances
     database: default
@@ -1548,7 +1469,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4659000'
@@ -1569,7 +1490,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1590,7 +1511,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4652000'
@@ -1600,8 +1521,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release
-      including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution balance read data.
   - name: canonical_execution_erc20_transfers
     database: default
@@ -1613,7 +1533,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1634,7 +1554,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1655,7 +1575,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1676,7 +1596,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1697,7 +1617,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4657000'
@@ -1707,8 +1627,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release
-      including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
+    quirks: Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution nonce read data.
   - name: canonical_execution_storage_diffs
     database: default
@@ -1720,7 +1639,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '25785000'
+        to: '25792000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1748,9 +1667,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    quirks: Mainnet is currently back-filling and not yet available publicly. Holesky
-      is currently stuck at block `2402609`, waiting for reth release including the
-      [fix](https://github.com/paradigmxyz/reth/issues/11272).
+    quirks: Mainnet is currently back-filling and not yet available publicly. Holesky is currently stuck at block `2402609`, waiting for reth release including the [fix](https://github.com/paradigmxyz/reth/issues/11272).
     description: Contains canonical execution storage reads data.
   - name: canonical_execution_transaction_structlog
     database: default
@@ -1781,8 +1698,7 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    description: Contains aggregated canonical execution transaction structlog data
-      from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+    description: Contains aggregated canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
   - name: consensus_engine_api_get_blobs
     database: default
     excluded_columns: []
@@ -1797,8 +1713,7 @@ tables:
     tags:
       - Consensus layer
       - Engine API
-    description: Contains consensus engine API getBlobsV1 request data from each sentry
-      client.
+    description: Contains consensus engine API getBlobsV1 request data from each sentry client.
   - name: consensus_engine_api_new_payload
     database: default
     excluded_columns: []
@@ -1813,8 +1728,7 @@ tables:
     tags:
       - Consensus layer
       - Engine API
-    description: Contains consensus engine API newPayload request data from each sentry
-      client.
+    description: Contains consensus engine API newPayload request data from each sentry client.
   - name: libp2p_rpc_data_column_custody_probe
     database: default
     fork: fulu
@@ -1826,13 +1740,13 @@ tables:
     networks:
       mainnet:
         from: '2025-12-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       hoodi:
         from: '2025-12-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-12-03'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
@@ -1854,8 +1768,7 @@ tables:
     tags:
       - Consensus layer
       - P2P
-    description: Table for libp2p identify events containing peer identification data
-      including agent version, protocols, and connection metadata.
+    description: Table for libp2p identify events containing peer identification data including agent version, protocols, and connection metadata.
   - name: libp2p_synthetic_heartbeat
     database: default
     excluded_columns: []
@@ -1866,16 +1779,16 @@ tables:
     networks:
       mainnet:
         from: '2025-08-21'
-        to: '2026-08-18'
+        to: '2026-08-19'
       holesky:
         from: '2025-09-29'
         to: '2025-10-20'
       hoodi:
         from: '2025-08-21'
-        to: '2026-08-18'
+        to: '2026-08-19'
       sepolia:
         from: '2025-08-21'
-        to: '2026-08-18'
+        to: '2026-08-19'
     tags:
       - Consensus layer
       - P2P
