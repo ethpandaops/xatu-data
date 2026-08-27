@@ -1,35 +1,7 @@
 {
-  "generated_at": "2026-08-26T19:31:01Z",
+  "generated_at": "2026-08-27T17:05:58Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
-    {
-      "name": "glamsterdam-devnet-7",
-      "repository": "ethpandaops/glamsterdam-devnets",
-      "dora": "https://dora.glamsterdam-devnet-7.ethpandaops.io",
-      "fork": "gloas",
-      "xatu_branch": "release/gloas",
-      "database": "glamsterdam-devnet-7",
-      "tables_total": 137,
-      "new_tables": [
-        "beacon_api_eth_v1_events_execution_payload",
-        "beacon_api_eth_v1_events_execution_payload_available",
-        "beacon_api_eth_v1_events_execution_payload_bid",
-        "beacon_api_eth_v1_events_execution_payload_gossip",
-        "beacon_api_eth_v1_events_head_v2",
-        "beacon_api_eth_v1_events_payload_attestation",
-        "beacon_api_eth_v1_events_proposer_preferences",
-        "beacon_synthetic_builder_pending_payment_settlement",
-        "beacon_synthetic_payload_attestation_processed",
-        "beacon_synthetic_payload_status_resolved",
-        "canonical_beacon_block_access_list",
-        "canonical_beacon_block_execution_payload_bid",
-        "canonical_beacon_block_payload_attestation",
-        "libp2p_gossipsub_execution_payload_bid",
-        "libp2p_gossipsub_execution_payload_envelope",
-        "libp2p_gossipsub_payload_attestation_message",
-        "libp2p_gossipsub_proposer_preferences"
-      ]
-    },
     {
       "name": "glamsterdam-devnet-8",
       "repository": "ethpandaops/glamsterdam-devnets",
@@ -67,12 +39,6 @@
       "xatu_branch": "release/gloas",
       "networks": [
         {
-          "name": "glamsterdam-devnet-7",
-          "repository": "ethpandaops/glamsterdam-devnets",
-          "dora": "https://dora.glamsterdam-devnet-7.ethpandaops.io",
-          "new_table_count": 17
-        },
-        {
           "name": "glamsterdam-devnet-8",
           "repository": "ethpandaops/glamsterdam-devnets",
           "dora": "https://dora.glamsterdam-devnet-8.ethpandaops.io",
@@ -83,7 +49,6 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).",
@@ -264,7 +229,6 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_available",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).",
@@ -430,7 +394,6 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Builder bids from beacon API SSE (execution_payload_bid event).",
@@ -636,7 +599,6 @@
         {
           "name": "beacon_api_eth_v1_events_execution_payload_gossip",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).",
@@ -812,7 +774,6 @@
         {
           "name": "beacon_api_eth_v1_events_head_v2",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Contains beacon API eventstream \"head_v2\" data from each sentry client attached to a beacon node.",
@@ -988,7 +949,6 @@
         {
           "name": "beacon_api_eth_v1_events_payload_attestation",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).",
@@ -1169,7 +1129,6 @@
         {
           "name": "beacon_api_eth_v1_events_proposer_preferences",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Proposer preferences from beacon API SSE (proposer_preferences event).",
@@ -1345,7 +1304,6 @@
         {
           "name": "beacon_synthetic_builder_pending_payment_settlement",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
@@ -1521,7 +1479,6 @@
         {
           "name": "beacon_synthetic_payload_attestation_processed",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Enrichment counterpart to beacon_api_eth_v1_events_payload_attestation. Multi-witness (per-node).",
@@ -1717,7 +1674,6 @@
         {
           "name": "beacon_synthetic_payload_status_resolved",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).",
@@ -1933,7 +1889,6 @@
         {
           "name": "canonical_beacon_block_access_list",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "",
@@ -2124,7 +2079,6 @@
         {
           "name": "canonical_beacon_block_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Winning execution payload bid from canonical beacon blocks (1 per block).",
@@ -2335,7 +2289,6 @@
         {
           "name": "canonical_beacon_block_payload_attestation",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).",
@@ -2526,7 +2479,6 @@
         {
           "name": "libp2p_gossipsub_execution_payload_bid",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Builder bid gossip propagation from libp2p.",
@@ -2752,7 +2704,6 @@
         {
           "name": "libp2p_gossipsub_execution_payload_envelope",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Execution payload envelope gossip propagation from libp2p.",
@@ -2953,7 +2904,6 @@
         {
           "name": "libp2p_gossipsub_payload_attestation_message",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Individual PTC payload attestation messages from libp2p gossip (~512 per slot).",
@@ -3159,7 +3109,6 @@
         {
           "name": "libp2p_gossipsub_proposer_preferences",
           "networks": [
-            "glamsterdam-devnet-7",
             "glamsterdam-devnet-8"
           ],
           "description": "Proposer preferences gossip propagation from libp2p.",
