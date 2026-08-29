@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T17:56:25Z",
+  "generated_at": "2026-08-29T01:22:18Z",
   "dataset": {
     "name": "Consensus Layer P2P",
     "description": "Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.",
@@ -25,7 +25,7 @@
       "networks": {
         "mainnet": {
           "from": "2024-05-01",
-          "to": "2026-08-26"
+          "to": "2026-08-27"
         },
         "holesky": {
           "from": "2024-05-01",
