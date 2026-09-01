@@ -1,9 +1,9 @@
-generated_at: "2026-08-31T22:12:20Z"
+generated_at: "2026-09-01T10:46:24Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: glamsterdam-devnet-8
     repository: ethpandaops/glamsterdam-devnets
-    dora: null
+    dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
     fork: gloas
     xatu_branch: release/gloas
     database: glamsterdam-devnet-8
@@ -34,7 +34,7 @@ forks:
     networks:
       - name: glamsterdam-devnet-8
         repository: ethpandaops/glamsterdam-devnets
-        dora: null
+        dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
         new_table_count: 17
     tables:
       - name: beacon_api_eth_v1_events_execution_payload
