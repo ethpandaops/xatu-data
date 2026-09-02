@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T10:48:47Z",
+  "generated_at": "2026-09-02T10:13:59Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -33,7 +33,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -198,7 +198,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -567,7 +567,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-28",
@@ -660,7 +660,7 @@
       "networks": {
         "mainnet": {
           "from": "2022-09-06",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -668,7 +668,7 @@
         },
         "sepolia": {
           "from": "2022-06-22",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -823,7 +823,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1009,7 +1009,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1017,7 +1017,7 @@
         },
         "sepolia": {
           "from": "2023-02-28",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -1210,7 +1210,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1218,7 +1218,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -1291,7 +1291,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -1421,7 +1421,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1429,7 +1429,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-08-30"
+          "to": "2026-08-31"
         }
       },
       "tags": [
@@ -1519,7 +1519,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "2351300"
+          "to": "2351900"
         },
         "holesky": {
           "from": "0",
