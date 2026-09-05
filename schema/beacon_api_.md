@@ -1548,7 +1548,6 @@ Execution payload envelope arrivals from beacon API SSE (execution_payload event
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_execution_payload`
 
 ## beacon_api_eth_v1_events_execution_payload_available
 
@@ -1560,7 +1559,6 @@ Execution payload availability signals from beacon API SSE (execution_payload_av
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_available`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_execution_payload_available`
 
 ## beacon_api_eth_v1_events_execution_payload_bid
 
@@ -1572,7 +1570,6 @@ Builder bids from beacon API SSE (execution_payload_bid event).
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_bid`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_execution_payload_bid`
 
 ## beacon_api_eth_v1_events_execution_payload_gossip
 
@@ -1584,7 +1581,6 @@ Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (ex
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_gossip`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_execution_payload_gossip`
 
 ## beacon_api_eth_v1_events_head_v2
 
@@ -1596,7 +1592,6 @@ Contains beacon API eventstream "head_v2" data from each sentry client attached 
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_head_v2`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_head_v2`
 
 ## beacon_api_eth_v1_events_payload_attestation
 
@@ -1608,7 +1603,6 @@ Individual PTC payload attestation messages from beacon API SSE (payload_attesta
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_payload_attestation`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_payload_attestation`
 
 ## beacon_api_eth_v1_events_proposer_preferences
 
@@ -1620,6 +1614,5 @@ Proposer preferences from beacon API SSE (proposer_preferences event).
 Available in the following devnet databases:
 
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_proposer_preferences`
-- **glamsterdam-devnet-9**: `glamsterdam-devnet-9`.`beacon_api_eth_v1_events_proposer_preferences`
 
 <!-- schema_end -->
