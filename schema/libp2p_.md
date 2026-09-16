@@ -78,8 +78,6 @@ Events without sharding keys:
 - [`libp2p_gossipsub_aggregate_and_proof`](#libp2p_gossipsub_aggregate_and_proof)
 - [`libp2p_connected`](#libp2p_connected)
 - [`libp2p_disconnected`](#libp2p_disconnected)
-- [`libp2p_add_peer`](#libp2p_add_peer)
-- [`libp2p_remove_peer`](#libp2p_remove_peer)
 - [`libp2p_recv_rpc`](#libp2p_recv_rpc)
 - [`libp2p_send_rpc`](#libp2p_send_rpc)
 - [`libp2p_drop_rpc`](#libp2p_drop_rpc)
@@ -841,177 +839,6 @@ echo """
 | **direction** | `LowCardinality(String)` | *Connection direction* |
 | **opened** | `DateTime` | *Timestamp when the connection was opened* |
 | **transient** | `Bool` | *Whether the connection is transient* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
-## libp2p_add_peer
-
-Contains the details of the peers added to the libp2p client.
-
-### Availability
-Data is partitioned **daily** on **event_date_time** for the following networks:
-
-- **mainnet**: `2024-04-24` to `2026-07-12`
-- **hoodi**: `2025-03-17` to `2026-06-29`
-- **sepolia**: `2024-04-22` to `2026-06-29`
-
-### Examples
-
-<details>
-<summary>Parquet file</summary>
-
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_add_peer/YYYY/MM/DD.parquet
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
-    SELECT
-        *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_add_peer/2026/7/12.parquet', 'Parquet')
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM default.libp2p_add_peer FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM default.libp2p_add_peer FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the event* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |
-| **protocol** | `LowCardinality(String)` | *Protocol used by the peer* |
-| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
-| **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
-| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
-| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client that generated the event* |
-| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client that generated the event* |
-| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client that generated the event* |
-| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client that generated the event* |
-| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client that generated the event* |
-| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client that generated the event* |
-| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client that generated the event* |
-| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client that generated the event* |
-| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
-| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
-| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
-## libp2p_remove_peer
-
-Contains the details of the peers removed from the libp2p client.
-
-### Availability
-Data is partitioned **daily** on **event_date_time** for the following networks:
-
-- **mainnet**: `2024-04-24` to `2026-07-12`
-- **hoodi**: `2025-03-17` to `2026-06-29`
-- **sepolia**: `2024-04-22` to `2026-06-29`
-
-### Examples
-
-<details>
-<summary>Parquet file</summary>
-
-> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_remove_peer/YYYY/MM/DD.parquet
-```bash
-docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
-    SELECT
-        *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_remove_peer/2026/7/12.parquet', 'Parquet')
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>Your Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
-    SELECT
-        *
-    FROM default.libp2p_remove_peer FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 10
-    FORMAT Pretty
-"""
-```
-</details>
-
-<details>
-<summary>EthPandaOps Clickhouse</summary>
-
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
-```bash
-echo """
-    SELECT
-        *
-    FROM default.libp2p_remove_peer FINAL
-    WHERE
-        event_date_time >= NOW() - INTERVAL '1 HOUR'
-    LIMIT 3
-    FORMAT Pretty
-""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
-```
-</details>
-
-### Columns
-| Name | Type | Description |
-|--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **event_date_time** | `DateTime64(3)` | *Timestamp of the event* |
-| **peer_id_unique_key** | `Int64` | *Unique key associated with the identifier of the peer* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client that generated the event* |
@@ -2790,7 +2617,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/8.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/9.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2999,6 +2826,7 @@ Builder bid gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`libp2p_gossipsub_execution_payload_bid`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_execution_payload_bid`
 
 ## libp2p_gossipsub_execution_payload_envelope
@@ -3010,6 +2838,7 @@ Execution payload envelope gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`libp2p_gossipsub_execution_payload_envelope`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_execution_payload_envelope`
 
 ## libp2p_gossipsub_payload_attestation_message
@@ -3021,6 +2850,7 @@ Individual PTC payload attestation messages from libp2p gossip (~512 per slot).
 ### Availability
 Available in the following devnet databases:
 
+- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`libp2p_gossipsub_payload_attestation_message`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_payload_attestation_message`
 
 ## libp2p_gossipsub_proposer_preferences
@@ -3032,6 +2862,7 @@ Proposer preferences gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`libp2p_gossipsub_proposer_preferences`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_proposer_preferences`
 
 <!-- schema_end -->

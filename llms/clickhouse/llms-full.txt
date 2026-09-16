@@ -2548,18 +2548,6 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet, hoodi, sepolia
 - **Description**: Table for libp2p disconnected events
 
-### `libp2p_add_peer`
-- **Database**: `default`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p add peer events
-
-### `libp2p_remove_peer`
-- **Database**: `default`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p remove peer events
-
 ### `libp2p_recv_rpc`
 - **Database**: `default`
 - **Partitioning**: `event_date_time` (datetime, daily)

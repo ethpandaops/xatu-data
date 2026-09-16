@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T20:42:21Z",
+  "generated_at": "2026-09-16T10:32:52Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -114,8 +114,6 @@
         "libp2p_gossipsub_aggregate_and_proof",
         "libp2p_connected",
         "libp2p_disconnected",
-        "libp2p_add_peer",
-        "libp2p_remove_peer",
         "libp2p_recv_rpc",
         "libp2p_send_rpc",
         "libp2p_drop_rpc",

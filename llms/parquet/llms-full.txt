@@ -323,16 +323,6 @@ head(df)
 - **Networks**: mainnet, hoodi, sepolia
 - **Description**: Table for libp2p disconnected events
 
-### `libp2p_add_peer`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p add peer events
-
-### `libp2p_remove_peer`
-- **Partitioning**: `event_date_time` (datetime, daily)
-- **Networks**: mainnet, hoodi, sepolia
-- **Description**: Table for libp2p remove peer events
-
 ### `libp2p_recv_rpc`
 - **Partitioning**: `event_date_time` (datetime, daily)
 - **Networks**: mainnet, hoodi, sepolia
