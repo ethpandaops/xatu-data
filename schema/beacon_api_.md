@@ -439,7 +439,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2025-05-14` to `2026-09-21`
 - **holesky**: `2025-05-14` to `2025-11-22`
-- **sepolia**: `2025-05-14` to `2026-09-21`
+- **sepolia**: `2025-05-14` to `2026-09-22`
 
 ### Examples
 
@@ -1547,7 +1547,6 @@ Execution payload envelope arrivals from beacon API SSE (execution_payload event
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_execution_payload`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload`
 
 ## beacon_api_eth_v1_events_execution_payload_available
@@ -1559,7 +1558,6 @@ Execution payload availability signals from beacon API SSE (execution_payload_av
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_execution_payload_available`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_available`
 
 ## beacon_api_eth_v1_events_execution_payload_bid
@@ -1571,7 +1569,6 @@ Builder bids from beacon API SSE (execution_payload_bid event).
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_execution_payload_bid`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_bid`
 
 ## beacon_api_eth_v1_events_execution_payload_gossip
@@ -1583,7 +1580,6 @@ Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (ex
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_execution_payload_gossip`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_gossip`
 
 ## beacon_api_eth_v1_events_head_v2
@@ -1595,7 +1591,6 @@ Contains beacon API eventstream "head_v2" data from each sentry client attached 
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_head_v2`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_head_v2`
 
 ## beacon_api_eth_v1_events_payload_attestation
@@ -1607,7 +1602,6 @@ Individual PTC payload attestation messages from beacon API SSE (payload_attesta
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_payload_attestation`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_payload_attestation`
 
 ## beacon_api_eth_v1_events_proposer_preferences
@@ -1619,7 +1613,6 @@ Proposer preferences from beacon API SSE (proposer_preferences event).
 ### Availability
 Available in the following devnet databases:
 
-- **glamsterdam-devnet-11**: `glamsterdam-devnet-11`.`beacon_api_eth_v1_events_proposer_preferences`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_proposer_preferences`
 
 <!-- schema_end -->
