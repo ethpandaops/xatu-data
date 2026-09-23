@@ -167,7 +167,7 @@ tables:
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-09-21'
+        to: '2026-09-22'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
