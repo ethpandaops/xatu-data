@@ -1223,6 +1223,7 @@ echo """
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_access_list`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_access_list`
 
 ## canonical_beacon_block_execution_payload_bid
@@ -1234,6 +1235,7 @@ Winning execution payload bid from canonical beacon blocks (1 per block).
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_execution_payload_bid`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_execution_payload_bid`
 
 ## canonical_beacon_block_payload_attestation
@@ -1245,6 +1247,7 @@ Aggregated PTC payload attestations from canonical beacon blocks (max 4 per bloc
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_payload_attestation`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_payload_attestation`
 
 <!-- schema_end -->

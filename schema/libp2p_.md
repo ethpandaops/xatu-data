@@ -2617,7 +2617,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/16.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/17.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2826,6 +2826,7 @@ Builder bid gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`libp2p_gossipsub_execution_payload_bid`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_execution_payload_bid`
 
 ## libp2p_gossipsub_execution_payload_envelope
@@ -2837,6 +2838,7 @@ Execution payload envelope gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`libp2p_gossipsub_execution_payload_envelope`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_execution_payload_envelope`
 
 ## libp2p_gossipsub_payload_attestation_message
@@ -2848,6 +2850,7 @@ Individual PTC payload attestation messages from libp2p gossip (~512 per slot).
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`libp2p_gossipsub_payload_attestation_message`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_payload_attestation_message`
 
 ## libp2p_gossipsub_proposer_preferences
@@ -2859,6 +2862,7 @@ Proposer preferences gossip propagation from libp2p.
 ### Availability
 Available in the following devnet databases:
 
+- **frames-devnet-0**: `frames-devnet-0`.`libp2p_gossipsub_proposer_preferences`
 - **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`libp2p_gossipsub_proposer_preferences`
 
 <!-- schema_end -->
