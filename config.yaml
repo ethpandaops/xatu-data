@@ -147,7 +147,7 @@ tables:
         to: '2026-06-02'
       sepolia:
         from: '2023-12-24'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -161,13 +161,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-14'
-        to: '2026-09-24'
+        to: '2026-09-25'
       holesky:
         from: '2025-05-14'
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
@@ -201,7 +201,7 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-09-24'
+        to: '2026-09-25'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
@@ -271,7 +271,7 @@ tables:
         to: '2026-06-02'
       sepolia:
         from: '2023-12-05'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
@@ -311,7 +311,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -413,7 +413,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
       - Finalized
@@ -434,7 +434,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
       - Finalized
@@ -596,7 +596,7 @@ tables:
     networks:
       mainnet:
         from: '2024-03-13'
-        to: '2026-09-24'
+        to: '2026-09-25'
       holesky:
         from: '2024-02-07'
         to: '2025-10-15'
@@ -644,7 +644,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-24'
+        to: '2026-09-25'
     tags:
       - Consensus layer
       - Finalized
