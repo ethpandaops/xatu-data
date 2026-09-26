@@ -1,4 +1,4 @@
-generated_at: "2026-09-26T10:31:29Z"
+generated_at: "2026-09-26T20:22:46Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: frames-devnet-0
