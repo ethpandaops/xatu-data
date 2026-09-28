@@ -37,7 +37,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2020-12-01` to `2026-09-26`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-26`
+- **sepolia**: `2022-06-20` to `2026-09-27`
 
 ### Examples
 
@@ -133,7 +133,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2020-12-01` to `2026-09-26`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-26`
+- **sepolia**: `2022-06-20` to `2026-09-27`
 
 ### Examples
 
@@ -803,9 +803,9 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2026-09-26`
+- **mainnet**: `2024-03-13` to `2026-09-27`
 - **holesky**: `2024-02-07` to `2025-10-15`
-- **sepolia**: `2024-01-30` to `2026-09-26`
+- **sepolia**: `2024-01-30` to `2026-09-27`
 
 ### Examples
 
@@ -817,7 +817,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2026/9/26.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2026/9/27.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -964,7 +964,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2020-12-01` to `2026-09-26`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-26`
+- **sepolia**: `2022-06-20` to `2026-09-27`
 
 ### Examples
 
