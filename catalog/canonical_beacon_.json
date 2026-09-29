@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T22:48:57Z",
+  "generated_at": "2026-09-29T11:53:43Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -25,7 +25,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -33,7 +33,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [
@@ -145,6 +145,36 @@
           "description": "Excess gas used for blobs in execution payload"
         },
         {
+          "name": "execution_payload_slot_number",
+          "type": "Nullable(UInt64)",
+          "description": ""
+        },
+        {
+          "name": "execution_payload_block_access_list_root",
+          "type": "Nullable(FixedString(66))",
+          "description": ""
+        },
+        {
+          "name": "builder_index",
+          "type": "Nullable(UInt64)",
+          "description": "Builder index from the bid (Gloas+)"
+        },
+        {
+          "name": "bid_value",
+          "type": "Nullable(UInt64)",
+          "description": "Bid value in Gwei (Gloas+)"
+        },
+        {
+          "name": "execution_payment",
+          "type": "Nullable(UInt64)",
+          "description": "Execution payment in Gwei (Gloas+)"
+        },
+        {
+          "name": "payload_present",
+          "type": "Nullable(Bool)",
+          "description": "Whether execution payload was delivered (Gloas+)"
+        },
+        {
           "name": "execution_payload_gas_limit",
           "type": "Nullable(UInt64)",
           "description": "Gas limit for execution payload"
@@ -198,7 +228,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -206,7 +236,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [
@@ -567,7 +597,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-28",
@@ -823,7 +853,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1009,7 +1039,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1017,7 +1047,7 @@
         },
         "sepolia": {
           "from": "2023-02-28",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [
@@ -1087,6 +1117,11 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "Ethereum network name"
+        },
+        {
+          "name": "withdrawal_type",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the withdrawal recipient (Gloas+: validator|builder, pre-Gloas: empty)"
         }
       ]
     },
@@ -1102,7 +1137,7 @@
       "networks": {
         "mainnet": {
           "from": "2024-03-13",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2024-02-07",
@@ -1110,7 +1145,7 @@
         },
         "sepolia": {
           "from": "2024-01-30",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [
@@ -1218,7 +1253,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [
@@ -1283,7 +1318,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1291,7 +1326,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-09-27"
+          "to": "2026-09-28"
         }
       },
       "tags": [

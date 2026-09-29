@@ -22,9 +22,6 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 - [`canonical_beacon_elaborated_attestation`](#canonical_beacon_elaborated_attestation)
 - [`canonical_beacon_validators`](#canonical_beacon_validators)
 - [`canonical_beacon_validators_pubkeys`](#canonical_beacon_validators_pubkeys)
-- [`canonical_beacon_block_access_list`](#canonical_beacon_block_access_list) 🧪 *Pre-release (Glamsterdam)*
-- [`canonical_beacon_block_execution_payload_bid`](#canonical_beacon_block_execution_payload_bid) 🧪 *Pre-release (Glamsterdam)*
-- [`canonical_beacon_block_payload_attestation`](#canonical_beacon_block_payload_attestation) 🧪 *Pre-release (Glamsterdam)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -35,9 +32,9 @@ Contains beacon block from a beacon node.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-27`
+- **sepolia**: `2022-06-20` to `2026-09-28`
 
 ### Examples
 
@@ -49,7 +46,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -115,6 +112,12 @@ echo """
 | **execution_payload_base_fee_per_gas** | `Nullable(UInt128)` | *Base fee per gas for execution payload* |
 | **execution_payload_blob_gas_used** | `Nullable(UInt64)` | *Gas used for blobs in execution payload* |
 | **execution_payload_excess_blob_gas** | `Nullable(UInt64)` | *Excess gas used for blobs in execution payload* |
+| **execution_payload_slot_number** | `Nullable(UInt64)` | ** |
+| **execution_payload_block_access_list_root** | `Nullable(FixedString(66))` | ** |
+| **builder_index** | `Nullable(UInt64)` | *Builder index from the bid (Gloas+)* |
+| **bid_value** | `Nullable(UInt64)` | *Bid value in Gwei (Gloas+)* |
+| **execution_payment** | `Nullable(UInt64)` | *Execution payment in Gwei (Gloas+)* |
+| **payload_present** | `Nullable(Bool)` | *Whether execution payload was delivered (Gloas+)* |
 | **execution_payload_gas_limit** | `Nullable(UInt64)` | *Gas limit for execution payload* |
 | **execution_payload_gas_used** | `Nullable(UInt64)` | *Gas used for execution payload* |
 | **execution_payload_state_root** | `Nullable(FixedString(66))` | *The state root of the execution payload* |
@@ -131,9 +134,9 @@ Contains canonical beacon API /eth/v1/beacon/committees data.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-27`
+- **sepolia**: `2022-06-20` to `2026-09-28`
 
 ### Examples
 
@@ -145,7 +148,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_committee/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -389,7 +392,7 @@ Contains bls to execution change from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2026-09-27`
+- **mainnet**: `2023-04-12` to `2026-09-28`
 - **holesky**: `2023-09-28` to `2025-05-09`
 - **sepolia**: `2022-06-22` to `2025-05-16`
 
@@ -403,7 +406,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_bls_to_execution_change/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -563,7 +566,7 @@ Contains a voluntary exit from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-23` to `2025-08-06`
 - **sepolia**: `2022-06-22` to `2025-10-22`
 
@@ -577,7 +580,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_voluntary_exit/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -723,9 +726,9 @@ Contains a withdrawal from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-04-12` to `2026-09-27`
+- **mainnet**: `2023-04-12` to `2026-09-28`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2023-02-28` to `2026-09-27`
+- **sepolia**: `2023-02-28` to `2026-09-28`
 
 ### Examples
 
@@ -737,7 +740,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_withdrawal/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -795,6 +798,7 @@ echo """
 | **withdrawal_address** | `FixedString(42)` | *The address of the account that is the withdrawal recipient* |
 | **withdrawal_amount** | `UInt128` | *The amount of the withdrawal from the withdrawal data* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **withdrawal_type** | `LowCardinality(String)` | *Classification of the withdrawal recipient (Gloas+: validator|builder, pre-Gloas: empty)* |
 
 ## canonical_beacon_blob_sidecar
 
@@ -803,9 +807,9 @@ Contains a blob sidecar from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-03-13` to `2026-09-27`
+- **mainnet**: `2024-03-13` to `2026-09-28`
 - **holesky**: `2024-02-07` to `2025-10-15`
-- **sepolia**: `2024-01-30` to `2026-09-27`
+- **sepolia**: `2024-01-30` to `2026-09-28`
 
 ### Examples
 
@@ -817,7 +821,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_blob_sidecar/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -888,7 +892,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2020-12-01` to `2026-09-27`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-27`
+- **sepolia**: `2022-06-20` to `2026-09-28`
 
 ### Examples
 
@@ -962,9 +966,9 @@ Contains elaborated attestations from beacon blocks.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-27`
+- **sepolia**: `2022-06-20` to `2026-09-28`
 
 ### Examples
 
@@ -976,7 +980,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_elaborated_attestation/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1213,41 +1217,5 @@ echo """
 | **index** | `UInt32` | *The index of the validator* |
 | **pubkey** | `String` | *The public key of the validator* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
-
-## canonical_beacon_block_access_list
-
-
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_access_list`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_access_list`
-
-## canonical_beacon_block_execution_payload_bid
-
-Winning execution payload bid from canonical beacon blocks (1 per block).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_execution_payload_bid`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_execution_payload_bid`
-
-## canonical_beacon_block_payload_attestation
-
-Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`canonical_beacon_block_payload_attestation`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`canonical_beacon_block_payload_attestation`
 
 <!-- schema_end -->

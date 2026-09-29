@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T22:48:57Z",
+  "generated_at": "2026-09-29T11:53:43Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -3748,6 +3748,773 @@
           "name": "transaction_count",
           "type": "UInt32",
           "description": "The number of transactions in the proposer payload"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) per-block execution payload facts: the winning bid commitment joined with what the revealed envelope actually contained, replacing the pre-gloas execution columns that no longer exist on the beacon block",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the block the payload belongs to"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The root of the beacon block the payload belongs to"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The beacon block version, e.g. gloas"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "Validator index of the builder, equal to the block proposer index for self-built payloads"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash of the payload"
+        },
+        {
+          "name": "parent_block_hash",
+          "type": "FixedString(66)",
+          "description": "The parent execution block hash"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The winning bid value in wei"
+        },
+        {
+          "name": "gas_limit",
+          "type": "UInt64",
+          "description": "The gas limit committed to in the bid"
+        },
+        {
+          "name": "blob_kzg_commitment_count",
+          "type": "UInt32",
+          "description": "Number of blob KZG commitments in the bid"
+        },
+        {
+          "name": "transactions_count",
+          "type": "UInt32",
+          "description": "Number of transactions in the revealed payload"
+        },
+        {
+          "name": "transactions_total_bytes",
+          "type": "UInt64",
+          "description": "Total bytes of transactions in the revealed payload"
+        },
+        {
+          "name": "transactions_total_gas_limit",
+          "type": "UInt64",
+          "description": "Sum of per-transaction gas limits in the revealed payload"
+        },
+        {
+          "name": "blob_transactions_count",
+          "type": "UInt32",
+          "description": "Number of type-3 blob transactions in the revealed payload"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_available_by_node",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "When each sentry node had the gloas (ePBS) execution payload and its blobs locally verified (PTC vote readiness)",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "available_slot_start_diff",
+          "type": "UInt32",
+          "description": "The time from slot start for the node to have the payload and its blobs locally verified"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root whose payload became available"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_bid",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "The winning gloas (ePBS) execution payload bid committed in each canonical beacon block, one per block",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the block containing the bid"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The root of the beacon block containing the bid"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The beacon block version, e.g. gloas"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "Validator index of the builder, equal to the block proposer index for self-built payloads"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash committed to in the bid"
+        },
+        {
+          "name": "parent_block_hash",
+          "type": "FixedString(66)",
+          "description": "The parent execution block hash"
+        },
+        {
+          "name": "parent_block_root",
+          "type": "FixedString(66)",
+          "description": "The parent beacon block root"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The bid value in wei"
+        },
+        {
+          "name": "execution_payment",
+          "type": "UInt128",
+          "description": "The execution payment in wei"
+        },
+        {
+          "name": "fee_recipient",
+          "type": "FixedString(42)",
+          "description": "The fee recipient address"
+        },
+        {
+          "name": "gas_limit",
+          "type": "UInt64",
+          "description": "The gas limit for the execution payload"
+        },
+        {
+          "name": "blob_kzg_commitment_count",
+          "type": "UInt32",
+          "description": "Number of blob KZG commitments in the bid"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_first_seen_by_node",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "When the gloas (ePBS) execution payload envelope was first seen by each sentry node, across the beacon API event stream and libp2p gossip",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "source",
+          "type": "LowCardinality(String)",
+          "description": "Source of the event"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "The time from slot start for the client to see the execution payload envelope"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root the envelope references"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash of the payload"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "Index of the builder that produced the payload"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the client"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client version"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum consensus client implementation"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_ptc_vote",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) Payload Timeliness Committee verdict per attested block: canonical on-chain aggregates unioned with orphaned blocks only seen on the live stream",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The attested slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the attested slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the attested slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root being attested by the PTC"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The beacon block version of the containing block, empty for orphaned rows and for canonical blocks whose votes were never included"
+        },
+        {
+          "name": "included_in_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Slot of the canonical block that included the payload attestations, null for orphaned rows and for canonical blocks whose votes were never included"
+        },
+        {
+          "name": "included_in_block_root",
+          "type": "Nullable(String)",
+          "description": "Root of the canonical block that included the payload attestations, null for orphaned rows and for canonical blocks whose votes were never included"
+        },
+        {
+          "name": "ptc_validators",
+          "type": "UInt32",
+          "description": "Total PTC validators covered: on-chain aggregate counts for canonical rows, distinct validators seen on the live stream for orphaned rows"
+        },
+        {
+          "name": "payload_present_votes",
+          "type": "UInt32",
+          "description": "PTC validators attesting the payload was present"
+        },
+        {
+          "name": "blob_data_available_votes",
+          "type": "UInt32",
+          "description": "PTC validators attesting blob data was available"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Whether the attested block is canonical or orphaned"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_ptc_vote_head",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) Payload Timeliness Committee votes per attested block, observed on the live beacon API event stream. Available at head without waiting for finalization.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The attested slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the attested slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the attested slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root being attested by the PTC"
+        },
+        {
+          "name": "ptc_validators_seen",
+          "type": "UInt32",
+          "description": "Distinct PTC validators whose payload attestation was seen on the live event stream"
+        },
+        {
+          "name": "payload_present_votes",
+          "type": "UInt32",
+          "description": "Distinct PTC validators attesting the payload was present"
+        },
+        {
+          "name": "blob_data_available_votes",
+          "type": "UInt32",
+          "description": "Distinct PTC validators attesting blob data was available"
+        },
+        {
+          "name": "first_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Time from slot start that the first payload attestation was seen in ms"
+        },
+        {
+          "name": "last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Time from slot start that the last payload attestation was seen in ms"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_status_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) hourly payload delivery outcomes judged by the PTC, for delivery-rate charts",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "PTC verdict bucket: delivered or absent"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Number of blocks with this payload outcome in the hour"
         }
       ]
     },
@@ -9362,6 +10129,249 @@
       ]
     },
     {
+      "name": "fct_payload_attestation_first_seen_chunked_50ms",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) PTC payload attestation arrivals broken down by 50ms chunks, deduplicated per validator at earliest observation across sentries. Only includes messages seen within 12000ms of the slot start time",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The attested slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the attested slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the attested slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root being attested by the PTC"
+        },
+        {
+          "name": "chunk_slot_start_diff",
+          "type": "UInt32",
+          "description": "The difference between the chunk start time and slot_start_date_time. \"9000\" would mean this chunk contains payload attestations first seen between 9000ms and 9050ms into the slot"
+        },
+        {
+          "name": "attestation_count",
+          "type": "UInt32",
+          "description": "The number of PTC validators first seen in this chunk"
+        }
+      ]
+    },
+    {
+      "name": "fct_payload_bid_highest_value_by_builder_chunked_50ms",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Highest value gloas (ePBS) builder bid per slot broken down by 50ms chunks, sourced from builder bids observed on the beacon API event stream across sentries. Only includes bids within -12000ms to +12000ms of slot start time",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number the bid targets"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the slot that the bid is for"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number derived from the slot that the bid is for"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the epoch that the bid is for"
+        },
+        {
+          "name": "chunk_slot_start_diff",
+          "type": "Int32",
+          "description": "The difference between the chunk start time and slot_start_date_time. \"1500\" would mean the earliest observation of this bid was between 1500ms and 1550ms into the slot. Negative values indicate bids received before slot start"
+        },
+        {
+          "name": "earliest_bid_date_time",
+          "type": "DateTime64(3)",
+          "description": "The timestamp of the earliest observation of the highest-value bid in this chunk"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash committed to in the bid"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "Validator index of the builder that produced the bid"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The bid value in wei"
+        },
+        {
+          "name": "execution_payment",
+          "type": "UInt128",
+          "description": "The execution payment in wei"
+        },
+        {
+          "name": "fee_recipient",
+          "type": "FixedString(42)",
+          "description": "The fee recipient address of the bid"
+        }
+      ]
+    },
+    {
+      "name": "fct_payload_bid_highest_value_chunked_50ms",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) auction frontier: the single best builder bid per slot per 50ms chunk across all builders. Bounded by the chunk grid regardless of builder count. Only includes bids within -12000ms to +12000ms of slot start time",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number the bid targets"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the slot that the bid is for"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number derived from the slot that the bid is for"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The start time for the epoch that the bid is for"
+        },
+        {
+          "name": "chunk_slot_start_diff",
+          "type": "Int32",
+          "description": "The difference between the chunk start time and slot_start_date_time. Negative values indicate bids received before slot start"
+        },
+        {
+          "name": "earliest_bid_date_time",
+          "type": "DateTime64(3)",
+          "description": "The timestamp of the earliest observation of the leading bid in this chunk"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash committed to in the leading bid"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "Validator index of the builder leading this chunk"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The best bid value across all builders in this chunk, in wei"
+        }
+      ]
+    },
+    {
       "name": "fct_prepared_block",
       "database": "cbt",
       "cbt_table": true,
@@ -12275,6 +13285,97 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "The name of the network"
+        }
+      ]
+    },
+    {
+      "name": "int_block_payload_ptc_vote_canonical",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) Payload Timeliness Committee votes per attested block, from aggregates included in canonical beacon blocks",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The attested slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the attested slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the attested slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root being attested by the PTC"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The beacon block version of the containing block, empty when no votes were included"
+        },
+        {
+          "name": "included_in_slot",
+          "type": "UInt32",
+          "description": "Slot of the canonical block that included the payload attestations, 0 when no votes were included"
+        },
+        {
+          "name": "included_in_block_root",
+          "type": "String",
+          "description": "Root of the canonical block that included the payload attestations, empty when no votes were included"
+        },
+        {
+          "name": "ptc_validators",
+          "type": "UInt32",
+          "description": "Total PTC validators covered by the included payload attestation aggregates"
+        },
+        {
+          "name": "payload_present_votes",
+          "type": "UInt32",
+          "description": "PTC validators attesting the payload was present"
+        },
+        {
+          "name": "blob_data_available_votes",
+          "type": "UInt32",
+          "description": "PTC validators attesting blob data was available"
         }
       ]
     },

@@ -11,7 +11,8 @@ CREATE TABLE default.canonical_beacon_block_withdrawal_local
     `withdrawal_validator_index` UInt32 COMMENT 'The validator index from the withdrawal data' CODEC(ZSTD(1)),
     `withdrawal_address` FixedString(42) COMMENT 'The address of the account that is the withdrawal recipient' CODEC(ZSTD(1)),
     `withdrawal_amount` UInt128 COMMENT 'The amount of the withdrawal from the withdrawal data' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `withdrawal_type` LowCardinality(String) DEFAULT '' COMMENT 'Classification of the withdrawal recipient (Gloas+: validator|builder, pre-Gloas: empty)' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_beacon_block_withdrawal_local', '{replica}', updated_date_time)
 PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))

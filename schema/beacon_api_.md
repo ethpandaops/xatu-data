@@ -23,13 +23,6 @@ Events derived from the Beacon API event stream. This data is usually useful for
 - [`beacon_api_eth_v2_beacon_block`](#beacon_api_eth_v2_beacon_block)
 - [`beacon_api_eth_v1_proposer_duty`](#beacon_api_eth_v1_proposer_duty)
 - [`beacon_api_eth_v3_validator_block`](#beacon_api_eth_v3_validator_block)
-- [`beacon_api_eth_v1_events_execution_payload`](#beacon_api_eth_v1_events_execution_payload) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_execution_payload_available`](#beacon_api_eth_v1_events_execution_payload_available) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_execution_payload_bid`](#beacon_api_eth_v1_events_execution_payload_bid) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_execution_payload_gossip`](#beacon_api_eth_v1_events_execution_payload_gossip) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_head_v2`](#beacon_api_eth_v1_events_head_v2) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_payload_attestation`](#beacon_api_eth_v1_events_payload_attestation) 🧪 *Pre-release (Glamsterdam)*
-- [`beacon_api_eth_v1_events_proposer_preferences`](#beacon_api_eth_v1_events_proposer_preferences) 🧪 *Pre-release (Glamsterdam)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -341,9 +334,9 @@ Contains beacon API eventstream "block" data from each sentry client attached to
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2020-12-02` to `2026-06-02`
-- **sepolia**: `2023-12-24` to `2026-09-27`
+- **sepolia**: `2023-12-24` to `2026-09-28`
 
 ### Examples
 
@@ -355,7 +348,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -437,9 +430,9 @@ Contains beacon API eventstream "block_gossip" data from each sentry client atta
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2025-05-14` to `2026-09-27`
+- **mainnet**: `2025-05-14` to `2026-09-28`
 - **holesky**: `2025-05-14` to `2025-11-22`
-- **sepolia**: `2025-05-14` to `2026-09-27`
+- **sepolia**: `2025-05-14` to `2026-09-28`
 
 ### Examples
 
@@ -451,7 +444,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block_gossip/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_block_gossip/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -532,9 +525,9 @@ Contains beacon API eventstream "chain reorg" data from each sentry client attac
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-03-01` to `2026-09-27`
+- **mainnet**: `2023-03-01` to `2026-09-28`
 - **holesky**: `2024-02-05` to `2026-06-02`
-- **sepolia**: `2023-12-30` to `2026-09-27`
+- **sepolia**: `2023-12-30` to `2026-09-28`
 
 ### Examples
 
@@ -546,7 +539,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_chain_reorg/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -632,9 +625,9 @@ Contains beacon API eventstream "contribution and proof" data from each sentry c
 ### Availability
 Data is partitioned **daily** on **contribution_slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2026-09-27`
+- **mainnet**: `2023-08-31` to `2026-09-28`
 - **holesky**: `2023-12-24` to `2025-10-26`
-- **sepolia**: `2023-12-24` to `2026-09-27`
+- **sepolia**: `2023-12-24` to `2026-09-28`
 
 ### Examples
 
@@ -646,7 +639,7 @@ Data is partitioned **daily** on **contribution_slot_start_date_time** for the f
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_contribution_and_proof/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -736,10 +729,10 @@ Contains beacon API eventstream "data_column_sidecar" data from each sentry clie
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2025-12-03` to `2026-09-27`
+- **mainnet**: `2025-12-03` to `2026-09-28`
 - **holesky**: `2025-10-01` to `2025-11-09`
-- **hoodi**: `2025-10-28` to `2026-09-27`
-- **sepolia**: `2025-10-14` to `2026-09-27`
+- **hoodi**: `2025-10-28` to `2026-09-28`
+- **sepolia**: `2025-10-14` to `2026-09-28`
 
 ### Examples
 
@@ -751,7 +744,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_data_column_sidecar/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_data_column_sidecar/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -836,7 +829,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 
 - **mainnet**: `2020-12-01` to `2026-09-27`
 - **holesky**: `2023-03-26` to `2026-06-02`
-- **sepolia**: `2023-03-26` to `2026-09-27`
+- **sepolia**: `2023-03-26` to `2026-09-28`
 
 ### Examples
 
@@ -928,9 +921,9 @@ Contains beacon API eventstream "head" data from each sentry client attached to 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-12-05` to `2026-06-02`
-- **sepolia**: `2023-12-05` to `2026-09-27`
+- **sepolia**: `2023-12-05` to `2026-09-28`
 
 ### Examples
 
@@ -942,7 +935,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1027,7 +1020,7 @@ Contains beacon API eventstream "voluntary exit" data from each sentry client at
 ### Availability
 Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-28` to `2025-08-12`
 - **sepolia**: `2023-10-01` to `null`
 
@@ -1041,7 +1034,7 @@ Data is partitioned **daily** on **wallclock_epoch_start_date_time** for the fol
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_voluntary_exit/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1124,9 +1117,9 @@ Contains beacon API validator attestation data from each sentry client attached 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-08-31` to `2026-09-27`
+- **mainnet**: `2023-08-31` to `2026-09-28`
 - **holesky**: `2023-12-24` to `2025-10-26`
-- **sepolia**: `2023-12-24` to `2026-09-27`
+- **sepolia**: `2023-12-24` to `2026-09-28`
 
 ### Examples
 
@@ -1138,7 +1131,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_validator_attestation_data/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1228,9 +1221,9 @@ Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry clien
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-09-27`
+- **mainnet**: `2020-12-01` to `2026-09-28`
 - **holesky**: `2023-09-28` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-09-27`
+- **sepolia**: `2022-06-20` to `2026-09-28`
 
 ### Examples
 
@@ -1242,7 +1235,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v2_beacon_block/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1309,6 +1302,11 @@ echo """
 | **execution_payload_base_fee_per_gas** | `Nullable(UInt128)` | *Base fee per gas for execution payload* |
 | **execution_payload_blob_gas_used** | `Nullable(UInt64)` | *Gas used for blobs in execution payload* |
 | **execution_payload_excess_blob_gas** | `Nullable(UInt64)` | *Excess gas used for blobs in execution payload* |
+| **execution_payload_slot_number** | `Nullable(UInt64)` | ** |
+| **builder_index** | `Nullable(UInt64)` | *Builder index from the bid (Gloas+)* |
+| **bid_value** | `Nullable(UInt64)` | *Bid value in Gwei (Gloas+)* |
+| **execution_payment** | `Nullable(UInt64)` | *Execution payment in Gwei (Gloas+)* |
+| **payload_present** | `Nullable(Bool)` | *Whether execution payload was delivered (Gloas+)* |
 | **execution_payload_gas_limit** | `Nullable(UInt64)` | *Gas limit for execution payload* |
 | **execution_payload_gas_used** | `Nullable(UInt64)` | *Gas used for execution payload* |
 | **execution_payload_state_root** | `FixedString(66)` | *The state root of the execution payload* |
@@ -1343,9 +1341,9 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-04-03` to `2026-09-27`
+- **mainnet**: `2024-04-03` to `2026-09-28`
 - **holesky**: `2024-04-03` to `2025-10-26`
-- **sepolia**: `2024-04-03` to `2026-09-27`
+- **sepolia**: `2024-04-03` to `2026-09-28`
 
 ### Examples
 
@@ -1357,7 +1355,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2026/9/27.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_proposer_duty/2026/9/28.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1537,89 +1535,5 @@ echo """
 | **meta_consensus_version_minor** | `LowCardinality(String)` | *Ethereum consensus client minor version that generated the event* |
 | **meta_consensus_version_patch** | `LowCardinality(String)` | *Ethereum consensus client patch version that generated the event* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation that generated the event* |
-
-## beacon_api_eth_v1_events_execution_payload
-
-Execution payload envelope arrivals from beacon API SSE (execution_payload event, fires on import into fork-choice).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_execution_payload`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload`
-
-## beacon_api_eth_v1_events_execution_payload_available
-
-Execution payload availability signals from beacon API SSE (execution_payload_available event, fires when payload+blobs are locally verified for PTC vote).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_execution_payload_available`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_available`
-
-## beacon_api_eth_v1_events_execution_payload_bid
-
-Builder bids from beacon API SSE (execution_payload_bid event).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_execution_payload_bid`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_bid`
-
-## beacon_api_eth_v1_events_execution_payload_gossip
-
-Execution payload envelope first-seen-on-gossip arrivals from beacon API SSE (execution_payload_gossip event, fires before import).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_execution_payload_gossip`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_execution_payload_gossip`
-
-## beacon_api_eth_v1_events_head_v2
-
-Contains beacon API eventstream "head_v2" data from each sentry client attached to a beacon node.
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_head_v2`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_head_v2`
-
-## beacon_api_eth_v1_events_payload_attestation
-
-Individual PTC payload attestation messages from beacon API SSE (payload_attestation_message event, ~512 per slot).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_payload_attestation`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_payload_attestation`
-
-## beacon_api_eth_v1_events_proposer_preferences
-
-Proposer preferences from beacon API SSE (proposer_preferences event).
-
-> 🧪 **Pre-release** — introduced by the **Glamsterdam** upgrade (`gloas`). Not yet merged to xatu master and not available on production networks. See the [Glamsterdam page](/data/xatu/forks/glamsterdam/) for the full schema and query examples.
-
-### Availability
-Available in the following devnet databases:
-
-- **frames-devnet-0**: `frames-devnet-0`.`beacon_api_eth_v1_events_proposer_preferences`
-- **glamsterdam-devnet-8**: `glamsterdam-devnet-8`.`beacon_api_eth_v1_events_proposer_preferences`
 
 <!-- schema_end -->

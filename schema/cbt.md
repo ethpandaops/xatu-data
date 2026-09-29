@@ -57,6 +57,13 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
+- [`fct_block_payload`](#fct_block_payload)
+- [`fct_block_payload_available_by_node`](#fct_block_payload_available_by_node)
+- [`fct_block_payload_bid`](#fct_block_payload_bid)
+- [`fct_block_payload_first_seen_by_node`](#fct_block_payload_first_seen_by_node)
+- [`fct_block_payload_ptc_vote`](#fct_block_payload_ptc_vote)
+- [`fct_block_payload_ptc_vote_head`](#fct_block_payload_ptc_vote_head)
+- [`fct_block_payload_status_hourly`](#fct_block_payload_status_hourly)
 - [`fct_block_proposal_status_daily`](#fct_block_proposal_status_daily)
 - [`fct_block_proposal_status_hourly`](#fct_block_proposal_status_hourly)
 - [`fct_block_proposer`](#fct_block_proposer)
@@ -117,6 +124,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_opcode_gas_by_opcode_hourly`](#fct_opcode_gas_by_opcode_hourly)
 - [`fct_opcode_ops_daily`](#fct_opcode_ops_daily)
 - [`fct_opcode_ops_hourly`](#fct_opcode_ops_hourly)
+- [`fct_payload_attestation_first_seen_chunked_50ms`](#fct_payload_attestation_first_seen_chunked_50ms)
+- [`fct_payload_bid_highest_value_by_builder_chunked_50ms`](#fct_payload_bid_highest_value_by_builder_chunked_50ms)
+- [`fct_payload_bid_highest_value_chunked_50ms`](#fct_payload_bid_highest_value_chunked_50ms)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_proposer_reward_daily`](#fct_proposer_reward_daily)
 - [`fct_proposer_reward_hourly`](#fct_proposer_reward_hourly)
@@ -154,6 +164,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_block_canonical`](#int_block_canonical)
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
 - [`int_block_opcode_gas`](#int_block_opcode_gas)
+- [`int_block_payload_ptc_vote_canonical`](#int_block_payload_ptc_vote_canonical)
 - [`int_block_proposer_canonical`](#int_block_proposer_canonical)
 - [`int_block_receipt_size`](#int_block_receipt_size)
 - [`int_block_resource_gas`](#int_block_resource_gas)
@@ -2753,6 +2764,480 @@ echo """
 | **gas_used** | `UInt64` | *The gas used of the proposer payload* |
 | **value** | `Nullable(UInt128)` | *The transaction value in wei* |
 | **transaction_count** | `UInt32` | *The number of transactions in the proposer payload* |
+
+## fct_block_payload
+
+Gloas (ePBS) per-block execution payload facts: the winning bid commitment joined with what the revealed envelope actually contained, replacing the pre-gloas execution columns that no longer exist on the beacon block
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload`
+- **sepolia**: `sepolia.fct_block_payload`
+- **holesky**: `holesky.fct_block_payload`
+- **hoodi**: `hoodi.fct_block_payload`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the block the payload belongs to* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The root of the beacon block the payload belongs to* |
+| **block_version** | `LowCardinality(String)` | *The beacon block version, e.g. gloas* |
+| **builder_index** | `UInt64` | *Validator index of the builder, equal to the block proposer index for self-built payloads* |
+| **block_hash** | `FixedString(66)` | *The execution block hash of the payload* |
+| **parent_block_hash** | `FixedString(66)` | *The parent execution block hash* |
+| **value** | `UInt128` | *The winning bid value in wei* |
+| **gas_limit** | `UInt64` | *The gas limit committed to in the bid* |
+| **blob_kzg_commitment_count** | `UInt32` | *Number of blob KZG commitments in the bid* |
+| **transactions_count** | `UInt32` | *Number of transactions in the revealed payload* |
+| **transactions_total_bytes** | `UInt64` | *Total bytes of transactions in the revealed payload* |
+| **transactions_total_gas_limit** | `UInt64` | *Sum of per-transaction gas limits in the revealed payload* |
+| **blob_transactions_count** | `UInt32` | *Number of type-3 blob transactions in the revealed payload* |
+
+## fct_block_payload_available_by_node
+
+When each sentry node had the gloas (ePBS) execution payload and its blobs locally verified (PTC vote readiness)
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_available_by_node`
+- **sepolia**: `sepolia.fct_block_payload_available_by_node`
+- **holesky**: `holesky.fct_block_payload_available_by_node`
+- **hoodi**: `hoodi.fct_block_payload_available_by_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_available_by_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_available_by_node_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **available_slot_start_diff** | `UInt32` | *The time from slot start for the node to have the payload and its blobs locally verified* |
+| **block_root** | `String` | *The beacon block root whose payload became available* |
+| **username** | `LowCardinality(String)` | *Username of the node* |
+| **node_id** | `String` | *ID of the node* |
+| **classification** | `LowCardinality(String)` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_block_payload_bid
+
+The winning gloas (ePBS) execution payload bid committed in each canonical beacon block, one per block
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_bid`
+- **sepolia**: `sepolia.fct_block_payload_bid`
+- **holesky**: `holesky.fct_block_payload_bid`
+- **hoodi**: `hoodi.fct_block_payload_bid`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_bid FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_bid_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the block containing the bid* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The root of the beacon block containing the bid* |
+| **block_version** | `LowCardinality(String)` | *The beacon block version, e.g. gloas* |
+| **builder_index** | `UInt64` | *Validator index of the builder, equal to the block proposer index for self-built payloads* |
+| **block_hash** | `FixedString(66)` | *The execution block hash committed to in the bid* |
+| **parent_block_hash** | `FixedString(66)` | *The parent execution block hash* |
+| **parent_block_root** | `FixedString(66)` | *The parent beacon block root* |
+| **value** | `UInt128` | *The bid value in wei* |
+| **execution_payment** | `UInt128` | *The execution payment in wei* |
+| **fee_recipient** | `FixedString(42)` | *The fee recipient address* |
+| **gas_limit** | `UInt64` | *The gas limit for the execution payload* |
+| **blob_kzg_commitment_count** | `UInt32` | *Number of blob KZG commitments in the bid* |
+
+## fct_block_payload_first_seen_by_node
+
+When the gloas (ePBS) execution payload envelope was first seen by each sentry node, across the beacon API event stream and libp2p gossip
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_first_seen_by_node`
+- **sepolia**: `sepolia.fct_block_payload_first_seen_by_node`
+- **holesky**: `holesky.fct_block_payload_first_seen_by_node`
+- **hoodi**: `hoodi.fct_block_payload_first_seen_by_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_first_seen_by_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_first_seen_by_node_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **source** | `LowCardinality(String)` | *Source of the event* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **seen_slot_start_diff** | `UInt32` | *The time from slot start for the client to see the execution payload envelope* |
+| **block_root** | `String` | *The beacon block root the envelope references* |
+| **block_hash** | `FixedString(66)` | *The execution block hash of the payload* |
+| **builder_index** | `UInt64` | *Index of the builder that produced the payload* |
+| **username** | `LowCardinality(String)` | *Username of the node* |
+| **node_id** | `String` | *ID of the node* |
+| **classification** | `LowCardinality(String)` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_block_payload_ptc_vote
+
+Gloas (ePBS) Payload Timeliness Committee verdict per attested block: canonical on-chain aggregates unioned with orphaned blocks only seen on the live stream
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_ptc_vote`
+- **sepolia**: `sepolia.fct_block_payload_ptc_vote`
+- **holesky**: `holesky.fct_block_payload_ptc_vote`
+- **hoodi**: `hoodi.fct_block_payload_ptc_vote`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_ptc_vote FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_ptc_vote_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The attested slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the attested slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the attested slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root being attested by the PTC* |
+| **block_version** | `LowCardinality(String)` | *The beacon block version of the containing block, empty for orphaned rows and for canonical blocks whose votes were never included* |
+| **included_in_slot** | `Nullable(UInt32)` | *Slot of the canonical block that included the payload attestations, null for orphaned rows and for canonical blocks whose votes were never included* |
+| **included_in_block_root** | `Nullable(String)` | *Root of the canonical block that included the payload attestations, null for orphaned rows and for canonical blocks whose votes were never included* |
+| **ptc_validators** | `UInt32` | *Total PTC validators covered: on-chain aggregate counts for canonical rows, distinct validators seen on the live stream for orphaned rows* |
+| **payload_present_votes** | `UInt32` | *PTC validators attesting the payload was present* |
+| **blob_data_available_votes** | `UInt32` | *PTC validators attesting blob data was available* |
+| **status** | `LowCardinality(String)` | *Whether the attested block is canonical or orphaned* |
+
+## fct_block_payload_ptc_vote_head
+
+Gloas (ePBS) Payload Timeliness Committee votes per attested block, observed on the live beacon API event stream. Available at head without waiting for finalization.
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_ptc_vote_head`
+- **sepolia**: `sepolia.fct_block_payload_ptc_vote_head`
+- **holesky**: `holesky.fct_block_payload_ptc_vote_head`
+- **hoodi**: `hoodi.fct_block_payload_ptc_vote_head`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_ptc_vote_head FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_ptc_vote_head_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The attested slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the attested slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the attested slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root being attested by the PTC* |
+| **ptc_validators_seen** | `UInt32` | *Distinct PTC validators whose payload attestation was seen on the live event stream* |
+| **payload_present_votes** | `UInt32` | *Distinct PTC validators attesting the payload was present* |
+| **blob_data_available_votes** | `UInt32` | *Distinct PTC validators attesting blob data was available* |
+| **first_seen_slot_start_diff** | `UInt32` | *Time from slot start that the first payload attestation was seen in ms* |
+| **last_seen_slot_start_diff** | `UInt32` | *Time from slot start that the last payload attestation was seen in ms* |
+
+## fct_block_payload_status_hourly
+
+Gloas (ePBS) hourly payload delivery outcomes judged by the PTC, for delivery-rate charts
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_status_hourly`
+- **sepolia**: `sepolia.fct_block_payload_status_hourly`
+- **holesky**: `holesky.fct_block_payload_status_hourly`
+- **hoodi**: `hoodi.fct_block_payload_status_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_status_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_status_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour* |
+| **status** | `LowCardinality(String)` | *PTC verdict bucket: delivered or absent* |
+| **slot_count** | `UInt32` | *Number of blocks with this payload outcome in the hour* |
 
 ## fct_block_proposal_status_daily
 
@@ -6624,6 +7109,192 @@ echo """
 | **lower_band_ops** | `Float32` | *Lower Bollinger band (avg - 2*stddev)* |
 | **moving_avg_ops** | `Float32` | *Moving average ops/sec (6-hour window)* |
 
+## fct_payload_attestation_first_seen_chunked_50ms
+
+Gloas (ePBS) PTC payload attestation arrivals broken down by 50ms chunks, deduplicated per validator at earliest observation across sentries. Only includes messages seen within 12000ms of the slot start time
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_payload_attestation_first_seen_chunked_50ms`
+- **sepolia**: `sepolia.fct_payload_attestation_first_seen_chunked_50ms`
+- **holesky**: `holesky.fct_payload_attestation_first_seen_chunked_50ms`
+- **hoodi**: `hoodi.fct_payload_attestation_first_seen_chunked_50ms`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_payload_attestation_first_seen_chunked_50ms FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_payload_attestation_first_seen_chunked_50ms_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The attested slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the attested slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the attested slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root being attested by the PTC* |
+| **chunk_slot_start_diff** | `UInt32` | *The difference between the chunk start time and slot_start_date_time. "9000" would mean this chunk contains payload attestations first seen between 9000ms and 9050ms into the slot* |
+| **attestation_count** | `UInt32` | *The number of PTC validators first seen in this chunk* |
+
+## fct_payload_bid_highest_value_by_builder_chunked_50ms
+
+Highest value gloas (ePBS) builder bid per slot broken down by 50ms chunks, sourced from builder bids observed on the beacon API event stream across sentries. Only includes bids within -12000ms to +12000ms of slot start time
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_payload_bid_highest_value_by_builder_chunked_50ms`
+- **sepolia**: `sepolia.fct_payload_bid_highest_value_by_builder_chunked_50ms`
+- **holesky**: `holesky.fct_payload_bid_highest_value_by_builder_chunked_50ms`
+- **hoodi**: `hoodi.fct_payload_bid_highest_value_by_builder_chunked_50ms`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_payload_bid_highest_value_by_builder_chunked_50ms FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_payload_bid_highest_value_by_builder_chunked_50ms_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *Slot number the bid targets* |
+| **slot_start_date_time** | `DateTime` | *The start time for the slot that the bid is for* |
+| **epoch** | `UInt32` | *Epoch number derived from the slot that the bid is for* |
+| **epoch_start_date_time** | `DateTime` | *The start time for the epoch that the bid is for* |
+| **chunk_slot_start_diff** | `Int32` | *The difference between the chunk start time and slot_start_date_time. "1500" would mean the earliest observation of this bid was between 1500ms and 1550ms into the slot. Negative values indicate bids received before slot start* |
+| **earliest_bid_date_time** | `DateTime64(3)` | *The timestamp of the earliest observation of the highest-value bid in this chunk* |
+| **block_hash** | `FixedString(66)` | *The execution block hash committed to in the bid* |
+| **builder_index** | `UInt64` | *Validator index of the builder that produced the bid* |
+| **value** | `UInt128` | *The bid value in wei* |
+| **execution_payment** | `UInt128` | *The execution payment in wei* |
+| **fee_recipient** | `FixedString(42)` | *The fee recipient address of the bid* |
+
+## fct_payload_bid_highest_value_chunked_50ms
+
+Gloas (ePBS) auction frontier: the single best builder bid per slot per 50ms chunk across all builders. Bounded by the chunk grid regardless of builder count. Only includes bids within -12000ms to +12000ms of slot start time
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_payload_bid_highest_value_chunked_50ms`
+- **sepolia**: `sepolia.fct_payload_bid_highest_value_chunked_50ms`
+- **holesky**: `holesky.fct_payload_bid_highest_value_chunked_50ms`
+- **hoodi**: `hoodi.fct_payload_bid_highest_value_chunked_50ms`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_payload_bid_highest_value_chunked_50ms FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_payload_bid_highest_value_chunked_50ms_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *Slot number the bid targets* |
+| **slot_start_date_time** | `DateTime` | *The start time for the slot that the bid is for* |
+| **epoch** | `UInt32` | *Epoch number derived from the slot that the bid is for* |
+| **epoch_start_date_time** | `DateTime` | *The start time for the epoch that the bid is for* |
+| **chunk_slot_start_diff** | `Int32` | *The difference between the chunk start time and slot_start_date_time. Negative values indicate bids received before slot start* |
+| **earliest_bid_date_time** | `DateTime64(3)` | *The timestamp of the earliest observation of the leading bid in this chunk* |
+| **block_hash** | `FixedString(66)` | *The execution block hash committed to in the leading bid* |
+| **builder_index** | `UInt64` | *Validator index of the builder leading this chunk* |
+| **value** | `UInt128` | *The best bid value across all builders in this chunk, in wei* |
+
 ## fct_prepared_block
 
 Prepared block proposals showing what would have been built if the validator had been selected as proposer
@@ -8901,6 +9572,70 @@ echo """
 | **gas** | `UInt64` | *Total gas consumed by this opcode across all transactions in the block* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error across all transactions* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_block_payload_ptc_vote_canonical
+
+Gloas (ePBS) Payload Timeliness Committee votes per attested block, from aggregates included in canonical beacon blocks
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_payload_ptc_vote_canonical`
+- **sepolia**: `sepolia.int_block_payload_ptc_vote_canonical`
+- **holesky**: `holesky.int_block_payload_ptc_vote_canonical`
+- **hoodi**: `hoodi.int_block_payload_ptc_vote_canonical`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_payload_ptc_vote_canonical FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_payload_ptc_vote_canonical_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The attested slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the attested slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the attested slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root being attested by the PTC* |
+| **block_version** | `LowCardinality(String)` | *The beacon block version of the containing block, empty when no votes were included* |
+| **included_in_slot** | `UInt32` | *Slot of the canonical block that included the payload attestations, 0 when no votes were included* |
+| **included_in_block_root** | `String` | *Root of the canonical block that included the payload attestations, empty when no votes were included* |
+| **ptc_validators** | `UInt32` | *Total PTC validators covered by the included payload attestation aggregates* |
+| **payload_present_votes** | `UInt32` | *PTC validators attesting the payload was present* |
+| **blob_data_available_votes** | `UInt32` | *PTC validators attesting blob data was available* |
 
 ## int_block_proposer_canonical
 

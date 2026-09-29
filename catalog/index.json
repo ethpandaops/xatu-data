@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T22:48:57Z",
+  "generated_at": "2026-09-29T11:53:43Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -200,6 +200,13 @@
         "fct_block_head",
         "fct_block_mev",
         "fct_block_mev_head",
+        "fct_block_payload",
+        "fct_block_payload_available_by_node",
+        "fct_block_payload_bid",
+        "fct_block_payload_first_seen_by_node",
+        "fct_block_payload_ptc_vote",
+        "fct_block_payload_ptc_vote_head",
+        "fct_block_payload_status_hourly",
         "fct_block_proposal_status_daily",
         "fct_block_proposal_status_hourly",
         "fct_block_proposer",
@@ -260,6 +267,9 @@
         "fct_opcode_gas_by_opcode_hourly",
         "fct_opcode_ops_daily",
         "fct_opcode_ops_hourly",
+        "fct_payload_attestation_first_seen_chunked_50ms",
+        "fct_payload_bid_highest_value_by_builder_chunked_50ms",
+        "fct_payload_bid_highest_value_chunked_50ms",
         "fct_prepared_block",
         "fct_proposer_reward_daily",
         "fct_proposer_reward_hourly",
@@ -297,6 +307,7 @@
         "int_block_canonical",
         "int_block_mev_canonical",
         "int_block_opcode_gas",
+        "int_block_payload_ptc_vote_canonical",
         "int_block_proposer_canonical",
         "int_block_receipt_size",
         "int_block_resource_gas",
