@@ -141,13 +141,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2020-12-02'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-24'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -161,13 +161,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-14'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2025-05-14'
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
@@ -181,13 +181,13 @@ tables:
     networks:
       mainnet:
         from: '2023-03-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2024-02-05'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-30'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "chain reorg" data from each sentry client attached to a beacon node.
@@ -201,13 +201,13 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -222,16 +222,16 @@ tables:
     networks:
       mainnet:
         from: '2025-12-03'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2025-10-01'
         to: '2025-11-09'
       hoodi:
         from: '2025-10-28'
-        to: '2026-09-27'
+        to: '2026-09-28'
       sepolia:
         from: '2025-10-14'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "data_column_sidecar" data from each sentry client attached to a beacon node.
@@ -251,7 +251,7 @@ tables:
         to: '2026-06-02'
       sepolia:
         from: '2023-03-26'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "finalized checkpoint" data from each sentry client attached to a beacon node.
@@ -265,13 +265,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-12-05'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-05'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
@@ -285,7 +285,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-28'
         to: '2025-08-12'
@@ -305,13 +305,13 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -325,13 +325,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-28'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains beacon API /eth/v2/beacon/blocks/{block_id} data from each sentry client attached to a beacon node.
@@ -345,13 +345,13 @@ tables:
     networks:
       mainnet:
         from: '2023-03-03'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2024-01-08'
         to: '2025-10-26'
       sepolia:
         from: '2024-01-08'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Execution layer
       - Transaction
@@ -367,13 +367,13 @@ tables:
     networks:
       mainnet:
         from: '2024-04-03'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2024-04-03'
         to: '2025-10-26'
       sepolia:
         from: '2024-04-03'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
     description: Contains a proposer duty from a beacon block.
@@ -407,13 +407,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -428,13 +428,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -491,7 +491,7 @@ tables:
     networks:
       mainnet:
         from: '2023-04-12'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-28'
         to: '2025-05-09'
@@ -533,7 +533,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-23'
         to: '2025-08-06'
@@ -575,13 +575,13 @@ tables:
     networks:
       mainnet:
         from: '2023-04-12'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2023-02-28'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -596,13 +596,13 @@ tables:
     networks:
       mainnet:
         from: '2024-03-13'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2024-02-07'
         to: '2025-10-15'
       sepolia:
         from: '2024-01-30'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -623,7 +623,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -638,13 +638,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-09-27'
+        to: '2026-09-28'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-09-27'
+        to: '2026-09-28'
     tags:
       - Consensus layer
       - Finalized
@@ -1293,7 +1293,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1335,7 +1335,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1356,7 +1356,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1377,7 +1377,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1398,7 +1398,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1420,7 +1420,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4659000'
@@ -1441,7 +1441,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1462,7 +1462,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4652000'
@@ -1484,7 +1484,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1505,7 +1505,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
@@ -1568,7 +1568,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4657000'
@@ -1590,7 +1590,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '26071000'
+        to: '26079000'
       holesky:
         from: '0'
         to: '4710000'
