@@ -1,6 +1,14 @@
-generated_at: "2026-10-01T12:04:00Z"
+generated_at: "2026-10-01T22:08:52Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
+  - name: focil-devnet-0
+    repository: ethpandaops/focil-devnets
+    dora: https://dora.focil-devnet-0.ethpandaops.io
+    fork: heze
+    xatu_branch: null
+    database: focil-devnet-0
+    tables_total: 137
+    new_tables: []
   - name: frames-devnet-0
     repository: ethpandaops/frames-devnets
     dora: https://dora.frames-devnet-0.ethpandaops.io
@@ -17,6 +25,14 @@ networks:
     database: glamsterdam-devnet-8
     tables_total: 145
     new_tables: []
+  - name: glamsterdam-sepsf-1
+    repository: ethpandaops/glamsterdam-devnets
+    dora: https://dora.glamsterdam-sepsf-1.ethpandaops.io
+    fork: gloas
+    xatu_branch: release/gloas
+    database: glamsterdam-sepsf-1
+    tables_total: 145
+    new_tables: []
 forks:
   - name: gloas
     display_name: Glamsterdam
@@ -30,6 +46,21 @@ forks:
       - name: glamsterdam-devnet-8
         repository: ethpandaops/glamsterdam-devnets
         dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
+        new_table_count: 0
+      - name: glamsterdam-sepsf-1
+        repository: ethpandaops/glamsterdam-devnets
+        dora: https://dora.glamsterdam-sepsf-1.ethpandaops.io
+        new_table_count: 0
+    tables: []
+    merged_tables: []
+  - name: heze
+    display_name: heze
+    slug: heze
+    xatu_branch: null
+    networks:
+      - name: focil-devnet-0
+        repository: ethpandaops/focil-devnets
+        dora: https://dora.focil-devnet-0.ethpandaops.io
         new_table_count: 0
     tables: []
     merged_tables: []
