@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T21:38:39Z",
+  "generated_at": "2026-10-03T10:52:30Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -25,7 +25,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -33,7 +33,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         }
       },
       "tags": [
@@ -228,7 +228,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -236,7 +236,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         }
       },
       "tags": [
@@ -1137,7 +1137,7 @@
       "networks": {
         "mainnet": {
           "from": "2024-03-13",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         },
         "holesky": {
           "from": "2024-02-07",
@@ -1145,7 +1145,7 @@
         },
         "sepolia": {
           "from": "2024-01-30",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         }
       },
       "tags": [
@@ -1318,7 +1318,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1326,7 +1326,7 @@
         },
         "sepolia": {
           "from": "2022-06-20",
-          "to": "2026-10-01"
+          "to": "2026-10-02"
         }
       },
       "tags": [
