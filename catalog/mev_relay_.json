@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T20:24:31Z",
+  "generated_at": "2026-10-04T11:34:08Z",
   "dataset": {
     "name": "MEV Relay",
     "description": "Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.",
@@ -466,7 +466,7 @@
         },
         "sepolia": {
           "from": "2024-12-11",
-          "to": "2026-10-02"
+          "to": "2026-10-03"
         }
       },
       "tags": [

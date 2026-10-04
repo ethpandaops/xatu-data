@@ -432,8 +432,8 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2025-12-03` to `2026-10-02`
 - **holesky**: `2025-10-01` to `2025-10-26`
-- **hoodi**: `2025-10-28` to `2026-10-02`
-- **sepolia**: `2025-10-14` to `2026-10-02`
+- **hoodi**: `2025-10-28` to `2026-10-03`
+- **sepolia**: `2025-10-14` to `2026-10-03`
 
 ### Examples
 
@@ -539,7 +539,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 
 - **mainnet**: `2025-07-11` to `2026-10-02`
 - **holesky**: `2025-07-11` to `2025-10-26`
-- **sepolia**: `2025-07-11` to `2026-10-02`
+- **sepolia**: `2025-07-11` to `2026-10-03`
 
 ### Examples
 
@@ -646,7 +646,7 @@ Contains the details of the CONNECTED events from the libp2p client.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-04-24` to `2026-10-02`
-- **hoodi**: `2025-03-17` to `2026-10-02`
+- **hoodi**: `2025-03-17` to `2026-10-03`
 - **sepolia**: `2024-04-22` to `2026-10-02`
 
 ### Examples
@@ -753,7 +753,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-04-24` to `2026-10-02`
 - **hoodi**: `2025-03-17` to `2026-10-02`
-- **sepolia**: `2024-04-22` to `2026-10-02`
+- **sepolia**: `2024-04-22` to `2026-10-03`
 
 ### Examples
 
@@ -859,7 +859,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -945,7 +945,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -1031,7 +1031,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-30` to `2026-10-02`
+- **sepolia**: `2025-05-30` to `2026-10-03`
 
 ### Examples
 
@@ -1116,7 +1116,7 @@ Contains the details of the JOIN events from the libp2p client.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-05-01` to `2026-10-02`
-- **hoodi**: `2025-03-17` to `2026-10-02`
+- **hoodi**: `2025-03-17` to `2026-10-03`
 - **sepolia**: `2024-05-01` to `2026-10-02`
 
 ### Examples
@@ -1204,7 +1204,7 @@ Contains the details of the LEAVE events from the libp2p client.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-06-01` to `2026-10-02`
+- **mainnet**: `2025-06-01` to `2026-10-03`
 - **hoodi**: `2025-06-01` to `2025-06-01`
 - **sepolia**: `2025-06-01` to `2025-06-01`
 
@@ -1218,7 +1218,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_leave/2026/10/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_leave/2026/10/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1294,8 +1294,8 @@ Contains the details of the GRAFT events from the libp2p client.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
-- **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **hoodi**: `2025-05-29` to `2026-10-03`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -1383,7 +1383,7 @@ Contains the details of the PRUNE events from the libp2p client.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
-- **hoodi**: `2025-05-29` to `2026-10-02`
+- **hoodi**: `2025-05-29` to `2026-10-03`
 - **sepolia**: `2025-05-29` to `2026-10-02`
 
 ### Examples
@@ -1471,7 +1471,7 @@ Contains the details of the DUPLICATE_MESSAGE events from the libp2p client.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-05-30` to `2026-10-02`
+- **mainnet**: `2025-05-30` to `2026-10-03`
 - **hoodi**: `2025-05-29` to `2026-10-02`
 - **sepolia**: `2025-05-29` to `2026-10-02`
 
@@ -1485,7 +1485,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_duplicate_message/2026/10/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_duplicate_message/2026/10/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1566,7 +1566,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -1658,8 +1658,8 @@ Contains the metadata handling events for libp2p peers.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-04-24` to `2026-10-02`
-- **hoodi**: `2025-03-17` to `2026-10-02`
-- **sepolia**: `2024-04-22` to `2026-10-02`
+- **hoodi**: `2025-03-17` to `2026-10-03`
+- **sepolia**: `2024-04-22` to `2026-10-03`
 
 ### Examples
 
@@ -1750,9 +1750,9 @@ Contains the status handling events for libp2p peers.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2024-04-24` to `2026-10-02`
-- **hoodi**: `2025-03-17` to `2026-10-02`
-- **sepolia**: `2024-04-22` to `2026-10-02`
+- **mainnet**: `2024-04-24` to `2026-10-03`
+- **hoodi**: `2025-03-17` to `2026-10-03`
+- **sepolia**: `2024-04-22` to `2026-10-03`
 
 ### Examples
 
@@ -1764,7 +1764,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2026/10/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_handle_status/2026/10/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1853,7 +1853,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -1946,7 +1946,7 @@ Contains IWANT control messages from gossipsub. Collected from deep instrumentat
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
-- **hoodi**: `2025-05-29` to `2026-10-02`
+- **hoodi**: `2025-05-29` to `2026-10-03`
 - **sepolia**: `2025-05-29` to `2026-10-02`
 
 ### Examples
@@ -2036,7 +2036,7 @@ Contains the details of the IDONTWANT control messages from the peer.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
-- **hoodi**: `2025-05-29` to `2026-10-02`
+- **hoodi**: `2025-05-29` to `2026-10-03`
 - **sepolia**: `2025-05-29` to `2026-10-02`
 
 ### Examples
@@ -2127,7 +2127,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -2217,7 +2217,7 @@ Contains the details of the "Prune" control messages from the peer.
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-07-02` to `2026-10-02`
+- **mainnet**: `2025-07-02` to `2026-10-03`
 - **hoodi**: `2025-06-23` to `2026-10-02`
 - **sepolia**: `2025-06-23` to `2026-10-02`
 
@@ -2231,7 +2231,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_prune/2026/10/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_meta_control_prune/2026/10/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2312,8 +2312,8 @@ Contains the details of the RPC subscriptions from the peer.
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
-- **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **hoodi**: `2025-05-29` to `2026-10-03`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -2406,7 +2406,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-05-30` to `2026-10-02`
 - **hoodi**: `2025-05-29` to `2026-10-02`
-- **sepolia**: `2025-05-29` to `2026-10-02`
+- **sepolia**: `2025-05-29` to `2026-10-03`
 
 ### Examples
 
@@ -2500,9 +2500,9 @@ Contains custody probe events for data column availability verification
 ### Availability
 Data is partitioned **daily** on **event_date_time** for the following networks:
 
-- **mainnet**: `2025-12-03` to `2026-10-02`
-- **hoodi**: `2025-12-03` to `2026-10-02`
-- **sepolia**: `2025-12-03` to `2026-10-02`
+- **mainnet**: `2025-12-03` to `2026-10-03`
+- **hoodi**: `2025-12-03` to `2026-10-03`
+- **sepolia**: `2025-12-03` to `2026-10-03`
 
 ### Examples
 
@@ -2514,7 +2514,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_data_column_custody_probe/2026/10/2.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_rpc_data_column_custody_probe/2026/10/3.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2613,7 +2613,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/26.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/27.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2715,8 +2715,8 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2025-08-21` to `2026-10-02`
 - **holesky**: `2025-09-29` to `2025-10-20`
-- **hoodi**: `2025-08-21` to `2026-10-02`
-- **sepolia**: `2025-08-21` to `2026-10-02`
+- **hoodi**: `2025-08-21` to `2026-10-03`
+- **sepolia**: `2025-08-21` to `2026-10-03`
 
 ### Examples
 

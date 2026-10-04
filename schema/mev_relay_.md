@@ -233,7 +233,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 
 - **mainnet**: `2024-12-11` to `2026-10-02`
 - **holesky**: `2024-12-11` to `2025-04-27`
-- **sepolia**: `2024-12-11` to `2026-10-02`
+- **sepolia**: `2024-12-11` to `2026-10-03`
 
 ### Examples
 
