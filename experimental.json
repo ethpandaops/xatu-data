@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T23:29:58Z",
+  "generated_at": "2026-10-06T02:43:07Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -17,7 +17,7 @@
       "repository": "ethpandaops/frames-devnets",
       "dora": "https://dora.frames-devnet-0.ethpandaops.io",
       "fork": "gloas",
-      "xatu_branch": "release/gloas",
+      "xatu_branch": "master",
       "database": "frames-devnet-0",
       "tables_total": 137,
       "new_tables": []
@@ -27,7 +27,7 @@
       "repository": "ethpandaops/glamsterdam-devnets",
       "dora": "https://dora.glamsterdam-devnet-8.ethpandaops.io",
       "fork": "gloas",
-      "xatu_branch": "release/gloas",
+      "xatu_branch": "master",
       "database": "glamsterdam-devnet-8",
       "tables_total": 145,
       "new_tables": []
@@ -38,7 +38,7 @@
       "name": "gloas",
       "display_name": "Glamsterdam",
       "slug": "glamsterdam",
-      "xatu_branch": "release/gloas",
+      "xatu_branch": "master",
       "networks": [
         {
           "name": "frames-devnet-0",
