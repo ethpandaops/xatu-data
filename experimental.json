@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-06T12:26:06Z",
+  "generated_at": "2026-10-06T22:02:14Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
-      "name": "focil-devnet-0",
+      "name": "focil-devnet-1",
       "repository": "ethpandaops/focil-devnets",
-      "dora": "https://dora.focil-devnet-0.ethpandaops.io",
+      "dora": "https://dora.focil-devnet-1.ethpandaops.io",
       "fork": "heze",
       "xatu_branch": null,
-      "database": "focil-devnet-0",
+      "database": "focil-devnet-1",
       "tables_total": 137,
       "new_tables": []
     },
@@ -63,9 +63,9 @@
       "xatu_branch": null,
       "networks": [
         {
-          "name": "focil-devnet-0",
+          "name": "focil-devnet-1",
           "repository": "ethpandaops/focil-devnets",
-          "dora": "https://dora.focil-devnet-0.ethpandaops.io",
+          "dora": "https://dora.focil-devnet-1.ethpandaops.io",
           "new_table_count": 0
         }
       ],

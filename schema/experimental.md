@@ -21,13 +21,13 @@ Each upgrade has a dedicated page with the full table schemas and query examples
 | Upgrade | CL fork | Xatu branch | Devnet-only tables | In main catalog | Active devnets |
 |---------|---------|-------------|--------------------|-----------------|----------------|
 | **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`master`](https://github.com/ethpandaops/xatu/tree/master) | 0 | 0 | `frames-devnet-0`, `glamsterdam-devnet-8` |
-| **[heze](/data/xatu/forks/heze)** | `heze` | - | 0 | 0 | `focil-devnet-0` |
+| **[heze](/data/xatu/forks/heze)** | `heze` | - | 0 | 0 | `focil-devnet-1` |
 
 ## Active devnets
 
 | Network | Upgrade | Fork-specific tables | Source |
 |---------|---------|----------------------|--------|
-| `focil-devnet-0` | [heze](/data/xatu/forks/heze) (`heze`) | 0 | [ethpandaops/focil-devnets](https://github.com/ethpandaops/focil-devnets) |
+| `focil-devnet-1` | [heze](/data/xatu/forks/heze) (`heze`) | 0 | [ethpandaops/focil-devnets](https://github.com/ethpandaops/focil-devnets) |
 | `frames-devnet-0` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/frames-devnets](https://github.com/ethpandaops/frames-devnets) |
 | `glamsterdam-devnet-8` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
 
