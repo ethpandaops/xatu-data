@@ -1,4 +1,4 @@
-generated_at: "2026-10-06T22:02:14Z"
+generated_at: "2026-10-07T12:18:53Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: focil-devnet-1
