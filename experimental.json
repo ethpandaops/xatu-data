@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T12:18:53Z",
+  "generated_at": "2026-10-07T22:27:20Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -31,6 +31,16 @@
       "database": "glamsterdam-devnet-8",
       "tables_total": 145,
       "new_tables": []
+    },
+    {
+      "name": "glamsterdam-msf-1",
+      "repository": "ethpandaops/glamsterdam-devnets",
+      "dora": "https://dora.glamsterdam-msf-1.ethpandaops.io",
+      "fork": "gloas",
+      "xatu_branch": "master",
+      "database": "glamsterdam-msf-1",
+      "tables_total": 145,
+      "new_tables": []
     }
   ],
   "forks": [
@@ -50,6 +60,12 @@
           "name": "glamsterdam-devnet-8",
           "repository": "ethpandaops/glamsterdam-devnets",
           "dora": "https://dora.glamsterdam-devnet-8.ethpandaops.io",
+          "new_table_count": 0
+        },
+        {
+          "name": "glamsterdam-msf-1",
+          "repository": "ethpandaops/glamsterdam-devnets",
+          "dora": "https://dora.glamsterdam-msf-1.ethpandaops.io",
           "new_table_count": 0
         }
       ],
