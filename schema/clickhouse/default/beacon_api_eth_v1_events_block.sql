@@ -27,7 +27,9 @@ CREATE TABLE default.beacon_api_eth_v1_events_block
     `meta_consensus_version_major` LowCardinality(String) COMMENT 'Ethereum consensus client major version that generated the event',
     `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Ethereum consensus client minor version that generated the event',
     `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Ethereum consensus client patch version that generated the event',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation that generated the event',
+    `builder_index` Nullable(UInt64) COMMENT 'Index of the builder whose execution payload bid the block commits to. Null for self-built payloads (BUILDER_INDEX_SELF_BUILD), before Gloas, or when the beacon node does not send it' CODEC(ZSTD(1)),
+    `block_hash` Nullable(FixedString(66)) COMMENT 'Execution block hash from the block\\'s execution payload bid. Null before Gloas or when the beacon node does not send it' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'beacon_api_eth_v1_events_block_local', cityHash64(slot_start_date_time, meta_network_name, meta_client_name, block))
 COMMENT 'Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.'

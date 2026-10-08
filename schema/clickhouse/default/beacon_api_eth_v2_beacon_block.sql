@@ -22,7 +22,7 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block
     `execution_payload_blob_gas_used` Nullable(UInt64) COMMENT 'Gas used for blobs in execution payload' CODEC(ZSTD(1)),
     `execution_payload_excess_blob_gas` Nullable(UInt64) COMMENT 'Excess gas used for blobs in execution payload' CODEC(ZSTD(1)),
     `execution_payload_slot_number` Nullable(UInt64) CODEC(DoubleDelta, ZSTD(1)),
-    `builder_index` Nullable(UInt64) COMMENT 'Builder index from the bid (Gloas+)' CODEC(ZSTD(1)),
+    `builder_index` Nullable(UInt64) COMMENT 'Builder index from the bid (Gloas+). NULL for self-built payloads (BUILDER_INDEX_SELF_BUILD) and before Gloas' CODEC(ZSTD(1)),
     `bid_value` Nullable(UInt64) COMMENT 'Bid value in Gwei (Gloas+)' CODEC(ZSTD(1)),
     `execution_payment` Nullable(UInt64) COMMENT 'Execution payment in Gwei (Gloas+)' CODEC(ZSTD(1)),
     `payload_present` Nullable(Bool) COMMENT 'Whether execution payload was delivered (Gloas+)' CODEC(ZSTD(1)),

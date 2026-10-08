@@ -9,7 +9,7 @@ CREATE TABLE default.beacon_api_eth_v1_events_data_column_sidecar
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `block_root` FixedString(66) COMMENT 'The beacon block root hash in the beacon API event stream payload' CODEC(ZSTD(1)),
     `column_index` UInt64 COMMENT 'The index of column in the beacon API event stream payload' CODEC(ZSTD(1)),
-    `kzg_commitments_count` UInt32 COMMENT 'Number of KZG commitments associated with the record' CODEC(ZSTD(1)),
+    `kzg_commitments_count` UInt32 COMMENT 'Number of KZG commitments associated with the record. 0 when the beacon node omits kzg_commitments (beacon-APIs #583)' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client that generated the event',

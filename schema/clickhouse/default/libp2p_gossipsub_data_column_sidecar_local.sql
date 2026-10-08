@@ -13,7 +13,7 @@ CREATE TABLE default.libp2p_gossipsub_data_column_sidecar_local
     `propagation_slot_start_diff` UInt32 COMMENT 'Difference in slot start time for propagation' CODEC(ZSTD(1)),
     `proposer_index` UInt32 COMMENT 'The proposer index of the beacon block' CODEC(ZSTD(1)),
     `column_index` UInt64 COMMENT 'Column index associated with the record' CODEC(ZSTD(1)),
-    `kzg_commitments_count` UInt32 COMMENT 'Number of KZG commitments associated with the record' CODEC(ZSTD(1)),
+    `kzg_commitments_count` UInt32 COMMENT 'Number of KZG commitments associated with the record. 0 on Gloas, where the sidecar no longer carries the block header' CODEC(ZSTD(1)),
     `beacon_block_root` FixedString(66) CODEC(ZSTD(1)),
     `parent_root` FixedString(66) COMMENT 'Parent root of the beacon block' CODEC(ZSTD(1)),
     `state_root` FixedString(66) COMMENT 'State root of the beacon block' CODEC(ZSTD(1)),

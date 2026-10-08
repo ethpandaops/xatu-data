@@ -24,7 +24,7 @@ Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) 
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-06`
+- **sepolia**: `2026-10-06` to `2026-10-07`
 
 ### Examples
 
@@ -125,7 +125,7 @@ PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized fro
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-06`
+- **sepolia**: `2026-10-06` to `2026-10-07`
 
 ### Examples
 
@@ -230,7 +230,7 @@ Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-ins
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-06`
+- **sepolia**: `2026-10-06` to `2026-10-07`
 
 ### Examples
 
