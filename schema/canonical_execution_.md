@@ -38,7 +38,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26143000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11859000`
+- **sepolia**: `0` to `11866000`
 
 ### Examples
 
@@ -129,7 +129,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26143000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11859000`
+- **sepolia**: `0` to `11866000`
 
 ### Examples
 
@@ -331,7 +331,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26143000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11784000`
+- **sepolia**: `0` to `11864000`
 
 ### Examples
 
