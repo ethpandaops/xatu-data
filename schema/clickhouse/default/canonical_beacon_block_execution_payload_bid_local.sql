@@ -1,0 +1,47 @@
+CREATE TABLE default.canonical_beacon_block_execution_payload_bid_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number of the block containing this bid' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` FixedString(66) COMMENT 'Root of the block containing this bid' CODEC(ZSTD(1)),
+    `block_version` LowCardinality(String) COMMENT 'Block version (e.g. gloas)',
+    `builder_index` Nullable(UInt64) COMMENT 'Index of the builder in the builder registry, NULL when self-built' CODEC(ZSTD(1)),
+    `block_hash` FixedString(66) COMMENT 'Execution block hash committed to in the bid' CODEC(ZSTD(1)),
+    `parent_block_hash` FixedString(66) COMMENT 'Parent execution block hash' CODEC(ZSTD(1)),
+    `parent_block_root` FixedString(66) COMMENT 'Parent beacon block root' CODEC(ZSTD(1)),
+    `value` UInt64 COMMENT 'Bid value in Gwei' CODEC(ZSTD(1)),
+    `execution_payment` UInt64 COMMENT 'Execution payment in Gwei' CODEC(ZSTD(1)),
+    `fee_recipient` FixedString(42) COMMENT 'Fee recipient address' CODEC(ZSTD(1)),
+    `gas_limit` UInt64 COMMENT 'Gas limit for the execution payload' CODEC(DoubleDelta, ZSTD(1)),
+    `prev_randao` FixedString(66) COMMENT 'Previous RANDAO value' CODEC(ZSTD(1)),
+    `blob_kzg_commitment_count` UInt32 COMMENT 'Number of blob KZG commitments' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'ASN of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'AS organization of the client' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Consensus client version',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Consensus client major version',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Consensus client minor version',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Consensus client patch version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Consensus client implementation',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_beacon_block_execution_payload_bid_local/{shard}', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(slot_start_date_time)
+ORDER BY (slot_start_date_time, meta_network_name, block_root)
+SETTINGS index_granularity = 8192
+COMMENT 'Winning execution payload bid from canonical beacon blocks (1 per block).'

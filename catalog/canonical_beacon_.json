@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T22:29:32Z",
+  "generated_at": "2026-10-08T02:17:14Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -1605,6 +1605,1381 @@
           "description": "Ethereum network name"
         }
       ]
+    },
+    {
+      "name": "canonical_beacon_block_access_list",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains the EIP-7928 block access list of each block's execution payload, one row per entry (a storage write or read, a balance, nonce or code change, or an account that was only touched).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": ""
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": ""
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": ""
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": ""
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": ""
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": ""
+        },
+        {
+          "name": "address",
+          "type": "FixedString(42)",
+          "description": ""
+        },
+        {
+          "name": "change_type",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "block_access_index",
+          "type": "UInt32",
+          "description": ""
+        },
+        {
+          "name": "storage_key",
+          "type": "Nullable(FixedString(66))",
+          "description": ""
+        },
+        {
+          "name": "new_value",
+          "type": "Nullable(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_id",
+          "type": "String",
+          "description": ""
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": ""
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_network_id",
+          "type": "Int32",
+          "description": ""
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": ""
+        },
+        {
+          "name": "meta_labels",
+          "type": "Map(String, String)",
+          "description": ""
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_block_access_list_summary",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains a per-block summary of the EIP-7928 block access list from a beacon block (1 row per block).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The execution block number from the execution payload"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash from the execution payload"
+        },
+        {
+          "name": "accounts_touched",
+          "type": "UInt32",
+          "description": "The number of distinct addresses in the block access list"
+        },
+        {
+          "name": "storage_slots_changed",
+          "type": "UInt32",
+          "description": "The number of distinct (address, slot) pairs written at least once"
+        },
+        {
+          "name": "storage_changes",
+          "type": "UInt32",
+          "description": "The number of individual storage write records (one per slot and block access index)"
+        },
+        {
+          "name": "storage_reads",
+          "type": "UInt32",
+          "description": "The number of distinct (address, slot) pairs that were only read"
+        },
+        {
+          "name": "balance_changes",
+          "type": "UInt32",
+          "description": "The number of balance change records"
+        },
+        {
+          "name": "nonce_changes",
+          "type": "UInt32",
+          "description": "The number of nonce change records"
+        },
+        {
+          "name": "code_changes",
+          "type": "UInt32",
+          "description": "The number of code change records"
+        },
+        {
+          "name": "total_changes",
+          "type": "UInt32",
+          "description": "The total number of change records: storage_changes + balance_changes + nonce_changes + code_changes"
+        },
+        {
+          "name": "bal_size_bytes",
+          "type": "UInt32",
+          "description": "The length in bytes of the RLP encoded block access list as carried in the execution payload"
+        },
+        {
+          "name": "bal_hash",
+          "type": "FixedString(66)",
+          "description": "The keccak256 hash of the RLP encoded block access list as carried in the execution payload"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_id",
+          "type": "String",
+          "description": "Unique Session ID of the client"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "ASN of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "AS organization of the client"
+        },
+        {
+          "name": "meta_network_id",
+          "type": "Int32",
+          "description": "Ethereum network ID"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client major version"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client minor version"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client patch version"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client implementation"
+        },
+        {
+          "name": "meta_labels",
+          "type": "Map(String, String)",
+          "description": "Labels associated with the event"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_block_execution_payload_bid",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Winning execution payload bid from canonical beacon blocks (1 per block).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number of the block containing this bid"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "Root of the block containing this bid"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "Block version (e.g. gloas)"
+        },
+        {
+          "name": "builder_index",
+          "type": "Nullable(UInt64)",
+          "description": "Index of the builder in the builder registry, NULL when self-built"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "Execution block hash committed to in the bid"
+        },
+        {
+          "name": "parent_block_hash",
+          "type": "FixedString(66)",
+          "description": "Parent execution block hash"
+        },
+        {
+          "name": "parent_block_root",
+          "type": "FixedString(66)",
+          "description": "Parent beacon block root"
+        },
+        {
+          "name": "value",
+          "type": "UInt64",
+          "description": "Bid value in Gwei"
+        },
+        {
+          "name": "execution_payment",
+          "type": "UInt64",
+          "description": "Execution payment in Gwei"
+        },
+        {
+          "name": "fee_recipient",
+          "type": "FixedString(42)",
+          "description": "Fee recipient address"
+        },
+        {
+          "name": "gas_limit",
+          "type": "UInt64",
+          "description": "Gas limit for the execution payload"
+        },
+        {
+          "name": "prev_randao",
+          "type": "FixedString(66)",
+          "description": "Previous RANDAO value"
+        },
+        {
+          "name": "blob_kzg_commitment_count",
+          "type": "UInt32",
+          "description": "Number of blob KZG commitments"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_id",
+          "type": "String",
+          "description": "Unique Session ID of the client"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "ASN of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "AS organization of the client"
+        },
+        {
+          "name": "meta_network_id",
+          "type": "Int32",
+          "description": "Ethereum network ID"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client major version"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client minor version"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client patch version"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client implementation"
+        },
+        {
+          "name": "meta_labels",
+          "type": "Map(String, String)",
+          "description": "Labels associated with the event"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_block_payload_attestation",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot number of the block containing this payload attestation"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch number"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "Root of the block containing this attestation"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "Block version (e.g. gloas)"
+        },
+        {
+          "name": "position",
+          "type": "UInt32",
+          "description": "Position of the payload attestation in the block body (0-3)"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "FixedString(66)",
+          "description": "The block root being attested to by the PTC"
+        },
+        {
+          "name": "payload_present",
+          "type": "Bool",
+          "description": "Whether the PTC attests payload was present"
+        },
+        {
+          "name": "blob_data_available",
+          "type": "Bool",
+          "description": "Whether the PTC attests blob data was available"
+        },
+        {
+          "name": "aggregation_bits",
+          "type": "String",
+          "description": "Bitvector of PTC members (512 bits) as hex"
+        },
+        {
+          "name": "attesting_validator_count",
+          "type": "UInt32",
+          "description": "Number of PTC validators in this aggregation"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the client that generated the event"
+        },
+        {
+          "name": "meta_client_id",
+          "type": "String",
+          "description": "Unique Session ID of the client"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the client"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the client"
+        },
+        {
+          "name": "meta_client_os",
+          "type": "LowCardinality(String)",
+          "description": "Operating system of the client"
+        },
+        {
+          "name": "meta_client_ip",
+          "type": "Nullable(IPv6)",
+          "description": "IP address of the client"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the client"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the client"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the client"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the client"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the client"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "ASN of the client"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "AS organization of the client"
+        },
+        {
+          "name": "meta_network_id",
+          "type": "Int32",
+          "description": "Ethereum network ID"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version"
+        },
+        {
+          "name": "meta_consensus_version_major",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client major version"
+        },
+        {
+          "name": "meta_consensus_version_minor",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client minor version"
+        },
+        {
+          "name": "meta_consensus_version_patch",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client patch version"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client implementation"
+        },
+        {
+          "name": "meta_labels",
+          "type": "Map(String, String)",
+          "description": "Labels associated with the event"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_block_execution_request_builder_deposit",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains an EIP-8282 execution request builder deposit from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The execution block number from the execution payload"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash from the execution payload"
+        },
+        {
+          "name": "position_in_block",
+          "type": "UInt32",
+          "description": "The index of the builder deposit within the block builder deposit requests"
+        },
+        {
+          "name": "pubkey",
+          "type": "String",
+          "description": "The public key of the builder from the builder deposit request"
+        },
+        {
+          "name": "withdrawal_credentials",
+          "type": "FixedString(66)",
+          "description": "The withdrawal credentials from the builder deposit request"
+        },
+        {
+          "name": "amount",
+          "type": "UInt128",
+          "description": "The builder deposit amount in gwei"
+        },
+        {
+          "name": "signature",
+          "type": "String",
+          "description": "The builder deposit signature"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_block_execution_request_builder_exit",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains an EIP-8282 execution request builder exit from a beacon block.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number from beacon block payload"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number from beacon block payload"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The root hash of the beacon block"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The version of the beacon block"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The execution block number from the execution payload"
+        },
+        {
+          "name": "block_hash",
+          "type": "FixedString(66)",
+          "description": "The execution block hash from the execution payload"
+        },
+        {
+          "name": "position_in_block",
+          "type": "UInt32",
+          "description": "The index of the builder exit within the block builder exit requests"
+        },
+        {
+          "name": "source_address",
+          "type": "FixedString(42)",
+          "description": "The source address that initiated the builder exit request"
+        },
+        {
+          "name": "pubkey",
+          "type": "String",
+          "description": "The public key of the builder the exit targets"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_state_builder",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "epoch_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains the Gloas builder registry snapshot for a canonical beacon state epoch.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number the builder registry snapshot is for"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "state_id",
+          "type": "LowCardinality(String)",
+          "description": "The state ID the registry was read from"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "The index of the builder in the registry"
+        },
+        {
+          "name": "pubkey",
+          "type": "FixedString(98)",
+          "description": "The public key of the builder"
+        },
+        {
+          "name": "version",
+          "type": "UInt8",
+          "description": "The builder version byte"
+        },
+        {
+          "name": "execution_address",
+          "type": "FixedString(42)",
+          "description": "The execution address of the builder"
+        },
+        {
+          "name": "balance",
+          "type": "UInt64",
+          "description": "The builder balance in gwei"
+        },
+        {
+          "name": "deposit_epoch",
+          "type": "UInt64",
+          "description": "The epoch in which the builder was added to the registry"
+        },
+        {
+          "name": "withdrawable_epoch",
+          "type": "UInt64",
+          "description": "The epoch from which the builder can be withdrawn, FAR_FUTURE_EPOCH while no exit was initiated"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "The builder status (pending, active or exited) evaluated against the finalized checkpoint of the state"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_state_builder_pending_payment",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "epoch_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains the non-empty Gloas builder pending payments of a canonical beacon state epoch.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number the builder pending payments snapshot is for"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "state_id",
+          "type": "LowCardinality(String)",
+          "description": "The state ID the payments were read from"
+        },
+        {
+          "name": "payment_index",
+          "type": "UInt32",
+          "description": "The index into builder_pending_payments, below SLOTS_PER_EPOCH for the previous epoch and above for the current epoch"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot the payment belongs to"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "weight",
+          "type": "UInt64",
+          "description": "The attestation weight accumulated for the payment in gwei"
+        },
+        {
+          "name": "fee_recipient",
+          "type": "FixedString(42)",
+          "description": "The fee recipient of the payment withdrawal"
+        },
+        {
+          "name": "amount",
+          "type": "UInt64",
+          "description": "The payment amount in gwei"
+        },
+        {
+          "name": "builder_index",
+          "type": "UInt64",
+          "description": "The index of the paying builder"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the slot proposer"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_state_execution_payload_availability",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains the Gloas execution payload availability bit of each slot, as recorded by the canonical beacon state.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot the availability bit is for"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number the slot belongs to"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "state_id",
+          "type": "LowCardinality(String)",
+          "description": "The state ID the bit was read from"
+        },
+        {
+          "name": "available",
+          "type": "Bool",
+          "description": "Whether the slot execution payload was revealed and applied to the state"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
+    },
+    {
+      "name": "canonical_beacon_state_ptc_member",
+      "database": "default",
+      "fork": "gloas",
+      "excluded_columns": [],
+      "partitioning": {
+        "type": "datetime",
+        "column": "slot_start_date_time",
+        "interval": "daily"
+      },
+      "networks": {
+        "sepolia": {
+          "from": "2026-10-06",
+          "to": "2026-10-06"
+        }
+      },
+      "tags": [
+        "Consensus layer",
+        "Finalized"
+      ],
+      "description": "Contains the ordered payload timeliness committee of each Gloas slot, one row per committee position.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "When this row was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot the payload timeliness committee serves"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number the slot belongs to"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "state_id",
+          "type": "LowCardinality(String)",
+          "description": "The state ID the committee was read from"
+        },
+        {
+          "name": "position",
+          "type": "UInt32",
+          "description": "The index of the member within the committee, equal to its bit index in a payload attestation aggregation_bits"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The validator holding this position, which can repeat within a committee"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "Ethereum network name"
+        }
+      ],
+      "fork_display_name": "Glamsterdam"
     }
   ]
 }

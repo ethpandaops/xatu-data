@@ -22,6 +22,16 @@ Events derived from the finalized beacon chain. This data is only derived by a s
 - [`canonical_beacon_elaborated_attestation`](#canonical_beacon_elaborated_attestation)
 - [`canonical_beacon_validators`](#canonical_beacon_validators)
 - [`canonical_beacon_validators_pubkeys`](#canonical_beacon_validators_pubkeys)
+- [`canonical_beacon_block_access_list`](#canonical_beacon_block_access_list)
+- [`canonical_beacon_block_access_list_summary`](#canonical_beacon_block_access_list_summary)
+- [`canonical_beacon_block_execution_payload_bid`](#canonical_beacon_block_execution_payload_bid)
+- [`canonical_beacon_block_payload_attestation`](#canonical_beacon_block_payload_attestation)
+- [`canonical_beacon_block_execution_request_builder_deposit`](#canonical_beacon_block_execution_request_builder_deposit)
+- [`canonical_beacon_block_execution_request_builder_exit`](#canonical_beacon_block_execution_request_builder_exit)
+- [`canonical_beacon_state_builder`](#canonical_beacon_state_builder)
+- [`canonical_beacon_state_builder_pending_payment`](#canonical_beacon_state_builder_pending_payment)
+- [`canonical_beacon_state_execution_payload_availability`](#canonical_beacon_state_execution_payload_availability)
+- [`canonical_beacon_state_ptc_member`](#canonical_beacon_state_ptc_member)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -1216,6 +1226,917 @@ echo """
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **index** | `UInt32` | *The index of the validator* |
 | **pubkey** | `String` | *The public key of the validator* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_block_access_list
+
+
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_access_list/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_access_list FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_access_list FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | ** |
+| **slot** | `UInt32` | ** |
+| **slot_start_date_time** | `DateTime` | ** |
+| **epoch** | `UInt32` | ** |
+| **epoch_start_date_time** | `DateTime` | ** |
+| **block_root** | `FixedString(66)` | ** |
+| **block_number** | `UInt64` | ** |
+| **block_hash** | `FixedString(66)` | ** |
+| **address** | `FixedString(42)` | ** |
+| **change_type** | `LowCardinality(String)` | ** |
+| **block_access_index** | `UInt32` | ** |
+| **storage_key** | `Nullable(FixedString(66))` | ** |
+| **new_value** | `Nullable(String)` | ** |
+| **meta_client_name** | `LowCardinality(String)` | ** |
+| **meta_client_id** | `String` | ** |
+| **meta_client_version** | `LowCardinality(String)` | ** |
+| **meta_client_implementation** | `LowCardinality(String)` | ** |
+| **meta_client_os** | `LowCardinality(String)` | ** |
+| **meta_client_ip** | `Nullable(IPv6)` | ** |
+| **meta_client_geo_city** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country** | `LowCardinality(String)` | ** |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | ** |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | ** |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | ** |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | ** |
+| **meta_network_id** | `Int32` | ** |
+| **meta_network_name** | `LowCardinality(String)` | ** |
+| **meta_consensus_version** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_major** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | ** |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | ** |
+| **meta_consensus_implementation** | `LowCardinality(String)` | ** |
+| **meta_labels** | `Map(String, String)` | ** |
+
+## canonical_beacon_block_access_list_summary
+
+Contains a per-block summary of the EIP-7928 block access list from a beacon block (1 row per block).
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_access_list_summary/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list_summary/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_access_list_summary FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_access_list_summary FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **slot** | `UInt32` | *The slot number from beacon block payload* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number from beacon block payload* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *The root hash of the beacon block* |
+| **block_version** | `LowCardinality(String)` | *The version of the beacon block* |
+| **block_number** | `UInt64` | *The execution block number from the execution payload* |
+| **block_hash** | `FixedString(66)` | *The execution block hash from the execution payload* |
+| **accounts_touched** | `UInt32` | *The number of distinct addresses in the block access list* |
+| **storage_slots_changed** | `UInt32` | *The number of distinct (address, slot) pairs written at least once* |
+| **storage_changes** | `UInt32` | *The number of individual storage write records (one per slot and block access index)* |
+| **storage_reads** | `UInt32` | *The number of distinct (address, slot) pairs that were only read* |
+| **balance_changes** | `UInt32` | *The number of balance change records* |
+| **nonce_changes** | `UInt32` | *The number of nonce change records* |
+| **code_changes** | `UInt32` | *The number of code change records* |
+| **total_changes** | `UInt32` | *The total number of change records: storage_changes + balance_changes + nonce_changes + code_changes* |
+| **bal_size_bytes** | `UInt32` | *The length in bytes of the RLP encoded block access list as carried in the execution payload* |
+| **bal_hash** | `FixedString(66)` | *The keccak256 hash of the RLP encoded block access list as carried in the execution payload* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Consensus client version* |
+| **meta_consensus_version_major** | `LowCardinality(String)` | *Consensus client major version* |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | *Consensus client minor version* |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | *Consensus client patch version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client implementation* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## canonical_beacon_block_execution_payload_bid
+
+Winning execution payload bid from canonical beacon blocks (1 per block).
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_payload_bid/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_payload_bid/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_payload_bid FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_payload_bid FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *Slot number of the block containing this bid* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *Root of the block containing this bid* |
+| **block_version** | `LowCardinality(String)` | *Block version (e.g. gloas)* |
+| **builder_index** | `Nullable(UInt64)` | *Index of the builder in the builder registry, NULL when self-built* |
+| **block_hash** | `FixedString(66)` | *Execution block hash committed to in the bid* |
+| **parent_block_hash** | `FixedString(66)` | *Parent execution block hash* |
+| **parent_block_root** | `FixedString(66)` | *Parent beacon block root* |
+| **value** | `UInt64` | *Bid value in Gwei* |
+| **execution_payment** | `UInt64` | *Execution payment in Gwei* |
+| **fee_recipient** | `FixedString(42)` | *Fee recipient address* |
+| **gas_limit** | `UInt64` | *Gas limit for the execution payload* |
+| **prev_randao** | `FixedString(66)` | *Previous RANDAO value* |
+| **blob_kzg_commitment_count** | `UInt32` | *Number of blob KZG commitments* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Consensus client version* |
+| **meta_consensus_version_major** | `LowCardinality(String)` | *Consensus client major version* |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | *Consensus client minor version* |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | *Consensus client patch version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client implementation* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## canonical_beacon_block_payload_attestation
+
+Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_payload_attestation/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_payload_attestation/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_payload_attestation FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_payload_attestation FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *Slot number of the block containing this payload attestation* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *Root of the block containing this attestation* |
+| **block_version** | `LowCardinality(String)` | *Block version (e.g. gloas)* |
+| **position** | `UInt32` | *Position of the payload attestation in the block body (0-3)* |
+| **beacon_block_root** | `FixedString(66)` | *The block root being attested to by the PTC* |
+| **payload_present** | `Bool` | *Whether the PTC attests payload was present* |
+| **blob_data_available** | `Bool` | *Whether the PTC attests blob data was available* |
+| **aggregation_bits** | `String` | *Bitvector of PTC members (512 bits) as hex* |
+| **attesting_validator_count** | `UInt32` | *Number of PTC validators in this aggregation* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Consensus client version* |
+| **meta_consensus_version_major** | `LowCardinality(String)` | *Consensus client major version* |
+| **meta_consensus_version_minor** | `LowCardinality(String)` | *Consensus client minor version* |
+| **meta_consensus_version_patch** | `LowCardinality(String)` | *Consensus client patch version* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client implementation* |
+| **meta_labels** | `Map(String, String)` | *Labels associated with the event* |
+
+## canonical_beacon_block_execution_request_builder_deposit
+
+Contains an EIP-8282 execution request builder deposit from a beacon block.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_request_builder_deposit/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_deposit/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_request_builder_deposit FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_request_builder_deposit FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **slot** | `UInt32` | *The slot number from beacon block payload* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number from beacon block payload* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *The root hash of the beacon block* |
+| **block_version** | `LowCardinality(String)` | *The version of the beacon block* |
+| **block_number** | `UInt64` | *The execution block number from the execution payload* |
+| **block_hash** | `FixedString(66)` | *The execution block hash from the execution payload* |
+| **position_in_block** | `UInt32` | *The index of the builder deposit within the block builder deposit requests* |
+| **pubkey** | `String` | *The public key of the builder from the builder deposit request* |
+| **withdrawal_credentials** | `FixedString(66)` | *The withdrawal credentials from the builder deposit request* |
+| **amount** | `UInt128` | *The builder deposit amount in gwei* |
+| **signature** | `String` | *The builder deposit signature* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_block_execution_request_builder_exit
+
+Contains an EIP-8282 execution request builder exit from a beacon block.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_block_execution_request_builder_exit/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_exit/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_request_builder_exit FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_block_execution_request_builder_exit FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **slot** | `UInt32` | *The slot number from beacon block payload* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number from beacon block payload* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *The root hash of the beacon block* |
+| **block_version** | `LowCardinality(String)` | *The version of the beacon block* |
+| **block_number** | `UInt64` | *The execution block number from the execution payload* |
+| **block_hash** | `FixedString(66)` | *The execution block hash from the execution payload* |
+| **position_in_block** | `UInt32` | *The index of the builder exit within the block builder exit requests* |
+| **source_address** | `FixedString(42)` | *The source address that initiated the builder exit request* |
+| **pubkey** | `String` | *The public key of the builder the exit targets* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_state_builder
+
+Contains the Gloas builder registry snapshot for a canonical beacon state epoch.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_state_builder/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_state_builder FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_state_builder FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **epoch** | `UInt32` | *The epoch number the builder registry snapshot is for* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **state_id** | `LowCardinality(String)` | *The state ID the registry was read from* |
+| **builder_index** | `UInt64` | *The index of the builder in the registry* |
+| **pubkey** | `FixedString(98)` | *The public key of the builder* |
+| **version** | `UInt8` | *The builder version byte* |
+| **execution_address** | `FixedString(42)` | *The execution address of the builder* |
+| **balance** | `UInt64` | *The builder balance in gwei* |
+| **deposit_epoch** | `UInt64` | *The epoch in which the builder was added to the registry* |
+| **withdrawable_epoch** | `UInt64` | *The epoch from which the builder can be withdrawn, FAR_FUTURE_EPOCH while no exit was initiated* |
+| **status** | `LowCardinality(String)` | *The builder status (pending, active or exited) evaluated against the finalized checkpoint of the state* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_state_builder_pending_payment
+
+Contains the non-empty Gloas builder pending payments of a canonical beacon state epoch.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_state_builder_pending_payment/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder_pending_payment/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_state_builder_pending_payment FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_state_builder_pending_payment FINAL
+    WHERE
+        epoch_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **epoch** | `UInt32` | *The epoch number the builder pending payments snapshot is for* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **state_id** | `LowCardinality(String)` | *The state ID the payments were read from* |
+| **payment_index** | `UInt32` | *The index into builder_pending_payments, below SLOTS_PER_EPOCH for the previous epoch and above for the current epoch* |
+| **slot** | `UInt32` | *The slot the payment belongs to* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **weight** | `UInt64` | *The attestation weight accumulated for the payment in gwei* |
+| **fee_recipient** | `FixedString(42)` | *The fee recipient of the payment withdrawal* |
+| **amount** | `UInt64` | *The payment amount in gwei* |
+| **builder_index** | `UInt64` | *The index of the paying builder* |
+| **proposer_index** | `UInt32` | *The validator index of the slot proposer* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_state_execution_payload_availability
+
+Contains the Gloas execution payload availability bit of each slot, as recorded by the canonical beacon state.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_state_execution_payload_availability/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_execution_payload_availability/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_state_execution_payload_availability FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_state_execution_payload_availability FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **slot** | `UInt32` | *The slot the availability bit is for* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number the slot belongs to* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **state_id** | `LowCardinality(String)` | *The state ID the bit was read from* |
+| **available** | `Bool` | *Whether the slot execution payload was revealed and applied to the state* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## canonical_beacon_state_ptc_member
+
+Contains the ordered payload timeliness committee of each Gloas slot, one row per committee position.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/canonical_beacon_state_ptc_member/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_ptc_member/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.canonical_beacon_state_ptc_member FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.canonical_beacon_state_ptc_member FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *When this row was last updated* |
+| **slot** | `UInt32` | *The slot the payload timeliness committee serves* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number the slot belongs to* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **state_id** | `LowCardinality(String)` | *The state ID the committee was read from* |
+| **position** | `UInt32` | *The index of the member within the committee, equal to its bit index in a payload attestation aggregation_bits* |
+| **validator_index** | `UInt32` | *The validator holding this position, which can repeat within a committee* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 <!-- schema_end -->

@@ -1,0 +1,37 @@
+CREATE TABLE default.beacon_synthetic_builder_pending_payment_settlement
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `event_date_time` DateTime64(3) COMMENT 'When the beacon node processed this settlement (TYSM ResolvedAt)' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch boundary at which this settlement was processed' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `builder_index` UInt64 COMMENT 'Index of the builder in the builder registry' CODEC(ZSTD(1)),
+    `fee_recipient` FixedString(42) COMMENT 'Builder fee recipient address' CODEC(ZSTD(1)),
+    `amount` UInt64 COMMENT 'Payment amount in Gwei' CODEC(ZSTD(1)),
+    `weight` UInt64 COMMENT 'Quorum weight achieved in Gwei' CODEC(ZSTD(1)),
+    `quorum` UInt64 COMMENT 'Quorum threshold needed in Gwei' CODEC(ZSTD(1)),
+    `outcome` LowCardinality(String) COMMENT 'Settlement outcome: SETTLED / DROPPED',
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'ASN of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'AS organization of the client' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Consensus client version',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Consensus client major version',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Consensus client minor version',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Consensus client patch version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Consensus client implementation',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = Distributed('{cluster}', 'default', 'beacon_synthetic_builder_pending_payment_settlement_local', cityHash64(epoch_start_date_time, meta_network_name, meta_client_name, builder_index, outcome))
+COMMENT 'Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) synthesized from TYSM-instrumented beacon node internals. Multi-witness (per-node).'

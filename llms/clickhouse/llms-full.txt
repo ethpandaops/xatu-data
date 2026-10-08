@@ -128,6 +128,12 @@ ORDER BY observations DESC
 **Table Prefix**: `libp2p_`
 **Availability**: ethpandaops-clickhouse, public
 
+### Beacon Synthetic
+> Events synthesized from the internals of instrumented beacon nodes, such as fork choice payload status changes and builder payment settlement. Each instance records its own view, so the same event usually appears once per instance.
+
+**Table Prefix**: `beacon_synthetic_`
+**Availability**: ethpandaops-clickhouse, public
+
 ### MEV Relay
 > Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.
 
@@ -2392,6 +2398,66 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet, holesky, sepolia
 - **Description**: Contains beacon API eventstream "voluntary exit" data from each sentry client attached to a beacon node.
 
+### `beacon_api_eth_v1_events_execution_payload`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "execution_payload" data from each sentry client attached to a beacon node. The event fires when an execution payload envelope is imported into fork choice.
+
+### `beacon_api_eth_v1_events_execution_payload_available`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "execution_payload_available" data from each sentry client attached to a beacon node. The event fires when the payload and its blobs are verified locally, ahead of the payload timeliness committee vote.
+
+### `beacon_api_eth_v1_events_execution_payload_bid`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "execution_payload_bid" data (builder bids) from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_execution_payload_gossip`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "execution_payload_gossip" data from each sentry client attached to a beacon node. The event fires when an execution payload envelope is first seen on gossip, before import.
+
+### `beacon_api_eth_v1_events_head_v2`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: mainnet, hoodi, sepolia
+- **Description**: Contains beacon API eventstream "head_v2" data from each sentry client attached to a beacon node. The event fires again when a head's payload status changes from empty to full, so a head can appear twice per client.
+
+### `beacon_api_eth_v1_events_payload_attestation`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "payload_attestation_message" data (individual payload timeliness committee votes) from each sentry client attached to a beacon node.
+
+### `beacon_api_eth_v1_events_proposer_preferences`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains beacon API eventstream "proposer_preferences" data from each sentry client attached to a beacon node.
+
+### `beacon_synthetic_builder_pending_payment_settlement`
+- **Database**: `default`
+- **Partitioning**: `epoch_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the settle or drop decision for each builder pending payment at the epoch boundary, as seen by each instrumented beacon node.
+
+### `beacon_synthetic_payload_attestation_processed`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains payload timeliness committee votes that passed full gossip validation, as seen by each instrumented beacon node. The relaying peer ID is redacted in the public data.
+
+### `beacon_synthetic_payload_status_resolved`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains fork choice payload status changes for each block, as seen by each instrumented beacon node.
+
 ### `beacon_api_eth_v1_validator_attestation_data`
 - **Database**: `default`
 - **Partitioning**: `slot_start_date_time` (datetime, daily)
@@ -2506,6 +2572,66 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Networks**: mainnet, holesky, sepolia
 - **Description**: Contains a validator state for an epoch.
 
+### `canonical_beacon_block_access_list`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the EIP-7928 block access list of each block's execution payload, one row per entry (a storage write or read, a balance, nonce or code change, or an account that was only touched).
+
+### `canonical_beacon_block_access_list_summary`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains a per-block summary of the EIP-7928 block access list from a beacon block (1 row per block).
+
+### `canonical_beacon_block_execution_payload_bid`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the winning execution payload bid from a beacon block (1 row per block).
+
+### `canonical_beacon_block_payload_attestation`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the aggregated payload timeliness committee attestations from a beacon block.
+
+### `canonical_beacon_block_execution_request_builder_deposit`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains an EIP-8282 builder deposit execution request from a beacon block.
+
+### `canonical_beacon_block_execution_request_builder_exit`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains an EIP-8282 builder exit execution request from a beacon block.
+
+### `canonical_beacon_state_builder`
+- **Database**: `default`
+- **Partitioning**: `epoch_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the builder registry of the beacon state at each epoch.
+
+### `canonical_beacon_state_builder_pending_payment`
+- **Database**: `default`
+- **Partitioning**: `epoch_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the non-empty builder pending payments of the beacon state at each epoch.
+
+### `canonical_beacon_state_execution_payload_availability`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the execution payload availability bit of each slot, as recorded by the beacon state.
+
+### `canonical_beacon_state_ptc_member`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Contains the ordered payload timeliness committee of each slot, one row per committee position.
+
 ### `libp2p_gossipsub_beacon_attestation`
 - **Database**: `default`
 - **Partitioning**: `slot_start_date_time` (datetime, hourly)
@@ -2535,6 +2661,30 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Partitioning**: `slot_start_date_time` (datetime, daily)
 - **Networks**: mainnet, holesky, sepolia
 - **Description**: Table for libp2p gossipsub aggregate and proof attestation data
+
+### `libp2p_gossipsub_execution_payload_bid`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Table for libp2p gossipsub execution payload bid data.
+
+### `libp2p_gossipsub_execution_payload_envelope`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Table for libp2p gossipsub execution payload envelope data.
+
+### `libp2p_gossipsub_payload_attestation_message`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Table for libp2p gossipsub payload attestation message data (individual payload timeliness committee votes).
+
+### `libp2p_gossipsub_proposer_preferences`
+- **Database**: `default`
+- **Partitioning**: `slot_start_date_time` (datetime, daily)
+- **Networks**: sepolia
+- **Description**: Table for libp2p gossipsub proposer preferences data.
 
 ### `libp2p_connected`
 - **Database**: `default`

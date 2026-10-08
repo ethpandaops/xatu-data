@@ -76,6 +76,10 @@ Events without sharding keys:
 - [`libp2p_gossipsub_blob_sidecar`](#libp2p_gossipsub_blob_sidecar)
 - [`libp2p_gossipsub_data_column_sidecar`](#libp2p_gossipsub_data_column_sidecar)
 - [`libp2p_gossipsub_aggregate_and_proof`](#libp2p_gossipsub_aggregate_and_proof)
+- [`libp2p_gossipsub_execution_payload_bid`](#libp2p_gossipsub_execution_payload_bid)
+- [`libp2p_gossipsub_execution_payload_envelope`](#libp2p_gossipsub_execution_payload_envelope)
+- [`libp2p_gossipsub_payload_attestation_message`](#libp2p_gossipsub_payload_attestation_message)
+- [`libp2p_gossipsub_proposer_preferences`](#libp2p_gossipsub_proposer_preferences)
 - [`libp2p_connected`](#libp2p_connected)
 - [`libp2p_disconnected`](#libp2p_disconnected)
 - [`libp2p_recv_rpc`](#libp2p_recv_rpc)
@@ -637,6 +641,436 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_name** | `LowCardinality(String)` | *Name of the network associated with the client* |
+
+## libp2p_gossipsub_execution_payload_bid
+
+Builder bid gossip propagation from libp2p.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_execution_payload_bid/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_bid/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_execution_payload_bid FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_execution_payload_bid FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the event with millisecond precision* |
+| **slot** | `UInt32` | *Slot number* |
+| **slot_start_date_time** | `DateTime` | *Start date and time of the slot* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *Start date and time of the epoch* |
+| **wallclock_slot** | `UInt32` | *Wall clock slot when the event was received* |
+| **wallclock_slot_start_date_time** | `DateTime` | *Start time of the wall clock slot* |
+| **wallclock_epoch** | `UInt32` | *Wall clock epoch when the event was received* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *Start time of the wall clock epoch* |
+| **propagation_slot_start_diff** | `Int32` | *Propagation delay from slot start in ms (negative if observed before slot start)* |
+| **builder_index** | `Nullable(UInt64)` | *Index of the builder, NULL when self-built* |
+| **block_hash** | `FixedString(66)` | *Execution block hash committed to in the bid* |
+| **parent_block_hash** | `FixedString(66)` | *Parent execution block hash* |
+| **value** | `UInt64` | *Bid value in Gwei* |
+| **execution_payment** | `UInt64` | *Execution payment in Gwei* |
+| **fee_recipient** | `FixedString(42)` | *Fee recipient address* |
+| **gas_limit** | `UInt64` | *Gas limit* |
+| **blob_kzg_commitment_count** | `UInt32` | *Number of blob KZG commitments* |
+| **peer_id_unique_key** | `Int64` | *Unique key for the peer identifier* |
+| **message_id** | `String` | *Identifier of the gossip message* |
+| **message_size** | `UInt32` | *Size of the message in bytes* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the gossipsub topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding used for the topic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## libp2p_gossipsub_execution_payload_envelope
+
+Execution payload envelope gossip propagation from libp2p.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_execution_payload_envelope/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_envelope/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_execution_payload_envelope FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_execution_payload_envelope FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the event with millisecond precision* |
+| **slot** | `UInt32` | *Slot number* |
+| **slot_start_date_time** | `DateTime` | *Start date and time of the slot* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *Start date and time of the epoch* |
+| **wallclock_slot** | `UInt32` | *Wall clock slot when the event was received* |
+| **wallclock_slot_start_date_time** | `DateTime` | *Start time of the wall clock slot* |
+| **wallclock_epoch** | `UInt32` | *Wall clock epoch when the event was received* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *Start time of the wall clock epoch* |
+| **propagation_slot_start_diff** | `UInt32` | *Propagation delay from slot start in ms* |
+| **block_root** | `FixedString(66)` | *Beacon block root the envelope references* |
+| **builder_index** | `Nullable(UInt64)` | *Index of the builder that produced the payload, NULL when self-built* |
+| **block_hash** | `FixedString(66)` | *Execution block hash* |
+| **peer_id_unique_key** | `Int64` | *Unique key for the peer identifier* |
+| **message_id** | `String` | *Identifier of the gossip message* |
+| **message_size** | `UInt32` | *Size of the message in bytes* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the gossipsub topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding used for the topic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## libp2p_gossipsub_payload_attestation_message
+
+Individual PTC payload attestation messages from libp2p gossip (~512 per slot).
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_payload_attestation_message/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_payload_attestation_message/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_payload_attestation_message FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_payload_attestation_message FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the event with millisecond precision* |
+| **slot** | `UInt32` | *Slot number* |
+| **slot_start_date_time** | `DateTime` | *Start date and time of the slot* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *Start date and time of the epoch* |
+| **wallclock_slot** | `UInt32` | *Wall clock slot when the event was received* |
+| **wallclock_slot_start_date_time** | `DateTime` | *Start time of the wall clock slot* |
+| **wallclock_epoch** | `UInt32` | *Wall clock epoch when the event was received* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *Start time of the wall clock epoch* |
+| **propagation_slot_start_diff** | `UInt32` | *Propagation delay from slot start in ms* |
+| **validator_index** | `UInt32` | *Index of the PTC validator* |
+| **beacon_block_root** | `FixedString(66)` | *Block root being attested to* |
+| **payload_present** | `Bool` | *Whether the validator attests payload was present* |
+| **blob_data_available** | `Bool` | *Whether the validator attests blob data was available* |
+| **peer_id_unique_key** | `Int64` | *Unique key for the peer identifier* |
+| **message_id** | `String` | *Identifier of the gossip message* |
+| **message_size** | `UInt32` | *Size of the message in bytes* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the gossipsub topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding used for the topic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## libp2p_gossipsub_proposer_preferences
+
+Proposer preferences gossip propagation from libp2p.
+
+
+> 🔀 Introduced in the **Glamsterdam** network upgrade (`gloas` fork).
+
+### Availability
+Data is partitioned **daily** on **slot_start_date_time** for the following networks:
+
+- **sepolia**: `2026-10-06` to `2026-10-06`
+
+### Examples
+
+<details>
+<summary>Parquet file</summary>
+
+> https://data.ethpandaops.io/xatu/NETWORK/databases/default/libp2p_gossipsub_proposer_preferences/YYYY/MM/DD.parquet
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_proposer_preferences/2026/10/1.parquet', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_proposer_preferences FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM default.libp2p_gossipsub_proposer_preferences FINAL
+    WHERE
+        slot_start_date_time >= NOW() - INTERVAL '1 HOUR'
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **event_date_time** | `DateTime64(3)` | *Timestamp of the event with millisecond precision* |
+| **slot** | `UInt32` | *Proposal slot* |
+| **slot_start_date_time** | `DateTime` | *Start date and time of the slot* |
+| **epoch** | `UInt32` | *Epoch number* |
+| **epoch_start_date_time** | `DateTime` | *Start date and time of the epoch* |
+| **wallclock_slot** | `UInt32` | *Wall clock slot when the event was received* |
+| **wallclock_slot_start_date_time** | `DateTime` | *Start time of the wall clock slot* |
+| **wallclock_epoch** | `UInt32` | *Wall clock epoch when the event was received* |
+| **wallclock_epoch_start_date_time** | `DateTime` | *Start time of the wall clock epoch* |
+| **propagation_slot_start_diff** | `Int32` | *Propagation delay from slot start in ms (negative if observed before slot start)* |
+| **validator_index** | `UInt32` | *Index of the proposing validator* |
+| **fee_recipient** | `FixedString(42)` | *Preferred fee recipient address* |
+| **target_gas_limit** | `UInt64` | *Preferred gas limit* |
+| **peer_id_unique_key** | `Int64` | *Unique key for the peer identifier* |
+| **message_id** | `String` | *Identifier of the gossip message* |
+| **message_size** | `UInt32` | *Size of the message in bytes* |
+| **topic_layer** | `LowCardinality(String)` | *Layer of the gossipsub topic* |
+| **topic_fork_digest_value** | `LowCardinality(String)` | *Fork digest value of the topic* |
+| **topic_name** | `LowCardinality(String)` | *Name of the topic* |
+| **topic_encoding** | `LowCardinality(String)` | *Encoding used for the topic* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the client that generated the event* |
+| **meta_client_id** | `String` | *Unique Session ID of the client* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the client* |
+| **meta_client_os** | `LowCardinality(String)` | *Operating system of the client* |
+| **meta_client_ip** | `Nullable(IPv6)` | *IP address of the client* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the client* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the client* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the client* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the client* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the client* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the client* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
+| **meta_network_id** | `Int32` | *Ethereum network ID* |
+| **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
 
 ## libp2p_connected
 
@@ -2613,7 +3047,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/9/30.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/10/1.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

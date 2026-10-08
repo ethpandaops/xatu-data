@@ -1,0 +1,43 @@
+CREATE TABLE default.canonical_beacon_block_payload_attestation_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'Slot number of the block containing this payload attestation' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'Epoch number' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` FixedString(66) COMMENT 'Root of the block containing this attestation' CODEC(ZSTD(1)),
+    `block_version` LowCardinality(String) COMMENT 'Block version (e.g. gloas)',
+    `position` UInt32 COMMENT 'Position of the payload attestation in the block body (0-3)' CODEC(DoubleDelta, ZSTD(1)),
+    `beacon_block_root` FixedString(66) COMMENT 'The block root being attested to by the PTC' CODEC(ZSTD(1)),
+    `payload_present` Bool COMMENT 'Whether the PTC attests payload was present' CODEC(ZSTD(1)),
+    `blob_data_available` Bool COMMENT 'Whether the PTC attests blob data was available' CODEC(ZSTD(1)),
+    `aggregation_bits` String COMMENT 'Bitvector of PTC members (512 bits) as hex' CODEC(ZSTD(1)),
+    `attesting_validator_count` UInt32 COMMENT 'Number of PTC validators in this aggregation' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_client_name` LowCardinality(String) COMMENT 'Name of the client that generated the event',
+    `meta_client_id` String COMMENT 'Unique Session ID of the client' CODEC(ZSTD(1)),
+    `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
+    `meta_client_implementation` LowCardinality(String) COMMENT 'Implementation of the client',
+    `meta_client_os` LowCardinality(String) COMMENT 'Operating system of the client',
+    `meta_client_ip` Nullable(IPv6) COMMENT 'IP address of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_city` LowCardinality(String) COMMENT 'City of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country` LowCardinality(String) COMMENT 'Country of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_country_code` LowCardinality(String) COMMENT 'Country code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_continent_code` LowCardinality(String) COMMENT 'Continent code of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'ASN of the client' CODEC(ZSTD(1)),
+    `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'AS organization of the client' CODEC(ZSTD(1)),
+    `meta_network_id` Int32 COMMENT 'Ethereum network ID' CODEC(DoubleDelta, ZSTD(1)),
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `meta_consensus_version` LowCardinality(String) COMMENT 'Consensus client version',
+    `meta_consensus_version_major` LowCardinality(String) COMMENT 'Consensus client major version',
+    `meta_consensus_version_minor` LowCardinality(String) COMMENT 'Consensus client minor version',
+    `meta_consensus_version_patch` LowCardinality(String) COMMENT 'Consensus client patch version',
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Consensus client implementation',
+    `meta_labels` Map(String, String) COMMENT 'Labels associated with the event' CODEC(ZSTD(1))
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/default/tables/canonical_beacon_block_payload_attestation_local/{shard}', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(slot_start_date_time)
+ORDER BY (slot_start_date_time, meta_network_name, block_root, position)
+SETTINGS index_granularity = 8192
+COMMENT 'Aggregated PTC payload attestations from canonical beacon blocks (max 4 per block).'

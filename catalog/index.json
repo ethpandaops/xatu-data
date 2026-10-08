@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T22:29:32Z",
+  "generated_at": "2026-10-08T02:17:14Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -22,6 +22,13 @@
         "beacon_api_eth_v1_events_finalized_checkpoint",
         "beacon_api_eth_v1_events_head",
         "beacon_api_eth_v1_events_voluntary_exit",
+        "beacon_api_eth_v1_events_execution_payload",
+        "beacon_api_eth_v1_events_execution_payload_available",
+        "beacon_api_eth_v1_events_execution_payload_bid",
+        "beacon_api_eth_v1_events_execution_payload_gossip",
+        "beacon_api_eth_v1_events_head_v2",
+        "beacon_api_eth_v1_events_payload_attestation",
+        "beacon_api_eth_v1_events_proposer_preferences",
         "beacon_api_eth_v1_validator_attestation_data",
         "beacon_api_eth_v2_beacon_block",
         "beacon_api_eth_v1_proposer_duty",
@@ -64,7 +71,17 @@
         "canonical_beacon_proposer_duty",
         "canonical_beacon_elaborated_attestation",
         "canonical_beacon_validators",
-        "canonical_beacon_validators_pubkeys"
+        "canonical_beacon_validators_pubkeys",
+        "canonical_beacon_block_access_list",
+        "canonical_beacon_block_access_list_summary",
+        "canonical_beacon_block_execution_payload_bid",
+        "canonical_beacon_block_payload_attestation",
+        "canonical_beacon_block_execution_request_builder_deposit",
+        "canonical_beacon_block_execution_request_builder_exit",
+        "canonical_beacon_state_builder",
+        "canonical_beacon_state_builder_pending_payment",
+        "canonical_beacon_state_execution_payload_availability",
+        "canonical_beacon_state_ptc_member"
       ]
     },
     {
@@ -112,6 +129,10 @@
         "libp2p_gossipsub_blob_sidecar",
         "libp2p_gossipsub_data_column_sidecar",
         "libp2p_gossipsub_aggregate_and_proof",
+        "libp2p_gossipsub_execution_payload_bid",
+        "libp2p_gossipsub_execution_payload_envelope",
+        "libp2p_gossipsub_payload_attestation_message",
+        "libp2p_gossipsub_proposer_preferences",
         "libp2p_connected",
         "libp2p_disconnected",
         "libp2p_recv_rpc",
@@ -135,6 +156,21 @@
         "libp2p_rpc_data_column_custody_probe",
         "libp2p_identify",
         "libp2p_synthetic_heartbeat"
+      ]
+    },
+    {
+      "name": "Beacon Synthetic",
+      "prefix": "beacon_synthetic_",
+      "key": "beacon_synthetic_",
+      "description": "Events synthesized from the internals of instrumented beacon nodes, such as fork choice payload status changes and builder payment settlement. Each instance records its own view, so the same event usually appears once per instance.",
+      "availability": [
+        "ethpandaops-clickhouse",
+        "public"
+      ],
+      "tables": [
+        "beacon_synthetic_builder_pending_payment_settlement",
+        "beacon_synthetic_payload_attestation_processed",
+        "beacon_synthetic_payload_status_resolved"
       ]
     },
     {
