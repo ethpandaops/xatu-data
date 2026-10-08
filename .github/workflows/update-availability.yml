@@ -27,6 +27,7 @@ jobs:
             ./update-availability.sh "Canonical Execution"
             ./update-availability.sh "Consensus Layer P2P"
             ./update-availability.sh "MEV Relay"
+            ./update-availability.sh "Beacon Synthetic"
       - name: Commit changes
         run: |
           git config --global user.email "action@github.com"
