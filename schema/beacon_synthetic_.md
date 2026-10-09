@@ -24,7 +24,7 @@ Builder pending payment settle/drop decisions at epoch boundary (EIP-7732 ePBS) 
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-07`
+- **sepolia**: `2026-10-06` to `2026-10-08`
 
 ### Examples
 
@@ -36,7 +36,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_builder_pending_payment_settlement/2026/10/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_builder_pending_payment_settlement/2026/10/2.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -125,7 +125,7 @@ PTC votes after full gossip validation completed (EIP-7732 ePBS) synthesized fro
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-07`
+- **sepolia**: `2026-10-06` to `2026-10-08`
 
 ### Examples
 
@@ -137,7 +137,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_attestation_processed/2026/10/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_attestation_processed/2026/10/2.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -230,7 +230,7 @@ Fork-choice payload status transitions (EIP-7732 ePBS) synthesized from TYSM-ins
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **sepolia**: `2026-10-06` to `2026-10-07`
+- **sepolia**: `2026-10-06` to `2026-10-08`
 
 ### Examples
 
@@ -242,7 +242,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_status_resolved/2026/10/1.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_status_resolved/2026/10/2.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
