@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T12:21:19Z",
+  "generated_at": "2026-10-09T22:04:13Z",
   "dataset": {
     "name": "MEV Relay",
     "description": "Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.",
@@ -254,7 +254,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-10-07"
+          "to": "2026-10-08"
         },
         "holesky": {
           "from": "2024-09-16",
