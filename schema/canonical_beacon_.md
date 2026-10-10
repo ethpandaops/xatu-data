@@ -482,9 +482,9 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2026-10-08`
+- **mainnet**: `2022-09-06` to `2026-10-09`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-22` to `2026-10-08`
+- **sepolia**: `2022-06-22` to `2026-10-09`
 
 ### Examples
 
@@ -496,7 +496,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2026/10/8.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2026/10/9.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1067,7 +1067,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 
 - **mainnet**: `2020-12-01` to `2026-10-08`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-10-08`
+- **sepolia**: `2022-06-20` to `2026-10-09`
 
 ### Examples
 
@@ -1149,7 +1149,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2381750`
+- **mainnet**: `0` to `2382150`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `2000`
 
