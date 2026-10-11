@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T11:49:21Z",
+  "generated_at": "2026-10-11T21:14:38Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -15,7 +15,7 @@
     {
       "name": "frames-devnet-0",
       "repository": "ethpandaops/frames-devnets",
-      "dora": null,
+      "dora": "https://dora.frames-devnet-0.ethpandaops.io",
       "fork": "gloas",
       "xatu_branch": "master",
       "database": "frames-devnet-0",
@@ -43,7 +43,7 @@
         {
           "name": "frames-devnet-0",
           "repository": "ethpandaops/frames-devnets",
-          "dora": null,
+          "dora": "https://dora.frames-devnet-0.ethpandaops.io",
           "new_table_count": 0
         },
         {
