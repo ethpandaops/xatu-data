@@ -149,13 +149,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2020-12-02'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -169,13 +169,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-14'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2025-05-14'
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
@@ -209,13 +209,13 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -273,13 +273,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2023-12-05'
         to: '2026-06-02'
       sepolia:
         from: '2023-12-05'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head" data from each sentry client attached to a beacon node.
@@ -314,7 +314,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "execution_payload" data from each sentry client attached to a beacon node. The event fires when an execution payload envelope is imported into fork choice.
@@ -329,7 +329,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "execution_payload_available" data from each sentry client attached to a beacon node. The event fires when the payload and its blobs are verified locally, ahead of the payload timeliness committee vote.
@@ -344,7 +344,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "execution_payload_bid" data (builder bids) from each sentry client attached to a beacon node.
@@ -359,7 +359,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "execution_payload_gossip" data from each sentry client attached to a beacon node. The event fires when an execution payload envelope is first seen on gossip, before import.
@@ -374,13 +374,13 @@ tables:
     networks:
       mainnet:
         from: '2026-09-30'
-        to: '2026-10-09'
+        to: '2026-10-10'
       hoodi:
         from: '2026-09-30'
-        to: '2026-10-09'
+        to: '2026-10-10'
       sepolia:
         from: '2026-09-29'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head_v2" data from each sentry client attached to a beacon node. The event fires again when a head's payload status changes from empty to full, so a head can appear twice per client.
@@ -395,7 +395,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "payload_attestation_message" data (individual payload timeliness committee votes) from each sentry client attached to a beacon node.
@@ -410,7 +410,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "proposer_preferences" data from each sentry client attached to a beacon node.
@@ -469,13 +469,13 @@ tables:
     networks:
       mainnet:
         from: '2023-08-31'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2023-12-24'
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -515,7 +515,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2024-01-08'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Execution layer
       - Transaction
@@ -571,13 +571,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -592,7 +592,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
@@ -760,13 +760,13 @@ tables:
     networks:
       mainnet:
         from: '2024-03-13'
-        to: '2026-10-09'
+        to: '2026-10-10'
       holesky:
         from: '2024-02-07'
         to: '2025-10-15'
       sepolia:
         from: '2024-01-30'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -808,7 +808,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -823,7 +823,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-08'
+        to: '2026-10-09'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
@@ -867,7 +867,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -883,7 +883,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -899,7 +899,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -915,7 +915,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -931,7 +931,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -947,7 +947,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -963,7 +963,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -979,7 +979,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -995,7 +995,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
@@ -1011,7 +1011,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-09'
+        to: '2026-10-10'
     tags:
       - Consensus layer
       - Finalized
