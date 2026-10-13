@@ -43,9 +43,9 @@ Contains beacon API /eth/v1/beacon/states/{state_id}/committees data from each s
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-09-04` to `2026-10-10`
+- **mainnet**: `2023-09-04` to `2026-10-11`
 - **holesky**: `2023-09-28` to `2025-10-26`
-- **sepolia**: `2022-06-25` to `2026-10-10`
+- **sepolia**: `2022-06-25` to `2026-10-11`
 
 ### Examples
 
@@ -57,7 +57,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2026/10/10/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_beacon_committee/2026/10/11/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -138,9 +138,9 @@ Contains beacon API attestation events from each sentry client attached to a bea
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2023-06-01` to `2026-10-10`
+- **mainnet**: `2023-06-01` to `2026-10-11`
 - **holesky**: `2023-09-18` to `2025-11-17`
-- **sepolia**: `2023-08-31` to `2026-10-10`
+- **sepolia**: `2023-08-31` to `2026-10-11`
 
 ### Examples
 
@@ -152,7 +152,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2026/10/10/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_attestation/2026/10/11/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -836,7 +836,7 @@ Contains beacon API eventstream "finalized checkpoint" data from each sentry cli
 ### Availability
 Data is partitioned **daily** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-10-10`
+- **mainnet**: `2020-12-01` to `2026-10-11`
 - **holesky**: `2023-03-26` to `2026-06-02`
 - **sepolia**: `2023-03-26` to `2026-10-11`
 
@@ -850,7 +850,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2026/10/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_finalized_checkpoint/2026/10/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1141,7 +1141,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1243,7 +1243,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_available/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_available/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1342,7 +1342,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_bid/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_bid/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1449,7 +1449,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_gossip/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_gossip/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1653,7 +1653,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_payload_attestation/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_payload_attestation/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1755,7 +1755,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_proposer_preferences/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_proposer_preferences/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2160,9 +2160,9 @@ Contains beacon API /eth/v3/validator/blocks/{slot} data from each sentry client
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-11-25` to `2026-10-10`
+- **mainnet**: `2024-11-25` to `2026-10-11`
 - **holesky**: `2024-11-25` to `2025-10-26`
-- **sepolia**: `2024-11-25` to `2026-10-10`
+- **sepolia**: `2024-11-25` to `2026-10-11`
 
 ### Examples
 
@@ -2174,7 +2174,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v3_validator_block/2026/10/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v3_validator_block/2026/10/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

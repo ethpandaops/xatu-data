@@ -482,9 +482,9 @@ Contains execution transaction from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2022-09-06` to `2026-10-10`
+- **mainnet**: `2022-09-06` to `2026-10-11`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-22` to `2026-10-10`
+- **sepolia**: `2022-06-22` to `2026-10-11`
 
 ### Examples
 
@@ -496,7 +496,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2026/10/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_transaction/2026/10/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -900,7 +900,7 @@ Contains a proposer duty from a beacon block.
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-10-10`
+- **mainnet**: `2020-12-01` to `2026-10-11`
 - **holesky**: `2023-09-23` to `2025-10-26`
 - **sepolia**: `2022-06-20` to `2026-10-11`
 
@@ -914,7 +914,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2026/10/10.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_proposer_duty/2026/10/11.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1065,9 +1065,9 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned **hourly** on **epoch_start_date_time** for the following networks:
 
-- **mainnet**: `2020-12-01` to `2026-10-10`
+- **mainnet**: `2020-12-01` to `2026-10-11`
 - **holesky**: `2023-09-23` to `2025-10-26`
-- **sepolia**: `2022-06-20` to `2026-10-10`
+- **sepolia**: `2022-06-20` to `2026-10-11`
 
 ### Examples
 
@@ -1079,7 +1079,7 @@ Data is partitioned **hourly** on **epoch_start_date_time** for the following ne
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/10/10/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_validators/2026/10/11/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1149,7 +1149,7 @@ Contains a validator state for an epoch.
 ### Availability
 Data is partitioned in chunks of **50** on **index** for the following networks:
 
-- **mainnet**: `0` to `2382750`
+- **mainnet**: `0` to `2383450`
 - **holesky**: `0` to `1923800`
 - **sepolia**: `0` to `2000`
 
@@ -1250,7 +1250,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1354,7 +1354,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list_summary/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_access_list_summary/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1464,7 +1464,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_payload_bid/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_payload_bid/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1572,7 +1572,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_payload_attestation/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_payload_attestation/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1676,7 +1676,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_deposit/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_deposit/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1760,7 +1760,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_exit/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_block_execution_request_builder_exit/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1842,7 +1842,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1924,7 +1924,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder_pending_payment/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_builder_pending_payment/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2006,7 +2006,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_execution_payload_availability/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_execution_payload_availability/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2083,7 +2083,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_ptc_member/2026/10/5.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/canonical_beacon_state_ptc_member/2026/10/6.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
