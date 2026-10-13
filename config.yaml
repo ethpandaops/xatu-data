@@ -88,13 +88,13 @@ tables:
     networks:
       mainnet:
         from: '2023-09-04'
-        to: '2026-10-11'
+        to: '2026-10-12'
       holesky:
         from: '2023-09-28'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-25'
-        to: '2026-10-11'
+        to: '2026-10-12'
     tags:
       - Consensus layer
     quirks: Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
@@ -109,13 +109,13 @@ tables:
     networks:
       mainnet:
         from: '2023-06-01'
-        to: '2026-10-11'
+        to: '2026-10-12'
       holesky:
         from: '2023-09-18'
         to: '2025-11-17'
       sepolia:
         from: '2023-08-31'
-        to: '2026-10-11'
+        to: '2026-10-12'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -823,13 +823,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-11'
+        to: '2026-10-12'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-10-11'
+        to: '2026-10-12'
     tags:
       - Consensus layer
       - Finalized
@@ -844,7 +844,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2383450'
+        to: '2383800'
       holesky:
         from: '0'
         to: '1923800'
@@ -1026,13 +1026,13 @@ tables:
     networks:
       mainnet:
         from: '2024-05-01'
-        to: '2026-10-11'
+        to: '2026-10-12'
       holesky:
         from: '2024-05-01'
         to: '2025-10-26'
       sepolia:
         from: '2024-05-01'
-        to: '2026-10-11'
+        to: '2026-10-12'
     tags:
       - Consensus layer
       - P2P
