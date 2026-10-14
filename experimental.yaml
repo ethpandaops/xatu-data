@@ -1,4 +1,4 @@
-generated_at: "2026-10-14T10:51:54Z"
+generated_at: "2026-10-14T21:07:45Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: focil-devnet-1
@@ -16,6 +16,14 @@ networks:
     xatu_branch: master
     database: frames-devnet-0
     tables_total: 137
+    new_tables: []
+  - name: glamsterdam-devnet-12
+    repository: ethpandaops/glamsterdam-devnets
+    dora: https://dora.glamsterdam-devnet-12.ethpandaops.io
+    fork: gloas
+    xatu_branch: master
+    database: glamsterdam-devnet-12
+    tables_total: 145
     new_tables: []
   - name: glamsterdam-devnet-8
     repository: ethpandaops/glamsterdam-devnets
@@ -42,6 +50,10 @@ forks:
       - name: frames-devnet-0
         repository: ethpandaops/frames-devnets
         dora: https://dora.bogota-devnet-0.ethpandaops.io
+        new_table_count: 0
+      - name: glamsterdam-devnet-12
+        repository: ethpandaops/glamsterdam-devnets
+        dora: https://dora.glamsterdam-devnet-12.ethpandaops.io
         new_table_count: 0
       - name: glamsterdam-devnet-8
         repository: ethpandaops/glamsterdam-devnets
