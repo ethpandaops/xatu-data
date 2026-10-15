@@ -1,4 +1,4 @@
-generated_at: "2026-10-15T10:34:24Z"
+generated_at: "2026-10-15T20:43:32Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: focil-devnet-1
@@ -9,12 +9,12 @@ networks:
     database: focil-devnet-1
     tables_total: 137
     new_tables: []
-  - name: frames-devnet-0
+  - name: frames-devnet-1
     repository: ethpandaops/frames-devnets
-    dora: https://dora.bogota-devnet-0.ethpandaops.io
+    dora: https://dora.bogota-devnet-1.ethpandaops.io
     fork: gloas
     xatu_branch: master
-    database: frames-devnet-0
+    database: frames-devnet-1
     tables_total: 137
     new_tables: []
   - name: glamsterdam-devnet-12
@@ -33,23 +33,15 @@ networks:
     database: glamsterdam-devnet-8
     tables_total: 145
     new_tables: []
-  - name: glamsterdam-msf-2
-    repository: ethpandaops/glamsterdam-devnets
-    dora: https://dora.glamsterdam-msf-2.ethpandaops.io
-    fork: gloas
-    xatu_branch: master
-    database: glamsterdam-msf-2
-    tables_total: 145
-    new_tables: []
 forks:
   - name: gloas
     display_name: Glamsterdam
     slug: glamsterdam
     xatu_branch: master
     networks:
-      - name: frames-devnet-0
+      - name: frames-devnet-1
         repository: ethpandaops/frames-devnets
-        dora: https://dora.bogota-devnet-0.ethpandaops.io
+        dora: https://dora.bogota-devnet-1.ethpandaops.io
         new_table_count: 0
       - name: glamsterdam-devnet-12
         repository: ethpandaops/glamsterdam-devnets
@@ -58,10 +50,6 @@ forks:
       - name: glamsterdam-devnet-8
         repository: ethpandaops/glamsterdam-devnets
         dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
-        new_table_count: 0
-      - name: glamsterdam-msf-2
-        repository: ethpandaops/glamsterdam-devnets
-        dora: https://dora.glamsterdam-msf-2.ethpandaops.io
         new_table_count: 0
     tables: []
     merged_tables:
