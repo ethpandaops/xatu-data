@@ -36,7 +36,7 @@ Data is partitioned **daily** on **epoch_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_builder_pending_payment_settlement/2026/10/7.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_builder_pending_payment_settlement/2026/10/8.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -137,7 +137,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_attestation_processed/2026/10/7.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_attestation_processed/2026/10/8.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -242,7 +242,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_status_resolved/2026/10/7.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_synthetic_payload_status_resolved/2026/10/8.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
