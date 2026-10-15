@@ -374,13 +374,13 @@ tables:
     networks:
       mainnet:
         from: '2026-09-30'
-        to: '2026-10-13'
+        to: '2026-10-14'
       hoodi:
         from: '2026-09-30'
-        to: '2026-10-13'
+        to: '2026-10-14'
       sepolia:
         from: '2026-09-29'
-        to: '2026-10-13'
+        to: '2026-10-14'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head_v2" data from each sentry client attached to a beacon node. The event fires again when a head's payload status changes from empty to full, so a head can appear twice per client.
@@ -867,7 +867,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-13'
+        to: '2026-10-14'
     tags:
       - Consensus layer
       - Finalized
@@ -883,7 +883,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-13'
+        to: '2026-10-14'
     tags:
       - Consensus layer
       - Finalized
@@ -899,7 +899,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-13'
+        to: '2026-10-14'
     tags:
       - Consensus layer
       - Finalized
@@ -915,7 +915,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-13'
+        to: '2026-10-14'
     tags:
       - Consensus layer
       - Finalized
