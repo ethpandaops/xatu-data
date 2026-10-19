@@ -1141,7 +1141,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1243,7 +1243,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_available/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_available/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1342,7 +1342,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_bid/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_bid/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1449,7 +1449,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_gossip/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_execution_payload_gossip/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1538,9 +1538,9 @@ Contains beacon API eventstream "head_v2" data from each sentry client attached 
 ### Availability
 Data is partitioned **daily** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2026-09-30` to `2026-10-17`
-- **hoodi**: `2026-09-30` to `2026-10-17`
-- **sepolia**: `2026-09-29` to `2026-10-17`
+- **mainnet**: `2026-09-30` to `2026-10-18`
+- **hoodi**: `2026-09-30` to `2026-10-18`
+- **sepolia**: `2026-09-29` to `2026-10-18`
 
 ### Examples
 
@@ -1552,7 +1552,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head_v2/2026/10/17.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_head_v2/2026/10/18.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1653,7 +1653,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_payload_attestation/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_payload_attestation/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -1755,7 +1755,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_proposer_preferences/2026/10/11.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/beacon_api_eth_v1_events_proposer_preferences/2026/10/12.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T19:53:04Z",
+  "generated_at": "2026-10-19T11:33:42Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -9,7 +9,7 @@
       "fork": "heze",
       "xatu_branch": null,
       "database": "focil-devnet-1",
-      "tables_total": 137,
+      "tables_total": 146,
       "new_tables": []
     },
     {
@@ -19,7 +19,7 @@
       "fork": "gloas",
       "xatu_branch": "master",
       "database": "frames-devnet-1",
-      "tables_total": 137,
+      "tables_total": 146,
       "new_tables": []
     },
     {
@@ -29,7 +29,7 @@
       "fork": "gloas",
       "xatu_branch": "master",
       "database": "glamsterdam-devnet-8",
-      "tables_total": 145,
+      "tables_total": 146,
       "new_tables": []
     }
   ],

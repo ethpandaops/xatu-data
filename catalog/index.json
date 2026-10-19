@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T19:56:03Z",
+  "generated_at": "2026-10-19T11:36:14Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -233,6 +233,9 @@
         "fct_block_data_column_sidecar_first_seen",
         "fct_block_data_column_sidecar_first_seen_by_node",
         "fct_block_first_seen_by_node",
+        "fct_block_graffiti",
+        "fct_block_graffiti_client_daily",
+        "fct_block_graffiti_client_hourly",
         "fct_block_head",
         "fct_block_mev",
         "fct_block_mev_head",

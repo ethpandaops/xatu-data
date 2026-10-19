@@ -54,6 +54,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_data_column_sidecar_first_seen`](#fct_block_data_column_sidecar_first_seen)
 - [`fct_block_data_column_sidecar_first_seen_by_node`](#fct_block_data_column_sidecar_first_seen_by_node)
 - [`fct_block_first_seen_by_node`](#fct_block_first_seen_by_node)
+- [`fct_block_graffiti`](#fct_block_graffiti)
+- [`fct_block_graffiti_client_daily`](#fct_block_graffiti_client_daily)
+- [`fct_block_graffiti_client_hourly`](#fct_block_graffiti_client_hourly)
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
@@ -2544,6 +2547,186 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_block_graffiti
+
+Canonical beacon block graffiti with the consensus and execution clients it names, parsed from the engine API client version codes or client default graffiti
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti`
+- **sepolia**: `sepolia.fct_block_graffiti`
+- **holesky**: `holesky.fct_block_graffiti`
+- **hoodi**: `hoodi.fct_block_graffiti`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the block* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The root of the canonical beacon block* |
+| **proposer_index** | `UInt32` | *The validator index of the block proposer* |
+| **graffiti_text** | `String` | *The block graffiti decoded as UTF-8 with trailing null bytes removed* |
+| **graffiti_format** | `LowCardinality(String)` | *Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), none (unrecognised text) or empty* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, e.g. lighthouse, or unknown* |
+| **consensus_client_version** | `LowCardinality(String)` | *Consensus client version from a version_string graffiti, e.g. v8.2.3, empty when the graffiti carries none* |
+| **consensus_client_commit** | `LowCardinality(String)` | *Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, e.g. geth, or unknown* |
+| **execution_client_commit** | `LowCardinality(String)` | *Execution client commit prefix carried by the graffiti, empty when the graffiti carries none* |
+
+## fct_block_graffiti_client_daily
+
+Daily canonical block counts per consensus and execution client pair named by block graffiti, including unknown
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_daily`
+- **sepolia**: `sepolia.fct_block_graffiti_client_daily`
+- **holesky**: `holesky.fct_block_graffiti_client_daily`
+- **hoodi**: `hoodi.fct_block_graffiti_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the block graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
+| **block_count** | `UInt32` | *Number of canonical blocks in the day with this consensus and execution client pair* |
+
+## fct_block_graffiti_client_hourly
+
+Hourly canonical block counts per consensus and execution client pair named by block graffiti, including unknown
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_hourly`
+- **sepolia**: `sepolia.fct_block_graffiti_client_hourly`
+- **holesky**: `holesky.fct_block_graffiti_client_hourly`
+- **hoodi**: `hoodi.fct_block_graffiti_client_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the block graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
+| **block_count** | `UInt32` | *Number of canonical blocks in the hour with this consensus and execution client pair* |
 
 ## fct_block_head
 

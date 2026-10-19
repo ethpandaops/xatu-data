@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T19:56:03Z",
+  "generated_at": "2026-10-19T11:36:14Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -3335,6 +3335,219 @@
           "name": "meta_consensus_implementation",
           "type": "LowCardinality(String)",
           "description": "Ethereum consensus client implementation"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Canonical beacon block graffiti with the consensus and execution clients it names, parsed from the engine API client version codes or client default graffiti",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the block"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The root of the canonical beacon block"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the block proposer"
+        },
+        {
+          "name": "graffiti_text",
+          "type": "String",
+          "description": "The block graffiti decoded as UTF-8 with trailing null bytes removed"
+        },
+        {
+          "name": "graffiti_format",
+          "type": "LowCardinality(String)",
+          "description": "Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), none (unrecognised text) or empty"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the graffiti, e.g. lighthouse, or unknown"
+        },
+        {
+          "name": "consensus_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version from a version_string graffiti, e.g. v8.2.3, empty when the graffiti carries none"
+        },
+        {
+          "name": "consensus_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the graffiti, e.g. geth, or unknown"
+        },
+        {
+          "name": "execution_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Execution client commit prefix carried by the graffiti, empty when the graffiti carries none"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily canonical block counts per consensus and execution client pair named by block graffiti, including unknown",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks in the day with this consensus and execution client pair"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly canonical block counts per consensus and execution client pair named by block graffiti, including unknown",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks in the hour with this consensus and execution client pair"
         }
       ]
     },
