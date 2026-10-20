@@ -36,9 +36,9 @@ Contains canonical execution block data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11944000`
+- **sepolia**: `0` to `11951000`
 
 ### Examples
 
@@ -131,9 +131,9 @@ Contains canonical execution transaction data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11944000`
+- **sepolia**: `0` to `11951000`
 
 ### Examples
 
@@ -231,7 +231,7 @@ Contains canonical execution traces data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `9569000`
 
@@ -333,9 +333,9 @@ Contains canonical execution logs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `11944000`
+- **sepolia**: `0` to `11951000`
 
 ### Examples
 
@@ -426,7 +426,7 @@ Contains canonical execution contract data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -524,7 +524,7 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `11127000`
 
@@ -612,7 +612,7 @@ Contains canonical execution address appearance data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4659000`
 - **sepolia**: `0` to `10073000`
 
@@ -699,7 +699,7 @@ Contains canonical execution balance diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -791,7 +791,7 @@ Contains canonical execution balance read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4652000`
 - **sepolia**: `0` to `11127000`
 
@@ -879,7 +879,7 @@ Contains canonical execution erc20 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `11168000`
 
@@ -970,7 +970,7 @@ Contains canonical execution erc721 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `11202000`
 
@@ -1243,7 +1243,7 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4657000`
 - **sepolia**: `0` to `11127000`
 
@@ -1331,7 +1331,7 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26222000`
+- **mainnet**: `0` to `26229000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `10073000`
 
@@ -1602,10 +1602,11 @@ echo """
 | **return_data** | `Nullable(String)` | *Return data buffer left by the CALL/CREATE-family opcode that just returned in this frame, set only on the first opcode after that call returns (NULL if empty). The buffer at any other opcode is the return_data of the latest such row in the same call_frame_id. Before execution-processor v0.3.0 (2026-10-20) the buffer was repeated on every opcode* |
 | **refund** | `Nullable(UInt64)` | *The refund* |
 | **error** | `Nullable(String)` | *The error* |
-| **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |
+| **call_to_address** | `Nullable(String)` | *Target address of a CALL, CALLCODE, DELEGATECALL or STATICCALL, or the address a CREATE or CREATE2 deployed (zero address if it failed). Before execution-processor v0.4.0 (2026-10-20) CREATE and CREATE2 rows from embedded (erigone) tracing had NULL* |
 | **call_frame_id** | `UInt32` | *Sequential identifier for the call frame within the transaction* |
 | **call_frame_path** | `Array(UInt32)` | *Path of frame IDs from root to current frame* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **synthetic** | `Bool` | *True for the row added after a CALL-family opcode whose target ran no code (an EOA or empty account, not a precompile). It has the CALL\'s index, depth + 1, its own call_frame_id and an empty operation. Before execution-processor v0.4.0 (2026-10-20) these rows shared the CALL row\'s key and one of the two was lost on merge* |
 
 ## canonical_execution_transaction_structlog_agg
 

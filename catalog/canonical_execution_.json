@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T10:43:54Z",
+  "generated_at": "2026-10-20T21:04:31Z",
   "dataset": {
     "name": "Canonical Execution",
     "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -25,7 +25,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -33,7 +33,7 @@
         },
         "sepolia": {
           "from": "0",
-          "to": "11944000"
+          "to": "11951000"
         }
       },
       "tags": [
@@ -133,7 +133,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -141,7 +141,7 @@
         },
         "sepolia": {
           "from": "0",
-          "to": "11944000"
+          "to": "11951000"
         }
       },
       "tags": [
@@ -266,7 +266,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -409,7 +409,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -417,7 +417,7 @@
         },
         "sepolia": {
           "from": "0",
-          "to": "11944000"
+          "to": "11951000"
         }
       },
       "tags": [
@@ -507,7 +507,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -615,7 +615,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -689,7 +689,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -757,7 +757,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -835,7 +835,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -909,7 +909,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -997,7 +997,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -1246,7 +1246,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -1320,7 +1320,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "26222000"
+          "to": "26229000"
         },
         "holesky": {
           "from": "0",
@@ -1578,7 +1578,7 @@
         {
           "name": "call_to_address",
           "type": "Nullable(String)",
-          "description": "Address of a CALL operation"
+          "description": "Target address of a CALL, CALLCODE, DELEGATECALL or STATICCALL, or the address a CREATE or CREATE2 deployed (zero address if it failed). Before execution-processor v0.4.0 (2026-10-20) CREATE and CREATE2 rows from embedded (erigone) tracing had NULL"
         },
         {
           "name": "call_frame_id",
@@ -1594,6 +1594,11 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "Ethereum network name"
+        },
+        {
+          "name": "synthetic",
+          "type": "Bool",
+          "description": "True for the row added after a CALL-family opcode whose target ran no code (an EOA or empty account, not a precompile). It has the CALL\\'s index, depth + 1, its own call_frame_id and an empty operation. Before execution-processor v0.4.0 (2026-10-20) these rows shared the CALL row\\'s key and one of the two was lost on merge"
         }
       ]
     },

@@ -17,13 +17,15 @@ CREATE TABLE default.canonical_execution_transaction_structlog_local
     `return_data` Nullable(String) COMMENT 'Return data buffer left by the CALL/CREATE-family opcode that just returned in this frame, set only on the first opcode after that call returns (NULL if empty). The buffer at any other opcode is the return_data of the latest such row in the same call_frame_id. Before execution-processor v0.3.0 (2026-10-20) the buffer was repeated on every opcode' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'The error' CODEC(ZSTD(1)),
-    `call_to_address` Nullable(String) COMMENT 'Address of a CALL operation' CODEC(ZSTD(1)),
+    `call_to_address` Nullable(String) COMMENT 'Target address of a CALL, CALLCODE, DELEGATECALL or STATICCALL, or the address a CREATE or CREATE2 deployed (zero address if it failed). Before execution-processor v0.4.0 (2026-10-20) CREATE and CREATE2 rows from embedded (erigone) tracing had NULL' CODEC(ZSTD(1)),
     `call_frame_id` UInt32 DEFAULT 0 COMMENT 'Sequential identifier for the call frame within the transaction' CODEC(DoubleDelta, ZSTD(1)),
     `call_frame_path` Array(UInt32) DEFAULT [0] COMMENT 'Path of frame IDs from root to current frame' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `synthetic` Bool COMMENT 'True for the row added after a CALL-family opcode whose target ran no code (an EOA or empty account, not a precompile). It has the CALL\\'s index, depth + 1, its own call_frame_id and an empty operation. Before execution-processor v0.4.0 (2026-10-20) these rows shared the CALL row\\'s key and one of the two was lost on merge' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_transaction_structlog_local', '{replica}', updated_date_time)
 PARTITION BY (meta_network_name, intDiv(block_number, 201600))
-ORDER BY (meta_network_name, block_number, transaction_hash, index)
+PRIMARY KEY (meta_network_name, block_number, transaction_hash, index)
+ORDER BY (meta_network_name, block_number, transaction_hash, index, synthetic)
 SETTINGS index_granularity = 8192
 COMMENT 'Contains canonical execution transaction structlog data.'

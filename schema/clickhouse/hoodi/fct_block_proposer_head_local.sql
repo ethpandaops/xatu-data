@@ -11,13 +11,11 @@ CREATE TABLE hoodi.fct_block_proposer_head_local
     PROJECTION p_by_slot
     (
         SELECT *
-        ORDER BY
-            slot,
-            proposer_validator_index
+        ORDER BY slot
     )
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_block_proposer_head_local', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(slot_start_date_time)
-ORDER BY (slot_start_date_time, proposer_validator_index)
+ORDER BY slot_start_date_time
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
 COMMENT 'Block proposers for the unfinalized chain'
