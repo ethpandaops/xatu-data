@@ -2022,7 +2022,8 @@ tables:
     tags:
       - Execution layer
       - Finalized
-    description: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+    quirks: 'From execution-processor [v0.3.0](https://github.com/ethpandaops/execution-processor/releases/tag/v0.3.0) (2026-10-20), `return_data` is set only on the first opcode after a `CALL`, `CALLCODE`, `DELEGATECALL`, `STATICCALL`, `CREATE` or `CREATE2` returns, and holds the buffer that call left (`NULL` if empty). Earlier rows carried the buffer on every opcode. To get the buffer at any opcode, take the `return_data` of the latest row in the same `call_frame_id` whose previous row in that frame is a call or create (empty if none).'
+    description: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction). `return_data` is set only on the opcode after a call or create returns; see the quirks note.
   - name: canonical_execution_transaction_structlog_agg
     database: default
     excluded_columns: []
