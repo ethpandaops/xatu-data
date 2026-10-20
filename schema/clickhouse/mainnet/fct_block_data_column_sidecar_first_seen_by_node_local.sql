@@ -26,6 +26,7 @@ CREATE TABLE mainnet.fct_block_data_column_sidecar_first_seen_by_node_local
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client' CODEC(ZSTD(1)),
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version',
     `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation',
+    `completed_via` LowCardinality(String) COMMENT 'How the node completed the data column: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events' CODEC(ZSTD(1)),
     PROJECTION p_by_slot
     (
         SELECT *

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T21:55:32Z",
+  "generated_at": "2026-10-20T07:32:38Z",
   "dataset": {
     "name": "Canonical Execution",
     "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -1465,6 +1465,7 @@
         "Execution layer",
         "Finalized"
       ],
+      "quirks": "From execution-processor [v0.3.0](https://github.com/ethpandaops/execution-processor/releases/tag/v0.3.0) (2026-10-20), `return_data` is set only on the first opcode after a `CALL`, `CALLCODE`, `DELEGATECALL`, `STATICCALL`, `CREATE` or `CREATE2` returns, and holds the buffer that call left (`NULL` if empty). Earlier rows carried the buffer on every opcode. To get the buffer at any opcode, take the `return_data` of the latest row in the same `call_frame_id` whose previous row in that frame is a call or create (empty if none).",
       "description": "Contains canonical execution transaction structlog data.",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
@@ -1542,7 +1543,7 @@
         {
           "name": "return_data",
           "type": "Nullable(String)",
-          "description": "The return data"
+          "description": "Return data buffer left by the CALL/CREATE-family opcode that just returned in this frame, set only on the first opcode after that call returns (NULL if empty). The buffer at any other opcode is the return_data of the latest such row in the same call_frame_id. Before execution-processor v0.3.0 (2026-10-20) the buffer was repeated on every opcode"
         },
         {
           "name": "refund",

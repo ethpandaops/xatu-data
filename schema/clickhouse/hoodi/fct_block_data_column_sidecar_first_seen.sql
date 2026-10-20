@@ -25,7 +25,8 @@ CREATE TABLE hoodi.fct_block_data_column_sidecar_first_seen
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that first saw the data column' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that first saw the data column' CODEC(ZSTD(1)),
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version of the client that first saw the data column',
-    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation of the client that first saw the data column'
+    `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation of the client that first saw the data column',
+    `completed_via` LowCardinality(String) COMMENT 'How the node that first saw the data column completed it: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events'
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'fct_block_data_column_sidecar_first_seen_local', cityHash64(slot_start_date_time, block_root))
 COMMENT 'When the data column was first seen on the network by any sentry node'

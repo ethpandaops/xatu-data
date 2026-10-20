@@ -26,6 +26,7 @@ CREATE TABLE hoodi.fct_block_data_column_sidecar_first_seen_local
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that first saw the data column' CODEC(ZSTD(1)),
     `meta_consensus_version` LowCardinality(String) COMMENT 'Ethereum consensus client version of the client that first saw the data column',
     `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation of the client that first saw the data column',
+    `completed_via` LowCardinality(String) COMMENT 'How the node that first saw the data column completed it: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events' CODEC(ZSTD(1)),
     PROJECTION p_by_slot
     (
         SELECT *

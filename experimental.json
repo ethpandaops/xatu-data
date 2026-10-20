@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T21:52:54Z",
+  "generated_at": "2026-10-20T07:29:48Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -29,7 +29,7 @@
       "fork": "gloas",
       "xatu_branch": "master",
       "database": "glamsterdam-devnet-8",
-      "tables_total": 146,
+      "tables_total": 149,
       "new_tables": []
     }
   ],

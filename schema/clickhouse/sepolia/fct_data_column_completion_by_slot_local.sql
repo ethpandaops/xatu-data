@@ -1,0 +1,50 @@
+CREATE TABLE sepolia.fct_data_column_completion_by_slot_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
+    `column_index` UInt64 COMMENT 'The data column index' CODEC(ZSTD(1)),
+    `blob_count` UInt32 COMMENT 'Number of blobs in the block, the number of cells in the column' CODEC(ZSTD(1)),
+    `completion_node_count` UInt32 COMMENT 'Number of sentry nodes that reported the column complete' CODEC(ZSTD(1)),
+    `full_gossip_completion_count` UInt32 COMMENT 'Number of nodes whose column was completed by a full gossip message' CODEC(ZSTD(1)),
+    `partial_gossip_completion_count` UInt32 COMMENT 'Number of nodes whose column was completed from cells received as gossipsub partial messages' CODEC(ZSTD(1)),
+    `el_completion_count` UInt32 COMMENT 'Number of nodes whose column was built from blobs returned by the execution layer' CODEC(ZSTD(1)),
+    `reconstruction_completion_count` UInt32 COMMENT 'Number of nodes whose column was recovered by reconstruction from other columns' CODEC(ZSTD(1)),
+    `unknown_completion_count` UInt32 COMMENT 'Number of nodes whose column was completed by a path the node did not report' CODEC(ZSTD(1)),
+    `cells_total` UInt64 COMMENT 'Cells in the completed columns, summed over the nodes that completed it' CODEC(ZSTD(1)),
+    `cells_from_gossip` UInt64 COMMENT 'Cells received over gossip, summed over the nodes that completed the column' CODEC(ZSTD(1)),
+    `cells_from_el` UInt64 COMMENT 'Cells built from blobs returned by the execution layer, summed over the nodes that completed the column' CODEC(ZSTD(1)),
+    `avg_partial_contributing_peers` Float64 COMMENT 'Average number of distinct peers that contributed cells to a PARTIAL_GOSSIP completion, 0 when there was none' CODEC(ZSTD(1)),
+    `min_completion_slot_start_diff` UInt32 COMMENT 'Earliest completion of the column by any node, in milliseconds from slot start' CODEC(ZSTD(1)),
+    `p50_completion_slot_start_diff` UInt32 COMMENT 'Median completion time across nodes, in milliseconds from slot start' CODEC(ZSTD(1)),
+    `p90_completion_slot_start_diff` UInt32 COMMENT '90th percentile completion time across nodes, in milliseconds from slot start' CODEC(ZSTD(1)),
+    `max_completion_slot_start_diff` UInt32 COMMENT 'Latest completion of the column by any node, in milliseconds from slot start' CODEC(ZSTD(1)),
+    `p50_full_gossip_completion_slot_start_diff` UInt32 COMMENT 'Median completion time across FULL_GOSSIP completions, in milliseconds from slot start, 0 when there was none' CODEC(ZSTD(1)),
+    `p50_partial_gossip_completion_slot_start_diff` UInt32 COMMENT 'Median completion time across PARTIAL_GOSSIP completions, in milliseconds from slot start, 0 when there was none' CODEC(ZSTD(1)),
+    `p50_el_completion_slot_start_diff` UInt32 COMMENT 'Median completion time across EL completions, in milliseconds from slot start, 0 when there was none' CODEC(ZSTD(1)),
+    `partial_received_message_count` UInt32 COMMENT 'Partial messages with a body received by sentry nodes, summed over nodes. WIRE capture points count every part, APP capture points only those the gossipsub router passed on' CODEC(ZSTD(1)),
+    `partial_received_cells` UInt64 COMMENT 'Cells carried by the partial messages received by sentry nodes, duplicates included' CODEC(ZSTD(1)),
+    `partial_sender_peer_count` UInt32 COMMENT 'Distinct peers that sent a partial message with a body for the column to a sentry node' CODEC(ZSTD(1)),
+    `partial_sent_message_count` UInt32 COMMENT 'Partial messages with a body sent by sentry nodes, summed over nodes' CODEC(ZSTD(1)),
+    `partial_sent_cells` UInt64 COMMENT 'Cells carried by the partial messages sent by sentry nodes' CODEC(ZSTD(1)),
+    `partial_accept_verdict_count` UInt32 COMMENT 'Validation verdicts on received partial messages that accepted them' CODEC(ZSTD(1)),
+    `partial_ignore_verdict_count` UInt32 COMMENT 'Validation verdicts on received partial messages that ignored them' CODEC(ZSTD(1)),
+    `partial_reject_verdict_count` UInt32 COMMENT 'Validation verdicts on received partial messages that rejected them' CODEC(ZSTD(1)),
+    `partial_new_cells` UInt64 COMMENT 'Cells new to the receiving node that passed verification. Divided by partial_received_cells this approximates the useful cell ratio' CODEC(ZSTD(1)),
+    PROJECTION p_by_slot
+    (
+        SELECT *
+        ORDER BY
+            slot,
+            block_root,
+            column_index
+    )
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_data_column_completion_by_slot_local', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(slot_start_date_time)
+ORDER BY (slot_start_date_time, block_root, column_index)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
+COMMENT 'How each data column of a block became available across sentry nodes: completions by path, cells from gossip and the execution layer, and gossipsub partial message traffic'

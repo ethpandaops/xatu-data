@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T21:55:32Z",
+  "generated_at": "2026-10-20T07:32:38Z",
   "dataset": {
     "name": "Consensus Layer P2P",
     "description": "Events from the consensus layer p2p network. This data is usually useful for 'timing' events, such as when a block was seen by a sentry. Because of this it usually has the same data but from many different instances.",
@@ -4981,6 +4981,16 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "Ethereum network name"
+        },
+        {
+          "name": "requests_partial",
+          "type": "Nullable(Bool)",
+          "description": "Whether the peer asked to receive gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options"
+        },
+        {
+          "name": "supports_sending_partial",
+          "type": "Nullable(Bool)",
+          "description": "Whether the peer can send gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options"
         }
       ]
     },

@@ -24,7 +24,9 @@ CREATE TABLE default.libp2p_rpc_meta_subscription
     `meta_client_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the client that generated the event' CODEC(ZSTD(1)),
     `meta_client_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the client that generated the event' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `requests_partial` Nullable(Bool) COMMENT 'Whether the peer asked to receive gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options' CODEC(ZSTD(1)),
+    `supports_sending_partial` Nullable(Bool) COMMENT 'Whether the peer can send gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'libp2p_rpc_meta_subscription_local', unique_key)
 COMMENT 'Contains the details of the RPC subscriptions from the peer.'

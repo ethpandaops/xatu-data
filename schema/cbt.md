@@ -19,6 +19,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 
 <!-- schema_toc_start -->
 - [`dim_block_blob_submitter`](#dim_block_blob_submitter)
+- [`dim_client_release`](#dim_client_release)
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
@@ -51,15 +52,19 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_blob_count_head`](#fct_block_blob_count_head)
 - [`fct_block_blob_first_seen_by_node`](#fct_block_blob_first_seen_by_node)
 - [`fct_block_blob_head`](#fct_block_blob_head)
+- [`fct_block_data_column_completion`](#fct_block_data_column_completion)
 - [`fct_block_data_column_sidecar_first_seen`](#fct_block_data_column_sidecar_first_seen)
 - [`fct_block_data_column_sidecar_first_seen_by_node`](#fct_block_data_column_sidecar_first_seen_by_node)
 - [`fct_block_first_seen_by_node`](#fct_block_first_seen_by_node)
 - [`fct_block_graffiti`](#fct_block_graffiti)
+- [`fct_block_graffiti_client_by_entity_daily`](#fct_block_graffiti_client_by_entity_daily)
+- [`fct_block_graffiti_client_by_entity_hourly`](#fct_block_graffiti_client_by_entity_hourly)
 - [`fct_block_graffiti_client_daily`](#fct_block_graffiti_client_daily)
 - [`fct_block_graffiti_client_hourly`](#fct_block_graffiti_client_hourly)
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
+- [`fct_block_partial_data_column_header_first_seen`](#fct_block_partial_data_column_header_first_seen)
 - [`fct_block_payload`](#fct_block_payload)
 - [`fct_block_payload_available_by_node`](#fct_block_payload_available_by_node)
 - [`fct_block_payload_bid`](#fct_block_payload_bid)
@@ -86,6 +91,11 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_data_column_availability_by_slot_blob`](#fct_data_column_availability_by_slot_blob)
 - [`fct_data_column_availability_daily`](#fct_data_column_availability_daily)
 - [`fct_data_column_availability_hourly`](#fct_data_column_availability_hourly)
+- [`fct_data_column_completion_by_path_daily`](#fct_data_column_completion_by_path_daily)
+- [`fct_data_column_completion_by_path_hourly`](#fct_data_column_completion_by_path_hourly)
+- [`fct_data_column_completion_by_slot`](#fct_data_column_completion_by_slot)
+- [`fct_data_column_partial_message_daily`](#fct_data_column_partial_message_daily)
+- [`fct_data_column_partial_message_hourly`](#fct_data_column_partial_message_hourly)
 - [`fct_engine_get_blobs_by_el_client`](#fct_engine_get_blobs_by_el_client)
 - [`fct_engine_get_blobs_by_el_client_hourly`](#fct_engine_get_blobs_by_el_client_hourly)
 - [`fct_engine_get_blobs_by_slot`](#fct_engine_get_blobs_by_slot)
@@ -130,6 +140,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_payload_attestation_first_seen_chunked_50ms`](#fct_payload_attestation_first_seen_chunked_50ms)
 - [`fct_payload_bid_highest_value_by_builder_chunked_50ms`](#fct_payload_bid_highest_value_by_builder_chunked_50ms)
 - [`fct_payload_bid_highest_value_chunked_50ms`](#fct_payload_bid_highest_value_chunked_50ms)
+- [`fct_peer_partial_message_support_by_client_daily`](#fct_peer_partial_message_support_by_client_daily)
+- [`fct_peer_partial_message_support_by_client_hourly`](#fct_peer_partial_message_support_by_client_hourly)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_proposer_reward_daily`](#fct_proposer_reward_daily)
 - [`fct_proposer_reward_hourly`](#fct_proposer_reward_hourly)
@@ -292,6 +304,67 @@ echo """
 | **address** | `String` | *The blob submitter address* |
 | **versioned_hashes** | `Array(String)` | *The versioned hashes of the blob submitter* |
 | **name** | `Nullable(String)` | *The name of the blob submitter* |
+
+## dim_client_release
+
+Consensus and execution client release tags and the commits they point at, for resolving graffiti commit prefixes to versions
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_client_release`
+- **sepolia**: `sepolia.dim_client_release`
+- **holesky**: `holesky.dim_client_release`
+- **hoodi**: `hoodi.dim_client_release`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_client_release FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_client_release_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **client** | `LowCardinality(String)` | *Client name as used by fct_block_graffiti, e.g. lighthouse or geth* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **version** | `String` | *Release version taken from the tag, e.g. v8.2.3* |
+| **tag** | `String` | *Git tag of the release in the client repository* |
+| **commit_sha** | `String` | *Full commit hash the release tag points at, which graffiti commit prefixes resolve against* |
+| **release_date** | `Nullable(DateTime)` | *When the GitHub release was published, NULL when unknown* |
+| **prerelease** | `Bool` | *Whether the release is a pre-release (GitHub flag, or a pre-release suffix on the version)* |
+| **repository** | `LowCardinality(String)` | *GitHub repository the release tags come from, e.g. sigp/lighthouse* |
 
 ## dim_contract_owner
 
@@ -2316,6 +2389,82 @@ echo """
 | **versioned_hash** | `String` | *The versioned hash derived from the KZG commitment, used as the blob archive key* |
 | **kzg_commitment** | `String` | *The KZG commitment of the blob* |
 
+## fct_block_data_column_completion
+
+How sentry nodes completed the data columns of each block: completions by path, cells from gossip and the execution layer, and completion times
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_data_column_completion`
+- **sepolia**: `sepolia.fct_block_data_column_completion`
+- **holesky**: `holesky.fct_block_data_column_completion`
+- **hoodi**: `hoodi.fct_block_data_column_completion`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_data_column_completion FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_data_column_completion_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root hash* |
+| **blob_count** | `UInt32` | *Number of blobs in the block, the number of cells in each column* |
+| **column_count** | `UInt32` | *Distinct columns of the block that a sentry node completed* |
+| **node_count** | `UInt32` | *Distinct sentry nodes that completed a column of the block* |
+| **completion_count** | `UInt32` | *Column completions, one per node per column* |
+| **full_gossip_completion_count** | `UInt32` | *Completions by a full data column gossip message* |
+| **partial_gossip_completion_count** | `UInt32` | *Completions from cells received as gossipsub partial messages* |
+| **el_completion_count** | `UInt32` | *Completions built from blobs returned by the execution layer* |
+| **reconstruction_completion_count** | `UInt32` | *Completions recovered by reconstruction from other columns* |
+| **unknown_completion_count** | `UInt32` | *Completions by a path the node did not report* |
+| **cells_total** | `UInt64` | *Cells in the completed columns, summed over completions* |
+| **cells_from_gossip** | `UInt64` | *Cells received over gossip, summed over completions* |
+| **cells_from_el** | `UInt64` | *Cells built from blobs returned by the execution layer, summed over completions* |
+| **min_completion_slot_start_diff** | `UInt32` | *Earliest completion of any column by any node, in milliseconds from slot start* |
+| **p50_completion_slot_start_diff** | `UInt32` | *Median completion time across completions, in milliseconds from slot start* |
+| **p90_completion_slot_start_diff** | `UInt32` | *90th percentile completion time across completions, in milliseconds from slot start* |
+| **max_completion_slot_start_diff** | `UInt32` | *Latest completion of any column by any node, in milliseconds from slot start* |
+| **p50_node_last_completion_slot_start_diff** | `UInt32` | *Median across nodes of the time each node completed its last column of the block, in milliseconds from slot start* |
+| **p90_node_last_completion_slot_start_diff** | `UInt32` | *90th percentile across nodes of the time each node completed its last column of the block, in milliseconds from slot start* |
+
 ## fct_block_data_column_sidecar_first_seen
 
 When the data column was first seen on the network by any sentry node
@@ -2393,6 +2542,7 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that first saw the data column* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version of the client that first saw the data column* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation of the client that first saw the data column* |
+| **completed_via** | `LowCardinality(String)` | *How the node that first saw the data column completed it: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events* |
 
 ## fct_block_data_column_sidecar_first_seen_by_node
 
@@ -2471,6 +2621,7 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+| **completed_via** | `LowCardinality(String)` | *How the node completed the data column: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events* |
 
 ## fct_block_first_seen_by_node
 
@@ -2607,12 +2758,129 @@ echo """
 | **block_root** | `String` | *The root of the canonical beacon block* |
 | **proposer_index** | `UInt32` | *The validator index of the block proposer* |
 | **graffiti_text** | `String` | *The block graffiti decoded as UTF-8 with trailing null bytes removed* |
-| **graffiti_format** | `LowCardinality(String)` | *Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), none (unrecognised text) or empty* |
+| **graffiti_format** | `LowCardinality(String)` | *Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), rocketpool (the Rocket Pool smartnode default RP-<EL><CL> v<version>), none (unrecognised text) or empty* |
 | **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, e.g. lighthouse, or unknown* |
 | **consensus_client_version** | `LowCardinality(String)` | *Consensus client version from a version_string graffiti, e.g. v8.2.3, empty when the graffiti carries none* |
 | **consensus_client_commit** | `LowCardinality(String)` | *Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none* |
 | **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, e.g. geth, or unknown* |
 | **execution_client_commit** | `LowCardinality(String)` | *Execution client commit prefix carried by the graffiti, empty when the graffiti carries none* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node (ethseer on public networks), empty when the validator has none* |
+
+## fct_block_graffiti_client_by_entity_daily
+
+Daily canonical block counts per proposer entity and consensus and execution client pair named by block graffiti
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_by_entity_daily`
+- **sepolia**: `sepolia.fct_block_graffiti_client_by_entity_daily`
+- **holesky**: `holesky.fct_block_graffiti_client_by_entity_daily`
+- **hoodi**: `hoodi.fct_block_graffiti_client_by_entity_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_by_entity_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_by_entity_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the block graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
+| **block_count** | `UInt32` | *Number of canonical blocks in the day from this entity with this consensus and execution client pair* |
+
+## fct_block_graffiti_client_by_entity_hourly
+
+Hourly canonical block counts per proposer entity and consensus and execution client pair named by block graffiti
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_by_entity_hourly`
+- **sepolia**: `sepolia.fct_block_graffiti_client_by_entity_hourly`
+- **holesky**: `holesky.fct_block_graffiti_client_by_entity_hourly`
+- **hoodi**: `hoodi.fct_block_graffiti_client_by_entity_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_by_entity_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_by_entity_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the block graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
+| **block_count** | `UInt32` | *Number of canonical blocks in the hour from this entity with this consensus and execution client pair* |
 
 ## fct_block_graffiti_client_daily
 
@@ -2947,6 +3215,72 @@ echo """
 | **gas_used** | `UInt64` | *The gas used of the proposer payload* |
 | **value** | `Nullable(UInt128)` | *The transaction value in wei* |
 | **transaction_count** | `UInt32` | *The number of transactions in the proposer payload* |
+
+## fct_block_partial_data_column_header_first_seen
+
+When sentry nodes first received the gossipsub partial data column header for a Fulu block, the eager push that lets peers verify cells before the full column arrives
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_partial_data_column_header_first_seen`
+- **sepolia**: `sepolia.fct_block_partial_data_column_header_first_seen`
+- **holesky**: `holesky.fct_block_partial_data_column_header_first_seen`
+- **hoodi**: `hoodi.fct_block_partial_data_column_header_first_seen`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_partial_data_column_header_first_seen FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_partial_data_column_header_first_seen_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root hash* |
+| **proposer_index** | `UInt32` | *The validator index of the block proposer, from the header* |
+| **blob_count** | `UInt32` | *Number of KZG commitments in the header* |
+| **seen_slot_start_diff** | `UInt32` | *Time from slot start until any sentry node first received a partial data column header for the block, in milliseconds* |
+| **p50_node_seen_slot_start_diff** | `UInt32` | *Median across nodes of the time each node first received a header for the block, in milliseconds from slot start* |
+| **p90_node_seen_slot_start_diff** | `UInt32` | *90th percentile across nodes of the time each node first received a header for the block, in milliseconds from slot start* |
+| **max_node_seen_slot_start_diff** | `UInt32` | *Latest time a node first received a header for the block, in milliseconds from slot start* |
+| **node_count** | `UInt32` | *Number of sentry nodes that received a partial data column header for the block* |
+| **first_seen_meta_client_name** | `LowCardinality(String)` | *Name of the sentry node that received a header first* |
 
 ## fct_block_payload
 
@@ -4599,6 +4933,384 @@ echo """
 | **avg_p99_response_time_ms** | `UInt32` | *Average of p99 response times across epochs for successful probes only (rounded to whole number)* |
 | **max_response_time_ms** | `UInt32` | *Maximum response time in milliseconds for successful probes only (rounded to whole number)* |
 | **max_blob_count** | `UInt16` | *Maximum blob count observed in this hour* |
+
+## fct_data_column_completion_by_path_daily
+
+Daily data column completions on sentry nodes by consensus client and completion path, with cells by source and completion time percentiles
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_data_column_completion_by_path_daily`
+- **sepolia**: `sepolia.fct_data_column_completion_by_path_daily`
+- **holesky**: `holesky.fct_data_column_completion_by_path_daily`
+- **hoodi**: `hoodi.fct_data_column_completion_by_path_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_data_column_completion_by_path_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_data_column_completion_by_path_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by block slot* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client of the sentry nodes that completed the columns* |
+| **completed_via** | `LowCardinality(String)` | *How the columns were completed: FULL_GOSSIP, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN* |
+| **node_count** | `UInt32` | *Distinct sentry nodes with a completion on this path* |
+| **block_count** | `UInt32` | *Distinct blocks with a column completed on this path* |
+| **completion_count** | `UInt32` | *Column completions, one per node per column* |
+| **cells_total** | `UInt64` | *Cells in the completed columns* |
+| **cells_from_gossip** | `UInt64` | *Cells received over gossip* |
+| **cells_from_el** | `UInt64` | *Cells built from blobs returned by the execution layer* |
+| **avg_contributing_peers** | `Float64` | *Average number of distinct peers that contributed cells to a completion* |
+| **min_completion_slot_start_diff** | `UInt32` | *Earliest completion, in milliseconds from slot start* |
+| **p50_completion_slot_start_diff** | `UInt32` | *Median completion time, in milliseconds from slot start* |
+| **p90_completion_slot_start_diff** | `UInt32` | *90th percentile completion time, in milliseconds from slot start* |
+| **p99_completion_slot_start_diff** | `UInt32` | *99th percentile completion time, in milliseconds from slot start* |
+| **max_completion_slot_start_diff** | `UInt32` | *Latest completion, in milliseconds from slot start* |
+
+## fct_data_column_completion_by_path_hourly
+
+Hourly data column completions on sentry nodes by consensus client and completion path, with cells by source and completion time percentiles
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_data_column_completion_by_path_hourly`
+- **sepolia**: `sepolia.fct_data_column_completion_by_path_hourly`
+- **holesky**: `holesky.fct_data_column_completion_by_path_hourly`
+- **hoodi**: `hoodi.fct_data_column_completion_by_path_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_data_column_completion_by_path_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_data_column_completion_by_path_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour, by block slot* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client of the sentry nodes that completed the columns* |
+| **completed_via** | `LowCardinality(String)` | *How the columns were completed: FULL_GOSSIP, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN* |
+| **node_count** | `UInt32` | *Distinct sentry nodes with a completion on this path* |
+| **block_count** | `UInt32` | *Distinct blocks with a column completed on this path* |
+| **completion_count** | `UInt32` | *Column completions, one per node per column* |
+| **cells_total** | `UInt64` | *Cells in the completed columns* |
+| **cells_from_gossip** | `UInt64` | *Cells received over gossip* |
+| **cells_from_el** | `UInt64` | *Cells built from blobs returned by the execution layer* |
+| **avg_contributing_peers** | `Float64` | *Average number of distinct peers that contributed cells to a completion* |
+| **min_completion_slot_start_diff** | `UInt32` | *Earliest completion, in milliseconds from slot start* |
+| **p50_completion_slot_start_diff** | `UInt32` | *Median completion time, in milliseconds from slot start* |
+| **p90_completion_slot_start_diff** | `UInt32` | *90th percentile completion time, in milliseconds from slot start* |
+| **p99_completion_slot_start_diff** | `UInt32` | *99th percentile completion time, in milliseconds from slot start* |
+| **max_completion_slot_start_diff** | `UInt32` | *Latest completion, in milliseconds from slot start* |
+
+## fct_data_column_completion_by_slot
+
+How each data column of a block became available across sentry nodes: completions by path, cells from gossip and the execution layer, and gossipsub partial message traffic
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_data_column_completion_by_slot`
+- **sepolia**: `sepolia.fct_data_column_completion_by_slot`
+- **holesky**: `holesky.fct_data_column_completion_by_slot`
+- **hoodi**: `hoodi.fct_data_column_completion_by_slot`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_data_column_completion_by_slot FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_data_column_completion_by_slot_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root hash* |
+| **column_index** | `UInt64` | *The data column index* |
+| **blob_count** | `UInt32` | *Number of blobs in the block, the number of cells in the column* |
+| **completion_node_count** | `UInt32` | *Number of sentry nodes that reported the column complete* |
+| **full_gossip_completion_count** | `UInt32` | *Number of nodes whose column was completed by a full gossip message* |
+| **partial_gossip_completion_count** | `UInt32` | *Number of nodes whose column was completed from cells received as gossipsub partial messages* |
+| **el_completion_count** | `UInt32` | *Number of nodes whose column was built from blobs returned by the execution layer* |
+| **reconstruction_completion_count** | `UInt32` | *Number of nodes whose column was recovered by reconstruction from other columns* |
+| **unknown_completion_count** | `UInt32` | *Number of nodes whose column was completed by a path the node did not report* |
+| **cells_total** | `UInt64` | *Cells in the completed columns, summed over the nodes that completed it* |
+| **cells_from_gossip** | `UInt64` | *Cells received over gossip, summed over the nodes that completed the column* |
+| **cells_from_el** | `UInt64` | *Cells built from blobs returned by the execution layer, summed over the nodes that completed the column* |
+| **avg_partial_contributing_peers** | `Float64` | *Average number of distinct peers that contributed cells to a PARTIAL_GOSSIP completion, 0 when there was none* |
+| **min_completion_slot_start_diff** | `UInt32` | *Earliest completion of the column by any node, in milliseconds from slot start* |
+| **p50_completion_slot_start_diff** | `UInt32` | *Median completion time across nodes, in milliseconds from slot start* |
+| **p90_completion_slot_start_diff** | `UInt32` | *90th percentile completion time across nodes, in milliseconds from slot start* |
+| **max_completion_slot_start_diff** | `UInt32` | *Latest completion of the column by any node, in milliseconds from slot start* |
+| **p50_full_gossip_completion_slot_start_diff** | `UInt32` | *Median completion time across FULL_GOSSIP completions, in milliseconds from slot start, 0 when there was none* |
+| **p50_partial_gossip_completion_slot_start_diff** | `UInt32` | *Median completion time across PARTIAL_GOSSIP completions, in milliseconds from slot start, 0 when there was none* |
+| **p50_el_completion_slot_start_diff** | `UInt32` | *Median completion time across EL completions, in milliseconds from slot start, 0 when there was none* |
+| **partial_received_message_count** | `UInt32` | *Partial messages with a body received by sentry nodes, summed over nodes. WIRE capture points count every part, APP capture points only those the gossipsub router passed on* |
+| **partial_received_cells** | `UInt64` | *Cells carried by the partial messages received by sentry nodes, duplicates included* |
+| **partial_sender_peer_count** | `UInt32` | *Distinct peers that sent a partial message with a body for the column to a sentry node* |
+| **partial_sent_message_count** | `UInt32` | *Partial messages with a body sent by sentry nodes, summed over nodes* |
+| **partial_sent_cells** | `UInt64` | *Cells carried by the partial messages sent by sentry nodes* |
+| **partial_accept_verdict_count** | `UInt32` | *Validation verdicts on received partial messages that accepted them* |
+| **partial_ignore_verdict_count** | `UInt32` | *Validation verdicts on received partial messages that ignored them* |
+| **partial_reject_verdict_count** | `UInt32` | *Validation verdicts on received partial messages that rejected them* |
+| **partial_new_cells** | `UInt64` | *Cells new to the receiving node that passed verification. Divided by partial_received_cells this approximates the useful cell ratio* |
+
+## fct_data_column_partial_message_daily
+
+Daily gossipsub partial data column traffic on sentry nodes by consensus client: messages and cells sent and received, validation verdicts, useful cells and header push timing
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_data_column_partial_message_daily`
+- **sepolia**: `sepolia.fct_data_column_partial_message_daily`
+- **holesky**: `holesky.fct_data_column_partial_message_daily`
+- **hoodi**: `hoodi.fct_data_column_partial_message_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_data_column_partial_message_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_data_column_partial_message_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by wall clock slot* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client of the sentry nodes. Prysm sentries capture every partial RPC on the wire, Lighthouse sentries only those the gossipsub router passed on* |
+| **node_count** | `UInt32` | *Distinct sentry nodes that sent or received a partial message* |
+| **received_metadata_count** | `UInt32` | *Received partial messages that only carried parts metadata* |
+| **received_message_count** | `UInt32` | *Received partial messages with a body, header-only pushes included* |
+| **received_cell_message_count** | `UInt32` | *Received partial messages that carried at least one cell* |
+| **received_cells** | `UInt64` | *Cells carried by received partial messages, duplicates included* |
+| **received_header_count** | `UInt32` | *Received partial messages that carried the partial data column header* |
+| **cell_sender_peer_count** | `UInt32` | *Distinct peers that sent a sentry node at least one cell* |
+| **sent_metadata_count** | `UInt32` | *Sent partial messages that only carried parts metadata* |
+| **sent_message_count** | `UInt32` | *Sent partial messages with a body, header-only pushes included* |
+| **sent_cell_message_count** | `UInt32` | *Sent partial messages that carried at least one cell* |
+| **sent_cells** | `UInt64` | *Cells carried by sent partial messages* |
+| **sent_header_count** | `UInt32` | *Sent partial messages that carried the partial data column header* |
+| **cells_accept_count** | `UInt32` | *Cell verdicts that accepted a received partial message* |
+| **cells_ignore_count** | `UInt32` | *Cell verdicts that ignored a received partial message, for example because its cells were already known* |
+| **cells_reject_count** | `UInt32` | *Cell verdicts that rejected a received partial message* |
+| **verdict_cells** | `UInt64` | *Cells carried by the partial messages that got a cell verdict* |
+| **new_cells** | `UInt64` | *Cells new to the receiving node that passed verification. Divided by verdict_cells this is the useful cell ratio* |
+| **header_accept_count** | `UInt32` | *Header verdicts that accepted a partial data column header* |
+| **header_ignore_count** | `UInt32` | *Header verdicts that ignored a partial data column header* |
+| **header_reject_count** | `UInt32` | *Header verdicts that rejected a partial data column header* |
+| **header_node_block_count** | `UInt32` | *Node and Fulu block pairs where the node received a partial data column header* |
+| **p50_header_seen_slot_start_diff** | `UInt32` | *Median time a node first received the header for a block, in milliseconds from slot start, 0 when there was none* |
+| **p90_header_seen_slot_start_diff** | `UInt32` | *90th percentile time a node first received the header for a block, in milliseconds from slot start, 0 when there was none* |
+
+## fct_data_column_partial_message_hourly
+
+Hourly gossipsub partial data column traffic on sentry nodes by consensus client: messages and cells sent and received, validation verdicts, useful cells and header push timing
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_data_column_partial_message_hourly`
+- **sepolia**: `sepolia.fct_data_column_partial_message_hourly`
+- **holesky**: `holesky.fct_data_column_partial_message_hourly`
+- **hoodi**: `hoodi.fct_data_column_partial_message_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_data_column_partial_message_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_data_column_partial_message_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour, by wall clock slot* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client of the sentry nodes. Prysm sentries capture every partial RPC on the wire, Lighthouse sentries only those the gossipsub router passed on* |
+| **node_count** | `UInt32` | *Distinct sentry nodes that sent or received a partial message* |
+| **received_metadata_count** | `UInt32` | *Received partial messages that only carried parts metadata* |
+| **received_message_count** | `UInt32` | *Received partial messages with a body, header-only pushes included* |
+| **received_cell_message_count** | `UInt32` | *Received partial messages that carried at least one cell* |
+| **received_cells** | `UInt64` | *Cells carried by received partial messages, duplicates included* |
+| **received_header_count** | `UInt32` | *Received partial messages that carried the partial data column header* |
+| **cell_sender_peer_count** | `UInt32` | *Distinct peers that sent a sentry node at least one cell* |
+| **sent_metadata_count** | `UInt32` | *Sent partial messages that only carried parts metadata* |
+| **sent_message_count** | `UInt32` | *Sent partial messages with a body, header-only pushes included* |
+| **sent_cell_message_count** | `UInt32` | *Sent partial messages that carried at least one cell* |
+| **sent_cells** | `UInt64` | *Cells carried by sent partial messages* |
+| **sent_header_count** | `UInt32` | *Sent partial messages that carried the partial data column header* |
+| **cells_accept_count** | `UInt32` | *Cell verdicts that accepted a received partial message* |
+| **cells_ignore_count** | `UInt32` | *Cell verdicts that ignored a received partial message, for example because its cells were already known* |
+| **cells_reject_count** | `UInt32` | *Cell verdicts that rejected a received partial message* |
+| **verdict_cells** | `UInt64` | *Cells carried by the partial messages that got a cell verdict* |
+| **new_cells** | `UInt64` | *Cells new to the receiving node that passed verification. Divided by verdict_cells this is the useful cell ratio* |
+| **header_accept_count** | `UInt32` | *Header verdicts that accepted a partial data column header* |
+| **header_ignore_count** | `UInt32` | *Header verdicts that ignored a partial data column header* |
+| **header_reject_count** | `UInt32` | *Header verdicts that rejected a partial data column header* |
+| **header_node_block_count** | `UInt32` | *Node and Fulu block pairs where the node received a partial data column header* |
+| **p50_header_seen_slot_start_diff** | `UInt32` | *Median time a node first received the header for a block, in milliseconds from slot start, 0 when there was none* |
+| **p90_header_seen_slot_start_diff** | `UInt32` | *90th percentile time a node first received the header for a block, in milliseconds from slot start, 0 when there was none* |
 
 ## fct_engine_get_blobs_by_el_client
 
@@ -7477,6 +8189,129 @@ echo """
 | **block_hash** | `FixedString(66)` | *The execution block hash committed to in the leading bid* |
 | **builder_index** | `UInt64` | *Validator index of the builder leading this chunk* |
 | **value** | `UInt128` | *The best bid value across all builders in this chunk, in wei* |
+
+## fct_peer_partial_message_support_by_client_daily
+
+Daily gossipsub partial messages adoption by peer client and version, as averages of the hourly peer counts
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_partial_message_support_by_client_daily`
+- **sepolia**: `sepolia.fct_peer_partial_message_support_by_client_daily`
+- **holesky**: `holesky.fct_peer_partial_message_support_by_client_daily`
+- **hoodi**: `hoodi.fct_peer_partial_message_support_by_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_partial_message_support_by_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_partial_message_support_by_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_implementation** | `LowCardinality(String)` | *Client implementation of the peer from its libp2p agent, empty when no heartbeat identified it* |
+| **peer_version** | `LowCardinality(String)` | *Client version of the peer as major.minor.patch, or the raw agent version when it does not parse* |
+| **hour_count** | `UInt32` | *Hours of the day with peer data on the network, the divisor of the averages* |
+| **avg_connected_peer_count** | `Float64` | *Hourly distinct connected peers, averaged over the hours of the day* |
+| **avg_gossipsub_v13_peer_count** | `Float64` | *Hourly connected peers that support gossipsub v1.3, averaged over the hours of the day* |
+| **avg_subscribed_peer_count** | `Float64` | *Hourly peers seen subscribing to a data column topic by a sentry node that reports the partial flags, averaged over the hours of the day* |
+| **avg_requests_partial_peer_count** | `Float64` | *Hourly subscribed peers that requested partial messages, averaged over the hours of the day* |
+| **avg_supports_sending_partial_peer_count** | `Float64` | *Hourly subscribed peers that support sending partial messages, averaged over the hours of the day* |
+
+## fct_peer_partial_message_support_by_client_hourly
+
+Hourly gossipsub partial messages adoption by peer client and version: connected peers, gossipsub v1.3 support and the partial flags peers set when subscribing to data column topics
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_partial_message_support_by_client_hourly`
+- **sepolia**: `sepolia.fct_peer_partial_message_support_by_client_hourly`
+- **holesky**: `holesky.fct_peer_partial_message_support_by_client_hourly`
+- **hoodi**: `hoodi.fct_peer_partial_message_support_by_client_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_partial_message_support_by_client_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_partial_message_support_by_client_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour* |
+| **peer_implementation** | `LowCardinality(String)` | *Client implementation of the peer from its libp2p agent, empty when no heartbeat identified it* |
+| **peer_version** | `LowCardinality(String)` | *Client version of the peer as major.minor.patch, or the raw agent version when it does not parse* |
+| **connected_peer_count** | `UInt32` | *Distinct peers connected to a sentry node during the hour, from heartbeats* |
+| **gossipsub_v13_peer_count** | `UInt32` | *Connected peers that support gossipsub v1.3 (/meshsub/1.3.0), which the partial messages extension requires* |
+| **subscribed_peer_count** | `UInt32` | *Distinct peers seen subscribing to a data column topic during the hour by a sentry node that reports the partial flags* |
+| **requests_partial_peer_count** | `UInt32` | *Subscribed peers that requested partial messages on a data column topic* |
+| **supports_sending_partial_peer_count** | `UInt32` | *Subscribed peers that support sending partial messages on a data column topic* |
 
 ## fct_prepared_block
 

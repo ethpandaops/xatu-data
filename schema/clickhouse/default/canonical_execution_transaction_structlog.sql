@@ -14,7 +14,7 @@ CREATE TABLE default.canonical_execution_transaction_structlog
     `gas_used` UInt64 DEFAULT 0 COMMENT 'Actual gas consumed (computed from consecutive gas values)' CODEC(ZSTD(1)),
     `gas_self` UInt64 DEFAULT 0 COMMENT 'Gas consumed by this opcode only, excludes child frame gas for CALL/CREATE opcodes. sum(gas_self) = total execution gas without double counting' CODEC(ZSTD(1)),
     `depth` UInt64 COMMENT 'The depth' CODEC(DoubleDelta, ZSTD(1)),
-    `return_data` Nullable(String) COMMENT 'The return data' CODEC(ZSTD(1)),
+    `return_data` Nullable(String) COMMENT 'Return data buffer left by the CALL/CREATE-family opcode that just returned in this frame, set only on the first opcode after that call returns (NULL if empty). The buffer at any other opcode is the return_data of the latest such row in the same call_frame_id. Before execution-processor v0.3.0 (2026-10-20) the buffer was repeated on every opcode' CODEC(ZSTD(1)),
     `refund` Nullable(UInt64) COMMENT 'The refund' CODEC(ZSTD(1)),
     `error` Nullable(String) COMMENT 'The error' CODEC(ZSTD(1)),
     `call_to_address` Nullable(String) COMMENT 'Address of a CALL operation' CODEC(ZSTD(1)),

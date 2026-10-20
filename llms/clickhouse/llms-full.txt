@@ -2924,7 +2924,7 @@ See also /etc/clickhouse-server/users.xml on the server where ClickHouse is inst
 - **Database**: `default`
 - **Partitioning**: `block_number` (integer, 100)
 - **Networks**: mainnet
-- **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction).
+- **Description**: Contains canonical execution transaction structlog data from [`debug_traceTransaction`](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction). `return_data` is set only on the opcode after a call or create returns; see the quirks note.
 
 ### `canonical_execution_transaction_structlog_agg`
 - **Database**: `default`

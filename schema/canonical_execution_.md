@@ -1505,6 +1505,9 @@ echo """
 
 Contains canonical execution transaction structlog data.
 
+
+> From execution-processor [v0.3.0](https://github.com/ethpandaops/execution-processor/releases/tag/v0.3.0) (2026-10-20), `return_data` is set only on the first opcode after a `CALL`, `CALLCODE`, `DELEGATECALL`, `STATICCALL`, `CREATE` or `CREATE2` returns, and holds the buffer that call left (`NULL` if empty). Earlier rows carried the buffer on every opcode. To get the buffer at any opcode, take the `return_data` of the latest row in the same `call_frame_id` whose previous row in that frame is a call or create (empty if none).
+
 ### Availability
 Data is partitioned in chunks of **100** on **block_number** for the following networks:
 
@@ -1592,7 +1595,7 @@ echo """
 | **gas_used** | `UInt64` | *Actual gas consumed (computed from consecutive gas values)* |
 | **gas_self** | `UInt64` | *Gas consumed by this opcode only, excludes child frame gas for CALL/CREATE opcodes. sum(gas_self) = total execution gas without double counting* |
 | **depth** | `UInt64` | *The depth* |
-| **return_data** | `Nullable(String)` | *The return data* |
+| **return_data** | `Nullable(String)` | *Return data buffer left by the CALL/CREATE-family opcode that just returned in this frame, set only on the first opcode after that call returns (NULL if empty). The buffer at any other opcode is the return_data of the latest such row in the same call_frame_id. Before execution-processor v0.3.0 (2026-10-20) the buffer was repeated on every opcode* |
 | **refund** | `Nullable(UInt64)` | *The refund* |
 | **error** | `Nullable(String)` | *The error* |
 | **call_to_address** | `Nullable(String)` | *Address of a CALL operation* |

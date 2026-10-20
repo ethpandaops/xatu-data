@@ -664,7 +664,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_bid/2026/10/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_bid/2026/10/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -775,7 +775,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_envelope/2026/10/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_envelope/2026/10/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -881,7 +881,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_payload_attestation_message/2026/10/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_payload_attestation_message/2026/10/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -988,7 +988,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_proposer_preferences/2026/10/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_proposer_preferences/2026/10/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -2830,6 +2830,8 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the client that generated the event* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client that generated the event* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **requests_partial** | `Nullable(Bool)` | *Whether the peer asked to receive gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options* |
+| **supports_sending_partial** | `Nullable(Bool)` | *Whether the peer can send gossipsub partial messages on the topic. Null when the tracer cannot see the partial messages subscription options* |
 
 ## libp2p_rpc_meta_message
 
@@ -3047,7 +3049,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/10/12.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/10/13.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """

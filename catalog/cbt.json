@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T21:55:32Z",
+  "generated_at": "2026-10-20T07:32:38Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -75,6 +75,82 @@
           "name": "name",
           "type": "Nullable(String)",
           "description": "The name of the blob submitter"
+        }
+      ]
+    },
+    {
+      "name": "dim_client_release",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "client",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Consensus and execution client release tags and the commits they point at, for resolving graffiti commit prefixes to versions",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client name as used by fct_block_graffiti, e.g. lighthouse or geth"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "version",
+          "type": "String",
+          "description": "Release version taken from the tag, e.g. v8.2.3"
+        },
+        {
+          "name": "tag",
+          "type": "String",
+          "description": "Git tag of the release in the client repository"
+        },
+        {
+          "name": "commit_sha",
+          "type": "String",
+          "description": "Full commit hash the release tag points at, which graffiti commit prefixes resolve against"
+        },
+        {
+          "name": "release_date",
+          "type": "Nullable(DateTime)",
+          "description": "When the GitHub release was published, NULL when unknown"
+        },
+        {
+          "name": "prerelease",
+          "type": "Bool",
+          "description": "Whether the release is a pre-release (GitHub flag, or a pre-release suffix on the version)"
+        },
+        {
+          "name": "repository",
+          "type": "LowCardinality(String)",
+          "description": "GitHub repository the release tags come from, e.g. sigp/lighthouse"
         }
       ]
     },
@@ -2866,6 +2942,157 @@
       ]
     },
     {
+      "name": "fct_block_data_column_completion",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "How sentry nodes completed the data columns of each block: completions by path, cells from gossip and the execution layer, and completion times",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root hash"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt32",
+          "description": "Number of blobs in the block, the number of cells in each column"
+        },
+        {
+          "name": "column_count",
+          "type": "UInt32",
+          "description": "Distinct columns of the block that a sentry node completed"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Distinct sentry nodes that completed a column of the block"
+        },
+        {
+          "name": "completion_count",
+          "type": "UInt32",
+          "description": "Column completions, one per node per column"
+        },
+        {
+          "name": "full_gossip_completion_count",
+          "type": "UInt32",
+          "description": "Completions by a full data column gossip message"
+        },
+        {
+          "name": "partial_gossip_completion_count",
+          "type": "UInt32",
+          "description": "Completions from cells received as gossipsub partial messages"
+        },
+        {
+          "name": "el_completion_count",
+          "type": "UInt32",
+          "description": "Completions built from blobs returned by the execution layer"
+        },
+        {
+          "name": "reconstruction_completion_count",
+          "type": "UInt32",
+          "description": "Completions recovered by reconstruction from other columns"
+        },
+        {
+          "name": "unknown_completion_count",
+          "type": "UInt32",
+          "description": "Completions by a path the node did not report"
+        },
+        {
+          "name": "cells_total",
+          "type": "UInt64",
+          "description": "Cells in the completed columns, summed over completions"
+        },
+        {
+          "name": "cells_from_gossip",
+          "type": "UInt64",
+          "description": "Cells received over gossip, summed over completions"
+        },
+        {
+          "name": "cells_from_el",
+          "type": "UInt64",
+          "description": "Cells built from blobs returned by the execution layer, summed over completions"
+        },
+        {
+          "name": "min_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest completion of any column by any node, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time across completions, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile completion time across completions, in milliseconds from slot start"
+        },
+        {
+          "name": "max_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest completion of any column by any node, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_node_last_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median across nodes of the time each node completed its last column of the block, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_node_last_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile across nodes of the time each node completed its last column of the block, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
       "name": "fct_block_data_column_sidecar_first_seen",
       "database": "cbt",
       "cbt_table": true,
@@ -3023,6 +3250,11 @@
           "name": "meta_consensus_implementation",
           "type": "LowCardinality(String)",
           "description": "Ethereum consensus client implementation of the client that first saw the data column"
+        },
+        {
+          "name": "completed_via",
+          "type": "LowCardinality(String)",
+          "description": "How the node that first saw the data column completed it: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events"
         }
       ]
     },
@@ -3184,6 +3416,11 @@
           "name": "meta_consensus_implementation",
           "type": "LowCardinality(String)",
           "description": "Ethereum consensus client implementation"
+        },
+        {
+          "name": "completed_via",
+          "type": "LowCardinality(String)",
+          "description": "How the node completed the data column: FULL_GOSSIP for a full gossip message, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN from a column completion event, empty for beacon API events"
         }
       ]
     },
@@ -3410,7 +3647,7 @@
         {
           "name": "graffiti_format",
           "type": "LowCardinality(String)",
-          "description": "Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), none (unrecognised text) or empty"
+          "description": "Which graffiti format identified the clients: codes_full, codes_long, codes_short or codes_min (client version codes with 8, 4, 2 or no commit characters), version_string (a client default such as Lighthouse/v8.2.3-6db6ae9), rocketpool (the Rocket Pool smartnode default RP-<EL><CL> v<version>), none (unrecognised text) or empty"
         },
         {
           "name": "consensus_client",
@@ -3436,6 +3673,133 @@
           "name": "execution_client_commit",
           "type": "LowCardinality(String)",
           "description": "Execution client commit prefix carried by the graffiti, empty when the graffiti carries none"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node (ethseer on public networks), empty when the validator has none"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_by_entity_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily canonical block counts per proposer entity and consensus and execution client pair named by block graffiti",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks in the day from this entity with this consensus and execution client pair"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_by_entity_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly canonical block counts per proposer entity and consensus and execution client pair named by block graffiti",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks in the hour from this entity with this consensus and execution client pair"
         }
       ]
     },
@@ -3961,6 +4325,107 @@
           "name": "transaction_count",
           "type": "UInt32",
           "description": "The number of transactions in the proposer payload"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_partial_data_column_header_first_seen",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "When sentry nodes first received the gossipsub partial data column header for a Fulu block, the eager push that lets peers verify cells before the full column arrives",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root hash"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the block proposer, from the header"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt32",
+          "description": "Number of KZG commitments in the header"
+        },
+        {
+          "name": "seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Time from slot start until any sentry node first received a partial data column header for the block, in milliseconds"
+        },
+        {
+          "name": "p50_node_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median across nodes of the time each node first received a header for the block, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_node_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile across nodes of the time each node first received a header for the block, in milliseconds from slot start"
+        },
+        {
+          "name": "max_node_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest time a node first received a header for the block, in milliseconds from slot start"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Number of sentry nodes that received a partial data column header for the block"
+        },
+        {
+          "name": "first_seen_meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the sentry node that received a header first"
         }
       ]
     },
@@ -6267,6 +6732,751 @@
           "name": "max_blob_count",
           "type": "UInt16",
           "description": "Maximum blob count observed in this hour"
+        }
+      ]
+    },
+    {
+      "name": "fct_data_column_completion_by_path_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily data column completions on sentry nodes by consensus client and completion path, with cells by source and completion time percentiles",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by block slot"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the sentry nodes that completed the columns"
+        },
+        {
+          "name": "completed_via",
+          "type": "LowCardinality(String)",
+          "description": "How the columns were completed: FULL_GOSSIP, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Distinct sentry nodes with a completion on this path"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Distinct blocks with a column completed on this path"
+        },
+        {
+          "name": "completion_count",
+          "type": "UInt32",
+          "description": "Column completions, one per node per column"
+        },
+        {
+          "name": "cells_total",
+          "type": "UInt64",
+          "description": "Cells in the completed columns"
+        },
+        {
+          "name": "cells_from_gossip",
+          "type": "UInt64",
+          "description": "Cells received over gossip"
+        },
+        {
+          "name": "cells_from_el",
+          "type": "UInt64",
+          "description": "Cells built from blobs returned by the execution layer"
+        },
+        {
+          "name": "avg_contributing_peers",
+          "type": "Float64",
+          "description": "Average number of distinct peers that contributed cells to a completion"
+        },
+        {
+          "name": "min_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest completion, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "p99_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "99th percentile completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "max_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest completion, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_data_column_completion_by_path_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly data column completions on sentry nodes by consensus client and completion path, with cells by source and completion time percentiles",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by block slot"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the sentry nodes that completed the columns"
+        },
+        {
+          "name": "completed_via",
+          "type": "LowCardinality(String)",
+          "description": "How the columns were completed: FULL_GOSSIP, PARTIAL_GOSSIP, EL, RECONSTRUCTION or UNKNOWN"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Distinct sentry nodes with a completion on this path"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Distinct blocks with a column completed on this path"
+        },
+        {
+          "name": "completion_count",
+          "type": "UInt32",
+          "description": "Column completions, one per node per column"
+        },
+        {
+          "name": "cells_total",
+          "type": "UInt64",
+          "description": "Cells in the completed columns"
+        },
+        {
+          "name": "cells_from_gossip",
+          "type": "UInt64",
+          "description": "Cells received over gossip"
+        },
+        {
+          "name": "cells_from_el",
+          "type": "UInt64",
+          "description": "Cells built from blobs returned by the execution layer"
+        },
+        {
+          "name": "avg_contributing_peers",
+          "type": "Float64",
+          "description": "Average number of distinct peers that contributed cells to a completion"
+        },
+        {
+          "name": "min_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest completion, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "p99_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "99th percentile completion time, in milliseconds from slot start"
+        },
+        {
+          "name": "max_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest completion, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_data_column_completion_by_slot",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "How each data column of a block became available across sentry nodes: completions by path, cells from gossip and the execution layer, and gossipsub partial message traffic",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root hash"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt64",
+          "description": "The data column index"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt32",
+          "description": "Number of blobs in the block, the number of cells in the column"
+        },
+        {
+          "name": "completion_node_count",
+          "type": "UInt32",
+          "description": "Number of sentry nodes that reported the column complete"
+        },
+        {
+          "name": "full_gossip_completion_count",
+          "type": "UInt32",
+          "description": "Number of nodes whose column was completed by a full gossip message"
+        },
+        {
+          "name": "partial_gossip_completion_count",
+          "type": "UInt32",
+          "description": "Number of nodes whose column was completed from cells received as gossipsub partial messages"
+        },
+        {
+          "name": "el_completion_count",
+          "type": "UInt32",
+          "description": "Number of nodes whose column was built from blobs returned by the execution layer"
+        },
+        {
+          "name": "reconstruction_completion_count",
+          "type": "UInt32",
+          "description": "Number of nodes whose column was recovered by reconstruction from other columns"
+        },
+        {
+          "name": "unknown_completion_count",
+          "type": "UInt32",
+          "description": "Number of nodes whose column was completed by a path the node did not report"
+        },
+        {
+          "name": "cells_total",
+          "type": "UInt64",
+          "description": "Cells in the completed columns, summed over the nodes that completed it"
+        },
+        {
+          "name": "cells_from_gossip",
+          "type": "UInt64",
+          "description": "Cells received over gossip, summed over the nodes that completed the column"
+        },
+        {
+          "name": "cells_from_el",
+          "type": "UInt64",
+          "description": "Cells built from blobs returned by the execution layer, summed over the nodes that completed the column"
+        },
+        {
+          "name": "avg_partial_contributing_peers",
+          "type": "Float64",
+          "description": "Average number of distinct peers that contributed cells to a PARTIAL_GOSSIP completion, 0 when there was none"
+        },
+        {
+          "name": "min_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest completion of the column by any node, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time across nodes, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile completion time across nodes, in milliseconds from slot start"
+        },
+        {
+          "name": "max_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest completion of the column by any node, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_full_gossip_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time across FULL_GOSSIP completions, in milliseconds from slot start, 0 when there was none"
+        },
+        {
+          "name": "p50_partial_gossip_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time across PARTIAL_GOSSIP completions, in milliseconds from slot start, 0 when there was none"
+        },
+        {
+          "name": "p50_el_completion_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median completion time across EL completions, in milliseconds from slot start, 0 when there was none"
+        },
+        {
+          "name": "partial_received_message_count",
+          "type": "UInt32",
+          "description": "Partial messages with a body received by sentry nodes, summed over nodes. WIRE capture points count every part, APP capture points only those the gossipsub router passed on"
+        },
+        {
+          "name": "partial_received_cells",
+          "type": "UInt64",
+          "description": "Cells carried by the partial messages received by sentry nodes, duplicates included"
+        },
+        {
+          "name": "partial_sender_peer_count",
+          "type": "UInt32",
+          "description": "Distinct peers that sent a partial message with a body for the column to a sentry node"
+        },
+        {
+          "name": "partial_sent_message_count",
+          "type": "UInt32",
+          "description": "Partial messages with a body sent by sentry nodes, summed over nodes"
+        },
+        {
+          "name": "partial_sent_cells",
+          "type": "UInt64",
+          "description": "Cells carried by the partial messages sent by sentry nodes"
+        },
+        {
+          "name": "partial_accept_verdict_count",
+          "type": "UInt32",
+          "description": "Validation verdicts on received partial messages that accepted them"
+        },
+        {
+          "name": "partial_ignore_verdict_count",
+          "type": "UInt32",
+          "description": "Validation verdicts on received partial messages that ignored them"
+        },
+        {
+          "name": "partial_reject_verdict_count",
+          "type": "UInt32",
+          "description": "Validation verdicts on received partial messages that rejected them"
+        },
+        {
+          "name": "partial_new_cells",
+          "type": "UInt64",
+          "description": "Cells new to the receiving node that passed verification. Divided by partial_received_cells this approximates the useful cell ratio"
+        }
+      ]
+    },
+    {
+      "name": "fct_data_column_partial_message_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily gossipsub partial data column traffic on sentry nodes by consensus client: messages and cells sent and received, validation verdicts, useful cells and header push timing",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by wall clock slot"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the sentry nodes. Prysm sentries capture every partial RPC on the wire, Lighthouse sentries only those the gossipsub router passed on"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Distinct sentry nodes that sent or received a partial message"
+        },
+        {
+          "name": "received_metadata_count",
+          "type": "UInt32",
+          "description": "Received partial messages that only carried parts metadata"
+        },
+        {
+          "name": "received_message_count",
+          "type": "UInt32",
+          "description": "Received partial messages with a body, header-only pushes included"
+        },
+        {
+          "name": "received_cell_message_count",
+          "type": "UInt32",
+          "description": "Received partial messages that carried at least one cell"
+        },
+        {
+          "name": "received_cells",
+          "type": "UInt64",
+          "description": "Cells carried by received partial messages, duplicates included"
+        },
+        {
+          "name": "received_header_count",
+          "type": "UInt32",
+          "description": "Received partial messages that carried the partial data column header"
+        },
+        {
+          "name": "cell_sender_peer_count",
+          "type": "UInt32",
+          "description": "Distinct peers that sent a sentry node at least one cell"
+        },
+        {
+          "name": "sent_metadata_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that only carried parts metadata"
+        },
+        {
+          "name": "sent_message_count",
+          "type": "UInt32",
+          "description": "Sent partial messages with a body, header-only pushes included"
+        },
+        {
+          "name": "sent_cell_message_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that carried at least one cell"
+        },
+        {
+          "name": "sent_cells",
+          "type": "UInt64",
+          "description": "Cells carried by sent partial messages"
+        },
+        {
+          "name": "sent_header_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that carried the partial data column header"
+        },
+        {
+          "name": "cells_accept_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that accepted a received partial message"
+        },
+        {
+          "name": "cells_ignore_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that ignored a received partial message, for example because its cells were already known"
+        },
+        {
+          "name": "cells_reject_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that rejected a received partial message"
+        },
+        {
+          "name": "verdict_cells",
+          "type": "UInt64",
+          "description": "Cells carried by the partial messages that got a cell verdict"
+        },
+        {
+          "name": "new_cells",
+          "type": "UInt64",
+          "description": "Cells new to the receiving node that passed verification. Divided by verdict_cells this is the useful cell ratio"
+        },
+        {
+          "name": "header_accept_count",
+          "type": "UInt32",
+          "description": "Header verdicts that accepted a partial data column header"
+        },
+        {
+          "name": "header_ignore_count",
+          "type": "UInt32",
+          "description": "Header verdicts that ignored a partial data column header"
+        },
+        {
+          "name": "header_reject_count",
+          "type": "UInt32",
+          "description": "Header verdicts that rejected a partial data column header"
+        },
+        {
+          "name": "header_node_block_count",
+          "type": "UInt32",
+          "description": "Node and Fulu block pairs where the node received a partial data column header"
+        },
+        {
+          "name": "p50_header_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median time a node first received the header for a block, in milliseconds from slot start, 0 when there was none"
+        },
+        {
+          "name": "p90_header_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile time a node first received the header for a block, in milliseconds from slot start, 0 when there was none"
+        }
+      ]
+    },
+    {
+      "name": "fct_data_column_partial_message_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly gossipsub partial data column traffic on sentry nodes by consensus client: messages and cells sent and received, validation verdicts, useful cells and header push timing",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by wall clock slot"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the sentry nodes. Prysm sentries capture every partial RPC on the wire, Lighthouse sentries only those the gossipsub router passed on"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Distinct sentry nodes that sent or received a partial message"
+        },
+        {
+          "name": "received_metadata_count",
+          "type": "UInt32",
+          "description": "Received partial messages that only carried parts metadata"
+        },
+        {
+          "name": "received_message_count",
+          "type": "UInt32",
+          "description": "Received partial messages with a body, header-only pushes included"
+        },
+        {
+          "name": "received_cell_message_count",
+          "type": "UInt32",
+          "description": "Received partial messages that carried at least one cell"
+        },
+        {
+          "name": "received_cells",
+          "type": "UInt64",
+          "description": "Cells carried by received partial messages, duplicates included"
+        },
+        {
+          "name": "received_header_count",
+          "type": "UInt32",
+          "description": "Received partial messages that carried the partial data column header"
+        },
+        {
+          "name": "cell_sender_peer_count",
+          "type": "UInt32",
+          "description": "Distinct peers that sent a sentry node at least one cell"
+        },
+        {
+          "name": "sent_metadata_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that only carried parts metadata"
+        },
+        {
+          "name": "sent_message_count",
+          "type": "UInt32",
+          "description": "Sent partial messages with a body, header-only pushes included"
+        },
+        {
+          "name": "sent_cell_message_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that carried at least one cell"
+        },
+        {
+          "name": "sent_cells",
+          "type": "UInt64",
+          "description": "Cells carried by sent partial messages"
+        },
+        {
+          "name": "sent_header_count",
+          "type": "UInt32",
+          "description": "Sent partial messages that carried the partial data column header"
+        },
+        {
+          "name": "cells_accept_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that accepted a received partial message"
+        },
+        {
+          "name": "cells_ignore_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that ignored a received partial message, for example because its cells were already known"
+        },
+        {
+          "name": "cells_reject_count",
+          "type": "UInt32",
+          "description": "Cell verdicts that rejected a received partial message"
+        },
+        {
+          "name": "verdict_cells",
+          "type": "UInt64",
+          "description": "Cells carried by the partial messages that got a cell verdict"
+        },
+        {
+          "name": "new_cells",
+          "type": "UInt64",
+          "description": "Cells new to the receiving node that passed verification. Divided by verdict_cells this is the useful cell ratio"
+        },
+        {
+          "name": "header_accept_count",
+          "type": "UInt32",
+          "description": "Header verdicts that accepted a partial data column header"
+        },
+        {
+          "name": "header_ignore_count",
+          "type": "UInt32",
+          "description": "Header verdicts that ignored a partial data column header"
+        },
+        {
+          "name": "header_reject_count",
+          "type": "UInt32",
+          "description": "Header verdicts that rejected a partial data column header"
+        },
+        {
+          "name": "header_node_block_count",
+          "type": "UInt32",
+          "description": "Node and Fulu block pairs where the node received a partial data column header"
+        },
+        {
+          "name": "p50_header_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median time a node first received the header for a block, in milliseconds from slot start, 0 when there was none"
+        },
+        {
+          "name": "p90_header_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile time a node first received the header for a block, in milliseconds from slot start, 0 when there was none"
         }
       ]
     },
@@ -10581,6 +11791,163 @@
           "name": "value",
           "type": "UInt128",
           "description": "The best bid value across all builders in this chunk, in wei"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_partial_message_support_by_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily gossipsub partial messages adoption by peer client and version, as averages of the hourly peer counts",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Client implementation of the peer from its libp2p agent, empty when no heartbeat identified it"
+        },
+        {
+          "name": "peer_version",
+          "type": "LowCardinality(String)",
+          "description": "Client version of the peer as major.minor.patch, or the raw agent version when it does not parse"
+        },
+        {
+          "name": "hour_count",
+          "type": "UInt32",
+          "description": "Hours of the day with peer data on the network, the divisor of the averages"
+        },
+        {
+          "name": "avg_connected_peer_count",
+          "type": "Float64",
+          "description": "Hourly distinct connected peers, averaged over the hours of the day"
+        },
+        {
+          "name": "avg_gossipsub_v13_peer_count",
+          "type": "Float64",
+          "description": "Hourly connected peers that support gossipsub v1.3, averaged over the hours of the day"
+        },
+        {
+          "name": "avg_subscribed_peer_count",
+          "type": "Float64",
+          "description": "Hourly peers seen subscribing to a data column topic by a sentry node that reports the partial flags, averaged over the hours of the day"
+        },
+        {
+          "name": "avg_requests_partial_peer_count",
+          "type": "Float64",
+          "description": "Hourly subscribed peers that requested partial messages, averaged over the hours of the day"
+        },
+        {
+          "name": "avg_supports_sending_partial_peer_count",
+          "type": "Float64",
+          "description": "Hourly subscribed peers that support sending partial messages, averaged over the hours of the day"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_partial_message_support_by_client_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly gossipsub partial messages adoption by peer client and version: connected peers, gossipsub v1.3 support and the partial flags peers set when subscribing to data column topics",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour"
+        },
+        {
+          "name": "peer_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Client implementation of the peer from its libp2p agent, empty when no heartbeat identified it"
+        },
+        {
+          "name": "peer_version",
+          "type": "LowCardinality(String)",
+          "description": "Client version of the peer as major.minor.patch, or the raw agent version when it does not parse"
+        },
+        {
+          "name": "connected_peer_count",
+          "type": "UInt32",
+          "description": "Distinct peers connected to a sentry node during the hour, from heartbeats"
+        },
+        {
+          "name": "gossipsub_v13_peer_count",
+          "type": "UInt32",
+          "description": "Connected peers that support gossipsub v1.3 (/meshsub/1.3.0), which the partial messages extension requires"
+        },
+        {
+          "name": "subscribed_peer_count",
+          "type": "UInt32",
+          "description": "Distinct peers seen subscribing to a data column topic during the hour by a sentry node that reports the partial flags"
+        },
+        {
+          "name": "requests_partial_peer_count",
+          "type": "UInt32",
+          "description": "Subscribed peers that requested partial messages on a data column topic"
+        },
+        {
+          "name": "supports_sending_partial_peer_count",
+          "type": "UInt32",
+          "description": "Subscribed peers that support sending partial messages on a data column topic"
         }
       ]
     },
