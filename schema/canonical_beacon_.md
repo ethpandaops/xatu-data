@@ -127,7 +127,7 @@ echo """
 | **builder_index** | `Nullable(UInt64)` | *Builder index from the bid (Gloas+). NULL for self-built payloads (BUILDER_INDEX_SELF_BUILD) and before Gloas* |
 | **bid_value** | `Nullable(UInt64)` | *Bid value in Gwei (Gloas+)* |
 | **execution_payment** | `Nullable(UInt64)` | *Execution payment in Gwei (Gloas+)* |
-| **payload_present** | `Nullable(Bool)` | *Whether execution payload was delivered (Gloas+)* |
+| **payload_present** | `Nullable(Bool)` | *Whether the builder revealed the execution payload (Gloas+)* |
 | **execution_payload_gas_limit** | `Nullable(UInt64)` | *Gas limit for execution payload* |
 | **execution_payload_gas_used** | `Nullable(UInt64)` | *Gas used for execution payload* |
 | **execution_payload_state_root** | `Nullable(FixedString(66))` | *The state root of the execution payload* |
@@ -568,6 +568,10 @@ echo """
 | **blob_sidecars_size** | `Nullable(UInt32)` | *The total size of the sidecars for blob transactions in bytes* |
 | **blob_sidecars_empty_size** | `Nullable(UInt32)` | *The total empty size of the sidecars for blob transactions in bytes* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **authorization_chain_ids** | `Array(UInt256)` | *The chain ID of each EIP-7702 authorization in a set code transaction* |
+| **authorization_addresses** | `Array(FixedString(42))` | *The address each EIP-7702 authorization delegates its authority\'s code to* |
+| **authorization_nonces** | `Array(UInt64)` | *The authority nonce of each EIP-7702 authorization* |
+| **authorization_authorities** | `Array(String)` | *The account that signed each EIP-7702 authorization, recovered from its signature. Empty when the signature does not recover* |
 
 ## canonical_beacon_block_voluntary_exit
 
@@ -1057,6 +1061,7 @@ echo """
 | **target_epoch_start_date_time** | `DateTime` | *The wall clock time when the target epoch started* |
 | **target_root** | `FixedString(66)` | *The root of the target checkpoint in the attestation* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **payload_present** | `Nullable(Bool)` | *Whether the attesters saw the execution payload of the voted block (attestation data index 1). Always false when the voted block is from the attestation\'s own slot. Null before Gloas* |
 
 ## canonical_beacon_validators
 

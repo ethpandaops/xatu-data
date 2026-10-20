@@ -10,7 +10,11 @@ CREATE TABLE default.canonical_execution_block_local
     `extra_data` Nullable(String) COMMENT 'The block extra data in hex' CODEC(ZSTD(1)),
     `extra_data_string` Nullable(String) COMMENT 'The block extra data in UTF-8 string' CODEC(ZSTD(1)),
     `base_fee_per_gas` Nullable(UInt64) COMMENT 'The block base fee per gas' CODEC(DoubleDelta, ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `parent_hash` Nullable(FixedString(66)) COMMENT 'The parent block hash' CODEC(ZSTD(1)),
+    `state_root` Nullable(FixedString(66)) COMMENT 'The state root after executing the block' CODEC(ZSTD(1)),
+    `blob_gas_used` Nullable(UInt64) COMMENT 'The blob gas used by the block (EIP-4844). Null before Cancun' CODEC(ZSTD(1)),
+    `excess_blob_gas` Nullable(UInt64) COMMENT 'The excess blob gas of the block (EIP-4844). Null before Cancun' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_execution_block_local', '{replica}', updated_date_time)
 PARTITION BY (meta_network_name, intDiv(block_number, 5000000))

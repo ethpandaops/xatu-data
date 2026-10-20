@@ -20,7 +20,8 @@ CREATE TABLE default.canonical_beacon_elaborated_attestation
     `target_epoch` UInt32 COMMENT 'The target epoch referenced in the attestation' CODEC(DoubleDelta, ZSTD(1)),
     `target_epoch_start_date_time` DateTime COMMENT 'The wall clock time when the target epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `target_root` FixedString(66) COMMENT 'The root of the target checkpoint in the attestation' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `payload_present` Nullable(Bool) COMMENT 'Whether the attesters saw the execution payload of the voted block (attestation data index 1). Always false when the voted block is from the attestation\\'s own slot. Null before Gloas' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'default', 'canonical_beacon_elaborated_attestation_local', cityHash64(slot_start_date_time, meta_network_name, block_root, block_slot, position_in_block, beacon_block_root, slot, committee_index, source_root, target_root))
 COMMENT 'Contains elaborated attestations from beacon blocks.'

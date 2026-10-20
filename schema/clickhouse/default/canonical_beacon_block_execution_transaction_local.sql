@@ -25,7 +25,11 @@ CREATE TABLE default.canonical_beacon_block_execution_transaction_local
     `blob_hashes` Array(String) COMMENT 'The hashes of the blob commitments for blob transactions' CODEC(ZSTD(1)),
     `blob_sidecars_size` Nullable(UInt32) COMMENT 'The total size of the sidecars for blob transactions in bytes' CODEC(ZSTD(1)),
     `blob_sidecars_empty_size` Nullable(UInt32) COMMENT 'The total empty size of the sidecars for blob transactions in bytes' CODEC(ZSTD(1)),
-    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name'
+    `meta_network_name` LowCardinality(String) COMMENT 'Ethereum network name',
+    `authorization_chain_ids` Array(UInt256) COMMENT 'The chain ID of each EIP-7702 authorization in a set code transaction' CODEC(ZSTD(1)),
+    `authorization_addresses` Array(FixedString(42)) COMMENT 'The address each EIP-7702 authorization delegates its authority\\'s code to' CODEC(ZSTD(1)),
+    `authorization_nonces` Array(UInt64) COMMENT 'The authority nonce of each EIP-7702 authorization' CODEC(ZSTD(1)),
+    `authorization_authorities` Array(String) COMMENT 'The account that signed each EIP-7702 authorization, recovered from its signature. Empty when the signature does not recover' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/default/canonical_beacon_block_execution_transaction_local', '{replica}', updated_date_time)
 PARTITION BY (meta_network_name, toYYYYMM(slot_start_date_time))

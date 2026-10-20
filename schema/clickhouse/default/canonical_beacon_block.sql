@@ -25,7 +25,7 @@ CREATE TABLE default.canonical_beacon_block
     `builder_index` Nullable(UInt64) COMMENT 'Builder index from the bid (Gloas+). NULL for self-built payloads (BUILDER_INDEX_SELF_BUILD) and before Gloas' CODEC(ZSTD(1)),
     `bid_value` Nullable(UInt64) COMMENT 'Bid value in Gwei (Gloas+)' CODEC(ZSTD(1)),
     `execution_payment` Nullable(UInt64) COMMENT 'Execution payment in Gwei (Gloas+)' CODEC(ZSTD(1)),
-    `payload_present` Nullable(Bool) COMMENT 'Whether execution payload was delivered (Gloas+)' CODEC(ZSTD(1)),
+    `payload_present` Nullable(Bool) COMMENT 'Whether the builder revealed the execution payload (Gloas+)' CODEC(ZSTD(1)),
     `execution_payload_gas_limit` Nullable(UInt64) COMMENT 'Gas limit for execution payload' CODEC(DoubleDelta, ZSTD(1)),
     `execution_payload_gas_used` Nullable(UInt64) COMMENT 'Gas used for execution payload' CODEC(ZSTD(1)),
     `execution_payload_state_root` Nullable(FixedString(66)) COMMENT 'The state root of the execution payload' CODEC(ZSTD(1)),

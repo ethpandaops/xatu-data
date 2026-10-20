@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T07:32:38Z",
+  "generated_at": "2026-10-20T10:43:54Z",
   "dataset": {
     "name": "Canonical Execution",
     "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -98,6 +98,26 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "Ethereum network name"
+        },
+        {
+          "name": "parent_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The parent block hash"
+        },
+        {
+          "name": "state_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "The state root after executing the block"
+        },
+        {
+          "name": "blob_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "The blob gas used by the block (EIP-4844). Null before Cancun"
+        },
+        {
+          "name": "excess_blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The excess blob gas of the block (EIP-4844). Null before Cancun"
         }
       ]
     },

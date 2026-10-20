@@ -119,6 +119,10 @@ echo """
 | **extra_data_string** | `Nullable(String)` | *The block extra data in UTF-8 string* |
 | **base_fee_per_gas** | `Nullable(UInt64)` | *The block base fee per gas* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+| **parent_hash** | `Nullable(FixedString(66))` | *The parent block hash* |
+| **state_root** | `Nullable(FixedString(66))` | *The state root after executing the block* |
+| **blob_gas_used** | `Nullable(UInt64)` | *The blob gas used by the block (EIP-4844). Null before Cancun* |
+| **excess_blob_gas** | `Nullable(UInt64)` | *The excess blob gas of the block (EIP-4844). Null before Cancun* |
 
 ## canonical_execution_transaction
 
