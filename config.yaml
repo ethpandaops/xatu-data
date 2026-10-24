@@ -155,7 +155,7 @@ tables:
         to: '2026-06-02'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block" data from each sentry client attached to a beacon node.
@@ -169,13 +169,13 @@ tables:
     networks:
       mainnet:
         from: '2025-05-14'
-        to: '2026-10-22'
+        to: '2026-10-23'
       holesky:
         from: '2025-05-14'
         to: '2025-11-22'
       sepolia:
         from: '2025-05-14'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "block_gossip" data from each sentry client attached to a beacon node.
@@ -215,7 +215,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "contribution and proof" data from each sentry client attached to a beacon node.
@@ -374,13 +374,13 @@ tables:
     networks:
       mainnet:
         from: '2026-09-30'
-        to: '2026-10-22'
+        to: '2026-10-23'
       hoodi:
         from: '2026-09-30'
-        to: '2026-10-22'
+        to: '2026-10-23'
       sepolia:
         from: '2026-09-29'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "head_v2" data from each sentry client attached to a beacon node. The event fires again when a head's payload status changes from empty to full, so a head can appear twice per client.
@@ -475,7 +475,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2023-12-24'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
     description: Contains beacon API validator attestation data from each sentry client attached to a beacon node.
@@ -766,7 +766,7 @@ tables:
         to: '2025-10-15'
       sepolia:
         from: '2024-01-30'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
       - Finalized
@@ -823,7 +823,7 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-10-21'
+        to: '2026-10-22'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
@@ -867,7 +867,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
       - Finalized
@@ -883,7 +883,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
       - Finalized
@@ -899,7 +899,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
       - Finalized
@@ -915,7 +915,7 @@ tables:
     networks:
       sepolia:
         from: '2026-10-06'
-        to: '2026-10-22'
+        to: '2026-10-23'
     tags:
       - Consensus layer
       - Finalized
