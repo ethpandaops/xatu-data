@@ -210,7 +210,7 @@ echo """
 | **nonce** | `UInt64` | *The transaction nonce* |
 | **from_address** | `String` | *The transaction from address* |
 | **to_address** | `Nullable(String)` | *The transaction to address* |
-| **value** | `UInt256` | *The transaction value in float64* |
+| **value** | `UInt256` | *The transaction value in wei* |
 | **input** | `Nullable(String)` | *The transaction input in hex* |
 | **gas_limit** | `UInt64` | *The transaction gas limit* |
 | **gas_used** | `UInt64` | *The transaction gas used* |

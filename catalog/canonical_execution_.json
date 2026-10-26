@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T20:12:51Z",
+  "generated_at": "2026-10-26T11:55:29Z",
   "dataset": {
     "name": "Canonical Execution",
     "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -190,7 +190,7 @@
         {
           "name": "value",
           "type": "UInt256",
-          "description": "The transaction value in float64"
+          "description": "The transaction value in wei"
         },
         {
           "name": "input",

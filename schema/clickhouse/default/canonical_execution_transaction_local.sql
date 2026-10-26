@@ -7,7 +7,7 @@ CREATE TABLE default.canonical_execution_transaction_local
     `nonce` UInt64 COMMENT 'The transaction nonce' CODEC(ZSTD(1)),
     `from_address` String COMMENT 'The transaction from address' CODEC(ZSTD(1)),
     `to_address` Nullable(String) COMMENT 'The transaction to address' CODEC(ZSTD(1)),
-    `value` UInt256 COMMENT 'The transaction value in float64' CODEC(ZSTD(1)),
+    `value` UInt256 COMMENT 'The transaction value in wei' CODEC(ZSTD(1)),
     `input` Nullable(String) COMMENT 'The transaction input in hex' CODEC(ZSTD(1)),
     `gas_limit` UInt64 COMMENT 'The transaction gas limit' CODEC(ZSTD(1)),
     `gas_used` UInt64 COMMENT 'The transaction gas used' CODEC(ZSTD(1)),
