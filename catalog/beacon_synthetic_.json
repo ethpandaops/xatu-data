@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T12:02:31Z",
+  "generated_at": "2026-10-29T22:16:40Z",
   "dataset": {
     "name": "Beacon Synthetic",
     "description": "Events synthesized from the internals of instrumented beacon nodes, such as fork choice payload status changes and builder payment settlement. Each instance records its own view, so the same event usually appears once per instance.",
@@ -26,7 +26,7 @@
       "networks": {
         "sepolia": {
           "from": "2026-10-06",
-          "to": "2026-10-27"
+          "to": "2026-10-28"
         }
       },
       "tags": [
@@ -212,7 +212,7 @@
       "networks": {
         "sepolia": {
           "from": "2026-10-06",
-          "to": "2026-10-27"
+          "to": "2026-10-28"
         }
       },
       "tags": [
@@ -418,7 +418,7 @@
       "networks": {
         "sepolia": {
           "from": "2026-10-06",
-          "to": "2026-10-27"
+          "to": "2026-10-28"
         }
       },
       "tags": [
