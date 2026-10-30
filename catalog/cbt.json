@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T11:56:17Z",
+  "generated_at": "2026-10-30T21:53:01Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -476,6 +476,117 @@
           "name": "token_standard",
           "type": "LowCardinality(String)",
           "description": "Mutually-exclusive classification by the standard of the first Transfer event the contract emitted (first-come-first-serve): erc20 or erc721"
+        }
+      ]
+    },
+    {
+      "name": "dim_validator",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Current identity and state of every validator, refreshed from the latest epoch",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the state this row was taken from"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the epoch started"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "pubkey",
+          "type": "String",
+          "description": "The public key of the validator"
+        },
+        {
+          "name": "withdrawal_credentials",
+          "type": "String",
+          "description": "Current withdrawal credentials"
+        },
+        {
+          "name": "credential_type",
+          "type": "LowCardinality(String)",
+          "description": "Withdrawal credential prefix: 0x00 (BLS), 0x01 (execution address) or 0x02 (compounding)"
+        },
+        {
+          "name": "withdrawal_address",
+          "type": "Nullable(String)",
+          "description": "Execution address from 0x01 or 0x02 credentials. NULL for 0x00"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Beacon chain validator status (e.g. pending_queued, active_ongoing, withdrawal_done)"
+        },
+        {
+          "name": "balance",
+          "type": "Nullable(UInt64)",
+          "description": "Balance in Gwei"
+        },
+        {
+          "name": "effective_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Effective balance in Gwei"
+        },
+        {
+          "name": "slashed",
+          "type": "Bool",
+          "description": "Whether the validator has been slashed"
+        },
+        {
+          "name": "activation_eligibility_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "Epoch the validator became eligible for activation. NULL if not yet set"
+        },
+        {
+          "name": "activation_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "Epoch the validator activates or activated. NULL if not yet set"
+        },
+        {
+          "name": "exit_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "Epoch the validator exits or exited. NULL if no exit has been initiated"
+        },
+        {
+          "name": "withdrawable_epoch",
+          "type": "Nullable(UInt64)",
+          "description": "Epoch the validator becomes or became withdrawable. NULL if no exit has been initiated"
         }
       ]
     },
@@ -1770,6 +1881,238 @@
       ]
     },
     {
+      "name": "fct_attestation_observation_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily attestation arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw attestations in"
+        },
+        {
+          "name": "attestation_count",
+          "type": "UInt64",
+          "description": "Attestations the node saw"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_observation_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly attestation arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw attestations in"
+        },
+        {
+          "name": "attestation_count",
+          "type": "UInt64",
+          "description": "Attestations the node saw"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_median_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile of the per-slot median attestation arrival, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
       "name": "fct_attestation_participation_rate_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -1958,6 +2301,264 @@
           "name": "moving_avg_participation_rate",
           "type": "Float32",
           "description": "Moving average participation rate (6-hour window)"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_reward_by_validator",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Attestation reward of each validator in each epoch. Rows never change, so there is no version column",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "head",
+          "type": "Int64",
+          "description": "Head vote reward in Gwei"
+        },
+        {
+          "name": "target",
+          "type": "Int64",
+          "description": "Target vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "source",
+          "type": "Int64",
+          "description": "Source vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "inclusion_delay",
+          "type": "Int64",
+          "description": "Inclusion delay reward in Gwei (phase0 only, the attester\\'s share, 0 from Altair)"
+        },
+        {
+          "name": "inactivity",
+          "type": "Int64",
+          "description": "Inactivity penalty in Gwei"
+        },
+        {
+          "name": "total",
+          "type": "Int64",
+          "description": "head + target + source + inclusion_delay + inactivity in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_reward_by_validator_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Attestation rewards and penalties per validator per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "epoch_count",
+          "type": "UInt32",
+          "description": "Epochs of the day the validator was active (had an attestation reward)"
+        },
+        {
+          "name": "head",
+          "type": "Int64",
+          "description": "Head vote reward in Gwei"
+        },
+        {
+          "name": "target",
+          "type": "Int64",
+          "description": "Target vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "source",
+          "type": "Int64",
+          "description": "Source vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "inclusion_delay",
+          "type": "Int64",
+          "description": "Inclusion delay reward in Gwei (phase0 only, 0 from Altair)"
+        },
+        {
+          "name": "inactivity",
+          "type": "Int64",
+          "description": "Inactivity penalty in Gwei"
+        },
+        {
+          "name": "total",
+          "type": "Int64",
+          "description": "head + target + source + inclusion_delay + inactivity in Gwei"
+        },
+        {
+          "name": "penalty",
+          "type": "Int64",
+          "description": "Sum of the negative components in Gwei"
+        },
+        {
+          "name": "penalized_epoch_count",
+          "type": "UInt32",
+          "description": "Epochs with any negative component"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_reward_by_validator_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Attestation rewards and penalties per validator per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "epoch_count",
+          "type": "UInt32",
+          "description": "Epochs of the week the validator was active (had an attestation reward)"
+        },
+        {
+          "name": "head",
+          "type": "Int64",
+          "description": "Head vote reward in Gwei"
+        },
+        {
+          "name": "target",
+          "type": "Int64",
+          "description": "Target vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "source",
+          "type": "Int64",
+          "description": "Source vote reward in Gwei (negative when penalised)"
+        },
+        {
+          "name": "inclusion_delay",
+          "type": "Int64",
+          "description": "Inclusion delay reward in Gwei (phase0 only, 0 from Altair)"
+        },
+        {
+          "name": "inactivity",
+          "type": "Int64",
+          "description": "Inactivity penalty in Gwei"
+        },
+        {
+          "name": "total",
+          "type": "Int64",
+          "description": "head + target + source + inclusion_delay + inactivity in Gwei"
+        },
+        {
+          "name": "penalty",
+          "type": "Int64",
+          "description": "Sum of the negative components in Gwei"
+        },
+        {
+          "name": "penalized_epoch_count",
+          "type": "UInt32",
+          "description": "Epochs with any negative component"
         }
       ]
     },
@@ -3506,6 +4107,258 @@
       ]
     },
     {
+      "name": "fct_block_data_column_sidecar_first_seen_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily data column arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw data columns in"
+        },
+        {
+          "name": "column_count",
+          "type": "UInt16",
+          "description": "Distinct column indexes the node saw, its custody set"
+        },
+        {
+          "name": "avg_columns_per_slot",
+          "type": "Float64",
+          "description": "Average columns the node saw per slot"
+        },
+        {
+          "name": "p50_first_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median arrival of the first column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "max_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest arrival of the last column in a slot, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_data_column_sidecar_first_seen_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly data column arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw data columns in"
+        },
+        {
+          "name": "column_count",
+          "type": "UInt16",
+          "description": "Distinct column indexes the node saw, its custody set"
+        },
+        {
+          "name": "avg_columns_per_slot",
+          "type": "Float64",
+          "description": "Average columns the node saw per slot"
+        },
+        {
+          "name": "p50_first_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median arrival of the first column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile arrival of the last column in a slot, in milliseconds from slot start"
+        },
+        {
+          "name": "max_last_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest arrival of the last column in a slot, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
       "name": "fct_block_first_seen_by_node",
       "database": "cbt",
       "cbt_table": true,
@@ -3653,6 +4506,238 @@
           "name": "meta_consensus_implementation",
           "type": "LowCardinality(String)",
           "description": "Ethereum consensus client implementation"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_first_seen_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily block arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw a block in"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "max_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest block arrival, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_first_seen_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly block arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw a block in"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile block arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "max_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest block arrival, in milliseconds from slot start"
         }
       ]
     },
@@ -5660,6 +6745,249 @@
           "name": "block_root",
           "type": "Nullable(String)",
           "description": "The beacon block root hash. Null if a block was never seen by a sentry"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_proposer_reward",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "proposer_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Consensus layer reward of each canonical block\\'s proposer",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The canonical block root"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the proposer"
+        },
+        {
+          "name": "total",
+          "type": "UInt64",
+          "description": "Total consensus layer proposer reward in Gwei"
+        },
+        {
+          "name": "attestations",
+          "type": "UInt64",
+          "description": "Reward for included attestations in Gwei"
+        },
+        {
+          "name": "sync_aggregate",
+          "type": "UInt64",
+          "description": "Reward for the included sync aggregate in Gwei"
+        },
+        {
+          "name": "proposer_slashings",
+          "type": "UInt64",
+          "description": "Reward for included proposer slashings in Gwei"
+        },
+        {
+          "name": "attester_slashings",
+          "type": "UInt64",
+          "description": "Reward for included attester slashings in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_proposer_reward_by_validator_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "proposer_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Consensus layer proposer rewards per proposer per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the proposer"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "total",
+          "type": "UInt64",
+          "description": "Total consensus layer proposer reward in Gwei"
+        },
+        {
+          "name": "attestations",
+          "type": "UInt64",
+          "description": "Reward for included attestations in Gwei"
+        },
+        {
+          "name": "sync_aggregate",
+          "type": "UInt64",
+          "description": "Reward for included sync aggregates in Gwei"
+        },
+        {
+          "name": "proposer_slashings",
+          "type": "UInt64",
+          "description": "Reward for included proposer slashings in Gwei"
+        },
+        {
+          "name": "attester_slashings",
+          "type": "UInt64",
+          "description": "Reward for included attester slashings in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_proposer_reward_by_validator_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "proposer_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Consensus layer proposer rewards per proposer per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the proposer"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "total",
+          "type": "UInt64",
+          "description": "Total consensus layer proposer reward in Gwei"
+        },
+        {
+          "name": "attestations",
+          "type": "UInt64",
+          "description": "Reward for included attestations in Gwei"
+        },
+        {
+          "name": "sync_aggregate",
+          "type": "UInt64",
+          "description": "Reward for included sync aggregates in Gwei"
+        },
+        {
+          "name": "proposer_slashings",
+          "type": "UInt64",
+          "description": "Reward for included proposer slashings in Gwei"
+        },
+        {
+          "name": "attester_slashings",
+          "type": "UInt64",
+          "description": "Reward for included attester slashings in Gwei"
         }
       ]
     },
@@ -7814,6 +9142,248 @@
       ]
     },
     {
+      "name": "fct_engine_get_blobs_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily engine_getBlobs duration per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client implementation of the node in the period"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots with an engine_getBlobs call"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "engine_getBlobs calls"
+        },
+        {
+          "name": "requested_count",
+          "type": "UInt64",
+          "description": "Blobs requested across every call"
+        },
+        {
+          "name": "returned_count",
+          "type": "UInt64",
+          "description": "Blobs returned across every call"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt32",
+          "description": "Median call duration, in milliseconds"
+        },
+        {
+          "name": "p90_duration_ms",
+          "type": "UInt32",
+          "description": "90th percentile call duration, in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt32",
+          "description": "95th percentile call duration, in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt32",
+          "description": "Longest call, in milliseconds"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_get_blobs_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly engine_getBlobs duration per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client implementation of the node in the period"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots with an engine_getBlobs call"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "engine_getBlobs calls"
+        },
+        {
+          "name": "requested_count",
+          "type": "UInt64",
+          "description": "Blobs requested across every call"
+        },
+        {
+          "name": "returned_count",
+          "type": "UInt64",
+          "description": "Blobs returned across every call"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt32",
+          "description": "Median call duration, in milliseconds"
+        },
+        {
+          "name": "p90_duration_ms",
+          "type": "UInt32",
+          "description": "90th percentile call duration, in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt32",
+          "description": "95th percentile call duration, in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt32",
+          "description": "Longest call, in milliseconds"
+        }
+      ]
+    },
+    {
       "name": "fct_engine_get_blobs_by_slot",
       "database": "cbt",
       "cbt_table": true,
@@ -8314,6 +9884,268 @@
           "name": "avg_blob_count",
           "type": "Float32",
           "description": "Average blob count per block (VALID status only)"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily engine_newPayload duration per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client implementation of the node in the period"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots with an engine_newPayload call"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "engine_newPayload calls"
+        },
+        {
+          "name": "valid_count",
+          "type": "UInt32",
+          "description": "Calls that returned VALID"
+        },
+        {
+          "name": "invalid_count",
+          "type": "UInt32",
+          "description": "Calls that returned INVALID"
+        },
+        {
+          "name": "syncing_count",
+          "type": "UInt32",
+          "description": "Calls that returned SYNCING"
+        },
+        {
+          "name": "accepted_count",
+          "type": "UInt32",
+          "description": "Calls that returned ACCEPTED"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt32",
+          "description": "Median duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "p90_duration_ms",
+          "type": "UInt32",
+          "description": "90th percentile duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt32",
+          "description": "95th percentile duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt32",
+          "description": "Longest VALID call, in milliseconds"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly engine_newPayload duration per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client implementation of the node in the period"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest execution client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots with an engine_newPayload call"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "engine_newPayload calls"
+        },
+        {
+          "name": "valid_count",
+          "type": "UInt32",
+          "description": "Calls that returned VALID"
+        },
+        {
+          "name": "invalid_count",
+          "type": "UInt32",
+          "description": "Calls that returned INVALID"
+        },
+        {
+          "name": "syncing_count",
+          "type": "UInt32",
+          "description": "Calls that returned SYNCING"
+        },
+        {
+          "name": "accepted_count",
+          "type": "UInt32",
+          "description": "Calls that returned ACCEPTED"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt32",
+          "description": "Median duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "p90_duration_ms",
+          "type": "UInt32",
+          "description": "90th percentile duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt32",
+          "description": "95th percentile duration of VALID calls, in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt32",
+          "description": "Longest VALID call, in milliseconds"
         }
       ]
     },
@@ -10217,6 +12049,238 @@
       ]
     },
     {
+      "name": "fct_head_first_seen_by_node_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily head event arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw a head event in"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "max_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest head event arrival, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
+      "name": "fct_head_first_seen_by_node_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly head event arrival per node",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the node"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Latest client name of the node in the period"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector implementation of the node in the period"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest collector version of the node in the period"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client implementation of the node in the period"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Latest consensus client version of the node in the period"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Slots the node saw a head event in"
+        },
+        {
+          "name": "min_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Earliest head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p10_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "10th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p50_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Median head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p90_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "90th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "p95_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "95th percentile head event arrival, in milliseconds from slot start"
+        },
+        {
+          "name": "max_seen_slot_start_diff",
+          "type": "UInt32",
+          "description": "Latest head event arrival, in milliseconds from slot start"
+        }
+      ]
+    },
+    {
       "name": "fct_head_vote_correctness_rate_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -11245,6 +13309,283 @@
           "name": "node_class",
           "type": "LowCardinality(String)",
           "description": "Node classification for filtering (e.g. eip7870)"
+        }
+      ]
+    },
+    {
+      "name": "fct_opcode_cost_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution cost per opcode group by execution client, fitted from engine_newPayload durations",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by block timestamp"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification the timings come from (e.g., eip7870-block-builder)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "opcode_group",
+          "type": "LowCardinality(String)",
+          "description": "Opcode, or opcode group (LOG, ARITHMETIC, CONTROL, ENVIRONMENT, MEMORY, STACK)"
+        },
+        {
+          "name": "meta_execution_versions",
+          "type": "Array(String)",
+          "description": "Client versions that ran during the day, most blocks first"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Block observations in the fit"
+        },
+        {
+          "name": "hour_count",
+          "type": "UInt32",
+          "description": "Hours with data in the fit"
+        },
+        {
+          "name": "gas_share",
+          "type": "Float64",
+          "description": "Share of all opcode and non-opcode gas spent on this opcode group"
+        },
+        {
+          "name": "gas_per_op",
+          "type": "Float64",
+          "description": "Average gas charged per execution of this opcode group"
+        },
+        {
+          "name": "ns_per_gas",
+          "type": "Float64",
+          "description": "Fitted execution time per unit of gas for this opcode group, in nanoseconds"
+        },
+        {
+          "name": "ns_per_op",
+          "type": "Float64",
+          "description": "Fitted execution time per execution of this opcode group, in nanoseconds"
+        },
+        {
+          "name": "ns_per_op_lower",
+          "type": "Float64",
+          "description": "5th percentile of ns_per_op over an hourly bootstrap"
+        },
+        {
+          "name": "ns_per_op_upper",
+          "type": "Float64",
+          "description": "95th percentile of ns_per_op over an hourly bootstrap"
+        },
+        {
+          "name": "price_ratio",
+          "type": "Float64",
+          "description": "ns_per_gas divided by the client average ns per gas, where 1 means gas prices this opcode group in line with the rest of execution"
+        },
+        {
+          "name": "price_ratio_lower",
+          "type": "Float64",
+          "description": "5th percentile of price_ratio over an hourly bootstrap"
+        },
+        {
+          "name": "price_ratio_upper",
+          "type": "Float64",
+          "description": "95th percentile of price_ratio over an hourly bootstrap"
+        },
+        {
+          "name": "client_ns_per_gas",
+          "type": "Float64",
+          "description": "Client average execution time per unit of gas, in nanoseconds"
+        },
+        {
+          "name": "overhead_ms",
+          "type": "Float64",
+          "description": "Fitted fixed cost per block, in milliseconds"
+        },
+        {
+          "name": "per_tx_us",
+          "type": "Float64",
+          "description": "Fitted cost per transaction, in microseconds"
+        },
+        {
+          "name": "r_squared",
+          "type": "Float64",
+          "description": "Share of block duration variance the fit explains"
+        }
+      ]
+    },
+    {
+      "name": "fct_opcode_cost_by_el_client_version",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "node_class",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Execution cost per opcode group for each execution client version, fitted over every hour the version ran",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification the timings come from (e.g., eip7870-block-builder)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client version string"
+        },
+        {
+          "name": "opcode_group",
+          "type": "LowCardinality(String)",
+          "description": "Opcode, or opcode group (LOG, ARITHMETIC, CONTROL, ENVIRONMENT, MEMORY, STACK)"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime",
+          "description": "Start of the first hour the version has data"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime",
+          "description": "Start of the last hour the version has data"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Block observations in the fit"
+        },
+        {
+          "name": "hour_count",
+          "type": "UInt32",
+          "description": "Hours with data in the fit"
+        },
+        {
+          "name": "gas_share",
+          "type": "Float64",
+          "description": "Share of all opcode and non-opcode gas spent on this opcode group"
+        },
+        {
+          "name": "gas_per_op",
+          "type": "Float64",
+          "description": "Average gas charged per execution of this opcode group"
+        },
+        {
+          "name": "ns_per_gas",
+          "type": "Float64",
+          "description": "Fitted execution time per unit of gas for this opcode group, in nanoseconds"
+        },
+        {
+          "name": "ns_per_op",
+          "type": "Float64",
+          "description": "Fitted execution time per execution of this opcode group, in nanoseconds"
+        },
+        {
+          "name": "ns_per_op_lower",
+          "type": "Float64",
+          "description": "5th percentile of ns_per_op over a 6-hour block bootstrap"
+        },
+        {
+          "name": "ns_per_op_upper",
+          "type": "Float64",
+          "description": "95th percentile of ns_per_op over a 6-hour block bootstrap"
+        },
+        {
+          "name": "price_ratio",
+          "type": "Float64",
+          "description": "ns_per_gas divided by the client average ns per gas, where 1 means gas prices this opcode group in line with the rest of execution"
+        },
+        {
+          "name": "price_ratio_lower",
+          "type": "Float64",
+          "description": "5th percentile of price_ratio over a 6-hour block bootstrap"
+        },
+        {
+          "name": "price_ratio_upper",
+          "type": "Float64",
+          "description": "95th percentile of price_ratio over a 6-hour block bootstrap"
+        },
+        {
+          "name": "client_ns_per_gas",
+          "type": "Float64",
+          "description": "Client average execution time per unit of gas, in nanoseconds"
+        },
+        {
+          "name": "overhead_ms",
+          "type": "Float64",
+          "description": "Fitted fixed cost per block, in milliseconds"
+        },
+        {
+          "name": "per_tx_us",
+          "type": "Float64",
+          "description": "Fitted cost per transaction, in microseconds"
+        },
+        {
+          "name": "r_squared",
+          "type": "Float64",
+          "description": "Share of block duration variance the fit explains"
         }
       ]
     },
@@ -13403,6 +15744,209 @@
       ]
     },
     {
+      "name": "fct_sync_committee_reward_by_validator",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Sync committee reward of each validator in each block",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "reward",
+          "type": "Int64",
+          "description": "Sync committee reward in Gwei (negative for a missed vote)"
+        }
+      ]
+    },
+    {
+      "name": "fct_sync_committee_reward_by_validator_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Sync committee rewards and penalties per validator per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Blocks of the day with a sync committee reward for the validator"
+        },
+        {
+          "name": "total",
+          "type": "Int64",
+          "description": "Net sync committee reward in Gwei"
+        },
+        {
+          "name": "reward",
+          "type": "Int64",
+          "description": "Sum of positive rewards in Gwei"
+        },
+        {
+          "name": "penalty",
+          "type": "Int64",
+          "description": "Sum of negative rewards (missed votes) in Gwei"
+        },
+        {
+          "name": "penalized_slot_count",
+          "type": "UInt32",
+          "description": "Blocks with a negative reward"
+        }
+      ]
+    },
+    {
+      "name": "fct_sync_committee_reward_by_validator_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Sync committee rewards and penalties per validator per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Blocks of the week with a sync committee reward for the validator"
+        },
+        {
+          "name": "total",
+          "type": "Int64",
+          "description": "Net sync committee reward in Gwei"
+        },
+        {
+          "name": "reward",
+          "type": "Int64",
+          "description": "Sum of positive rewards in Gwei"
+        },
+        {
+          "name": "penalty",
+          "type": "Int64",
+          "description": "Sum of negative rewards (missed votes) in Gwei"
+        },
+        {
+          "name": "penalized_slot_count",
+          "type": "UInt32",
+          "description": "Blocks with a negative reward"
+        }
+      ]
+    },
+    {
       "name": "fct_token_contract_storage_state_by_block_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -13798,6 +16342,188 @@
       ]
     },
     {
+      "name": "fct_validator_count_by_credential_type_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Validators and stake by withdrawal credential type, one snapshot per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the day, or the latest epoch for today"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "credential_type",
+          "type": "LowCardinality(String)",
+          "description": "Withdrawal credential prefix at the snapshot: 0x00, 0x01 or 0x02"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Validators in the beacon state with this credential type, in any status"
+        },
+        {
+          "name": "active_validator_count",
+          "type": "UInt32",
+          "description": "Active validators (active_ongoing, active_exiting, active_slashed)"
+        },
+        {
+          "name": "active_effective_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' effective balance in Gwei (active stake)"
+        },
+        {
+          "name": "active_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' balance in Gwei"
+        },
+        {
+          "name": "pending_validator_count",
+          "type": "UInt32",
+          "description": "Validators waiting for activation (pending_initialized, pending_queued)"
+        },
+        {
+          "name": "exiting_validator_count",
+          "type": "UInt32",
+          "description": "Active validators with an exit started (active_exiting, active_slashed)"
+        },
+        {
+          "name": "exited_validator_count",
+          "type": "UInt32",
+          "description": "Exited validators (exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done)"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_count_by_credential_type_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "week_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Validators and stake by withdrawal credential type, one snapshot per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the week, or the latest epoch for the current week"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "credential_type",
+          "type": "LowCardinality(String)",
+          "description": "Withdrawal credential prefix at the snapshot: 0x00, 0x01 or 0x02"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Validators in the beacon state with this credential type, in any status"
+        },
+        {
+          "name": "active_validator_count",
+          "type": "UInt32",
+          "description": "Active validators (active_ongoing, active_exiting, active_slashed)"
+        },
+        {
+          "name": "active_effective_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' effective balance in Gwei (active stake)"
+        },
+        {
+          "name": "active_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' balance in Gwei"
+        },
+        {
+          "name": "pending_validator_count",
+          "type": "UInt32",
+          "description": "Validators waiting for activation (pending_initialized, pending_queued)"
+        },
+        {
+          "name": "exiting_validator_count",
+          "type": "UInt32",
+          "description": "Active validators with an exit started (active_exiting, active_slashed)"
+        },
+        {
+          "name": "exited_validator_count",
+          "type": "UInt32",
+          "description": "Exited validators (exited_unslashed, exited_slashed, withdrawal_possible, withdrawal_done)"
+        }
+      ]
+    },
+    {
       "name": "fct_validator_count_by_entity_by_status_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -13850,6 +16576,820 @@
           "name": "validator_count",
           "type": "UInt32",
           "description": "Number of validators with this status for this entity on this day"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_effective_balance_by_credential_type_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Histogram of active validators\\' effective balance by withdrawal credential type, one snapshot per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the day, or the latest epoch for today"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "credential_type",
+          "type": "LowCardinality(String)",
+          "description": "Withdrawal credential prefix at the snapshot: 0x00, 0x01 or 0x02"
+        },
+        {
+          "name": "effective_balance_eth",
+          "type": "UInt32",
+          "description": "Effective balance in whole ETH (effective balance moves in 1 ETH steps)"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Active validators with this credential type and effective balance"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_event",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Validator lifecycle events: deposits, top-ups, credential changes, consolidations, withdrawals, exit and withdrawal requests, voluntary exits and slashings. Only operations that took effect on chain are included",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "version",
+          "type": "UInt64",
+          "description": "ReplacingMergeTree version: rows with a known amount win over rows without one, then the newest row wins"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "Slot of the block that included the operation"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the block that included the operation"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "Root of the block that included the operation"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "Index of the validator the event belongs to"
+        },
+        {
+          "name": "event_type",
+          "type": "LowCardinality(String)",
+          "description": "One of deposit, top_up, withdrawal_partial, withdrawal_full, bls_to_execution_change, switch_to_compounding, consolidation_source, consolidation_target, withdrawal_request, exit_request, voluntary_exit, slashed"
+        },
+        {
+          "name": "event_position",
+          "type": "UInt64",
+          "description": "Separates events of the same type for a validator in one block: withdrawal index for withdrawals, position in the block for execution requests, 2147483648 plus the order among the pubkey\\'s deposits in the block for bridge deposits, otherwise 0"
+        },
+        {
+          "name": "amount",
+          "type": "Nullable(UInt64)",
+          "description": "Amount in Gwei: deposit amount, withdrawal amount, partial withdrawal amount accepted into the queue, or balance moved by a consolidation once processed (NULL until then). NULL for other types"
+        },
+        {
+          "name": "counterparty_validator_index",
+          "type": "Nullable(UInt32)",
+          "description": "Other validator: consolidation target (for the source) or source (for the target), or the proposer that included a slashing"
+        },
+        {
+          "name": "address",
+          "type": "Nullable(String)",
+          "description": "Deposit withdrawal credentials, new execution address of a BLS change, withdrawal recipient address, or source address of an execution request"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_operation_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily counts and amounts of validator operations that took effect",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC) of the blocks that included the operations"
+        },
+        {
+          "name": "operation",
+          "type": "LowCardinality(String)",
+          "description": "One of deposit, top_up, withdrawal_partial, withdrawal_full, bls_to_execution_change, switch_to_compounding, consolidation, withdrawal_request, exit_request, voluntary_exit, slashing"
+        },
+        {
+          "name": "operation_count",
+          "type": "UInt32",
+          "description": "Number of operations that took effect"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Distinct validators (pubkeys for deposits and top-ups)"
+        },
+        {
+          "name": "amount",
+          "type": "Nullable(UInt64)",
+          "description": "Gwei deposited, withdrawn, or accepted into the partial withdrawal queue. NULL for operations without an amount"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_operation_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "week_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Weekly counts and amounts of validator operations that took effect",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "operation",
+          "type": "LowCardinality(String)",
+          "description": "One of deposit, top_up, withdrawal_partial, withdrawal_full, bls_to_execution_change, switch_to_compounding, consolidation, withdrawal_request, exit_request, voluntary_exit, slashing"
+        },
+        {
+          "name": "operation_count",
+          "type": "UInt32",
+          "description": "Number of operations that took effect"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Distinct validators in the week (pubkeys for deposits and top-ups)"
+        },
+        {
+          "name": "amount",
+          "type": "Nullable(UInt64)",
+          "description": "Gwei deposited, withdrawn, or accepted into the partial withdrawal queue. NULL for operations without an amount"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_queue_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Activation and exit queues and the Electra pending queues, one snapshot per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the day, or the latest epoch for today"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "pending_initialized_count",
+          "type": "UInt32",
+          "description": "Validators with status pending_initialized (deposited, not yet eligible for activation)"
+        },
+        {
+          "name": "pending_initialized_balance",
+          "type": "UInt64",
+          "description": "Balance of pending_initialized validators in Gwei"
+        },
+        {
+          "name": "activation_queue_count",
+          "type": "UInt32",
+          "description": "Validators with status pending_queued (eligible, waiting for activation)"
+        },
+        {
+          "name": "activation_queue_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of pending_queued validators in Gwei"
+        },
+        {
+          "name": "exit_queue_count",
+          "type": "UInt32",
+          "description": "Validators with an exit started but not yet exited (active_exiting, active_slashed)"
+        },
+        {
+          "name": "exit_queue_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of validators in the exit queue in Gwei"
+        },
+        {
+          "name": "pending_deposit_count",
+          "type": "UInt32",
+          "description": "Entries in the pending deposit queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_deposit_amount",
+          "type": "UInt64",
+          "description": "Amount in the pending deposit queue in Gwei"
+        },
+        {
+          "name": "pending_consolidation_count",
+          "type": "UInt32",
+          "description": "Entries in the pending consolidation queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_consolidation_source_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of the queued consolidations\\' source validators in Gwei"
+        },
+        {
+          "name": "pending_partial_withdrawal_count",
+          "type": "UInt32",
+          "description": "Entries in the pending partial withdrawal queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_partial_withdrawal_amount",
+          "type": "UInt64",
+          "description": "Amount in the pending partial withdrawal queue in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_queue_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "week_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Activation and exit queues and the Electra pending queues, one snapshot per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the week, or the latest epoch for the current week"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "pending_initialized_count",
+          "type": "UInt32",
+          "description": "Validators with status pending_initialized (deposited, not yet eligible for activation)"
+        },
+        {
+          "name": "pending_initialized_balance",
+          "type": "UInt64",
+          "description": "Balance of pending_initialized validators in Gwei"
+        },
+        {
+          "name": "activation_queue_count",
+          "type": "UInt32",
+          "description": "Validators with status pending_queued (eligible, waiting for activation)"
+        },
+        {
+          "name": "activation_queue_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of pending_queued validators in Gwei"
+        },
+        {
+          "name": "exit_queue_count",
+          "type": "UInt32",
+          "description": "Validators with an exit started but not yet exited (active_exiting, active_slashed)"
+        },
+        {
+          "name": "exit_queue_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of validators in the exit queue in Gwei"
+        },
+        {
+          "name": "pending_deposit_count",
+          "type": "UInt32",
+          "description": "Entries in the pending deposit queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_deposit_amount",
+          "type": "UInt64",
+          "description": "Amount in the pending deposit queue in Gwei"
+        },
+        {
+          "name": "pending_consolidation_count",
+          "type": "UInt32",
+          "description": "Entries in the pending consolidation queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_consolidation_source_effective_balance",
+          "type": "UInt64",
+          "description": "Effective balance of the queued consolidations\\' source validators in Gwei"
+        },
+        {
+          "name": "pending_partial_withdrawal_count",
+          "type": "UInt32",
+          "description": "Entries in the pending partial withdrawal queue (Electra). 0 before Electra"
+        },
+        {
+          "name": "pending_partial_withdrawal_amount",
+          "type": "UInt64",
+          "description": "Amount in the pending partial withdrawal queue in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_reward_total_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Network-wide consensus layer rewards and penalties per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "attesting_validator_count",
+          "type": "UInt32",
+          "description": "Validators with an attestation reward on the day"
+        },
+        {
+          "name": "attestation_head",
+          "type": "Int64",
+          "description": "Head vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_target",
+          "type": "Int64",
+          "description": "Target vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_source",
+          "type": "Int64",
+          "description": "Source vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_inclusion_delay",
+          "type": "Int64",
+          "description": "Inclusion delay rewards in Gwei (phase0 only, 0 from Altair)"
+        },
+        {
+          "name": "attestation_inactivity",
+          "type": "Int64",
+          "description": "Inactivity penalties in Gwei"
+        },
+        {
+          "name": "attestation_total",
+          "type": "Int64",
+          "description": "Net attestation rewards in Gwei"
+        },
+        {
+          "name": "attestation_penalty",
+          "type": "Int64",
+          "description": "Negative attestation components in Gwei"
+        },
+        {
+          "name": "sync_committee_reward",
+          "type": "Int64",
+          "description": "Positive sync committee rewards in Gwei"
+        },
+        {
+          "name": "sync_committee_penalty",
+          "type": "Int64",
+          "description": "Sync committee penalties in Gwei"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks on the day"
+        },
+        {
+          "name": "proposer_total",
+          "type": "UInt64",
+          "description": "Consensus layer proposer rewards in Gwei"
+        },
+        {
+          "name": "proposer_attestations",
+          "type": "UInt64",
+          "description": "Proposer rewards for attestations in Gwei"
+        },
+        {
+          "name": "proposer_sync_aggregate",
+          "type": "UInt64",
+          "description": "Proposer rewards for sync aggregates in Gwei"
+        },
+        {
+          "name": "proposer_slashings",
+          "type": "UInt64",
+          "description": "Proposer rewards for slashings in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_reward_total_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "week_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Network-wide consensus layer rewards and penalties per week",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC)"
+        },
+        {
+          "name": "attesting_validator_count",
+          "type": "UInt32",
+          "description": "Distinct validators with an attestation reward in the week"
+        },
+        {
+          "name": "attestation_head",
+          "type": "Int64",
+          "description": "Head vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_target",
+          "type": "Int64",
+          "description": "Target vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_source",
+          "type": "Int64",
+          "description": "Source vote rewards in Gwei"
+        },
+        {
+          "name": "attestation_inclusion_delay",
+          "type": "Int64",
+          "description": "Inclusion delay rewards in Gwei (phase0 only, 0 from Altair)"
+        },
+        {
+          "name": "attestation_inactivity",
+          "type": "Int64",
+          "description": "Inactivity penalties in Gwei"
+        },
+        {
+          "name": "attestation_total",
+          "type": "Int64",
+          "description": "Net attestation rewards in Gwei"
+        },
+        {
+          "name": "attestation_penalty",
+          "type": "Int64",
+          "description": "Negative attestation components in Gwei"
+        },
+        {
+          "name": "sync_committee_reward",
+          "type": "Int64",
+          "description": "Positive sync committee rewards in Gwei"
+        },
+        {
+          "name": "sync_committee_penalty",
+          "type": "Int64",
+          "description": "Sync committee penalties in Gwei"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks in the week"
+        },
+        {
+          "name": "proposer_total",
+          "type": "UInt64",
+          "description": "Consensus layer proposer rewards in Gwei"
+        },
+        {
+          "name": "proposer_attestations",
+          "type": "UInt64",
+          "description": "Proposer rewards for attestations in Gwei"
+        },
+        {
+          "name": "proposer_sync_aggregate",
+          "type": "UInt64",
+          "description": "Proposer rewards for sync aggregates in Gwei"
+        },
+        {
+          "name": "proposer_slashings",
+          "type": "UInt64",
+          "description": "Proposer rewards for slashings in Gwei"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_stake_by_entity_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Active validators and stake by entity and withdrawal credential type, one snapshot per day",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The day (UTC)"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "Epoch of the snapshot: the last epoch of the day, or the latest epoch for today"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "Wall clock time when the snapshot epoch started"
+        },
+        {
+          "name": "entity",
+          "type": "String",
+          "description": "Entity label from dim_node as it is today, or unknown"
+        },
+        {
+          "name": "credential_type",
+          "type": "LowCardinality(String)",
+          "description": "Withdrawal credential prefix at the snapshot: 0x00, 0x01 or 0x02"
+        },
+        {
+          "name": "active_validator_count",
+          "type": "UInt32",
+          "description": "Active validators (active_ongoing, active_exiting, active_slashed)"
+        },
+        {
+          "name": "active_effective_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' effective balance in Gwei (active stake)"
+        },
+        {
+          "name": "active_balance",
+          "type": "UInt64",
+          "description": "Sum of active validators\\' balance in Gwei"
         }
       ]
     },
@@ -17601,6 +21141,107 @@
           "name": "meta_client_name",
           "type": "LowCardinality(String)",
           "description": "Name of the client that generated the event"
+        }
+      ]
+    },
+    {
+      "name": "int_engine_new_payload_opcode_gram_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly least-squares sufficient statistics for regressing engine_newPayload duration on gas per opcode group, by execution client version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour, by block timestamp"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification the timings come from (e.g., eip7870-block-builder)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client version string"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Blocks in the regression after trimming outliers"
+        },
+        {
+          "name": "trimmed_block_count",
+          "type": "UInt32",
+          "description": "Blocks dropped as outliers (above the hourly P99 duration, or above 3x the hourly median ms per Mgas)"
+        },
+        {
+          "name": "min_block_number",
+          "type": "UInt64",
+          "description": "Lowest execution block number in the hour"
+        },
+        {
+          "name": "max_block_number",
+          "type": "UInt64",
+          "description": "Highest execution block number in the hour"
+        },
+        {
+          "name": "feature_names",
+          "type": "Array(LowCardinality(String))",
+          "description": "Regression features, in order: INTERCEPT (1 per block), TX_COUNT (transactions / 100), NON_OPCODE_GAS (gas used minus opcode gas, in Mgas), then gas per opcode group in Mgas"
+        },
+        {
+          "name": "xtx",
+          "type": "Array(Float64)",
+          "description": "Upper triangle (row-major, including the diagonal) of X^T X, where X is blocks by feature_names"
+        },
+        {
+          "name": "xty",
+          "type": "Array(Float64)",
+          "description": "X^T y, where y is the median engine_newPayload duration in milliseconds across the node class"
+        },
+        {
+          "name": "yty",
+          "type": "Float64",
+          "description": "y^T y, the sum of squared durations in ms^2"
+        },
+        {
+          "name": "opcode_count",
+          "type": "Array(UInt64)",
+          "description": "Executions per opcode group, aligned with feature_names after the first three features"
         }
       ]
     },

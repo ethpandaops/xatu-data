@@ -20,12 +20,11 @@ Each upgrade has a dedicated page with the full table schemas and query examples
 
 | Upgrade | CL fork | Xatu branch | Devnet-only tables | In main catalog | Active devnets |
 |---------|---------|-------------|--------------------|-----------------|----------------|
-| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`master`](https://github.com/ethpandaops/xatu/tree/master) | 0 | 24 | `glamsterdam-devnet-8`, `glamsterdam-pbt-1` |
+| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`master`](https://github.com/ethpandaops/xatu/tree/master) | 0 | 24 | `glamsterdam-devnet-8` |
 
 ## Active devnets
 
 | Network | Upgrade | Fork-specific tables | Source |
 |---------|---------|----------------------|--------|
 | `glamsterdam-devnet-8` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
-| `glamsterdam-pbt-1` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
 
