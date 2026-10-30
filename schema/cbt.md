@@ -45,6 +45,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_vote_correctness_by_validator`](#fct_attestation_vote_correctness_by_validator)
 - [`fct_attestation_vote_correctness_by_validator_daily`](#fct_attestation_vote_correctness_by_validator_daily)
 - [`fct_attestation_vote_correctness_by_validator_hourly`](#fct_attestation_vote_correctness_by_validator_hourly)
+- [`fct_attestation_vote_correctness_by_validator_weekly`](#fct_attestation_vote_correctness_by_validator_weekly)
 - [`fct_blob_count_daily`](#fct_blob_count_daily)
 - [`fct_blob_count_hourly`](#fct_blob_count_hourly)
 - [`fct_block`](#fct_block)
@@ -161,10 +162,12 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_sync_committee_participation_by_validator`](#fct_sync_committee_participation_by_validator)
 - [`fct_sync_committee_participation_by_validator_daily`](#fct_sync_committee_participation_by_validator_daily)
 - [`fct_sync_committee_participation_by_validator_hourly`](#fct_sync_committee_participation_by_validator_hourly)
+- [`fct_sync_committee_participation_by_validator_weekly`](#fct_sync_committee_participation_by_validator_weekly)
 - [`fct_token_contract_storage_state_by_block_daily`](#fct_token_contract_storage_state_by_block_daily)
 - [`fct_validator_balance`](#fct_validator_balance)
 - [`fct_validator_balance_daily`](#fct_validator_balance_daily)
 - [`fct_validator_balance_hourly`](#fct_validator_balance_hourly)
+- [`fct_validator_balance_weekly`](#fct_validator_balance_weekly)
 - [`fct_validator_count_by_entity_by_status_daily`](#fct_validator_count_by_entity_by_status_daily)
 - [`helper_contract_storage_next_touch_latest_state`](#helper_contract_storage_next_touch_latest_state)
 - [`helper_storage_slot_next_touch_latest_state`](#helper_storage_slot_next_touch_latest_state)
@@ -1913,6 +1916,68 @@ echo """
 | **hour_start_date_time** | `DateTime` | *The start of the hour for this aggregation* |
 | **validator_index** | `UInt32` | *The index of the validator* |
 | **total_duties** | `UInt32` | *Total attestation duties for the validator in this hour* |
+| **attested_count** | `UInt32` | *Number of attestations made* |
+| **missed_count** | `UInt32` | *Number of attestations missed* |
+| **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
+| **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
+
+## fct_attestation_vote_correctness_by_validator_weekly
+
+Weekly aggregation of per-validator attestation vote correctness
+
+### Availability
+Data is partitioned by **toStartOfYear(week_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_validator_weekly`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_validator_weekly`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_validator_weekly`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_validator_weekly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_validator_weekly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_validator_weekly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **week_start_date** | `Date` | *The start of the week (Monday, UTC) for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **total_duties** | `UInt32` | *Total attestation duties for the validator in this week* |
 | **attested_count** | `UInt32` | *Number of attestations made* |
 | **missed_count** | `UInt32` | *Number of attestations missed* |
 | **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
@@ -9445,6 +9510,64 @@ echo """
 | **participated_count** | `UInt32` | *Number of slots where validator participated* |
 | **missed_count** | `UInt32` | *Number of slots where validator missed* |
 
+## fct_sync_committee_participation_by_validator_weekly
+
+Weekly aggregation of per-validator sync committee participation
+
+### Availability
+Data is partitioned by **toStartOfYear(week_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_sync_committee_participation_by_validator_weekly`
+- **sepolia**: `sepolia.fct_sync_committee_participation_by_validator_weekly`
+- **holesky**: `holesky.fct_sync_committee_participation_by_validator_weekly`
+- **hoodi**: `hoodi.fct_sync_committee_participation_by_validator_weekly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_sync_committee_participation_by_validator_weekly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_sync_committee_participation_by_validator_weekly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **week_start_date** | `Date` | *The start of the week (Monday, UTC) for this aggregation* |
+| **validator_index** | `UInt32` | *Index of the validator* |
+| **total_slots** | `UInt32` | *Total sync committee slots for the validator in this week* |
+| **participated_count** | `UInt32` | *Number of slots where validator participated* |
+| **missed_count** | `UInt32` | *Number of slots where validator missed* |
+
 ## fct_token_contract_storage_state_by_block_daily
 
 Daily live storage slots owned by ERC20/ERC721 contracts, by token_standard
@@ -9688,6 +9811,70 @@ echo """
 | **effective_balance** | `Nullable(UInt64)` | *Effective balance at end of hour in Gwei* |
 | **status** | `LowCardinality(String)` | *Validator status at end of hour* |
 | **slashed** | `Bool` | *Whether the validator was slashed (as of end of hour)* |
+
+## fct_validator_balance_weekly
+
+Weekly validator balance snapshots aggregated from daily data
+
+### Availability
+Data is partitioned by **toStartOfYear(week_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_balance_weekly`
+- **sepolia**: `sepolia.fct_validator_balance_weekly`
+- **holesky**: `holesky.fct_validator_balance_weekly`
+- **hoodi**: `hoodi.fct_validator_balance_weekly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_balance_weekly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_validator_balance_weekly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **week_start_date** | `Date` | *The start of the week (Monday, UTC) for this aggregation* |
+| **validator_index** | `UInt32` | *The index of the validator* |
+| **start_epoch** | `UInt32` | *First epoch in this week for this validator* |
+| **end_epoch** | `UInt32` | *Last epoch in this week for this validator* |
+| **start_balance** | `Nullable(UInt64)` | *Balance at start of week (first epoch) in Gwei* |
+| **end_balance** | `Nullable(UInt64)` | *Balance at end of week (last epoch) in Gwei* |
+| **min_balance** | `Nullable(UInt64)` | *Minimum balance during the week in Gwei* |
+| **max_balance** | `Nullable(UInt64)` | *Maximum balance during the week in Gwei* |
+| **effective_balance** | `Nullable(UInt64)` | *Effective balance at end of week in Gwei* |
+| **status** | `LowCardinality(String)` | *Validator status at end of week* |
+| **slashed** | `Bool` | *Whether the validator was slashed (as of end of week)* |
 
 ## fct_validator_count_by_entity_by_status_daily
 

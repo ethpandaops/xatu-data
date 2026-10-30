@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T22:16:40Z",
+  "generated_at": "2026-10-30T11:56:17Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -2166,6 +2166,87 @@
           "name": "total_duties",
           "type": "UInt32",
           "description": "Total attestation duties for the validator in this hour"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt32",
+          "description": "Number of attestations made"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt32",
+          "description": "Number of attestations missed"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt32",
+          "description": "Number of head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt32",
+          "description": "Number of target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt32",
+          "description": "Number of source votes that were correct"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float32)",
+          "description": "Average inclusion distance for attested slots. NULL if no attestations"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_correctness_by_validator_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Weekly aggregation of per-validator attestation vote correctness",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC) for this aggregation"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt32",
+          "description": "Total attestation duties for the validator in this week"
         },
         {
           "name": "attested_count",
@@ -13261,6 +13342,67 @@
       ]
     },
     {
+      "name": "fct_sync_committee_participation_by_validator_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Weekly aggregation of per-validator sync committee participation",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC) for this aggregation"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "Index of the validator"
+        },
+        {
+          "name": "total_slots",
+          "type": "UInt32",
+          "description": "Total sync committee slots for the validator in this week"
+        },
+        {
+          "name": "participated_count",
+          "type": "UInt32",
+          "description": "Number of slots where validator participated"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt32",
+          "description": "Number of slots where validator missed"
+        }
+      ]
+    },
+    {
       "name": "fct_token_contract_storage_state_by_block_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -13561,6 +13703,97 @@
           "name": "slashed",
           "type": "Bool",
           "description": "Whether the validator was slashed (as of end of hour)"
+        }
+      ]
+    },
+    {
+      "name": "fct_validator_balance_weekly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "validator_index",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Weekly validator balance snapshots aggregated from daily data",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "week_start_date",
+          "type": "Date",
+          "description": "The start of the week (Monday, UTC) for this aggregation"
+        },
+        {
+          "name": "validator_index",
+          "type": "UInt32",
+          "description": "The index of the validator"
+        },
+        {
+          "name": "start_epoch",
+          "type": "UInt32",
+          "description": "First epoch in this week for this validator"
+        },
+        {
+          "name": "end_epoch",
+          "type": "UInt32",
+          "description": "Last epoch in this week for this validator"
+        },
+        {
+          "name": "start_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Balance at start of week (first epoch) in Gwei"
+        },
+        {
+          "name": "end_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Balance at end of week (last epoch) in Gwei"
+        },
+        {
+          "name": "min_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Minimum balance during the week in Gwei"
+        },
+        {
+          "name": "max_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Maximum balance during the week in Gwei"
+        },
+        {
+          "name": "effective_balance",
+          "type": "Nullable(UInt64)",
+          "description": "Effective balance at end of week in Gwei"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Validator status at end of week"
+        },
+        {
+          "name": "slashed",
+          "type": "Bool",
+          "description": "Whether the validator was slashed (as of end of week)"
         }
       ]
     },

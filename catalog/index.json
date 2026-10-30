@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T22:16:40Z",
+  "generated_at": "2026-10-30T11:56:17Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -224,6 +224,7 @@
         "fct_attestation_vote_correctness_by_validator",
         "fct_attestation_vote_correctness_by_validator_daily",
         "fct_attestation_vote_correctness_by_validator_hourly",
+        "fct_attestation_vote_correctness_by_validator_weekly",
         "fct_blob_count_daily",
         "fct_blob_count_hourly",
         "fct_block",
@@ -340,10 +341,12 @@
         "fct_sync_committee_participation_by_validator",
         "fct_sync_committee_participation_by_validator_daily",
         "fct_sync_committee_participation_by_validator_hourly",
+        "fct_sync_committee_participation_by_validator_weekly",
         "fct_token_contract_storage_state_by_block_daily",
         "fct_validator_balance",
         "fct_validator_balance_daily",
         "fct_validator_balance_hourly",
+        "fct_validator_balance_weekly",
         "fct_validator_count_by_entity_by_status_daily",
         "helper_contract_storage_next_touch_latest_state",
         "helper_storage_slot_next_touch_latest_state",
