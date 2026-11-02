@@ -8,7 +8,10 @@ CREATE TABLE holesky.dim_client_release_local
     `commit_sha` String COMMENT 'Full commit hash the release tag points at, which graffiti commit prefixes resolve against' CODEC(ZSTD(1)),
     `release_date` Nullable(DateTime) COMMENT 'When the GitHub release was published, NULL when unknown' CODEC(ZSTD(1)),
     `prerelease` Bool COMMENT 'Whether the release is a pre-release (GitHub flag, or a pre-release suffix on the version)' CODEC(ZSTD(1)),
-    `repository` LowCardinality(String) COMMENT 'GitHub repository the release tags come from, e.g. sigp/lighthouse' CODEC(ZSTD(1))
+    `repository` LowCardinality(String) COMMENT 'GitHub repository the release tags come from, e.g. sigp/lighthouse' CODEC(ZSTD(1)),
+    `name` String COMMENT 'Title of the GitHub release, empty when the tag has no release' CODEC(ZSTD(1)),
+    `html_url` String COMMENT 'GitHub release page, empty when the tag has no release' CODEC(ZSTD(1)),
+    `is_latest` Bool COMMENT 'Whether this is the latest release of the client: the release GitHub marks as latest for the repository, else the most recently published stable release' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/dim_client_release_local', '{replica}', updated_date_time)
 ORDER BY (client, commit_sha, tag)

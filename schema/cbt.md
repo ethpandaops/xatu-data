@@ -19,6 +19,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 
 <!-- schema_toc_start -->
 - [`dim_block_blob_submitter`](#dim_block_blob_submitter)
+- [`dim_client_commit`](#dim_client_commit)
 - [`dim_client_release`](#dim_client_release)
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
@@ -48,6 +49,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_reward_by_validator`](#fct_attestation_reward_by_validator)
 - [`fct_attestation_reward_by_validator_daily`](#fct_attestation_reward_by_validator_daily)
 - [`fct_attestation_reward_by_validator_weekly`](#fct_attestation_reward_by_validator_weekly)
+- [`fct_attestation_vote_correctness_by_client_daily`](#fct_attestation_vote_correctness_by_client_daily)
+- [`fct_attestation_vote_correctness_by_client_pair_daily`](#fct_attestation_vote_correctness_by_client_pair_daily)
 - [`fct_attestation_vote_correctness_by_validator`](#fct_attestation_vote_correctness_by_validator)
 - [`fct_attestation_vote_correctness_by_validator_daily`](#fct_attestation_vote_correctness_by_validator_daily)
 - [`fct_attestation_vote_correctness_by_validator_hourly`](#fct_attestation_vote_correctness_by_validator_hourly)
@@ -72,6 +75,10 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_graffiti_client_by_entity_hourly`](#fct_block_graffiti_client_by_entity_hourly)
 - [`fct_block_graffiti_client_daily`](#fct_block_graffiti_client_daily)
 - [`fct_block_graffiti_client_hourly`](#fct_block_graffiti_client_hourly)
+- [`fct_block_graffiti_client_version_by_entity_daily`](#fct_block_graffiti_client_version_by_entity_daily)
+- [`fct_block_graffiti_client_version_by_entity_hourly`](#fct_block_graffiti_client_version_by_entity_hourly)
+- [`fct_block_graffiti_client_version_daily`](#fct_block_graffiti_client_version_daily)
+- [`fct_block_graffiti_client_version_hourly`](#fct_block_graffiti_client_version_hourly)
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
@@ -83,6 +90,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_payload_ptc_vote`](#fct_block_payload_ptc_vote)
 - [`fct_block_payload_ptc_vote_head`](#fct_block_payload_ptc_vote_head)
 - [`fct_block_payload_status_hourly`](#fct_block_payload_status_hourly)
+- [`fct_block_proposal_by_client_daily`](#fct_block_proposal_by_client_daily)
+- [`fct_block_proposal_by_client_pair_daily`](#fct_block_proposal_by_client_pair_daily)
 - [`fct_block_proposal_status_daily`](#fct_block_proposal_status_daily)
 - [`fct_block_proposal_status_hourly`](#fct_block_proposal_status_hourly)
 - [`fct_block_proposer`](#fct_block_proposer)
@@ -100,6 +109,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_contract_storage_state_with_expiry_by_address_hourly`](#fct_contract_storage_state_with_expiry_by_address_hourly)
 - [`fct_contract_storage_state_with_expiry_by_block_daily`](#fct_contract_storage_state_with_expiry_by_block_daily)
 - [`fct_contract_storage_state_with_expiry_by_block_hourly`](#fct_contract_storage_state_with_expiry_by_block_hourly)
+- [`fct_custody_probe_by_client_daily`](#fct_custody_probe_by_client_daily)
 - [`fct_data_column_availability_by_epoch`](#fct_data_column_availability_by_epoch)
 - [`fct_data_column_availability_by_slot`](#fct_data_column_availability_by_slot)
 - [`fct_data_column_availability_by_slot_blob`](#fct_data_column_availability_by_slot_blob)
@@ -111,12 +121,14 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_data_column_partial_message_daily`](#fct_data_column_partial_message_daily)
 - [`fct_data_column_partial_message_hourly`](#fct_data_column_partial_message_hourly)
 - [`fct_engine_get_blobs_by_el_client`](#fct_engine_get_blobs_by_el_client)
+- [`fct_engine_get_blobs_by_el_client_daily`](#fct_engine_get_blobs_by_el_client_daily)
 - [`fct_engine_get_blobs_by_el_client_hourly`](#fct_engine_get_blobs_by_el_client_hourly)
 - [`fct_engine_get_blobs_by_node_daily`](#fct_engine_get_blobs_by_node_daily)
 - [`fct_engine_get_blobs_by_node_hourly`](#fct_engine_get_blobs_by_node_hourly)
 - [`fct_engine_get_blobs_by_slot`](#fct_engine_get_blobs_by_slot)
 - [`fct_engine_get_blobs_duration_chunked_50ms`](#fct_engine_get_blobs_duration_chunked_50ms)
 - [`fct_engine_new_payload_by_el_client`](#fct_engine_new_payload_by_el_client)
+- [`fct_engine_new_payload_by_el_client_daily`](#fct_engine_new_payload_by_el_client_daily)
 - [`fct_engine_new_payload_by_el_client_hourly`](#fct_engine_new_payload_by_el_client_hourly)
 - [`fct_engine_new_payload_by_node_daily`](#fct_engine_new_payload_by_node_daily)
 - [`fct_engine_new_payload_by_node_hourly`](#fct_engine_new_payload_by_node_hourly)
@@ -162,8 +174,18 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_payload_attestation_first_seen_chunked_50ms`](#fct_payload_attestation_first_seen_chunked_50ms)
 - [`fct_payload_bid_highest_value_by_builder_chunked_50ms`](#fct_payload_bid_highest_value_by_builder_chunked_50ms)
 - [`fct_payload_bid_highest_value_chunked_50ms`](#fct_payload_bid_highest_value_chunked_50ms)
+- [`fct_peer_count_by_cl_client_asn_daily`](#fct_peer_count_by_cl_client_asn_daily)
+- [`fct_peer_count_by_cl_client_country_daily`](#fct_peer_count_by_cl_client_country_daily)
+- [`fct_peer_count_by_cl_client_daily`](#fct_peer_count_by_cl_client_daily)
+- [`fct_peer_count_by_client_pair_daily`](#fct_peer_count_by_client_pair_daily)
+- [`fct_peer_count_by_el_client_asn_daily`](#fct_peer_count_by_el_client_asn_daily)
+- [`fct_peer_count_by_el_client_country_daily`](#fct_peer_count_by_el_client_country_daily)
+- [`fct_peer_count_by_el_client_daily`](#fct_peer_count_by_el_client_daily)
+- [`fct_peer_fork_readiness_by_cl_client_daily`](#fct_peer_fork_readiness_by_cl_client_daily)
+- [`fct_peer_fork_readiness_by_el_client_daily`](#fct_peer_fork_readiness_by_el_client_daily)
 - [`fct_peer_partial_message_support_by_client_daily`](#fct_peer_partial_message_support_by_client_daily)
 - [`fct_peer_partial_message_support_by_client_hourly`](#fct_peer_partial_message_support_by_client_hourly)
+- [`fct_peer_protocol_by_cl_client_daily`](#fct_peer_protocol_by_cl_client_daily)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_proposer_reward_daily`](#fct_proposer_reward_daily)
 - [`fct_proposer_reward_hourly`](#fct_proposer_reward_hourly)
@@ -215,6 +237,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_beacon_committee_head`](#int_beacon_committee_head)
 - [`int_block_blob_count_canonical`](#int_block_blob_count_canonical)
 - [`int_block_canonical`](#int_block_canonical)
+- [`int_block_graffiti_release`](#int_block_graffiti_release)
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
 - [`int_block_opcode_gas`](#int_block_opcode_gas)
 - [`int_block_payload_ptc_vote_canonical`](#int_block_payload_ptc_vote_canonical)
@@ -344,6 +367,68 @@ echo """
 | **versioned_hashes** | `Array(String)` | *The versioned hashes of the blob submitter* |
 | **name** | `Nullable(String)` | *The name of the blob submitter* |
 
+## dim_client_commit
+
+Commits on each client default and release branches since 2020, with the release each builds on, so graffiti commits from builds between tags resolve to a version
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_client_commit`
+- **sepolia**: `sepolia.dim_client_commit`
+- **holesky**: `holesky.dim_client_commit`
+- **hoodi**: `hoodi.dim_client_commit`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_client_commit FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_client_commit_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **client** | `LowCardinality(String)` | *Client name as used by fct_block_graffiti, e.g. prysm or geth* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **repository** | `LowCardinality(String)` | *GitHub repository of the commit* |
+| **commit_sha** | `String` | *Full commit hash* |
+| **commit_date** | `DateTime` | *Committer date of the commit* |
+| **base_tag** | `String` | *Release tag the commit builds on: the tag reachable in the fewest parent steps, as git describe picks it, empty before the first tag or when that tag was committed over 120 days before the commit (a branch without recent tags, e.g. erigon main)* |
+| **base_version** | `LowCardinality(String)` | *Version of base_tag, as in dim_client_release* |
+| **commits_since_base** | `UInt32` | *Parent steps along the shortest path from the commit to base_tag, 0 for a tagged commit* |
+| **is_tagged** | `Bool` | *Whether a release tag of the client points at this commit* |
+
 ## dim_client_release
 
 Consensus and execution client release tags and the commits they point at, for resolving graffiti commit prefixes to versions
@@ -404,6 +489,9 @@ echo """
 | **release_date** | `Nullable(DateTime)` | *When the GitHub release was published, NULL when unknown* |
 | **prerelease** | `Bool` | *Whether the release is a pre-release (GitHub flag, or a pre-release suffix on the version)* |
 | **repository** | `LowCardinality(String)` | *GitHub repository the release tags come from, e.g. sigp/lighthouse* |
+| **name** | `String` | *Title of the GitHub release, empty when the tag has no release* |
+| **html_url** | `String` | *GitHub release page, empty when the tag has no release* |
+| **is_latest** | `Bool` | *Whether this is the latest release of the client: the release GitHub marks as latest for the repository, else the most recently published stable release* |
 
 ## dim_contract_owner
 
@@ -2169,6 +2257,134 @@ echo """
 | **penalty** | `Int64` | *Sum of the negative components in Gwei* |
 | **penalized_epoch_count** | `UInt32` | *Epochs with any negative component* |
 
+## fct_attestation_vote_correctness_by_client_daily
+
+Daily attestation vote correctness and inclusion per consensus and execution client. Validators map to the clients of their most recent identifying graffiti (a proposed block naming the client) in the 365 days before the end of the day. Only validators that proposed with identifying graffiti are covered, the rest are the unknown client.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_client_daily`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_client_daily`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_client_daily`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Client of the validator most recent identifying graffiti in the 365 days before the end of the day, or unknown* |
+| **validator_count** | `UInt32` | *Validators with attestation duties in the day mapped to this client* |
+| **total_duties** | `UInt64` | *Attestation duties* |
+| **attested_count** | `UInt64` | *Attestations included on chain* |
+| **missed_count** | `UInt64` | *Attestations missed* |
+| **head_correct_count** | `UInt64` | *Head votes that were correct* |
+| **target_correct_count** | `UInt64` | *Target votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct* |
+| **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance per included attestation, NULL when there were none* |
+
+## fct_attestation_vote_correctness_by_client_pair_daily
+
+Daily attestation vote correctness and inclusion per consensus and execution client pair. Validators map to the pair of their most recent graffiti naming either client in the 365 days before the end of the day, a side it does not name being unknown. Validators that never proposed with identifying graffiti are unknown/unknown.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_client_pair_daily`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_client_pair_daily`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_client_pair_daily`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_client_pair_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_client_pair_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_client_pair_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, or unknown* |
+| **validator_count** | `UInt32` | *Validators with attestation duties in the day mapped to this client* |
+| **total_duties** | `UInt64` | *Attestation duties* |
+| **attested_count** | `UInt64` | *Attestations included on chain* |
+| **missed_count** | `UInt64` | *Attestations missed* |
+| **head_correct_count** | `UInt64` | *Head votes that were correct* |
+| **target_correct_count** | `UInt64` | *Target votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct* |
+| **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance per included attestation, NULL when there were none* |
+
 ## fct_attestation_vote_correctness_by_validator
 
 Per-slot attestation vote correctness by validator
@@ -3772,6 +3988,248 @@ echo """
 | **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
 | **block_count** | `UInt32` | *Number of canonical blocks in the hour with this consensus and execution client pair* |
 
+## fct_block_graffiti_client_version_by_entity_daily
+
+Daily canonical block counts per staking entity, per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_version_by_entity_daily`
+- **sepolia**: `sepolia.fct_block_graffiti_client_version_by_entity_daily`
+- **holesky**: `holesky.fct_block_graffiti_client_version_by_entity_daily`
+- **hoodi**: `hoodi.fct_block_graffiti_client_version_by_entity_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_version_by_entity_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_version_by_entity_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Client named by the block graffiti, or unknown* |
+| **version** | `LowCardinality(String)` | *Release version the graffiti resolves to, else the version it states, empty when unresolved* |
+| **commit_prefix** | `LowCardinality(String)` | *Commit prefix from the graffiti, lowercase, empty when there is none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved, see the table comment for values* |
+| **block_count** | `UInt32` | *Number of canonical blocks with this client, version and release status* |
+
+## fct_block_graffiti_client_version_by_entity_hourly
+
+Hourly canonical block counts per staking entity, per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_version_by_entity_hourly`
+- **sepolia**: `sepolia.fct_block_graffiti_client_version_by_entity_hourly`
+- **holesky**: `holesky.fct_block_graffiti_client_version_by_entity_hourly`
+- **hoodi**: `hoodi.fct_block_graffiti_client_version_by_entity_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_version_by_entity_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_version_by_entity_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Client named by the block graffiti, or unknown* |
+| **version** | `LowCardinality(String)` | *Release version the graffiti resolves to, else the version it states, empty when unresolved* |
+| **commit_prefix** | `LowCardinality(String)` | *Commit prefix from the graffiti, lowercase, empty when there is none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved, see the table comment for values* |
+| **block_count** | `UInt32` | *Number of canonical blocks with this client, version and release status* |
+
+## fct_block_graffiti_client_version_daily
+
+Daily canonical block counts per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_version_daily`
+- **sepolia**: `sepolia.fct_block_graffiti_client_version_daily`
+- **holesky**: `holesky.fct_block_graffiti_client_version_daily`
+- **hoodi**: `hoodi.fct_block_graffiti_client_version_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_version_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_version_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Client named by the block graffiti, or unknown* |
+| **version** | `LowCardinality(String)` | *Release version the graffiti resolves to, else the version it states, empty when unresolved* |
+| **commit_prefix** | `LowCardinality(String)` | *Commit prefix from the graffiti, lowercase, empty when there is none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved, see the table comment for values* |
+| **block_count** | `UInt32` | *Number of canonical blocks with this client, version and release status* |
+
+## fct_block_graffiti_client_version_hourly
+
+Hourly canonical block counts per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_version_hourly`
+- **sepolia**: `sepolia.fct_block_graffiti_client_version_hourly`
+- **holesky**: `holesky.fct_block_graffiti_client_version_hourly`
+- **hoodi**: `hoodi.fct_block_graffiti_client_version_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_version_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_version_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Client named by the block graffiti, or unknown* |
+| **version** | `LowCardinality(String)` | *Release version the graffiti resolves to, else the version it states, empty when unresolved* |
+| **commit_prefix** | `LowCardinality(String)` | *Commit prefix from the graffiti, lowercase, empty when there is none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved, see the table comment for values* |
+| **block_count** | `UInt32` | *Number of canonical blocks with this client, version and release status* |
+
 ## fct_block_head
 
 Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
@@ -4531,6 +4989,138 @@ echo """
 | **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour* |
 | **status** | `LowCardinality(String)` | *PTC verdict bucket: delivered or absent* |
 | **slot_count** | `UInt32` | *Number of blocks with this payload outcome in the hour* |
+
+## fct_block_proposal_by_client_daily
+
+Daily block proposals per consensus and execution client: blocks, MEV share and value, gas, blobs, first-seen propagation, orphaned blocks and missed slots. Canonical blocks use their own graffiti. Orphaned and missed proposals use the proposer most recent identifying graffiti from the previous 365 days.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_proposal_by_client_daily`
+- **sepolia**: `sepolia.fct_block_proposal_by_client_daily`
+- **holesky**: `holesky.fct_block_proposal_by_client_daily`
+- **hoodi**: `hoodi.fct_block_proposal_by_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_proposal_by_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_proposal_by_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **layer** | `LowCardinality(String)` | *Client layer: consensus or execution* |
+| **client** | `LowCardinality(String)` | *Proposer client from the block graffiti, or for orphaned blocks and missed slots from the proposer most recent identifying graffiti, else unknown* |
+| **block_count** | `UInt32` | *Canonical blocks proposed* |
+| **mev_block_count** | `UInt32` | *Canonical blocks delivered by an MEV relay, the rest were built locally* |
+| **avg_mev_value_eth** | `Nullable(Float64)` | *Mean relay-reported value of the MEV blocks in ETH, NULL when there were none* |
+| **avg_gas_used** | `Nullable(Float64)` | *Mean execution gas used per canonical block* |
+| **avg_blob_count** | `Nullable(Float64)` | *Mean blobs per canonical block* |
+| **blob_count** | `UInt32` | *Blobs in the canonical blocks* |
+| **block_first_seen_p50_ms** | `Nullable(Float64)` | *Median over blocks of the median time sentry nodes first saw the block, in ms from slot start* |
+| **block_first_seen_p90_ms** | `Nullable(Float64)` | *90th percentile over blocks of the median time sentry nodes first saw the block, in ms from slot start* |
+| **orphaned_block_count** | `UInt32` | *Orphaned blocks, attributed through the proposer most recent identifying graffiti* |
+| **missed_slot_count** | `UInt32` | *Missed slots, attributed through the scheduled proposer most recent identifying graffiti* |
+
+## fct_block_proposal_by_client_pair_daily
+
+Daily block proposals per consensus and execution client pair: blocks, MEV share and value, gas, blobs, first-seen propagation, orphaned blocks and missed slots. Canonical blocks use their own graffiti. Orphaned and missed proposals use the pair of the proposer most recent graffiti naming either client from the previous 365 days. A side the graffiti does not name is unknown.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_proposal_by_client_pair_daily`
+- **sepolia**: `sepolia.fct_block_proposal_by_client_pair_daily`
+- **holesky**: `holesky.fct_block_proposal_by_client_pair_daily`
+- **hoodi**: `hoodi.fct_block_proposal_by_client_pair_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_proposal_by_client_pair_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_proposal_by_client_pair_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, or unknown* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, or unknown* |
+| **block_count** | `UInt32` | *Canonical blocks proposed* |
+| **mev_block_count** | `UInt32` | *Canonical blocks delivered by an MEV relay, the rest were built locally* |
+| **avg_mev_value_eth** | `Nullable(Float64)` | *Mean relay-reported value of the MEV blocks in ETH, NULL when there were none* |
+| **avg_gas_used** | `Nullable(Float64)` | *Mean execution gas used per canonical block* |
+| **avg_blob_count** | `Nullable(Float64)` | *Mean blobs per canonical block* |
+| **blob_count** | `UInt32` | *Blobs in the canonical blocks* |
+| **block_first_seen_p50_ms** | `Nullable(Float64)` | *Median over blocks of the median time sentry nodes first saw the block, in ms from slot start* |
+| **block_first_seen_p90_ms** | `Nullable(Float64)` | *90th percentile over blocks of the median time sentry nodes first saw the block, in ms from slot start* |
+| **orphaned_block_count** | `UInt32` | *Orphaned blocks, attributed through the proposer most recent identifying graffiti* |
+| **missed_slot_count** | `UInt32` | *Missed slots, attributed through the scheduled proposer most recent identifying graffiti* |
 
 ## fct_block_proposal_status_daily
 
@@ -5530,6 +6120,71 @@ echo """
 | **effective_bytes** | `Int64` | *Total effective bytes at end of hour (with expiry applied)* |
 | **active_contracts** | `Int64` | *Count of contracts with active_slots > 0 at end of hour* |
 
+## fct_custody_probe_by_client_daily
+
+Daily data column custody probe outcomes by the probed peer client and release (its latest agent in the day), from int_custody_probe. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_custody_probe_by_client_daily`
+- **sepolia**: `sepolia.fct_custody_probe_by_client_daily`
+- **holesky**: `holesky.fct_custody_probe_by_client_daily`
+- **hoodi**: `hoodi.fct_custody_probe_by_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_custody_probe_by_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_custody_probe_by_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names* |
+| **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
+| **peer_count** | `UInt32` | *Probed peers* |
+| **probe_count** | `UInt32` | *Probes* |
+| **success_count** | `UInt32` | *Probes returning the columns* |
+| **missing_count** | `UInt32` | *Probes where the peer did not return a column it should custody* |
+| **failure_count** | `UInt32` | *Probes that failed* |
+| **missing_peer_count** | `UInt32` | *Peers with at least one missing probe* |
+| **response_time_p50_ms** | `Nullable(Float64)` | *Median response time of successful probes in ms* |
+| **response_time_p90_ms** | `Nullable(Float64)` | *90th percentile response time of successful probes in ms* |
+
 ## fct_data_column_availability_by_epoch
 
 Data column availability by epoch and column index
@@ -6345,6 +7000,77 @@ echo """
 | **max_duration_ms** | `UInt64` | *Maximum duration of engine_getBlobs calls in milliseconds* |
 | **p95_duration_ms** | `UInt64` | *95th percentile duration of engine_getBlobs calls in milliseconds* |
 
+## fct_engine_get_blobs_by_el_client_daily
+
+Daily aggregated engine_getBlobs statistics by execution client with true percentiles
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_get_blobs_by_el_client_daily`
+- **sepolia**: `sepolia.fct_engine_get_blobs_by_el_client_daily`
+- **holesky**: `holesky.fct_engine_get_blobs_by_el_client_daily`
+- **hoodi**: `hoodi.fct_engine_get_blobs_by_el_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_get_blobs_by_el_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_by_el_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by slot* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Execution client version string* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **slot_count** | `UInt32` | *Number of unique slots in this day* |
+| **observation_count** | `UInt32` | *Total number of observations for this client in this day* |
+| **unique_node_count** | `UInt32` | *Number of unique nodes reporting for this client in this day* |
+| **success_count** | `UInt64` | *Number of observations with SUCCESS status* |
+| **partial_count** | `UInt64` | *Number of observations with PARTIAL status* |
+| **empty_count** | `UInt64` | *Number of observations with EMPTY status* |
+| **unsupported_count** | `UInt64` | *Number of observations with UNSUPPORTED status* |
+| **error_count** | `UInt64` | *Number of observations with ERROR status* |
+| **avg_returned_count** | `Float64` | *Average number of blobs returned (SUCCESS status only)* |
+| **avg_duration_ms** | `UInt64` | *Average duration of SUCCESS engine_getBlobs calls in milliseconds* |
+| **p50_duration_ms** | `UInt64` | *50th percentile (median) duration of SUCCESS calls over the day in milliseconds* |
+| **p95_duration_ms** | `UInt64` | *95th percentile duration of SUCCESS calls over the day in milliseconds* |
+| **min_duration_ms** | `UInt64` | *Minimum duration of SUCCESS calls in milliseconds* |
+| **max_duration_ms** | `UInt64` | *Maximum duration of SUCCESS calls in milliseconds* |
+
 ## fct_engine_get_blobs_by_el_client_hourly
 
 Hourly aggregated engine_getBlobs statistics by execution client with true percentiles
@@ -6766,6 +7492,79 @@ echo """
 | **min_duration_ms** | `UInt64` | *Minimum duration of engine_newPayload calls in milliseconds* |
 | **max_duration_ms** | `UInt64` | *Maximum duration of engine_newPayload calls in milliseconds* |
 | **p95_duration_ms** | `UInt64` | *95th percentile duration of engine_newPayload calls in milliseconds* |
+
+## fct_engine_new_payload_by_el_client_daily
+
+Daily aggregated engine_newPayload statistics by execution client with true percentiles
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_by_el_client_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_by_el_client_daily`
+- **holesky**: `holesky.fct_engine_new_payload_by_el_client_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_by_el_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_by_el_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_by_el_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by slot* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Execution client version string* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **slot_count** | `UInt32` | *Number of unique slots in this day* |
+| **observation_count** | `UInt32` | *Total number of observations for this client in this day* |
+| **unique_node_count** | `UInt32` | *Number of unique nodes reporting for this client in this day* |
+| **valid_count** | `UInt64` | *Number of observations with VALID status* |
+| **invalid_count** | `UInt64` | *Number of observations with INVALID status* |
+| **syncing_count** | `UInt64` | *Number of observations with SYNCING status* |
+| **accepted_count** | `UInt64` | *Number of observations with ACCEPTED status* |
+| **avg_duration_ms** | `UInt64` | *Average duration of VALID engine_newPayload calls in milliseconds* |
+| **p50_duration_ms** | `UInt64` | *50th percentile (median) duration of VALID calls over the day in milliseconds* |
+| **p95_duration_ms** | `UInt64` | *95th percentile duration of VALID calls over the day in milliseconds* |
+| **min_duration_ms** | `UInt64` | *Minimum duration of VALID calls in milliseconds* |
+| **max_duration_ms** | `UInt64` | *Maximum duration of VALID calls in milliseconds* |
+| **avg_gas_used** | `UInt64` | *Average gas used per block (VALID status only)* |
+| **avg_gas_limit** | `UInt64` | *Average gas limit per block (VALID status only)* |
+| **avg_tx_count** | `Float32` | *Average transaction count per block (VALID status only)* |
+| **avg_blob_count** | `Float32` | *Average blob count per block (VALID status only)* |
 
 ## fct_engine_new_payload_by_el_client_hourly
 
@@ -9721,6 +10520,550 @@ echo """
 | **builder_index** | `UInt64` | *Validator index of the builder leading this chunk* |
 | **value** | `UInt128` | *The best bid value across all builders in this chunk, in wei* |
 
+## fct_peer_count_by_cl_client_asn_daily
+
+Daily consensus peer census by client and autonomous system. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Autonomous systems under 3 peers roll into an other bucket per network type.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_cl_client_asn_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_cl_client_asn_daily`
+- **holesky**: `holesky.fct_peer_count_by_cl_client_asn_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_cl_client_asn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_cl_client_asn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_cl_client_asn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 for other and unknown* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, other when the AS has under 3 peers, unknown when not geolocated* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Peers* |
+
+## fct_peer_count_by_cl_client_country_daily
+
+Daily consensus peer census by client and country. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Countries under 3 peers roll into their continent other bucket, and continents still under 3 into a global other bucket.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_cl_client_country_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_cl_client_country_daily`
+- **holesky**: `holesky.fct_peer_count_by_cl_client_country_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_cl_client_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_cl_client_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_cl_client_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, other for buckets under 3 peers* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, other when the country has under 3 peers, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Other or Unknown* |
+| **peer_count** | `UInt32` | *Peers* |
+
+## fct_peer_count_by_cl_client_daily
+
+Daily consensus peer census by client and release. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Custody group counts come from metadata responses to our outbound requests. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_count_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names* |
+| **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
+| **peer_count** | `UInt32` | *Peers* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **quic_connected_peer_count** | `UInt32` | *Peers connected to over QUIC* |
+| **quic_listen_peer_count** | `UInt32` | *Peers advertising a QUIC listen address in identify* |
+| **custody_known_peer_count** | `UInt32` | *Peers whose custody group count is known from a metadata response* |
+| **custody_4_peer_count** | `UInt32` | *Peers custodying 4 or fewer groups (the minimum)* |
+| **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
+| **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
+| **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
+| **latency_p50_ms** | `Nullable(Float64)` | *Median over peers of each peer median heartbeat latency in ms, NULL without heartbeats* |
+| **latency_p90_ms** | `Nullable(Float64)` | *90th percentile over peers of each peer median heartbeat latency in ms* |
+| **connection_age_p50_ms** | `Nullable(Float64)` | *Median over peers of each peer longest connection age in ms* |
+
+## fct_peer_count_by_client_pair_daily
+
+Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_client_pair_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_client_pair_daily`
+- **holesky**: `holesky.fct_peer_count_by_client_pair_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_client_pair_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_client_pair_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_client_pair_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client at the address* |
+| **execution_client** | `LowCardinality(String)` | *Execution client at the address* |
+| **ip_count** | `UInt32` | *Addresses with exactly this consensus and execution client* |
+| **cl_ip_count** | `UInt32` | *Addresses in the day with a consensus client* |
+| **el_ip_count** | `UInt32` | *Addresses in the day with an execution client* |
+| **matched_ip_count** | `UInt32` | *Addresses in the day with both, the match rate is matched_ip_count / cl_ip_count* |
+| **paired_ip_count** | `UInt32` | *Matched addresses with exactly one client per layer, the sum of ip_count over the day* |
+
+## fct_peer_count_by_el_client_asn_daily
+
+Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Autonomous systems under 3 nodes roll into an other bucket per network type.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_el_client_asn_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_el_client_asn_daily`
+- **holesky**: `holesky.fct_peer_count_by_el_client_asn_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_el_client_asn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_el_client_asn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_el_client_asn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Execution client from the node devp2p name (nimbus reported as nimbusel)* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 for other and unknown* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, other when the AS has under 3 peers, unknown when not geolocated* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Nodes* |
+
+## fct_peer_count_by_el_client_country_daily
+
+Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_el_client_country_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_el_client_country_daily`
+- **holesky**: `holesky.fct_peer_count_by_el_client_country_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_el_client_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_el_client_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_el_client_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Execution client from the node devp2p name (nimbus reported as nimbusel)* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, other for buckets under 3 peers* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, other when the country has under 3 peers, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Other or Unknown* |
+| **peer_count** | `UInt32` | *Nodes* |
+
+## fct_peer_count_by_el_client_daily
+
+Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_el_client_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_el_client_daily`
+- **holesky**: `holesky.fct_peer_count_by_el_client_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_el_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_el_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_el_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Execution client from the node devp2p name (nimbus reported as nimbusel)* |
+| **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
+| **peer_count** | `UInt32` | *Nodes* |
+
+## fct_peer_fork_readiness_by_cl_client_daily
+
+Daily consensus nodes from discovery (ENRs) by client, release, fork digest and next fork digest. A next fork digest of 0x00000000 or equal to the current digest means no next fork and is stored as empty. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_fork_readiness_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_fork_readiness_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_fork_readiness_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_fork_readiness_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_fork_readiness_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_fork_readiness_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the ENR client name (erigon reported as caplin)* |
+| **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
+| **fork_digest** | `LowCardinality(String)` | *Current fork digest in the ENR* |
+| **next_fork_digest** | `LowCardinality(String)` | *Next fork digest in the ENR, empty when none* |
+| **node_count** | `UInt32` | *Nodes* |
+
+## fct_peer_fork_readiness_by_el_client_daily
+
+Daily execution nodes from discovery by client, release and EIP-2124 fork id. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). A next fork of 0 means none and is stored as empty. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_fork_readiness_by_el_client_daily`
+- **sepolia**: `sepolia.fct_peer_fork_readiness_by_el_client_daily`
+- **holesky**: `holesky.fct_peer_fork_readiness_by_el_client_daily`
+- **hoodi**: `hoodi.fct_peer_fork_readiness_by_el_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_fork_readiness_by_el_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_fork_readiness_by_el_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Execution client from the node devp2p name (nimbus reported as nimbusel)* |
+| **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
+| **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
+| **fork_id_hash** | `LowCardinality(String)` | *Fork id hash, the CRC32 of the genesis and passed forks* |
+| **fork_id_next** | `LowCardinality(String)` | *Next fork block number or timestamp, empty when none* |
+| **node_count** | `UInt32` | *Nodes* |
+
 ## fct_peer_partial_message_support_by_client_daily
 
 Daily gossipsub partial messages adoption by peer client and version, as averages of the hourly peer counts
@@ -9843,6 +11186,64 @@ echo """
 | **subscribed_peer_count** | `UInt32` | *Distinct peers seen subscribing to a data column topic during the hour by a sentry node that reports the partial flags* |
 | **requests_partial_peer_count** | `UInt32` | *Subscribed peers that requested partial messages on a data column topic* |
 | **supports_sending_partial_peer_count** | `UInt32` | *Subscribed peers that support sending partial messages on a data column topic* |
+
+## fct_peer_protocol_by_cl_client_daily
+
+Daily libp2p protocol support by consensus client. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Protocols fewer than 3 of the client peers support are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_protocol_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_protocol_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_protocol_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_protocol_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_protocol_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_protocol_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names* |
+| **protocol** | `LowCardinality(String)` | *libp2p protocol ID, e.g. /meshsub/1.3.0 or /eth2/beacon_chain/req/status/2/ssz_snappy* |
+| **peer_count** | `UInt32` | *Peers supporting the protocol* |
+| **client_peer_count** | `UInt32` | *All peers of the client in the day* |
 
 ## fct_prepared_block
 
@@ -12995,6 +14396,75 @@ echo """
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
+
+## int_block_graffiti_release
+
+Canonical blocks with the client releases their graffiti resolves to, resolved like the Lab slot page. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_graffiti_release`
+- **sepolia**: `sepolia.int_block_graffiti_release`
+- **holesky**: `holesky.int_block_graffiti_release`
+- **hoodi**: `hoodi.int_block_graffiti_release`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_graffiti_release FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_graffiti_release_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the block* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The root of the canonical beacon block* |
+| **proposer_index** | `UInt32` | *The validator index of the block proposer* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+| **graffiti_format** | `LowCardinality(String)` | *Graffiti format from fct_block_graffiti that identified the clients* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, e.g. lighthouse, or unknown* |
+| **consensus_client_version** | `LowCardinality(String)` | *Consensus client release version from dim_client_release (or the release a branch commit builds on), else the version the graffiti states, empty when unresolved* |
+| **consensus_client_commit** | `LowCardinality(String)` | *Consensus client commit prefix from the graffiti, lowercase, empty when there is none* |
+| **consensus_client_release_status** | `LowCardinality(String)` | *How the consensus client version was resolved, see the table comment for values* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, e.g. geth, or unknown* |
+| **execution_client_version** | `LowCardinality(String)` | *Execution client release version from dim_client_release (or the release a branch commit builds on), empty when unresolved* |
+| **execution_client_commit** | `LowCardinality(String)` | *Execution client commit prefix from the graffiti, lowercase, empty when there is none* |
+| **execution_client_release_status** | `LowCardinality(String)` | *How the execution client version was resolved, see the table comment for values* |
 
 ## int_block_mev_canonical
 

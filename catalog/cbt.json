@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T21:34:55Z",
+  "generated_at": "2026-11-02T14:15:17Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -79,6 +79,87 @@
       ]
     },
     {
+      "name": "dim_client_commit",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "client",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Commits on each client default and release branches since 2020, with the release each builds on, so graffiti commits from builds between tags resolve to a version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client name as used by fct_block_graffiti, e.g. prysm or geth"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "repository",
+          "type": "LowCardinality(String)",
+          "description": "GitHub repository of the commit"
+        },
+        {
+          "name": "commit_sha",
+          "type": "String",
+          "description": "Full commit hash"
+        },
+        {
+          "name": "commit_date",
+          "type": "DateTime",
+          "description": "Committer date of the commit"
+        },
+        {
+          "name": "base_tag",
+          "type": "String",
+          "description": "Release tag the commit builds on: the tag reachable in the fewest parent steps, as git describe picks it, empty before the first tag or when that tag was committed over 120 days before the commit (a branch without recent tags, e.g. erigon main)"
+        },
+        {
+          "name": "base_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of base_tag, as in dim_client_release"
+        },
+        {
+          "name": "commits_since_base",
+          "type": "UInt32",
+          "description": "Parent steps along the shortest path from the commit to base_tag, 0 for a tagged commit"
+        },
+        {
+          "name": "is_tagged",
+          "type": "Bool",
+          "description": "Whether a release tag of the client points at this commit"
+        }
+      ]
+    },
+    {
       "name": "dim_client_release",
       "database": "cbt",
       "cbt_table": true,
@@ -151,6 +232,21 @@
           "name": "repository",
           "type": "LowCardinality(String)",
           "description": "GitHub repository the release tags come from, e.g. sigp/lighthouse"
+        },
+        {
+          "name": "name",
+          "type": "String",
+          "description": "Title of the GitHub release, empty when the tag has no release"
+        },
+        {
+          "name": "html_url",
+          "type": "String",
+          "description": "GitHub release page, empty when the tag has no release"
+        },
+        {
+          "name": "is_latest",
+          "type": "Bool",
+          "description": "Whether this is the latest release of the client: the release GitHub marks as latest for the repository, else the most recently published stable release"
         }
       ]
     },
@@ -2559,6 +2655,188 @@
           "name": "penalized_epoch_count",
           "type": "UInt32",
           "description": "Epochs with any negative component"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_correctness_by_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily attestation vote correctness and inclusion per consensus and execution client. Validators map to the clients of their most recent identifying graffiti (a proposed block naming the client) in the 365 days before the end of the day. Only validators that proposed with identifying graffiti are covered, the rest are the unknown client.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client of the validator most recent identifying graffiti in the 365 days before the end of the day, or unknown"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Validators with attestation duties in the day mapped to this client"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt64",
+          "description": "Attestation duties"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt64",
+          "description": "Attestations included on chain"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt64",
+          "description": "Attestations missed"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt64",
+          "description": "Head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt64",
+          "description": "Target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt64",
+          "description": "Source votes that were correct"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float64)",
+          "description": "Mean inclusion distance per included attestation, NULL when there were none"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_correctness_by_client_pair_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily attestation vote correctness and inclusion per consensus and execution client pair. Validators map to the pair of their most recent graffiti naming either client in the 365 days before the end of the day, a side it does not name being unknown. Validators that never proposed with identifying graffiti are unknown/unknown.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the graffiti, or unknown"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Validators with attestation duties in the day mapped to this client"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt64",
+          "description": "Attestation duties"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt64",
+          "description": "Attestations included on chain"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt64",
+          "description": "Attestations missed"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt64",
+          "description": "Head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt64",
+          "description": "Target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt64",
+          "description": "Source votes that were correct"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float64)",
+          "description": "Mean inclusion distance per included attestation, NULL when there were none"
         }
       ]
     },
@@ -5082,6 +5360,300 @@
       ]
     },
     {
+      "name": "fct_block_graffiti_client_version_by_entity_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily canonical block counts per staking entity, per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version the graffiti resolves to, else the version it states, empty when unresolved"
+        },
+        {
+          "name": "commit_prefix",
+          "type": "LowCardinality(String)",
+          "description": "Commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved, see the table comment for values"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks with this client, version and release status"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_version_by_entity_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly canonical block counts per staking entity, per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version the graffiti resolves to, else the version it states, empty when unresolved"
+        },
+        {
+          "name": "commit_prefix",
+          "type": "LowCardinality(String)",
+          "description": "Commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved, see the table comment for values"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks with this client, version and release status"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_version_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily canonical block counts per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version the graffiti resolves to, else the version it states, empty when unresolved"
+        },
+        {
+          "name": "commit_prefix",
+          "type": "LowCardinality(String)",
+          "description": "Commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved, see the table comment for values"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks with this client, version and release status"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_graffiti_client_version_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly canonical block counts per consensus and execution client release resolved from block graffiti. Each block counts once per layer. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version the graffiti resolves to, else the version it states, empty when unresolved"
+        },
+        {
+          "name": "commit_prefix",
+          "type": "LowCardinality(String)",
+          "description": "Commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved, see the table comment for values"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks with this client, version and release status"
+        }
+      ]
+    },
+    {
       "name": "fct_block_head",
       "database": "cbt",
       "cbt_table": true,
@@ -6363,6 +6935,208 @@
       ]
     },
     {
+      "name": "fct_block_proposal_by_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily block proposals per consensus and execution client: blocks, MEV share and value, gas, blobs, first-seen propagation, orphaned blocks and missed slots. Canonical blocks use their own graffiti. Orphaned and missed proposals use the proposer most recent identifying graffiti from the previous 365 days.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "layer",
+          "type": "LowCardinality(String)",
+          "description": "Client layer: consensus or execution"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Proposer client from the block graffiti, or for orphaned blocks and missed slots from the proposer most recent identifying graffiti, else unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "mev_block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks delivered by an MEV relay, the rest were built locally"
+        },
+        {
+          "name": "avg_mev_value_eth",
+          "type": "Nullable(Float64)",
+          "description": "Mean relay-reported value of the MEV blocks in ETH, NULL when there were none"
+        },
+        {
+          "name": "avg_gas_used",
+          "type": "Nullable(Float64)",
+          "description": "Mean execution gas used per canonical block"
+        },
+        {
+          "name": "avg_blob_count",
+          "type": "Nullable(Float64)",
+          "description": "Mean blobs per canonical block"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt32",
+          "description": "Blobs in the canonical blocks"
+        },
+        {
+          "name": "block_first_seen_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median over blocks of the median time sentry nodes first saw the block, in ms from slot start"
+        },
+        {
+          "name": "block_first_seen_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile over blocks of the median time sentry nodes first saw the block, in ms from slot start"
+        },
+        {
+          "name": "orphaned_block_count",
+          "type": "UInt32",
+          "description": "Orphaned blocks, attributed through the proposer most recent identifying graffiti"
+        },
+        {
+          "name": "missed_slot_count",
+          "type": "UInt32",
+          "description": "Missed slots, attributed through the scheduled proposer most recent identifying graffiti"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_proposal_by_client_pair_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily block proposals per consensus and execution client pair: blocks, MEV share and value, gas, blobs, first-seen propagation, orphaned blocks and missed slots. Canonical blocks use their own graffiti. Orphaned and missed proposals use the pair of the proposer most recent graffiti naming either client from the previous 365 days. A side the graffiti does not name is unknown.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the graffiti, or unknown"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the graffiti, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "mev_block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks delivered by an MEV relay, the rest were built locally"
+        },
+        {
+          "name": "avg_mev_value_eth",
+          "type": "Nullable(Float64)",
+          "description": "Mean relay-reported value of the MEV blocks in ETH, NULL when there were none"
+        },
+        {
+          "name": "avg_gas_used",
+          "type": "Nullable(Float64)",
+          "description": "Mean execution gas used per canonical block"
+        },
+        {
+          "name": "avg_blob_count",
+          "type": "Nullable(Float64)",
+          "description": "Mean blobs per canonical block"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt32",
+          "description": "Blobs in the canonical blocks"
+        },
+        {
+          "name": "block_first_seen_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median over blocks of the median time sentry nodes first saw the block, in ms from slot start"
+        },
+        {
+          "name": "block_first_seen_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile over blocks of the median time sentry nodes first saw the block, in ms from slot start"
+        },
+        {
+          "name": "orphaned_block_count",
+          "type": "UInt32",
+          "description": "Orphaned blocks, attributed through the proposer most recent identifying graffiti"
+        },
+        {
+          "name": "missed_slot_count",
+          "type": "UInt32",
+          "description": "Missed slots, attributed through the scheduled proposer most recent identifying graffiti"
+        }
+      ]
+    },
+    {
       "name": "fct_block_proposal_status_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -7456,6 +8230,102 @@
           "name": "active_contracts",
           "type": "Int64",
           "description": "Count of contracts with active_slots > 0 at end of hour"
+        }
+      ]
+    },
+    {
+      "name": "fct_custody_probe_by_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily data column custody probe outcomes by the probed peer client and release (its latest agent in the day), from int_custody_probe. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Probed peers"
+        },
+        {
+          "name": "probe_count",
+          "type": "UInt32",
+          "description": "Probes"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt32",
+          "description": "Probes returning the columns"
+        },
+        {
+          "name": "missing_count",
+          "type": "UInt32",
+          "description": "Probes where the peer did not return a column it should custody"
+        },
+        {
+          "name": "failure_count",
+          "type": "UInt32",
+          "description": "Probes that failed"
+        },
+        {
+          "name": "missing_peer_count",
+          "type": "UInt32",
+          "description": "Peers with at least one missing probe"
+        },
+        {
+          "name": "response_time_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median response time of successful probes in ms"
+        },
+        {
+          "name": "response_time_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile response time of successful probes in ms"
         }
       ]
     },
@@ -9016,6 +9886,132 @@
       ]
     },
     {
+      "name": "fct_engine_get_blobs_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily aggregated engine_getBlobs statistics by execution client with true percentiles",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client version string"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Number of unique slots in this day"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Total number of observations for this client in this day"
+        },
+        {
+          "name": "unique_node_count",
+          "type": "UInt32",
+          "description": "Number of unique nodes reporting for this client in this day"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt64",
+          "description": "Number of observations with SUCCESS status"
+        },
+        {
+          "name": "partial_count",
+          "type": "UInt64",
+          "description": "Number of observations with PARTIAL status"
+        },
+        {
+          "name": "empty_count",
+          "type": "UInt64",
+          "description": "Number of observations with EMPTY status"
+        },
+        {
+          "name": "unsupported_count",
+          "type": "UInt64",
+          "description": "Number of observations with UNSUPPORTED status"
+        },
+        {
+          "name": "error_count",
+          "type": "UInt64",
+          "description": "Number of observations with ERROR status"
+        },
+        {
+          "name": "avg_returned_count",
+          "type": "Float64",
+          "description": "Average number of blobs returned (SUCCESS status only)"
+        },
+        {
+          "name": "avg_duration_ms",
+          "type": "UInt64",
+          "description": "Average duration of SUCCESS engine_getBlobs calls in milliseconds"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt64",
+          "description": "50th percentile (median) duration of SUCCESS calls over the day in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt64",
+          "description": "95th percentile duration of SUCCESS calls over the day in milliseconds"
+        },
+        {
+          "name": "min_duration_ms",
+          "type": "UInt64",
+          "description": "Minimum duration of SUCCESS calls in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt64",
+          "description": "Maximum duration of SUCCESS calls in milliseconds"
+        }
+      ]
+    },
+    {
       "name": "fct_engine_get_blobs_by_el_client_hourly",
       "database": "cbt",
       "cbt_table": true,
@@ -9748,6 +10744,142 @@
           "name": "p95_duration_ms",
           "type": "UInt64",
           "description": "95th percentile duration of engine_newPayload calls in milliseconds"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily aggregated engine_newPayload statistics by execution client with true percentiles",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client version string"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Number of unique slots in this day"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Total number of observations for this client in this day"
+        },
+        {
+          "name": "unique_node_count",
+          "type": "UInt32",
+          "description": "Number of unique nodes reporting for this client in this day"
+        },
+        {
+          "name": "valid_count",
+          "type": "UInt64",
+          "description": "Number of observations with VALID status"
+        },
+        {
+          "name": "invalid_count",
+          "type": "UInt64",
+          "description": "Number of observations with INVALID status"
+        },
+        {
+          "name": "syncing_count",
+          "type": "UInt64",
+          "description": "Number of observations with SYNCING status"
+        },
+        {
+          "name": "accepted_count",
+          "type": "UInt64",
+          "description": "Number of observations with ACCEPTED status"
+        },
+        {
+          "name": "avg_duration_ms",
+          "type": "UInt64",
+          "description": "Average duration of VALID engine_newPayload calls in milliseconds"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "UInt64",
+          "description": "50th percentile (median) duration of VALID calls over the day in milliseconds"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "UInt64",
+          "description": "95th percentile duration of VALID calls over the day in milliseconds"
+        },
+        {
+          "name": "min_duration_ms",
+          "type": "UInt64",
+          "description": "Minimum duration of VALID calls in milliseconds"
+        },
+        {
+          "name": "max_duration_ms",
+          "type": "UInt64",
+          "description": "Maximum duration of VALID calls in milliseconds"
+        },
+        {
+          "name": "avg_gas_used",
+          "type": "UInt64",
+          "description": "Average gas used per block (VALID status only)"
+        },
+        {
+          "name": "avg_gas_limit",
+          "type": "UInt64",
+          "description": "Average gas limit per block (VALID status only)"
+        },
+        {
+          "name": "avg_tx_count",
+          "type": "Float32",
+          "description": "Average transaction count per block (VALID status only)"
+        },
+        {
+          "name": "avg_blob_count",
+          "type": "Float32",
+          "description": "Average blob count per block (VALID status only)"
         }
       ]
     },
@@ -14217,6 +15349,665 @@
       ]
     },
     {
+      "name": "fct_peer_count_by_cl_client_asn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer census by client and autonomous system. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Autonomous systems under 3 peers roll into an other bucket per network type.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 for other and unknown"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, other when the AS has under 3 peers, unknown when not geolocated"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_cl_client_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer census by client and country. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Countries under 3 peers roll into their continent other bucket, and continents still under 3 into a global other bucket.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, other for buckets under 3 peers"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, other when the country has under 3 peers, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Other or Unknown"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer census by client and release. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Custody group counts come from metadata responses to our outbound requests. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "quic_connected_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC"
+        },
+        {
+          "name": "quic_listen_peer_count",
+          "type": "UInt32",
+          "description": "Peers advertising a QUIC listen address in identify"
+        },
+        {
+          "name": "custody_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose custody group count is known from a metadata response"
+        },
+        {
+          "name": "custody_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 4 or fewer groups (the minimum)"
+        },
+        {
+          "name": "custody_5_8_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 5 to 8 groups"
+        },
+        {
+          "name": "custody_9_127_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 9 to 127 groups"
+        },
+        {
+          "name": "custody_128_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying all 128 groups (supernodes)"
+        },
+        {
+          "name": "latency_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median over peers of each peer median heartbeat latency in ms, NULL without heartbeats"
+        },
+        {
+          "name": "latency_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile over peers of each peer median heartbeat latency in ms"
+        },
+        {
+          "name": "connection_age_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median over peers of each peer longest connection age in ms"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_client_pair_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client at the address"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client at the address"
+        },
+        {
+          "name": "ip_count",
+          "type": "UInt32",
+          "description": "Addresses with exactly this consensus and execution client"
+        },
+        {
+          "name": "cl_ip_count",
+          "type": "UInt32",
+          "description": "Addresses in the day with a consensus client"
+        },
+        {
+          "name": "el_ip_count",
+          "type": "UInt32",
+          "description": "Addresses in the day with an execution client"
+        },
+        {
+          "name": "matched_ip_count",
+          "type": "UInt32",
+          "description": "Addresses in the day with both, the match rate is matched_ip_count / cl_ip_count"
+        },
+        {
+          "name": "paired_ip_count",
+          "type": "UInt32",
+          "description": "Matched addresses with exactly one client per layer, the sum of ip_count over the day"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_el_client_asn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Autonomous systems under 3 nodes roll into an other bucket per network type.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client from the node devp2p name (nimbus reported as nimbusel)"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 for other and unknown"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, other when the AS has under 3 peers, unknown when not geolocated"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_el_client_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client from the node devp2p name (nimbus reported as nimbusel)"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, other for buckets under 3 peers"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, other when the country has under 3 peers, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Other or Unknown"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client from the node devp2p name (nimbus reported as nimbusel)"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_fork_readiness_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus nodes from discovery (ENRs) by client, release, fork digest and next fork digest. A next fork digest of 0x00000000 or equal to the current digest means no next fork and is stored as empty. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the ENR client name (erigon reported as caplin)"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states"
+        },
+        {
+          "name": "fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Current fork digest in the ENR"
+        },
+        {
+          "name": "next_fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Next fork digest in the ENR, empty when none"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_fork_readiness_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution nodes from discovery by client, release and EIP-2124 fork id. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). A next fork of 0 means none and is stored as empty. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client from the node devp2p name (nimbus reported as nimbusel)"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none"
+        },
+        {
+          "name": "release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states"
+        },
+        {
+          "name": "fork_id_hash",
+          "type": "LowCardinality(String)",
+          "description": "Fork id hash, the CRC32 of the genesis and passed forks"
+        },
+        {
+          "name": "fork_id_next",
+          "type": "LowCardinality(String)",
+          "description": "Next fork block number or timestamp, empty when none"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "Nodes"
+        }
+      ]
+    },
+    {
       "name": "fct_peer_partial_message_support_by_client_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -14370,6 +16161,67 @@
           "name": "supports_sending_partial_peer_count",
           "type": "UInt32",
           "description": "Subscribed peers that support sending partial messages on a data column topic"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_protocol_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily libp2p protocol support by consensus client. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Protocols fewer than 3 of the client peers support are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent (erigon reported as caplin), unknown when the agent was never seen, other for unparseable names"
+        },
+        {
+          "name": "protocol",
+          "type": "LowCardinality(String)",
+          "description": "libp2p protocol ID, e.g. /meshsub/1.3.0 or /eth2/beacon_chain/req/status/2/ssz_snappy"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers supporting the protocol"
+        },
+        {
+          "name": "client_peer_count",
+          "type": "UInt32",
+          "description": "All peers of the client in the day"
         }
       ]
     },
@@ -18451,6 +20303,122 @@
           "name": "execution_payload_transactions_total_bytes_compressed",
           "type": "Nullable(UInt32)",
           "description": "The transaction total bytes of the execution payload when compressed using snappy"
+        }
+      ]
+    },
+    {
+      "name": "int_block_graffiti_release",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Canonical blocks with the client releases their graffiti resolves to, resolved like the Lab slot page. release_status: commit_match (the commit is a release tag commit agreeing with any version the graffiti states), commit_untagged (a default or release branch commit between tags, version is the release it builds on, else the stated version, empty for a development build with no recent tag), commit_mismatch (the commit resolves to another release than the stated version, which some clients leave stale, version is the commit release), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). Rows whose commit does not resolve keep the version the graffiti states. Rows with neither have an empty version",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the block"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The root of the canonical beacon block"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the block proposer"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        },
+        {
+          "name": "graffiti_format",
+          "type": "LowCardinality(String)",
+          "description": "Graffiti format from fct_block_graffiti that identified the clients"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the graffiti, e.g. lighthouse, or unknown"
+        },
+        {
+          "name": "consensus_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client release version from dim_client_release (or the release a branch commit builds on), else the version the graffiti states, empty when unresolved"
+        },
+        {
+          "name": "consensus_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "consensus_client_release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the consensus client version was resolved, see the table comment for values"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the graffiti, e.g. geth, or unknown"
+        },
+        {
+          "name": "execution_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client release version from dim_client_release (or the release a branch commit builds on), empty when unresolved"
+        },
+        {
+          "name": "execution_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Execution client commit prefix from the graffiti, lowercase, empty when there is none"
+        },
+        {
+          "name": "execution_client_release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the execution client version was resolved, see the table comment for values"
         }
       ]
     },
