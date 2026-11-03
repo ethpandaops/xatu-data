@@ -88,13 +88,13 @@ tables:
     networks:
       mainnet:
         from: '2023-09-04'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2023-09-28'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-25'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
     quirks: Sometimes sentries may [publish different committees](https://github.com/ethpandaops/xatu/issues/288) for the same epoch.
@@ -109,13 +109,13 @@ tables:
     networks:
       mainnet:
         from: '2023-06-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2023-09-18'
         to: '2025-11-17'
       sepolia:
         from: '2023-08-31'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
     description: Contains beacon API eventstream "attestation" data from each sentry client attached to a beacon node.
@@ -676,7 +676,7 @@ tables:
     networks:
       mainnet:
         from: '2022-09-06'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
@@ -823,13 +823,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2023-09-23'
         to: '2025-10-26'
       sepolia:
         from: '2022-06-20'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - Finalized
@@ -844,7 +844,7 @@ tables:
     networks:
       mainnet:
         from: '0'
-        to: '2396800'
+        to: '2397400'
       holesky:
         from: '0'
         to: '1923800'
@@ -1026,13 +1026,13 @@ tables:
     networks:
       mainnet:
         from: '2024-05-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2024-05-01'
         to: '2025-10-26'
       sepolia:
         from: '2024-05-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1047,13 +1047,13 @@ tables:
     networks:
       mainnet:
         from: '2020-12-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
       holesky:
         from: '2024-04-26'
         to: '2025-10-26'
       sepolia:
         from: '2024-04-26'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1120,7 +1120,7 @@ tables:
         to: '2025-10-26'
       sepolia:
         from: '2025-07-11'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1205,7 +1205,7 @@ tables:
         to: '2026-11-02'
       sepolia:
         from: '2024-04-22'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1226,7 +1226,7 @@ tables:
         to: '2026-11-02'
       sepolia:
         from: '2024-04-22'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1247,7 +1247,7 @@ tables:
         to: '2026-11-02'
       sepolia:
         from: '2025-05-29'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1268,7 +1268,7 @@ tables:
         to: '2026-11-02'
       sepolia:
         from: '2025-05-29'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1310,7 +1310,7 @@ tables:
         to: '2026-11-02'
       sepolia:
         from: '2024-05-01'
-        to: '2026-11-01'
+        to: '2026-11-02'
     tags:
       - Consensus layer
       - P2P
@@ -1472,7 +1472,7 @@ tables:
     networks:
       mainnet:
         from: '2025-05-30'
-        to: '2026-11-01'
+        to: '2026-11-02'
       hoodi:
         from: '2025-05-29'
         to: '2026-11-02'
@@ -1687,7 +1687,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1708,7 +1708,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1729,7 +1729,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1750,7 +1750,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1771,7 +1771,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1792,7 +1792,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1814,7 +1814,7 @@ tables:
         to: '4659000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1835,7 +1835,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1856,7 +1856,7 @@ tables:
         to: '4652000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1878,7 +1878,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1899,7 +1899,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1920,7 +1920,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1941,7 +1941,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1962,7 +1962,7 @@ tables:
         to: '4657000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -1984,7 +1984,7 @@ tables:
         to: '4710000'
       sepolia:
         from: '0'
-        to: '12044000'
+        to: '12051000'
     tags:
       - Execution layer
       - Finalized
@@ -2002,7 +2002,7 @@ tables:
         to: '4652000'
       sepolia:
         from: '0'
-        to: '12045000'
+        to: '12052000'
     tags:
       - Execution layer
       - Finalized
@@ -2083,7 +2083,7 @@ tables:
         to: '2026-11-02'
       hoodi:
         from: '2025-12-03'
-        to: '2026-11-01'
+        to: '2026-11-02'
       sepolia:
         from: '2025-12-03'
         to: '2026-11-02'
