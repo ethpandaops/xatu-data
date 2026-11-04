@@ -7,7 +7,7 @@ CREATE TABLE hoodi.fct_block_blob_count
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
     `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1)),
-    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"'
+    `status` LowCardinality(String) COMMENT 'canonical when the block is on the finalized chain, orphaned when the finalized chain has a different block or none at its slot'
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'fct_block_blob_count_local', cityHash64(slot_start_date_time, block_root))
-COMMENT 'Blob count of a block for the finalized chain'
+COMMENT 'Blob count of every block that carries blobs, canonical blocks from int_block_blob_count_canonical and orphaned ones from the unfinalized chain'

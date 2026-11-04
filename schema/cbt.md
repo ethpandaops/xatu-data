@@ -51,6 +51,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_reward_by_validator_weekly`](#fct_attestation_reward_by_validator_weekly)
 - [`fct_attestation_vote_correctness_by_client_daily`](#fct_attestation_vote_correctness_by_client_daily)
 - [`fct_attestation_vote_correctness_by_client_pair_daily`](#fct_attestation_vote_correctness_by_client_pair_daily)
+- [`fct_attestation_vote_correctness_by_entity_daily`](#fct_attestation_vote_correctness_by_entity_daily)
+- [`fct_attestation_vote_correctness_by_entity_hourly`](#fct_attestation_vote_correctness_by_entity_hourly)
 - [`fct_attestation_vote_correctness_by_validator`](#fct_attestation_vote_correctness_by_validator)
 - [`fct_attestation_vote_correctness_by_validator_daily`](#fct_attestation_vote_correctness_by_validator_daily)
 - [`fct_attestation_vote_correctness_by_validator_hourly`](#fct_attestation_vote_correctness_by_validator_hourly)
@@ -94,9 +96,11 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_payload_status_hourly`](#fct_block_payload_status_hourly)
 - [`fct_block_proposal_by_client_daily`](#fct_block_proposal_by_client_daily)
 - [`fct_block_proposal_by_client_pair_daily`](#fct_block_proposal_by_client_pair_daily)
+- [`fct_block_proposal_by_entity_daily`](#fct_block_proposal_by_entity_daily)
 - [`fct_block_proposal_status_daily`](#fct_block_proposal_status_daily)
 - [`fct_block_proposal_status_hourly`](#fct_block_proposal_status_hourly)
 - [`fct_block_proposer`](#fct_block_proposer)
+- [`fct_block_proposer_by_entity`](#fct_block_proposer_by_entity)
 - [`fct_block_proposer_by_validator`](#fct_block_proposer_by_validator)
 - [`fct_block_proposer_entity`](#fct_block_proposer_entity)
 - [`fct_block_proposer_head`](#fct_block_proposer_head)
@@ -229,6 +233,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_validator_event`](#fct_validator_event)
 - [`fct_validator_operation_daily`](#fct_validator_operation_daily)
 - [`fct_validator_operation_weekly`](#fct_validator_operation_weekly)
+- [`fct_validator_performance_by_entity_rolling`](#fct_validator_performance_by_entity_rolling)
 - [`fct_validator_queue_daily`](#fct_validator_queue_daily)
 - [`fct_validator_queue_weekly`](#fct_validator_queue_weekly)
 - [`fct_validator_reward_total_daily`](#fct_validator_reward_total_daily)
@@ -2393,6 +2398,132 @@ echo """
 | **source_correct_count** | `UInt64` | *Source votes that were correct* |
 | **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance per included attestation, NULL when there were none* |
 
+## fct_attestation_vote_correctness_by_entity_daily
+
+Daily attestation liveness, vote correctness and inclusion per staking entity on the finalized chain. Duties are total_duties = attested_count + missed_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of a day sum to the whole network
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_entity_daily`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_entity_daily`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_entity_daily`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_entity_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_entity_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_entity_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the validators in dim_node, or unknown* |
+| **validator_count** | `UInt32` | *Most validators of the entity with attestation duties in one hour of the day* |
+| **total_duties** | `UInt64` | *Attestation duties* |
+| **attested_count** | `UInt64` | *Attestations included on the finalized chain* |
+| **missed_count** | `UInt64` | *Attestations missed: duties with no attestation included on the finalized chain* |
+| **head_correct_count** | `UInt64` | *Head votes that were correct* |
+| **target_correct_count** | `UInt64` | *Target votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct, from attestations seen on gossip* |
+| **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance in slots per included attestation, NULL when there were none* |
+
+## fct_attestation_vote_correctness_by_entity_hourly
+
+Hourly attestation liveness, vote correctness and inclusion per staking entity on the finalized chain. Duties are total_duties = attested_count + missed_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of an hour sum to the whole network
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_correctness_by_entity_hourly`
+- **sepolia**: `sepolia.fct_attestation_vote_correctness_by_entity_hourly`
+- **holesky**: `holesky.fct_attestation_vote_correctness_by_entity_hourly`
+- **hoodi**: `hoodi.fct_attestation_vote_correctness_by_entity_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_correctness_by_entity_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_correctness_by_entity_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the validators in dim_node, or unknown* |
+| **validator_count** | `UInt32` | *Validators of the entity with attestation duties in the hour* |
+| **total_duties** | `UInt64` | *Attestation duties* |
+| **attested_count** | `UInt64` | *Attestations included on the finalized chain* |
+| **missed_count** | `UInt64` | *Attestations missed: duties with no attestation included on the finalized chain* |
+| **head_correct_count** | `UInt64` | *Head votes that were correct* |
+| **target_correct_count** | `UInt64` | *Target votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct, from attestations seen on gossip* |
+| **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance in slots per included attestation, NULL when there were none* |
+
 ## fct_attestation_vote_correctness_by_validator
 
 Per-slot attestation vote correctness by validator
@@ -2854,7 +2985,7 @@ echo """
 
 ## fct_block_blob_count
 
-Blob count of a block for the finalized chain
+Blob count of every block that carries blobs, canonical blocks from int_block_blob_count_canonical and orphaned ones from the unfinalized chain
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -2910,7 +3041,7 @@ echo """
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **block_root** | `String` | *The beacon block root hash* |
 | **blob_count** | `UInt32` | *The number of blobs in the block* |
-| **status** | `LowCardinality(String)` | *Can be "canonical" or "orphaned"* |
+| **status** | `LowCardinality(String)` | *canonical when the block is on the finalized chain, orphaned when the finalized chain has a different block or none at its slot* |
 
 ## fct_block_blob_count_head
 
@@ -5247,6 +5378,66 @@ echo """
 | **orphaned_block_count** | `UInt32` | *Orphaned blocks, attributed through the proposer most recent identifying graffiti* |
 | **missed_slot_count** | `UInt32` | *Missed slots, attributed through the scheduled proposer most recent identifying graffiti* |
 
+## fct_block_proposal_by_entity_daily
+
+Daily block proposals per staking entity on the finalized chain: canonical blocks, MEV share and value, orphaned blocks and missed slots. Proposals due are block_count + orphaned_block_count + missed_slot_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of a day sum to the whole network
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_proposal_by_entity_daily`
+- **sepolia**: `sepolia.fct_block_proposal_by_entity_daily`
+- **holesky**: `holesky.fct_block_proposal_by_entity_daily`
+- **hoodi**: `hoodi.fct_block_proposal_by_entity_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_proposal_by_entity_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_proposal_by_entity_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the scheduled proposer in dim_node, or unknown* |
+| **block_count** | `UInt32` | *Canonical blocks proposed* |
+| **mev_block_count** | `UInt32` | *Canonical blocks delivered by an MEV relay, the rest were built locally* |
+| **avg_mev_value_eth** | `Nullable(Float64)` | *Mean relay-reported value of the MEV blocks in ETH, NULL when there were none* |
+| **orphaned_block_count** | `UInt32` | *Blocks proposed that did not make the finalized chain* |
+| **missed_slot_count** | `UInt32` | *Slots the entity was scheduled to propose where no block was seen* |
+
 ## fct_block_proposal_status_daily
 
 Daily block proposal status counts by status type
@@ -5419,6 +5610,67 @@ echo """
 | **proposer_pubkey** | `String` | *The public key of the validator proposer* |
 | **block_root** | `Nullable(String)` | *The beacon block root hash. Null if a block was never seen by a sentry, aka "missed"* |
 | **status** | `LowCardinality(String)` | *Can be "canonical", "orphaned" or "missed"* |
+
+## fct_block_proposer_by_entity
+
+Every slot of the finalized chain with the staking entity of its scheduled proposer and how the proposal ended: canonical, orphaned or missed. Validators map to their current entity in dim_node, and validators it does not name are unknown
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_proposer_by_entity`
+- **sepolia**: `sepolia.fct_block_proposer_by_entity`
+- **holesky**: `holesky.fct_block_proposer_by_entity`
+- **hoodi**: `hoodi.fct_block_proposer_by_entity`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_proposer_by_entity FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_proposer_by_entity_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the scheduled proposer in dim_node, or unknown* |
+| **proposer_validator_index** | `UInt32` | *The validator index of the scheduled proposer* |
+| **block_root** | `Nullable(String)` | *The beacon block root, NULL when the slot was missed* |
+| **status** | `LowCardinality(String)` | *canonical, orphaned (a block was seen but is not on the finalized chain) or missed (no block was seen)* |
 
 ## fct_block_proposer_by_validator
 
@@ -13852,6 +14104,75 @@ echo """
 | **validator_count** | `UInt32` | *Distinct validators in the week (pubkeys for deposits and top-ups)* |
 | **amount** | `Nullable(UInt64)` | *Gwei deposited, withdrawn, or accepted into the partial withdrawal queue. NULL for operations without an amount* |
 
+## fct_validator_performance_by_entity_rolling
+
+Attestation and block proposal performance per staking entity over rolling periods, refreshed every 30 minutes: one row per period and entity with duties or proposals in it. 24h sums fct_attestation_vote_correctness_by_entity_hourly and fct_block_proposer_by_entity over the last 24 complete hours. The day periods sum fct_attestation_vote_correctness_by_entity_daily and fct_block_proposal_by_entity_daily over the last complete UTC days. The rows of a period sum to the whole network
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_validator_performance_by_entity_rolling`
+- **sepolia**: `sepolia.fct_validator_performance_by_entity_rolling`
+- **holesky**: `holesky.fct_validator_performance_by_entity_rolling`
+- **hoodi**: `hoodi.fct_validator_performance_by_entity_rolling`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_validator_performance_by_entity_rolling FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_validator_performance_by_entity_rolling_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **period** | `LowCardinality(String)` | *Rolling period: 24h (the last 24 complete hours), 7d, 30d, 90d or 1y (the last complete UTC days), or all (every day with data)* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the validators in dim_node, or unknown* |
+| **period_start_date_time** | `DateTime` | *Start of the period, or of the data when it starts later* |
+| **period_end_date_time** | `DateTime` | *End of the period, exclusive* |
+| **total_duties** | `UInt64` | *Attestation duties* |
+| **attested_count** | `UInt64` | *Attestations included on the finalized chain* |
+| **missed_count** | `UInt64` | *Attestations missed: duties with no attestation included on the finalized chain* |
+| **head_correct_count** | `UInt64` | *Head votes that were correct* |
+| **target_correct_count** | `UInt64` | *Target votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct, from attestations seen on gossip* |
+| **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance in slots per included attestation, NULL when there were none* |
+| **block_count** | `UInt32` | *Canonical blocks proposed* |
+| **mev_block_count** | `UInt32` | *Canonical blocks delivered by an MEV relay, the rest were built locally* |
+| **avg_mev_value_eth** | `Nullable(Float64)` | *Mean relay-reported value of the MEV blocks in ETH, NULL when there were none* |
+| **orphaned_block_count** | `UInt32` | *Blocks proposed that did not make the finalized chain* |
+| **missed_slot_count** | `UInt32` | *Slots the entity was scheduled to propose where no block was seen* |
+
 ## fct_validator_queue_daily
 
 Activation and exit queues and the Electra pending queues, one snapshot per day
@@ -14767,7 +15088,7 @@ echo """
 
 ## int_block_blob_count_canonical
 
-Blob count of a block for the finalized chain
+Blob count of every canonical block that carries blobs, from its execution payload blob gas (blob gas used over 131072), or from its blob sidecars when the beacon block has no execution payload (Gloas onwards)
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -14822,7 +15143,7 @@ echo """
 | **epoch** | `UInt32` | *The epoch number containing the slot* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
 | **block_root** | `String` | *The beacon block root hash* |
-| **blob_count** | `UInt32` | *The number of blobs in the block* |
+| **blob_count** | `UInt32` | *The number of blobs in the block, from its execution payload blob gas, or its blob sidecars from Gloas onwards* |
 
 ## int_block_canonical
 

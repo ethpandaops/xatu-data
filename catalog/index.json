@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T13:33:38Z",
+  "generated_at": "2026-11-04T23:06:37Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -230,6 +230,8 @@
         "fct_attestation_reward_by_validator_weekly",
         "fct_attestation_vote_correctness_by_client_daily",
         "fct_attestation_vote_correctness_by_client_pair_daily",
+        "fct_attestation_vote_correctness_by_entity_daily",
+        "fct_attestation_vote_correctness_by_entity_hourly",
         "fct_attestation_vote_correctness_by_validator",
         "fct_attestation_vote_correctness_by_validator_daily",
         "fct_attestation_vote_correctness_by_validator_hourly",
@@ -273,9 +275,11 @@
         "fct_block_payload_status_hourly",
         "fct_block_proposal_by_client_daily",
         "fct_block_proposal_by_client_pair_daily",
+        "fct_block_proposal_by_entity_daily",
         "fct_block_proposal_status_daily",
         "fct_block_proposal_status_hourly",
         "fct_block_proposer",
+        "fct_block_proposer_by_entity",
         "fct_block_proposer_by_validator",
         "fct_block_proposer_entity",
         "fct_block_proposer_head",
@@ -408,6 +412,7 @@
         "fct_validator_event",
         "fct_validator_operation_daily",
         "fct_validator_operation_weekly",
+        "fct_validator_performance_by_entity_rolling",
         "fct_validator_queue_daily",
         "fct_validator_queue_weekly",
         "fct_validator_reward_total_daily",

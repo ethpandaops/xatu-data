@@ -7,7 +7,7 @@ CREATE TABLE holesky.fct_block_blob_count_local
     `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
     `block_root` String COMMENT 'The beacon block root hash' CODEC(ZSTD(1)),
     `blob_count` UInt32 COMMENT 'The number of blobs in the block' CODEC(DoubleDelta, ZSTD(1)),
-    `status` LowCardinality(String) COMMENT 'Can be "canonical" or "orphaned"',
+    `status` LowCardinality(String) COMMENT 'canonical when the block is on the finalized chain, orphaned when the finalized chain has a different block or none at its slot',
     PROJECTION p_by_slot
     (
         SELECT *
@@ -20,4 +20,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, block_root)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Blob count of a block for the finalized chain'
+COMMENT 'Blob count of every block that carries blobs, canonical blocks from int_block_blob_count_canonical and orphaned ones from the unfinalized chain'

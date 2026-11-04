@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T13:33:38Z",
+  "generated_at": "2026-11-04T23:06:37Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -2841,6 +2841,178 @@
       ]
     },
     {
+      "name": "fct_attestation_vote_correctness_by_entity_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily attestation liveness, vote correctness and inclusion per staking entity on the finalized chain. Duties are total_duties = attested_count + missed_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of a day sum to the whole network",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the validators in dim_node, or unknown"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Most validators of the entity with attestation duties in one hour of the day"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt64",
+          "description": "Attestation duties"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt64",
+          "description": "Attestations included on the finalized chain"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt64",
+          "description": "Attestations missed: duties with no attestation included on the finalized chain"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt64",
+          "description": "Head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt64",
+          "description": "Target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt64",
+          "description": "Source votes that were correct, from attestations seen on gossip"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float64)",
+          "description": "Mean inclusion distance in slots per included attestation, NULL when there were none"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_correctness_by_entity_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly attestation liveness, vote correctness and inclusion per staking entity on the finalized chain. Duties are total_duties = attested_count + missed_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of an hour sum to the whole network",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the validators in dim_node, or unknown"
+        },
+        {
+          "name": "validator_count",
+          "type": "UInt32",
+          "description": "Validators of the entity with attestation duties in the hour"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt64",
+          "description": "Attestation duties"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt64",
+          "description": "Attestations included on the finalized chain"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt64",
+          "description": "Attestations missed: duties with no attestation included on the finalized chain"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt64",
+          "description": "Head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt64",
+          "description": "Target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt64",
+          "description": "Source votes that were correct, from attestations seen on gossip"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float64)",
+          "description": "Mean inclusion distance in slots per included attestation, NULL when there were none"
+        }
+      ]
+    },
+    {
       "name": "fct_attestation_vote_correctness_by_validator",
       "database": "cbt",
       "cbt_table": true,
@@ -3557,7 +3729,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Blob count of a block for the finalized chain",
+      "description": "Blob count of every block that carries blobs, canonical blocks from int_block_blob_count_canonical and orphaned ones from the unfinalized chain",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -3599,7 +3771,7 @@
         {
           "name": "status",
           "type": "LowCardinality(String)",
-          "description": "Can be \"canonical\" or \"orphaned\""
+          "description": "canonical when the block is on the finalized chain, orphaned when the finalized chain has a different block or none at its slot"
         }
       ]
     },
@@ -7264,6 +7436,77 @@
       ]
     },
     {
+      "name": "fct_block_proposal_by_entity_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily block proposals per staking entity on the finalized chain: canonical blocks, MEV share and value, orphaned blocks and missed slots. Proposals due are block_count + orphaned_block_count + missed_slot_count. Validators map to their current entity in dim_node, and validators it does not name are unknown, so the rows of a day sum to the whole network",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the scheduled proposer in dim_node, or unknown"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "mev_block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks delivered by an MEV relay, the rest were built locally"
+        },
+        {
+          "name": "avg_mev_value_eth",
+          "type": "Nullable(Float64)",
+          "description": "Mean relay-reported value of the MEV blocks in ETH, NULL when there were none"
+        },
+        {
+          "name": "orphaned_block_count",
+          "type": "UInt32",
+          "description": "Blocks proposed that did not make the finalized chain"
+        },
+        {
+          "name": "missed_slot_count",
+          "type": "UInt32",
+          "description": "Slots the entity was scheduled to propose where no block was seen"
+        }
+      ]
+    },
+    {
       "name": "fct_block_proposal_status_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -7438,6 +7681,82 @@
           "name": "status",
           "type": "LowCardinality(String)",
           "description": "Can be \"canonical\", \"orphaned\" or \"missed\""
+        }
+      ]
+    },
+    {
+      "name": "fct_block_proposer_by_entity",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Every slot of the finalized chain with the staking entity of its scheduled proposer and how the proposal ended: canonical, orphaned or missed. Validators map to their current entity in dim_node, and validators it does not name are unknown",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the scheduled proposer in dim_node, or unknown"
+        },
+        {
+          "name": "proposer_validator_index",
+          "type": "UInt32",
+          "description": "The validator index of the scheduled proposer"
+        },
+        {
+          "name": "block_root",
+          "type": "Nullable(String)",
+          "description": "The beacon block root, NULL when the slot was missed"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "canonical, orphaned (a block was seen but is not on the finalized chain) or missed (no block was seen)"
         }
       ]
     },
@@ -19374,6 +19693,122 @@
       ]
     },
     {
+      "name": "fct_validator_performance_by_entity_rolling",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "period",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Attestation and block proposal performance per staking entity over rolling periods, refreshed every 30 minutes: one row per period and entity with duties or proposals in it. 24h sums fct_attestation_vote_correctness_by_entity_hourly and fct_block_proposer_by_entity over the last 24 complete hours. The day periods sum fct_attestation_vote_correctness_by_entity_daily and fct_block_proposal_by_entity_daily over the last complete UTC days. The rows of a period sum to the whole network",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "period",
+          "type": "LowCardinality(String)",
+          "description": "Rolling period: 24h (the last 24 complete hours), 7d, 30d, 90d or 1y (the last complete UTC days), or all (every day with data)"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the validators in dim_node, or unknown"
+        },
+        {
+          "name": "period_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the period, or of the data when it starts later"
+        },
+        {
+          "name": "period_end_date_time",
+          "type": "DateTime",
+          "description": "End of the period, exclusive"
+        },
+        {
+          "name": "total_duties",
+          "type": "UInt64",
+          "description": "Attestation duties"
+        },
+        {
+          "name": "attested_count",
+          "type": "UInt64",
+          "description": "Attestations included on the finalized chain"
+        },
+        {
+          "name": "missed_count",
+          "type": "UInt64",
+          "description": "Attestations missed: duties with no attestation included on the finalized chain"
+        },
+        {
+          "name": "head_correct_count",
+          "type": "UInt64",
+          "description": "Head votes that were correct"
+        },
+        {
+          "name": "target_correct_count",
+          "type": "UInt64",
+          "description": "Target votes that were correct"
+        },
+        {
+          "name": "source_correct_count",
+          "type": "UInt64",
+          "description": "Source votes that were correct, from attestations seen on gossip"
+        },
+        {
+          "name": "avg_inclusion_distance",
+          "type": "Nullable(Float64)",
+          "description": "Mean inclusion distance in slots per included attestation, NULL when there were none"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks proposed"
+        },
+        {
+          "name": "mev_block_count",
+          "type": "UInt32",
+          "description": "Canonical blocks delivered by an MEV relay, the rest were built locally"
+        },
+        {
+          "name": "avg_mev_value_eth",
+          "type": "Nullable(Float64)",
+          "description": "Mean relay-reported value of the MEV blocks in ETH, NULL when there were none"
+        },
+        {
+          "name": "orphaned_block_count",
+          "type": "UInt32",
+          "description": "Blocks proposed that did not make the finalized chain"
+        },
+        {
+          "name": "missed_slot_count",
+          "type": "UInt32",
+          "description": "Slots the entity was scheduled to propose where no block was seen"
+        }
+      ]
+    },
+    {
       "name": "fct_validator_queue_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -20757,7 +21192,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Blob count of a block for the finalized chain",
+      "description": "Blob count of every canonical block that carries blobs, from its execution payload blob gas (blob gas used over 131072), or from its blob sidecars when the beacon block has no execution payload (Gloas onwards)",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -20794,7 +21229,7 @@
         {
           "name": "blob_count",
           "type": "UInt32",
-          "description": "The number of blobs in the block"
+          "description": "The number of blobs in the block, from its execution payload blob gas, or its blob sidecars from Gloas onwards"
         }
       ]
     },
