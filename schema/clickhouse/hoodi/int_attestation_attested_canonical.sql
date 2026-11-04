@@ -16,4 +16,4 @@ CREATE TABLE hoodi.int_attestation_attested_canonical
     `inclusion_distance` UInt32 COMMENT 'The distance from the slot when the attestation was included' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'int_attestation_attested_canonical_local', cityHash64(slot_start_date_time, block_root, attesting_validator_index))
-COMMENT 'Attested head of a block for the unfinalized chain.'
+COMMENT 'Attested head of a block for the finalized chain.'

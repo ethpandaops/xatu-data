@@ -14,4 +14,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, attesting_validator_index)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Attestation correctness by validator for the finalized chain'
+COMMENT 'Attestation correctness by validator for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'

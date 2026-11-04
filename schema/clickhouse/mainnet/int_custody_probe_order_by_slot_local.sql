@@ -40,4 +40,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toYYYYMM(slot_start_date_time)
 ORDER BY (slot_start_date_time, slot, peer_id_unique_key, result, error)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Custody probe results per slot with aggregated column indices'
+COMMENT 'Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about'

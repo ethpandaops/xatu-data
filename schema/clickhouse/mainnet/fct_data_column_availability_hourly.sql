@@ -19,4 +19,4 @@ CREATE TABLE mainnet.fct_data_column_availability_hourly
     `max_blob_count` UInt16 COMMENT 'Maximum blob count observed in this hour' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_data_column_availability_hourly_local', cityHash64(hour_start_date_time, column_index))
-COMMENT 'Data column availability by hour and column index'
+COMMENT 'Data column availability by hour and column index, rolled up from fct_data_column_availability_by_epoch: almost all observations are gossipsub sightings, which always count as a success'

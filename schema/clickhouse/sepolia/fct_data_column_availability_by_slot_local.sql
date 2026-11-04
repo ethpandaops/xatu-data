@@ -40,4 +40,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, column_index)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Data column availability by slot and column index'
+COMMENT 'Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings'

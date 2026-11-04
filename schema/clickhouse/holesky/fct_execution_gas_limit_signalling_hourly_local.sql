@@ -8,4 +8,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(hour_start_date_time)
 ORDER BY hour_start_date_time
 SETTINGS index_granularity = 8192
-COMMENT 'Hourly snapshots of validator gas limit signalling using rolling 7-day window'
+COMMENT 'Hourly gas limit signalling by validators, from their MEV relay validator registrations. For each hour, each validator counts once at the highest gas limit it registered on that UTC day or the 7 days before, rounded up to a multiple of 1M gas. gas_limit_band_counts maps each band to its validator count. Validators that do not register with the relays xatu polls are not counted'

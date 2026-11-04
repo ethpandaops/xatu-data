@@ -11,4 +11,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(day_start_date)
 ORDER BY day_start_date
 SETTINGS index_granularity = 8192
-COMMENT 'Daily missed slot rate with moving averages'
+COMMENT 'Daily rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed'

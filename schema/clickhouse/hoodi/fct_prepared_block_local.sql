@@ -7,8 +7,8 @@ CREATE TABLE hoodi.fct_prepared_block_local
     `meta_client_name` String COMMENT 'Name of the client that generated the event',
     `meta_client_version` String COMMENT 'Version of the client that generated the event',
     `meta_client_implementation` String COMMENT 'Implementation of the client that generated the event',
-    `meta_consensus_implementation` String COMMENT 'Consensus implementation of the validator',
-    `meta_consensus_version` String COMMENT 'Consensus version of the validator',
+    `meta_consensus_implementation` String COMMENT 'Consensus client implementation of the node that built the block',
+    `meta_consensus_version` String COMMENT 'Consensus client version of the node that built the block',
     `meta_client_geo_city` String COMMENT 'City of the client that generated the event',
     `meta_client_geo_country` String COMMENT 'Country of the client that generated the event',
     `meta_client_geo_country_code` String COMMENT 'Country code of the client that generated the event',
@@ -43,4 +43,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, slot, meta_client_name, event_date_time)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Prepared block proposals showing what would have been built if the validator had been selected as proposer'
+COMMENT 'Blocks that Xatu nodes built locally each slot by asking their beacon node for a block proposal, showing what that node would have proposed'

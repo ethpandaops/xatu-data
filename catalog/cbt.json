@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T22:46:24Z",
+  "generated_at": "2026-11-04T13:33:38Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -1091,7 +1091,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Attestation correctness by validator for the finalized chain",
+      "description": "Attestation correctness by validator for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -5654,6 +5654,82 @@
       ]
     },
     {
+      "name": "fct_block_graffiti_client_version_pair_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily canonical block counts per consensus and execution client release pair resolved from block graffiti, each block counted once, with builds of one version from different commits together. release_status: commit_match (the graffiti commit is a release tag commit), commit_untagged (a default or release branch commit between tags, version is the release it builds on), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). An unresolved side keeps the version its graffiti states, or is empty when it states none",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client release version the graffiti resolves to, or the version it states when unresolved, empty when there is none"
+        },
+        {
+          "name": "consensus_release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the consensus client version was resolved, see the table comment for values"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the block graffiti, or unknown"
+        },
+        {
+          "name": "execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Execution client release version the graffiti resolves to, or the version it states when unresolved, empty when there is none"
+        },
+        {
+          "name": "execution_release_status",
+          "type": "LowCardinality(String)",
+          "description": "How the execution client version was resolved, see the table comment for values"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of canonical blocks with this consensus and execution client release pair"
+        }
+      ]
+    },
+    {
       "name": "fct_block_head",
       "database": "cbt",
       "cbt_table": true,
@@ -6880,6 +6956,57 @@
           "name": "last_seen_slot_start_diff",
           "type": "UInt32",
           "description": "Time from slot start that the last payload attestation was seen in ms"
+        }
+      ]
+    },
+    {
+      "name": "fct_block_payload_status_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gloas (ePBS) daily payload delivery outcomes judged by the PTC, the daily twin of fct_block_payload_status_hourly. A block counts as delivered when a majority of observed PTC votes said the payload was present, absent otherwise",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "PTC verdict bucket: delivered or absent"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt32",
+          "description": "Number of blocks with this payload outcome in the day"
         }
       ]
     },
@@ -8354,7 +8481,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by epoch and column index",
+      "description": "Data column availability by epoch and column index, rolled up from fct_data_column_availability_by_slot: almost all observations are gossipsub sightings, which always count as a success",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -8480,7 +8607,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by slot and column index",
+      "description": "Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -8651,7 +8778,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by slot, blob index, and column index",
+      "description": "Data column availability by slot and column index, repeated once per blob index of the slot. Probes and sightings are per column, so every blob of a slot carries the same counts. Sources as fct_data_column_availability_by_slot: almost all rows are gossipsub sightings, which always count as a success",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -8807,7 +8934,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by day and column index",
+      "description": "Data column availability by UTC day and column index, rolled up from fct_data_column_availability_hourly: almost all observations are gossipsub sightings, which always count as a success",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -8923,7 +9050,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by hour and column index",
+      "description": "Data column availability by hour and column index, rolled up from fct_data_column_availability_by_epoch: almost all observations are gossipsub sightings, which always count as a success",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -10607,6 +10734,178 @@
       ]
     },
     {
+      "name": "fct_engine_get_blobs_duration_chunked_50ms_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily engine_getBlobs duration distribution in 50ms chunks per node class and execution client version, from int_engine_get_blobs, for latency histograms and percentiles over long ranges",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC"
+        },
+        {
+          "name": "chunk_duration_ms",
+          "type": "Int64",
+          "description": "Duration bucket in 50ms chunks (0, 50, 100, 150, ...)"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_getBlobs observations in this duration chunk"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt32",
+          "description": "Number of SUCCESS status observations in this chunk"
+        },
+        {
+          "name": "partial_count",
+          "type": "UInt32",
+          "description": "Number of PARTIAL status observations in this chunk"
+        },
+        {
+          "name": "empty_count",
+          "type": "UInt32",
+          "description": "Number of EMPTY status observations in this chunk"
+        },
+        {
+          "name": "error_count",
+          "type": "UInt32",
+          "description": "Number of ERROR or UNSUPPORTED status observations in this chunk"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_get_blobs_duration_chunked_50ms_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly engine_getBlobs duration distribution in 50ms chunks per node class and execution client version, from int_engine_get_blobs, for latency histograms and percentiles over long ranges",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC"
+        },
+        {
+          "name": "chunk_duration_ms",
+          "type": "Int64",
+          "description": "Duration bucket in 50ms chunks (0, 50, 100, 150, ...)"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_getBlobs observations in this duration chunk"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt32",
+          "description": "Number of SUCCESS status observations in this chunk"
+        },
+        {
+          "name": "partial_count",
+          "type": "UInt32",
+          "description": "Number of PARTIAL status observations in this chunk"
+        },
+        {
+          "name": "empty_count",
+          "type": "UInt32",
+          "description": "Number of EMPTY status observations in this chunk"
+        },
+        {
+          "name": "error_count",
+          "type": "UInt32",
+          "description": "Number of ERROR or UNSUPPORTED status observations in this chunk"
+        }
+      ]
+    },
+    {
       "name": "fct_engine_new_payload_by_el_client",
       "database": "cbt",
       "cbt_table": true,
@@ -11524,6 +11823,158 @@
       ]
     },
     {
+      "name": "fct_engine_new_payload_duration_chunked_50ms_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily engine_newPayload duration distribution in 50ms chunks per node class and execution client version, from int_engine_new_payload, for latency histograms and percentiles over long ranges",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, by slot"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC"
+        },
+        {
+          "name": "chunk_duration_ms",
+          "type": "Int64",
+          "description": "Duration bucket in 50ms chunks (0, 50, 100, 150, ...)"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_newPayload observations in this duration chunk"
+        },
+        {
+          "name": "valid_count",
+          "type": "UInt32",
+          "description": "Number of VALID status observations in this chunk"
+        },
+        {
+          "name": "invalid_count",
+          "type": "UInt32",
+          "description": "Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_duration_chunked_50ms_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly engine_newPayload duration distribution in 50ms chunks per node class and execution client version, from int_engine_new_payload, for latency histograms and percentiles over long ranges",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time at the start of the hour, by slot"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC"
+        },
+        {
+          "name": "chunk_duration_ms",
+          "type": "Int64",
+          "description": "Duration bucket in 50ms chunks (0, 50, 100, 150, ...)"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_newPayload observations in this duration chunk"
+        },
+        {
+          "name": "valid_count",
+          "type": "UInt32",
+          "description": "Number of VALID status observations in this chunk"
+        },
+        {
+          "name": "invalid_count",
+          "type": "UInt32",
+          "description": "Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk"
+        }
+      ]
+    },
+    {
       "name": "fct_engine_new_payload_winrate_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -11632,6 +12083,92 @@
           "name": "win_count",
           "type": "UInt32",
           "description": "Number of slots where this client had the fastest engine_newPayload duration"
+        }
+      ]
+    },
+    {
+      "name": "fct_epoch_summary_canonical",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "epoch_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per epoch of the finalized chain with its proposer duties, canonical blocks, slots without a canonical block and attestation participation, from int_block_proposer_canonical and fct_attestation_correctness_canonical",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "slot_count",
+          "type": "UInt8",
+          "description": "Slots of the epoch with a proposer duty or block, 32 once the epoch is complete"
+        },
+        {
+          "name": "canonical_block_count",
+          "type": "UInt8",
+          "description": "Slots with a block on the finalized chain"
+        },
+        {
+          "name": "missed_slot_count",
+          "type": "UInt8",
+          "description": "Slots without a block on the finalized chain, whether the proposer missed or the block was orphaned"
+        },
+        {
+          "name": "votes_max",
+          "type": "UInt32",
+          "description": "Attestations scheduled across the epoch slots"
+        },
+        {
+          "name": "votes_head",
+          "type": "UInt32",
+          "description": "Attestations included on chain that voted for the block of their own slot"
+        },
+        {
+          "name": "votes_other",
+          "type": "UInt32",
+          "description": "Attestations included on chain that voted for another block"
+        },
+        {
+          "name": "participation_rate",
+          "type": "Nullable(Float64)",
+          "description": "Share of scheduled attestations included on chain, (votes_head + votes_other) / votes_max from 0 to 1, NULL when none were scheduled"
+        },
+        {
+          "name": "participation_bps",
+          "type": "UInt16",
+          "description": "participation_rate in basis points from 0 to 10000, rounded down, 0 when none were scheduled. Integer so the API can filter on it"
         }
       ]
     },
@@ -11862,7 +12399,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily snapshots of validator gas limit signalling using rolling 7-day window",
+      "description": "Daily gas limit signalling by validators, from their MEV relay validator registrations. For each UTC day, each validator counts once at the highest gas limit it registered in the 7 days ending that day, rounded up to a multiple of 1M gas. gas_limit_band_counts maps each band to its validator count. Validators that do not register with the relays xatu polls are not counted",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -11908,7 +12445,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Hourly snapshots of validator gas limit signalling using rolling 7-day window",
+      "description": "Hourly gas limit signalling by validators, from their MEV relay validator registrations. For each hour, each validator counts once at the highest gas limit it registered on that UTC day or the 7 days before, rounded up to a multiple of 1M gas. gas_limit_band_counts maps each band to its validator count. Validators that do not register with the relays xatu polls are not counted",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -12630,7 +13167,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages",
+      "description": "Daily execution layer TPS statistics. Per-block TPS is the block\\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the UTC day",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -12662,7 +13199,7 @@
         {
           "name": "avg_tps",
           "type": "Float32",
-          "description": "Average TPS using actual block time gaps"
+          "description": "Unweighted mean of per-block TPS over the day\\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the day"
         },
         {
           "name": "min_tps",
@@ -12736,7 +13273,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Hourly aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages",
+      "description": "Hourly execution layer TPS statistics. Per-block TPS is the block\\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the hour",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -12768,7 +13305,7 @@
         {
           "name": "avg_tps",
           "type": "Float32",
-          "description": "Average TPS using actual block time gaps"
+          "description": "Unweighted mean of per-block TPS over the hour\\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the hour"
         },
         {
           "name": "min_tps",
@@ -13847,7 +14384,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily missed slot rate with moving averages",
+      "description": "Daily rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -13908,7 +14445,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Hourly missed slot rate with moving averages",
+      "description": "Hourly rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -13969,7 +14506,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Active nodes for the network",
+      "description": "Xatu nodes that sent beacon API block events in the last 24 hours, one row per meta_client_name with its latest client, version and location. Nodes that only report through libp2p, such as the ethPandaOps libp2p sentries, are not included",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -13991,7 +14528,7 @@
         {
           "name": "node_id",
           "type": "String",
-          "description": "ID of the node"
+          "description": "Hashed node segment of meta_client_name. It changes when the node restarts under a new name, so one machine can have several node_ids over time"
         },
         {
           "name": "classification",
@@ -14249,6 +14786,127 @@
           "name": "node_class",
           "type": "LowCardinality(String)",
           "description": "Node classification for filtering (e.g. eip7870)"
+        }
+      ]
+    },
+    {
+      "name": "fct_node_last_seen",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "meta_client_name",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Every Xatu node that has reported a block, with its latest identity, client and location, from fct_block_first_seen_by_node. The row with the latest last_seen_date_time wins, so a node reported in a range ending now has last_seen_date_time inside it",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime",
+          "description": "Start of the latest slot the Xatu node reported a block in"
+        },
+        {
+          "name": "username",
+          "type": "LowCardinality(String)",
+          "description": "Username of the Xatu node"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "ID of the Xatu node"
+        },
+        {
+          "name": "classification",
+          "type": "LowCardinality(String)",
+          "description": "Classification of the Xatu node, e.g. \"individual\", \"corporate\", \"internal\" (aka ethPandaOps) or \"unclassified\""
+        },
+        {
+          "name": "meta_client_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the Xatu node"
+        },
+        {
+          "name": "meta_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Version of the collector at the latest observation"
+        },
+        {
+          "name": "meta_client_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Implementation of the collector at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_longitude",
+          "type": "Nullable(Float64)",
+          "description": "Longitude of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_latitude",
+          "type": "Nullable(Float64)",
+          "description": "Latitude of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_number",
+          "type": "Nullable(UInt32)",
+          "description": "Autonomous system number of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_client_geo_autonomous_system_organization",
+          "type": "Nullable(String)",
+          "description": "Autonomous system organization of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version of the Xatu node at the latest observation"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client implementation of the Xatu node at the latest observation"
         }
       ]
     },
@@ -16250,7 +16908,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Prepared block proposals showing what would have been built if the validator had been selected as proposer",
+      "description": "Blocks that Xatu nodes built locally each slot by asking their beacon node for a block proposal, showing what that node would have proposed",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -16292,12 +16950,12 @@
         {
           "name": "meta_consensus_implementation",
           "type": "String",
-          "description": "Consensus implementation of the validator"
+          "description": "Consensus client implementation of the node that built the block"
         },
         {
           "name": "meta_consensus_version",
           "type": "String",
-          "description": "Consensus version of the validator"
+          "description": "Consensus client version of the node that built the block"
         },
         {
           "name": "meta_client_geo_city",
@@ -19483,7 +20141,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Attested head of a block for the unfinalized chain.",
+      "description": "Attested head of a block for the finalized chain.",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -22217,7 +22875,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Custody probe results per slot with aggregated column indices",
+      "description": "Custody probe results with aggregated column indices, ordered by probe time. A probe usually runs hours after the slot it asks about",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -22423,7 +23081,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Custody probe results per slot with aggregated column indices",
+      "description": "Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [

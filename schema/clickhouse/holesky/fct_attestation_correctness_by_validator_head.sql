@@ -11,4 +11,4 @@ CREATE TABLE holesky.fct_attestation_correctness_by_validator_head
     `propagation_distance` Nullable(UInt32) COMMENT 'The distance from the slot when the attestation was propagated. 0 means the attestation was propagated within the same slot as its duty was assigned, 1 means the attestation was propagated within the next slot, etc.' CODEC(DoubleDelta, ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'holesky', 'fct_attestation_correctness_by_validator_head_local', cityHash64(slot_start_date_time, attesting_validator_index))
-COMMENT 'Attestation correctness by validator for the finalized chain'
+COMMENT 'Attestation correctness by validator for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present'

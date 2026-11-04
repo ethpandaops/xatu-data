@@ -3,7 +3,7 @@ CREATE TABLE holesky.fct_node_active_last_24h
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
     `last_seen_date_time` DateTime COMMENT 'Timestamp when the node was last seen' CODEC(DoubleDelta, ZSTD(1)),
     `username` String COMMENT 'Username of the node' CODEC(ZSTD(1)),
-    `node_id` String COMMENT 'ID of the node' CODEC(ZSTD(1)),
+    `node_id` String COMMENT 'Hashed node segment of meta_client_name. It changes when the node restarts under a new name, so one machine can have several node_ids over time' CODEC(ZSTD(1)),
     `classification` String COMMENT 'Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"' CODEC(ZSTD(1)),
     `meta_client_name` LowCardinality(String) COMMENT 'Name of the client',
     `meta_client_version` LowCardinality(String) COMMENT 'Version of the client',
@@ -20,4 +20,4 @@ CREATE TABLE holesky.fct_node_active_last_24h
     `meta_consensus_implementation` LowCardinality(String) COMMENT 'Ethereum consensus client implementation'
 )
 ENGINE = Distributed('{cluster}', 'holesky', 'fct_node_active_last_24h_local', cityHash64(meta_client_name))
-COMMENT 'Active nodes for the network'
+COMMENT 'Xatu nodes that sent beacon API block events in the last 24 hours, one row per meta_client_name with its latest client, version and location. Nodes that only report through libp2p, such as the ethPandaOps libp2p sentries, are not included'

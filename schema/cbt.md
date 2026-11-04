@@ -79,6 +79,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_graffiti_client_version_by_entity_hourly`](#fct_block_graffiti_client_version_by_entity_hourly)
 - [`fct_block_graffiti_client_version_daily`](#fct_block_graffiti_client_version_daily)
 - [`fct_block_graffiti_client_version_hourly`](#fct_block_graffiti_client_version_hourly)
+- [`fct_block_graffiti_client_version_pair_daily`](#fct_block_graffiti_client_version_pair_daily)
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
@@ -89,6 +90,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_payload_first_seen_by_node`](#fct_block_payload_first_seen_by_node)
 - [`fct_block_payload_ptc_vote`](#fct_block_payload_ptc_vote)
 - [`fct_block_payload_ptc_vote_head`](#fct_block_payload_ptc_vote_head)
+- [`fct_block_payload_status_daily`](#fct_block_payload_status_daily)
 - [`fct_block_payload_status_hourly`](#fct_block_payload_status_hourly)
 - [`fct_block_proposal_by_client_daily`](#fct_block_proposal_by_client_daily)
 - [`fct_block_proposal_by_client_pair_daily`](#fct_block_proposal_by_client_pair_daily)
@@ -127,6 +129,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_engine_get_blobs_by_node_hourly`](#fct_engine_get_blobs_by_node_hourly)
 - [`fct_engine_get_blobs_by_slot`](#fct_engine_get_blobs_by_slot)
 - [`fct_engine_get_blobs_duration_chunked_50ms`](#fct_engine_get_blobs_duration_chunked_50ms)
+- [`fct_engine_get_blobs_duration_chunked_50ms_daily`](#fct_engine_get_blobs_duration_chunked_50ms_daily)
+- [`fct_engine_get_blobs_duration_chunked_50ms_hourly`](#fct_engine_get_blobs_duration_chunked_50ms_hourly)
 - [`fct_engine_new_payload_by_el_client`](#fct_engine_new_payload_by_el_client)
 - [`fct_engine_new_payload_by_el_client_daily`](#fct_engine_new_payload_by_el_client_daily)
 - [`fct_engine_new_payload_by_el_client_hourly`](#fct_engine_new_payload_by_el_client_hourly)
@@ -134,8 +138,11 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_engine_new_payload_by_node_hourly`](#fct_engine_new_payload_by_node_hourly)
 - [`fct_engine_new_payload_by_slot`](#fct_engine_new_payload_by_slot)
 - [`fct_engine_new_payload_duration_chunked_50ms`](#fct_engine_new_payload_duration_chunked_50ms)
+- [`fct_engine_new_payload_duration_chunked_50ms_daily`](#fct_engine_new_payload_duration_chunked_50ms_daily)
+- [`fct_engine_new_payload_duration_chunked_50ms_hourly`](#fct_engine_new_payload_duration_chunked_50ms_hourly)
 - [`fct_engine_new_payload_winrate_daily`](#fct_engine_new_payload_winrate_daily)
 - [`fct_engine_new_payload_winrate_hourly`](#fct_engine_new_payload_winrate_hourly)
+- [`fct_epoch_summary_canonical`](#fct_epoch_summary_canonical)
 - [`fct_execution_gas_limit_daily`](#fct_execution_gas_limit_daily)
 - [`fct_execution_gas_limit_hourly`](#fct_execution_gas_limit_hourly)
 - [`fct_execution_gas_limit_signalling_daily`](#fct_execution_gas_limit_signalling_daily)
@@ -163,6 +170,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_node_active_last_24h`](#fct_node_active_last_24h)
 - [`fct_node_cpu_utilization_by_process`](#fct_node_cpu_utilization_by_process)
 - [`fct_node_disk_io_by_process`](#fct_node_disk_io_by_process)
+- [`fct_node_last_seen`](#fct_node_last_seen)
 - [`fct_node_memory_usage_by_process`](#fct_node_memory_usage_by_process)
 - [`fct_node_network_io_by_process`](#fct_node_network_io_by_process)
 - [`fct_opcode_cost_by_el_client_daily`](#fct_opcode_cost_by_el_client_daily)
@@ -1162,7 +1170,7 @@ echo """
 
 ## fct_attestation_correctness_by_validator_head
 
-Attestation correctness by validator for the finalized chain
+Attestation correctness by validator for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -4230,6 +4238,67 @@ echo """
 | **release_status** | `LowCardinality(String)` | *How the version was resolved, see the table comment for values* |
 | **block_count** | `UInt32` | *Number of canonical blocks with this client, version and release status* |
 
+## fct_block_graffiti_client_version_pair_daily
+
+Daily canonical block counts per consensus and execution client release pair resolved from block graffiti, each block counted once, with builds of one version from different commits together. release_status: commit_match (the graffiti commit is a release tag commit), commit_untagged (a default or release branch commit between tags, version is the release it builds on), commit_ambiguous (the prefix matches several commits), commit_unmatched (no release or branch commit, a custom or fork build), commit_short (a 2 character commit), commit_zero (an all-zero commit), version_match or version_unmatched (a version string with no commit, matched to a release tag or not), codes_min (client codes without commits), no_commit (no version information) or none (unknown client). An unresolved side keeps the version its graffiti states, or is empty when it states none
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_client_version_pair_daily`
+- **sepolia**: `sepolia.fct_block_graffiti_client_version_pair_daily`
+- **holesky**: `holesky.fct_block_graffiti_client_version_pair_daily`
+- **hoodi**: `hoodi.fct_block_graffiti_client_version_pair_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_client_version_pair_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_client_version_pair_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the block graffiti, or unknown* |
+| **consensus_version** | `LowCardinality(String)` | *Consensus client release version the graffiti resolves to, or the version it states when unresolved, empty when there is none* |
+| **consensus_release_status** | `LowCardinality(String)` | *How the consensus client version was resolved, see the table comment for values* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the block graffiti, or unknown* |
+| **execution_version** | `LowCardinality(String)` | *Execution client release version the graffiti resolves to, or the version it states when unresolved, empty when there is none* |
+| **execution_release_status** | `LowCardinality(String)` | *How the execution client version was resolved, see the table comment for values* |
+| **block_count** | `UInt32` | *Number of canonical blocks with this consensus and execution client release pair* |
+
 ## fct_block_head
 
 Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
@@ -4933,6 +5002,62 @@ echo """
 | **blob_data_available_votes** | `UInt32` | *Distinct PTC validators attesting blob data was available* |
 | **first_seen_slot_start_diff** | `UInt32` | *Time from slot start that the first payload attestation was seen in ms* |
 | **last_seen_slot_start_diff** | `UInt32` | *Time from slot start that the last payload attestation was seen in ms* |
+
+## fct_block_payload_status_daily
+
+Gloas (ePBS) daily payload delivery outcomes judged by the PTC, the daily twin of fct_block_payload_status_hourly. A block counts as delivered when a majority of observed PTC votes said the payload was present, absent otherwise
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_payload_status_daily`
+- **sepolia**: `sepolia.fct_block_payload_status_daily`
+- **holesky**: `holesky.fct_block_payload_status_daily`
+- **hoodi**: `hoodi.fct_block_payload_status_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_payload_status_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_payload_status_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **status** | `LowCardinality(String)` | *PTC verdict bucket: delivered or absent* |
+| **slot_count** | `UInt32` | *Number of blocks with this payload outcome in the day* |
 
 ## fct_block_payload_status_hourly
 
@@ -6187,7 +6312,7 @@ echo """
 
 ## fct_data_column_availability_by_epoch
 
-Data column availability by epoch and column index
+Data column availability by epoch and column index, rolled up from fct_data_column_availability_by_slot: almost all observations are gossipsub sightings, which always count as a success
 
 ### Availability
 Data is partitioned by **toStartOfMonth(epoch_start_date_time)**.
@@ -6258,7 +6383,7 @@ echo """
 
 ## fct_data_column_availability_by_slot
 
-Data column availability by slot and column index
+Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -6338,7 +6463,7 @@ echo """
 
 ## fct_data_column_availability_by_slot_blob
 
-Data column availability by slot, blob index, and column index
+Data column availability by slot and column index, repeated once per blob index of the slot. Probes and sightings are per column, so every blob of a slot carries the same counts. Sources as fct_data_column_availability_by_slot: almost all rows are gossipsub sightings, which always count as a success
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -6415,7 +6540,7 @@ echo """
 
 ## fct_data_column_availability_daily
 
-Data column availability by day and column index
+Data column availability by UTC day and column index, rolled up from fct_data_column_availability_hourly: almost all observations are gossipsub sightings, which always count as a success
 
 ### Availability
 Data is partitioned by **toYYYYMM(date)**.
@@ -6484,7 +6609,7 @@ echo """
 
 ## fct_data_column_availability_hourly
 
-Data column availability by hour and column index
+Data column availability by hour and column index, rolled up from fct_data_column_availability_by_epoch: almost all observations are gossipsub sightings, which always count as a success
 
 ### Availability
 Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
@@ -7419,6 +7544,132 @@ echo """
 | **empty_count** | `UInt32` | *Number of EMPTY status observations in this chunk* |
 | **error_count** | `UInt32` | *Number of ERROR or UNSUPPORTED status observations in this chunk* |
 
+## fct_engine_get_blobs_duration_chunked_50ms_daily
+
+Daily engine_getBlobs duration distribution in 50ms chunks per node class and execution client version, from int_engine_get_blobs, for latency histograms and percentiles over long ranges
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_get_blobs_duration_chunked_50ms_daily`
+- **sepolia**: `sepolia.fct_engine_get_blobs_duration_chunked_50ms_daily`
+- **holesky**: `holesky.fct_engine_get_blobs_duration_chunked_50ms_daily`
+- **hoodi**: `hoodi.fct_engine_get_blobs_duration_chunked_50ms_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_get_blobs_duration_chunked_50ms_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_duration_chunked_50ms_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by slot* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **chunk_duration_ms** | `Int64` | *Duration bucket in 50ms chunks (0, 50, 100, 150, ...)* |
+| **observation_count** | `UInt32` | *Number of engine_getBlobs observations in this duration chunk* |
+| **success_count** | `UInt32` | *Number of SUCCESS status observations in this chunk* |
+| **partial_count** | `UInt32` | *Number of PARTIAL status observations in this chunk* |
+| **empty_count** | `UInt32` | *Number of EMPTY status observations in this chunk* |
+| **error_count** | `UInt32` | *Number of ERROR or UNSUPPORTED status observations in this chunk* |
+
+## fct_engine_get_blobs_duration_chunked_50ms_hourly
+
+Hourly engine_getBlobs duration distribution in 50ms chunks per node class and execution client version, from int_engine_get_blobs, for latency histograms and percentiles over long ranges
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_get_blobs_duration_chunked_50ms_hourly`
+- **sepolia**: `sepolia.fct_engine_get_blobs_duration_chunked_50ms_hourly`
+- **holesky**: `holesky.fct_engine_get_blobs_duration_chunked_50ms_hourly`
+- **hoodi**: `hoodi.fct_engine_get_blobs_duration_chunked_50ms_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_get_blobs_duration_chunked_50ms_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_get_blobs_duration_chunked_50ms_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour, by slot* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **chunk_duration_ms** | `Int64` | *Duration bucket in 50ms chunks (0, 50, 100, 150, ...)* |
+| **observation_count** | `UInt32` | *Number of engine_getBlobs observations in this duration chunk* |
+| **success_count** | `UInt32` | *Number of SUCCESS status observations in this chunk* |
+| **partial_count** | `UInt32` | *Number of PARTIAL status observations in this chunk* |
+| **empty_count** | `UInt32` | *Number of EMPTY status observations in this chunk* |
+| **error_count** | `UInt32` | *Number of ERROR or UNSUPPORTED status observations in this chunk* |
+
 ## fct_engine_new_payload_by_el_client
 
 engine_newPayload observations aggregated by execution client and status for EL comparison
@@ -7923,6 +8174,128 @@ echo """
 | **valid_count** | `UInt32` | *Number of VALID status observations in this chunk* |
 | **invalid_count** | `UInt32` | *Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk* |
 
+## fct_engine_new_payload_duration_chunked_50ms_daily
+
+Daily engine_newPayload duration distribution in 50ms chunks per node class and execution client version, from int_engine_new_payload, for latency histograms and percentiles over long ranges
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_chunked_50ms_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_chunked_50ms_daily`
+- **holesky**: `holesky.fct_engine_new_payload_duration_chunked_50ms_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_chunked_50ms_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_chunked_50ms_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_chunked_50ms_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, by slot* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **chunk_duration_ms** | `Int64` | *Duration bucket in 50ms chunks (0, 50, 100, 150, ...)* |
+| **observation_count** | `UInt32` | *Number of engine_newPayload observations in this duration chunk* |
+| **valid_count** | `UInt32` | *Number of VALID status observations in this chunk* |
+| **invalid_count** | `UInt32` | *Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk* |
+
+## fct_engine_new_payload_duration_chunked_50ms_hourly
+
+Hourly engine_newPayload duration distribution in 50ms chunks per node class and execution client version, from int_engine_new_payload, for latency histograms and percentiles over long ranges
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_chunked_50ms_hourly`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_chunked_50ms_hourly`
+- **holesky**: `holesky.fct_engine_new_payload_duration_chunked_50ms_hourly`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_chunked_50ms_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_chunked_50ms_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_chunked_50ms_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The wall clock time at the start of the hour, by slot* |
+| **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **chunk_duration_ms** | `Int64` | *Duration bucket in 50ms chunks (0, 50, 100, 150, ...)* |
+| **observation_count** | `UInt32` | *Number of engine_newPayload observations in this duration chunk* |
+| **valid_count** | `UInt32` | *Number of VALID status observations in this chunk* |
+| **invalid_count** | `UInt32` | *Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk* |
+
 ## fct_engine_new_payload_winrate_daily
 
 Daily execution client winrate based on fastest engine_newPayload duration per slot
@@ -8036,6 +8409,69 @@ echo """
 | **node_class** | `LowCardinality(String)` | *Node classification for grouping observations (e.g., eip7870-block-builder, or empty for general nodes)* |
 | **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Reth, Nethermind, Besu)* |
 | **win_count** | `UInt32` | *Number of slots where this client had the fastest engine_newPayload duration* |
+
+## fct_epoch_summary_canonical
+
+One row per epoch of the finalized chain with its proposer duties, canonical blocks, slots without a canonical block and attestation participation, from int_block_proposer_canonical and fct_attestation_correctness_canonical
+
+### Availability
+Data is partitioned by **toStartOfMonth(epoch_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_epoch_summary_canonical`
+- **sepolia**: `sepolia.fct_epoch_summary_canonical`
+- **holesky**: `holesky.fct_epoch_summary_canonical`
+- **hoodi**: `hoodi.fct_epoch_summary_canonical`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_epoch_summary_canonical FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_epoch_summary_canonical_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **epoch** | `UInt32` | *The epoch number* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **slot_count** | `UInt8` | *Slots of the epoch with a proposer duty or block, 32 once the epoch is complete* |
+| **canonical_block_count** | `UInt8` | *Slots with a block on the finalized chain* |
+| **missed_slot_count** | `UInt8` | *Slots without a block on the finalized chain, whether the proposer missed or the block was orphaned* |
+| **votes_max** | `UInt32` | *Attestations scheduled across the epoch slots* |
+| **votes_head** | `UInt32` | *Attestations included on chain that voted for the block of their own slot* |
+| **votes_other** | `UInt32` | *Attestations included on chain that voted for another block* |
+| **participation_rate** | `Nullable(Float64)` | *Share of scheduled attestations included on chain, (votes_head + votes_other) / votes_max from 0 to 1, NULL when none were scheduled* |
+| **participation_bps** | `UInt16` | *participation_rate in basis points from 0 to 10000, rounded down, 0 when none were scheduled. Integer so the API can filter on it* |
 
 ## fct_execution_gas_limit_daily
 
@@ -8171,7 +8607,7 @@ echo """
 
 ## fct_execution_gas_limit_signalling_daily
 
-Daily snapshots of validator gas limit signalling using rolling 7-day window
+Daily gas limit signalling by validators, from their MEV relay validator registrations. For each UTC day, each validator counts once at the highest gas limit it registered in the 7 days ending that day, rounded up to a multiple of 1M gas. gas_limit_band_counts maps each band to its validator count. Validators that do not register with the relays xatu polls are not counted
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -8226,7 +8662,7 @@ echo """
 
 ## fct_execution_gas_limit_signalling_hourly
 
-Hourly snapshots of validator gas limit signalling using rolling 7-day window
+Hourly gas limit signalling by validators, from their MEV relay validator registrations. For each hour, each validator counts once at the highest gas limit it registered on that UTC day or the 7 days before, rounded up to a multiple of 1M gas. gas_limit_band_counts maps each band to its validator count. Validators that do not register with the relays xatu polls are not counted
 
 ### Availability
 Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
@@ -8691,7 +9127,7 @@ echo """
 
 ## fct_execution_tps_daily
 
-Daily aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages
+Daily execution layer TPS statistics. Per-block TPS is the block\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the UTC day
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -8745,7 +9181,7 @@ echo """
 | **block_count** | `UInt32` | *Number of blocks in this day* |
 | **total_transactions** | `UInt64` | *Total transactions in this day* |
 | **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
-| **avg_tps** | `Float32` | *Average TPS using actual block time gaps* |
+| **avg_tps** | `Float32` | *Unweighted mean of per-block TPS over the day\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the day* |
 | **min_tps** | `Float32` | *Minimum per-block TPS* |
 | **max_tps** | `Float32` | *Maximum per-block TPS* |
 | **p05_tps** | `Float32` | *5th percentile TPS* |
@@ -8758,7 +9194,7 @@ echo """
 
 ## fct_execution_tps_hourly
 
-Hourly aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages
+Hourly execution layer TPS statistics. Per-block TPS is the block\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the hour
 
 ### Availability
 Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
@@ -8812,7 +9248,7 @@ echo """
 | **block_count** | `UInt32` | *Number of blocks in this hour* |
 | **total_transactions** | `UInt64` | *Total transactions in this hour* |
 | **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
-| **avg_tps** | `Float32` | *Average TPS using actual block time gaps* |
+| **avg_tps** | `Float32` | *Unweighted mean of per-block TPS over the hour\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the hour* |
 | **min_tps** | `Float32` | *Minimum per-block TPS* |
 | **max_tps** | `Float32` | *Maximum per-block TPS* |
 | **p05_tps** | `Float32` | *5th percentile TPS* |
@@ -9484,7 +9920,7 @@ echo """
 
 ## fct_missed_slot_rate_daily
 
-Daily missed slot rate with moving averages
+Daily rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -9542,7 +9978,7 @@ echo """
 
 ## fct_missed_slot_rate_hourly
 
-Hourly missed slot rate with moving averages
+Hourly rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed
 
 ### Availability
 Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
@@ -9600,7 +10036,7 @@ echo """
 
 ## fct_node_active_last_24h
 
-Active nodes for the network
+Xatu nodes that sent beacon API block events in the last 24 hours, one row per meta_client_name with its latest client, version and location. Nodes that only report through libp2p, such as the ethPandaOps libp2p sentries, are not included
 
 ### Availability
 This table has no partitioning.
@@ -9652,7 +10088,7 @@ echo """
 | **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
 | **last_seen_date_time** | `DateTime` | *Timestamp when the node was last seen* |
 | **username** | `String` | *Username of the node* |
-| **node_id** | `String` | *ID of the node* |
+| **node_id** | `String` | *Hashed node segment of meta_client_name. It changes when the node restarts under a new name, so one machine can have several node_ids over time* |
 | **classification** | `String` | *Classification of the node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
 | **meta_client_name** | `LowCardinality(String)` | *Name of the client* |
 | **meta_client_version** | `LowCardinality(String)` | *Version of the client* |
@@ -9796,6 +10232,76 @@ echo """
 | **io_bytes** | `Float32` | *Total bytes transferred across all devices in this window* |
 | **io_ops** | `UInt32` | *Total I/O operations across all devices in this window* |
 | **node_class** | `LowCardinality(String)` | *Node classification for filtering (e.g. eip7870)* |
+
+## fct_node_last_seen
+
+Every Xatu node that has reported a block, with its latest identity, client and location, from fct_block_first_seen_by_node. The row with the latest last_seen_date_time wins, so a node reported in a range ending now has last_seen_date_time inside it
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_last_seen`
+- **sepolia**: `sepolia.fct_node_last_seen`
+- **holesky**: `holesky.fct_node_last_seen`
+- **hoodi**: `hoodi.fct_node_last_seen`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_last_seen FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_node_last_seen_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **last_seen_date_time** | `DateTime` | *Start of the latest slot the Xatu node reported a block in* |
+| **username** | `LowCardinality(String)` | *Username of the Xatu node* |
+| **node_id** | `String` | *ID of the Xatu node* |
+| **classification** | `LowCardinality(String)` | *Classification of the Xatu node, e.g. "individual", "corporate", "internal" (aka ethPandaOps) or "unclassified"* |
+| **meta_client_name** | `LowCardinality(String)` | *Name of the Xatu node* |
+| **meta_client_version** | `LowCardinality(String)` | *Version of the collector at the latest observation* |
+| **meta_client_implementation** | `LowCardinality(String)` | *Implementation of the collector at the latest observation* |
+| **meta_client_geo_city** | `LowCardinality(String)` | *City of the Xatu node at the latest observation* |
+| **meta_client_geo_country** | `LowCardinality(String)` | *Country of the Xatu node at the latest observation* |
+| **meta_client_geo_country_code** | `LowCardinality(String)` | *Country code of the Xatu node at the latest observation* |
+| **meta_client_geo_continent_code** | `LowCardinality(String)` | *Continent code of the Xatu node at the latest observation* |
+| **meta_client_geo_longitude** | `Nullable(Float64)` | *Longitude of the Xatu node at the latest observation* |
+| **meta_client_geo_latitude** | `Nullable(Float64)` | *Latitude of the Xatu node at the latest observation* |
+| **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the Xatu node at the latest observation* |
+| **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the Xatu node at the latest observation* |
+| **meta_consensus_version** | `LowCardinality(String)` | *Consensus client version of the Xatu node at the latest observation* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client implementation of the Xatu node at the latest observation* |
 
 ## fct_node_memory_usage_by_process
 
@@ -11247,7 +11753,7 @@ echo """
 
 ## fct_prepared_block
 
-Prepared block proposals showing what would have been built if the validator had been selected as proposer
+Blocks that Xatu nodes built locally each slot by asking their beacon node for a block proposal, showing what that node would have proposed
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -11303,8 +11809,8 @@ echo """
 | **meta_client_name** | `String` | *Name of the client that generated the event* |
 | **meta_client_version** | `String` | *Version of the client that generated the event* |
 | **meta_client_implementation** | `String` | *Implementation of the client that generated the event* |
-| **meta_consensus_implementation** | `String` | *Consensus implementation of the validator* |
-| **meta_consensus_version** | `String` | *Consensus version of the validator* |
+| **meta_consensus_implementation** | `String` | *Consensus client implementation of the node that built the block* |
+| **meta_consensus_version** | `String` | *Consensus client version of the node that built the block* |
 | **meta_client_geo_city** | `String` | *City of the client that generated the event* |
 | **meta_client_geo_country** | `String` | *Country of the client that generated the event* |
 | **meta_client_geo_country_code** | `String` | *Country code of the client that generated the event* |
@@ -13863,7 +14369,7 @@ echo """
 
 ## int_attestation_attested_canonical
 
-Attested head of a block for the unfinalized chain.
+Attested head of a block for the finalized chain.
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -15967,7 +16473,7 @@ echo """
 
 ## int_custody_probe
 
-Custody probe results per slot with aggregated column indices
+Custody probe results with aggregated column indices, ordered by probe time. A probe usually runs hours after the slot it asks about
 
 ### Availability
 Data is partitioned by **toYYYYMM(probe_date_time)**.
@@ -16054,7 +16560,7 @@ echo """
 
 ## int_custody_probe_order_by_slot
 
-Custody probe results per slot with aggregated column indices
+Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about
 
 ### Availability
 Data is partitioned by **toYYYYMM(slot_start_date_time)**.

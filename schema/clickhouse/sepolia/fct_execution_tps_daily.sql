@@ -5,7 +5,7 @@ CREATE TABLE sepolia.fct_execution_tps_daily
     `block_count` UInt32 COMMENT 'Number of blocks in this day' CODEC(ZSTD(1)),
     `total_transactions` UInt64 COMMENT 'Total transactions in this day' CODEC(ZSTD(1)),
     `total_seconds` UInt32 COMMENT 'Total actual seconds covered by blocks (sum of block time gaps)' CODEC(ZSTD(1)),
-    `avg_tps` Float32 COMMENT 'Average TPS using actual block time gaps' CODEC(ZSTD(1)),
+    `avg_tps` Float32 COMMENT 'Unweighted mean of per-block TPS over the day\\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the day' CODEC(ZSTD(1)),
     `min_tps` Float32 COMMENT 'Minimum per-block TPS' CODEC(ZSTD(1)),
     `max_tps` Float32 COMMENT 'Maximum per-block TPS' CODEC(ZSTD(1)),
     `p05_tps` Float32 COMMENT '5th percentile TPS' CODEC(ZSTD(1)),
@@ -17,4 +17,4 @@ CREATE TABLE sepolia.fct_execution_tps_daily
     `moving_avg_tps` Float32 COMMENT 'Moving average TPS (7-day window)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'sepolia', 'fct_execution_tps_daily_local', cityHash64(day_start_date))
-COMMENT 'Daily aggregated execution layer TPS statistics with percentiles, Bollinger bands, and moving averages'
+COMMENT 'Daily execution layer TPS statistics. Per-block TPS is the block\\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the UTC day'

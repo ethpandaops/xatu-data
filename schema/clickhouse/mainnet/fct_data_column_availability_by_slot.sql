@@ -30,4 +30,4 @@ CREATE TABLE mainnet.fct_data_column_availability_by_slot
     `gossipsub_count` UInt32 COMMENT 'Count of observations from passive gossipsub propagation' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_data_column_availability_by_slot_local', cityHash64(slot_start_date_time, column_index))
-COMMENT 'Data column availability by slot and column index'
+COMMENT 'Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings'

@@ -8,4 +8,4 @@ CREATE TABLE sepolia.fct_missed_slot_rate_hourly
     `moving_avg_missed_rate` Float32 COMMENT 'Moving average missed rate (6-hour window)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'sepolia', 'fct_missed_slot_rate_hourly_local', cityHash64(hour_start_date_time))
-COMMENT 'Hourly missed slot rate with moving averages'
+COMMENT 'Hourly rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed'

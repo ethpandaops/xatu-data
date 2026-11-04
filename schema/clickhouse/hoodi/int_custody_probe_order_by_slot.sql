@@ -37,4 +37,4 @@ CREATE TABLE hoodi.int_custody_probe_order_by_slot
     `meta_peer_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the probed peer' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'int_custody_probe_order_by_slot_local', cityHash64(slot_start_date_time, slot, peer_id_unique_key))
-COMMENT 'Custody probe results per slot with aggregated column indices'
+COMMENT 'Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about'

@@ -8,4 +8,4 @@ CREATE TABLE hoodi.fct_missed_slot_rate_daily
     `moving_avg_missed_rate` Float32 COMMENT 'Moving average missed rate (7-day window)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'fct_missed_slot_rate_daily_local', cityHash64(day_start_date))
-COMMENT 'Daily missed slot rate with moving averages'
+COMMENT 'Daily rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed'

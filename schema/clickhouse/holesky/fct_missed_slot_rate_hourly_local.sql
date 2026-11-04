@@ -11,4 +11,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(hour_start_date_time)
 ORDER BY hour_start_date_time
 SETTINGS index_granularity = 8192
-COMMENT 'Hourly missed slot rate with moving averages'
+COMMENT 'Hourly rate of slots without a canonical block. Missed slots and slots whose block was orphaned both count as missed'

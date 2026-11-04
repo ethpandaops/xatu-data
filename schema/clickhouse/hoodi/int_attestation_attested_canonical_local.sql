@@ -19,4 +19,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(slot_start_date_time)
 ORDER BY (slot_start_date_time, block_root, attesting_validator_index)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Attested head of a block for the unfinalized chain.'
+COMMENT 'Attested head of a block for the finalized chain.'
