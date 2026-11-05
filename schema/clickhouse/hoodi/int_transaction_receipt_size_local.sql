@@ -14,4 +14,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY intDiv(block_number, 201600)
 ORDER BY (block_number, transaction_hash, meta_network_name)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Per-transaction exact RLP-encoded receipt size derived from logs and transaction data.'
+COMMENT 'Per-transaction exact RLP-encoded receipt size derived from logs and transaction data. A range is only written once no block in it is missing transactions, and no block has a hole in its transaction or log indexes'

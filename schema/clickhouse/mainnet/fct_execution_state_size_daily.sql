@@ -1,7 +1,7 @@
 CREATE TABLE mainnet.fct_execution_state_size_daily
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `day_start_date` Date COMMENT 'Start of the day period' CODEC(DoubleDelta, ZSTD(1)),
+    `day_start_date` Date COMMENT 'UTC day. The first row is the day of block 1, never 1970-01-01 (the mainnet genesis block has timestamp 0)' CODEC(DoubleDelta, ZSTD(1)),
     `accounts` UInt64 COMMENT 'Total accounts at end of day' CODEC(ZSTD(1)),
     `account_bytes` UInt64 COMMENT 'Account bytes at end of day' CODEC(ZSTD(1)),
     `account_trienodes` UInt64 COMMENT 'Account trie nodes at end of day' CODEC(ZSTD(1)),
@@ -15,4 +15,4 @@ CREATE TABLE mainnet.fct_execution_state_size_daily
     `total_bytes` UInt64 COMMENT 'Total state size in bytes' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_execution_state_size_daily_local', cityHash64(day_start_date))
-COMMENT 'Execution layer state size metrics aggregated by day'
+COMMENT 'Execution layer state size at the last canonical block of each UTC day. Starts at the day of block 1, the genesis block is not given a row of its own'

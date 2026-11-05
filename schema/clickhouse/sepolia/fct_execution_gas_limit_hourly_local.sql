@@ -1,8 +1,8 @@
 CREATE TABLE sepolia.fct_execution_gas_limit_hourly_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `hour_start_date_time` DateTime COMMENT 'Start of the hour period' CODEC(DoubleDelta, ZSTD(1)),
-    `block_count` UInt32 COMMENT 'Number of blocks in this hour' CODEC(ZSTD(1)),
+    `hour_start_date_time` DateTime COMMENT 'Start of the UTC hour. The first row is the hour of block 1, never 1970-01-01 (the mainnet genesis block has timestamp 0)' CODEC(DoubleDelta, ZSTD(1)),
+    `block_count` UInt32 COMMENT 'Number of canonical blocks of this network in this hour, genesis excluded' CODEC(ZSTD(1)),
     `total_gas_limit` UInt64 COMMENT 'Total gas limit in this hour' CODEC(ZSTD(1)),
     `avg_gas_limit` UInt64 COMMENT 'Average gas limit per block' CODEC(ZSTD(1)),
     `min_gas_limit` UInt64 COMMENT 'Minimum gas limit in a block' CODEC(ZSTD(1)),
@@ -19,4 +19,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(hour_start_date_time)
 ORDER BY hour_start_date_time
 SETTINGS index_granularity = 8192
-COMMENT 'Hourly aggregated execution layer gas limit statistics with percentiles, Bollinger bands, and moving averages'
+COMMENT 'Gas limit per canonical block of this network, aggregated by UTC hour, with percentiles, Bollinger bands and a 6-hour moving average. Starts at block 1, the genesis block is excluded'

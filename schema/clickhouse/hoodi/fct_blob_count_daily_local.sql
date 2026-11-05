@@ -12,7 +12,7 @@ CREATE TABLE hoodi.fct_blob_count_daily_local
     `p95_blob_count` Float32 COMMENT '95th percentile blob count' CODEC(ZSTD(1)),
     `stddev_blob_count` Float32 COMMENT 'Standard deviation of blob count' CODEC(ZSTD(1)),
     `upper_band_blob_count` Float32 COMMENT 'Upper Bollinger band (avg + 2*stddev)' CODEC(ZSTD(1)),
-    `lower_band_blob_count` Float32 COMMENT 'Lower Bollinger band (avg - 2*stddev)' CODEC(ZSTD(1)),
+    `lower_band_blob_count` Float32 COMMENT 'Lower Bollinger band (avg - 2*stddev), floored at 0 because a blob count cannot be negative' CODEC(ZSTD(1)),
     `moving_avg_blob_count` Float32 COMMENT 'Moving average blob count (7-day window)' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_blob_count_daily_local', '{replica}', updated_date_time)

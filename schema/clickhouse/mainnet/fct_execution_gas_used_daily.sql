@@ -1,8 +1,8 @@
 CREATE TABLE mainnet.fct_execution_gas_used_daily
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `day_start_date` Date COMMENT 'Start of the day period' CODEC(DoubleDelta, ZSTD(1)),
-    `block_count` UInt32 COMMENT 'Number of blocks in this day' CODEC(ZSTD(1)),
+    `day_start_date` Date COMMENT 'UTC day. The first row is the day of block 1, never 1970-01-01 (the mainnet genesis block has timestamp 0)' CODEC(DoubleDelta, ZSTD(1)),
+    `block_count` UInt32 COMMENT 'Number of canonical blocks of this network in this day, genesis excluded' CODEC(ZSTD(1)),
     `total_gas_used` UInt64 COMMENT 'Total gas used in this day' CODEC(ZSTD(1)),
     `cumulative_gas_used` UInt64 COMMENT 'Cumulative gas used since genesis' CODEC(ZSTD(1)),
     `avg_gas_used` UInt64 COMMENT 'Average gas used per block' CODEC(ZSTD(1)),
@@ -17,4 +17,4 @@ CREATE TABLE mainnet.fct_execution_gas_used_daily
     `moving_avg_gas_used` UInt64 COMMENT 'Moving average gas used (7-day window)' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_execution_gas_used_daily_local', cityHash64(day_start_date))
-COMMENT 'Daily aggregated execution layer gas used statistics with percentiles, Bollinger bands, and moving averages'
+COMMENT 'Gas used per canonical block of this network, aggregated by UTC day, with percentiles, Bollinger bands and a 7-day moving average. Starts at block 1, the genesis block is excluded'

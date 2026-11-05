@@ -11,4 +11,4 @@ CREATE TABLE sepolia.int_transaction_receipt_size
     `meta_network_name` LowCardinality(String) COMMENT 'The name of the network'
 )
 ENGINE = Distributed('{cluster}', 'sepolia', 'int_transaction_receipt_size_local', cityHash64(block_number))
-COMMENT 'Per-transaction exact RLP-encoded receipt size derived from logs and transaction data.'
+COMMENT 'Per-transaction exact RLP-encoded receipt size derived from logs and transaction data. A range is only written once no block in it is missing transactions, and no block has a hole in its transaction or log indexes'

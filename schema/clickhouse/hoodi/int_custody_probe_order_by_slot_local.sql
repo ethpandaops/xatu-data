@@ -34,7 +34,9 @@ CREATE TABLE hoodi.int_custody_probe_order_by_slot_local
     `meta_peer_geo_longitude` Nullable(Float64) COMMENT 'Longitude of the probed peer' CODEC(ZSTD(1)),
     `meta_peer_geo_latitude` Nullable(Float64) COMMENT 'Latitude of the probed peer' CODEC(ZSTD(1)),
     `meta_peer_geo_autonomous_system_number` Nullable(UInt32) COMMENT 'Autonomous system number of the probed peer' CODEC(ZSTD(1)),
-    `meta_peer_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the probed peer' CODEC(ZSTD(1))
+    `meta_peer_geo_autonomous_system_organization` Nullable(String) COMMENT 'Autonomous system organization of the probed peer' CODEC(ZSTD(1)),
+    INDEX idx_peer_id_unique_key peer_id_unique_key TYPE bloom_filter(0.01) GRANULARITY 1,
+    INDEX idx_node_id node_id TYPE set(100) GRANULARITY 1
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_custody_probe_order_by_slot_local', '{replica}', updated_date_time)
 PARTITION BY toYYYYMM(slot_start_date_time)

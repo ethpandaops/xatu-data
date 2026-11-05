@@ -15,8 +15,9 @@ CREATE TABLE holesky.int_transaction_call_frame_local
     `gas` UInt64 COMMENT 'Gas consumed by this frame only, excludes child frames. sum(gas) = EVM execution gas. This is "self" gas in flame graphs.' CODEC(ZSTD(1)),
     `gas_cumulative` UInt64 COMMENT 'Gas consumed by this frame + all descendants. Root frame value = total EVM execution gas.' CODEC(ZSTD(1)),
     `gas_refund` Nullable(UInt64) COMMENT 'Total accumulated refund. Only populated for root frame, only for successful txs (refund not applied on failure).' CODEC(ZSTD(1)),
-    `intrinsic_gas` Nullable(UInt64) COMMENT 'Intrinsic tx cost (21000 + calldata). Only populated for root frame of successful txs.' CODEC(ZSTD(1)),
+    `intrinsic_gas` Nullable(UInt64) COMMENT 'Intrinsic tx cost from the transaction: 21000 (53000 for a creation) + calldata + initcode words + access list + EIP-7702 authorizations. Excludes refunds and the calldata floor. Only populated for root frame (call_frame_id=0).' CODEC(ZSTD(1)),
     `receipt_gas_used` Nullable(UInt64) COMMENT 'Actual gas used from transaction receipt. Only populated for root frame (call_frame_id=0). Source of truth for total gas display.' CODEC(ZSTD(1)),
+    `calldata_floor_gas` Nullable(UInt64) COMMENT 'EIP-7623 calldata floor, 21000 + 10 * (zero input bytes + 4 * non-zero input bytes). The receipt is max(intrinsic_gas + gas_cumulative - min(gas_refund, (intrinsic_gas + gas_cumulative) / 5), calldata_floor_gas). Only populated for root frame (call_frame_id=0) from Prague, NULL before' CODEC(ZSTD(1)),
     PROJECTION p_by_transaction
     (
         SELECT *

@@ -8,4 +8,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toYYYYMM(block_date_time)
 ORDER BY (block_date_time, block_number)
 SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
-COMMENT 'Execution blocks ordered by timestamp for efficient date range lookups'
+COMMENT 'Block number and block time of every canonical execution block of this network, for date range lookups. A range is only written once canonical_execution_block holds every block in it'

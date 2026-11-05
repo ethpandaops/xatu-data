@@ -1,8 +1,8 @@
 CREATE TABLE sepolia.fct_execution_transactions_daily_local
 (
     `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
-    `day_start_date` Date COMMENT 'Start of the day period' CODEC(DoubleDelta, ZSTD(1)),
-    `block_count` UInt32 COMMENT 'Number of blocks in this day' CODEC(ZSTD(1)),
+    `day_start_date` Date COMMENT 'UTC day' CODEC(DoubleDelta, ZSTD(1)),
+    `block_count` UInt32 COMMENT 'Number of canonical blocks of this network in this day, genesis excluded' CODEC(ZSTD(1)),
     `total_transactions` UInt64 COMMENT 'Total transactions in this day' CODEC(ZSTD(1)),
     `cumulative_transactions` UInt64 COMMENT 'Cumulative transaction count since genesis' CODEC(ZSTD(1)),
     `avg_txn_per_block` Float32 COMMENT 'Average transactions per block' CODEC(ZSTD(1)),
@@ -20,4 +20,4 @@ ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tabl
 PARTITION BY toStartOfMonth(day_start_date)
 ORDER BY day_start_date
 SETTINGS index_granularity = 8192
-COMMENT 'Daily aggregated execution layer transaction counts with cumulative totals and per-block statistics'
+COMMENT 'Transactions per canonical block of this network, aggregated by UTC day, with cumulative totals and per-block statistics. The genesis block is excluded'
