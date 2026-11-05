@@ -10,7 +10,7 @@ CREATE TABLE mainnet.fct_attestation_vote_correctness_by_client_pair_daily
     `missed_count` UInt64 COMMENT 'Attestations missed' CODEC(ZSTD(1)),
     `head_correct_count` UInt64 COMMENT 'Head votes that were correct' CODEC(ZSTD(1)),
     `target_correct_count` UInt64 COMMENT 'Target votes that were correct' CODEC(ZSTD(1)),
-    `source_correct_count` UInt64 COMMENT 'Source votes that were correct' CODEC(ZSTD(1)),
+    `source_correct_count` UInt64 COMMENT 'Source votes that were correct, from attestations seen on gossip' CODEC(ZSTD(1)),
     `avg_inclusion_distance` Nullable(Float64) COMMENT 'Mean inclusion distance per included attestation, NULL when there were none' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_vote_correctness_by_client_pair_daily_local', cityHash64(day_start_date, consensus_client, execution_client))

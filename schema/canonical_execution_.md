@@ -38,7 +38,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -133,7 +133,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -231,9 +231,9 @@ Contains canonical execution traces data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26338000`
+- **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -335,7 +335,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -428,7 +428,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -526,7 +526,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -614,7 +614,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4659000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -701,7 +701,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -793,7 +793,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -881,7 +881,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -972,7 +972,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -1063,7 +1063,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -1153,7 +1153,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -1245,7 +1245,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4657000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -1333,7 +1333,7 @@ Data is partitioned in chunks of **1000** on **block_number** for the following 
 
 - **mainnet**: `0` to `26344000`
 - **holesky**: `0` to `4710000`
-- **sepolia**: `0` to `12058000`
+- **sepolia**: `0` to `12065000`
 
 ### Examples
 
@@ -1425,7 +1425,7 @@ Contains canonical execution storage reads data.
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
 - **holesky**: `0` to `4652000`
-- **sepolia**: `0` to `12059000`
+- **sepolia**: `0` to `12066000`
 
 ### Examples
 

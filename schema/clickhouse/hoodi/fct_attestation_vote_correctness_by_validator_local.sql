@@ -7,7 +7,7 @@ CREATE TABLE hoodi.fct_attestation_vote_correctness_by_validator_local
     `attested` Bool COMMENT 'Whether the validator attested in this slot',
     `head_correct` Nullable(Bool) COMMENT 'Whether the head vote was correct. NULL if not attested' CODEC(ZSTD(1)),
     `target_correct` Nullable(Bool) COMMENT 'Whether the target vote was correct. NULL if not attested' CODEC(ZSTD(1)),
-    `source_correct` Nullable(Bool) COMMENT 'Whether the source vote was correct. NULL if not attested' CODEC(ZSTD(1)),
+    `source_correct` Nullable(Bool) COMMENT 'Whether the source vote was correct, from the attestation seen on gossip. NULL if gossip did not see it, which is every slot before gossip collection began' CODEC(ZSTD(1)),
     `inclusion_distance` Nullable(UInt32) COMMENT 'Inclusion distance for the attestation. NULL if not attested' CODEC(ZSTD(1)),
     PROJECTION p_by_slot_start_date_time
     (

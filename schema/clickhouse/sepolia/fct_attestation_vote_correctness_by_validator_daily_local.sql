@@ -8,8 +8,9 @@ CREATE TABLE sepolia.fct_attestation_vote_correctness_by_validator_daily_local
     `missed_count` UInt32 COMMENT 'Number of attestations missed' CODEC(ZSTD(1)),
     `head_correct_count` UInt32 COMMENT 'Number of head votes that were correct' CODEC(ZSTD(1)),
     `target_correct_count` UInt32 COMMENT 'Number of target votes that were correct' CODEC(ZSTD(1)),
-    `source_correct_count` UInt32 COMMENT 'Number of source votes that were correct' CODEC(ZSTD(1)),
-    `avg_inclusion_distance` Nullable(Float32) COMMENT 'Average inclusion distance for attested slots. NULL if no attestations' CODEC(ZSTD(1))
+    `source_correct_count` UInt32 COMMENT 'Number of source votes that were correct, from attestations seen on gossip' CODEC(ZSTD(1)),
+    `avg_inclusion_distance` Nullable(Float32) COMMENT 'Average inclusion distance for attested slots. NULL if no attestations' CODEC(ZSTD(1)),
+    `source_incorrect_count` UInt32 COMMENT 'Number of source votes that were incorrect, from attestations seen on gossip' CODEC(ZSTD(1))
 )
 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_attestation_vote_correctness_by_validator_daily_local', '{replica}', updated_date_time)
 PARTITION BY toStartOfMonth(day_start_date)

@@ -2417,7 +2417,7 @@ echo """
 | **missed_count** | `UInt64` | *Attestations missed* |
 | **head_correct_count** | `UInt64` | *Head votes that were correct* |
 | **target_correct_count** | `UInt64` | *Target votes that were correct* |
-| **source_correct_count** | `UInt64` | *Source votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct, from attestations seen on gossip* |
 | **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance per included attestation, NULL when there were none* |
 
 ## fct_attestation_vote_correctness_by_client_pair_daily
@@ -2481,7 +2481,7 @@ echo """
 | **missed_count** | `UInt64` | *Attestations missed* |
 | **head_correct_count** | `UInt64` | *Head votes that were correct* |
 | **target_correct_count** | `UInt64` | *Target votes that were correct* |
-| **source_correct_count** | `UInt64` | *Source votes that were correct* |
+| **source_correct_count** | `UInt64` | *Source votes that were correct, from attestations seen on gossip* |
 | **avg_inclusion_distance** | `Nullable(Float64)` | *Mean inclusion distance per included attestation, NULL when there were none* |
 
 ## fct_attestation_vote_correctness_by_entity_daily
@@ -2731,7 +2731,7 @@ echo """
 | **attested** | `Bool` | *Whether the validator attested in this slot* |
 | **head_correct** | `Nullable(Bool)` | *Whether the head vote was correct. NULL if not attested* |
 | **target_correct** | `Nullable(Bool)` | *Whether the target vote was correct. NULL if not attested* |
-| **source_correct** | `Nullable(Bool)` | *Whether the source vote was correct. NULL if not attested* |
+| **source_correct** | `Nullable(Bool)` | *Whether the source vote was correct, from the attestation seen on gossip. NULL if gossip did not see it, which is every slot before gossip collection began* |
 | **inclusion_distance** | `Nullable(UInt32)` | *Inclusion distance for the attestation. NULL if not attested* |
 
 ## fct_attestation_vote_correctness_by_validator_daily
@@ -2793,8 +2793,9 @@ echo """
 | **missed_count** | `UInt32` | *Number of attestations missed* |
 | **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
 | **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
-| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct, from attestations seen on gossip* |
 | **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
+| **source_incorrect_count** | `UInt32` | *Number of source votes that were incorrect, from attestations seen on gossip* |
 
 ## fct_attestation_vote_correctness_by_validator_hourly
 
@@ -2855,8 +2856,9 @@ echo """
 | **missed_count** | `UInt32` | *Number of attestations missed* |
 | **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
 | **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
-| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct, from attestations seen on gossip* |
 | **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
+| **source_incorrect_count** | `UInt32` | *Number of source votes that were incorrect, from attestations seen on gossip* |
 
 ## fct_attestation_vote_correctness_by_validator_weekly
 
@@ -2917,8 +2919,9 @@ echo """
 | **missed_count** | `UInt32` | *Number of attestations missed* |
 | **head_correct_count** | `UInt32` | *Number of head votes that were correct* |
 | **target_correct_count** | `UInt32` | *Number of target votes that were correct* |
-| **source_correct_count** | `UInt32` | *Number of source votes that were correct* |
+| **source_correct_count** | `UInt32` | *Number of source votes that were correct, from attestations seen on gossip* |
 | **avg_inclusion_distance** | `Nullable(Float32)` | *Average inclusion distance for attested slots. NULL if no attestations* |
+| **source_incorrect_count** | `UInt32` | *Number of source votes that were incorrect, from attestations seen on gossip* |
 
 ## fct_blob_count_daily
 
@@ -17970,7 +17973,7 @@ echo """
 
 ## int_custody_probe_order_by_slot
 
-Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about
+Custody probe results per slot with aggregated column indices
 
 ### Availability
 Data is partitioned by **toYYYYMM(slot_start_date_time)**.

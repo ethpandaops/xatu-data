@@ -8,8 +8,9 @@ CREATE TABLE mainnet.fct_attestation_vote_correctness_by_validator_daily
     `missed_count` UInt32 COMMENT 'Number of attestations missed' CODEC(ZSTD(1)),
     `head_correct_count` UInt32 COMMENT 'Number of head votes that were correct' CODEC(ZSTD(1)),
     `target_correct_count` UInt32 COMMENT 'Number of target votes that were correct' CODEC(ZSTD(1)),
-    `source_correct_count` UInt32 COMMENT 'Number of source votes that were correct' CODEC(ZSTD(1)),
-    `avg_inclusion_distance` Nullable(Float32) COMMENT 'Average inclusion distance for attested slots. NULL if no attestations' CODEC(ZSTD(1))
+    `source_correct_count` UInt32 COMMENT 'Number of source votes that were correct, from attestations seen on gossip' CODEC(ZSTD(1)),
+    `avg_inclusion_distance` Nullable(Float32) COMMENT 'Average inclusion distance for attested slots. NULL if no attestations' CODEC(ZSTD(1)),
+    `source_incorrect_count` UInt32 COMMENT 'Number of source votes that were incorrect, from attestations seen on gossip'
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_attestation_vote_correctness_by_validator_daily_local', cityHash64(validator_index, day_start_date))
 COMMENT 'Daily aggregation of per-validator attestation vote correctness'

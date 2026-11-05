@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T13:48:30Z",
+  "generated_at": "2026-11-05T23:06:30Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -2856,7 +2856,7 @@
         {
           "name": "source_correct_count",
           "type": "UInt64",
-          "description": "Source votes that were correct"
+          "description": "Source votes that were correct, from attestations seen on gossip"
         },
         {
           "name": "avg_inclusion_distance",
@@ -2947,7 +2947,7 @@
         {
           "name": "source_correct_count",
           "type": "UInt64",
-          "description": "Source votes that were correct"
+          "description": "Source votes that were correct, from attestations seen on gossip"
         },
         {
           "name": "avg_inclusion_distance",
@@ -3281,7 +3281,7 @@
         {
           "name": "source_correct",
           "type": "Nullable(Bool)",
-          "description": "Whether the source vote was correct. NULL if not attested"
+          "description": "Whether the source vote was correct, from the attestation seen on gossip. NULL if gossip did not see it, which is every slot before gossip collection began"
         },
         {
           "name": "inclusion_distance",
@@ -3362,12 +3362,17 @@
         {
           "name": "source_correct_count",
           "type": "UInt32",
-          "description": "Number of source votes that were correct"
+          "description": "Number of source votes that were correct, from attestations seen on gossip"
         },
         {
           "name": "avg_inclusion_distance",
           "type": "Nullable(Float32)",
           "description": "Average inclusion distance for attested slots. NULL if no attestations"
+        },
+        {
+          "name": "source_incorrect_count",
+          "type": "UInt32",
+          "description": "Number of source votes that were incorrect, from attestations seen on gossip"
         }
       ]
     },
@@ -3443,12 +3448,17 @@
         {
           "name": "source_correct_count",
           "type": "UInt32",
-          "description": "Number of source votes that were correct"
+          "description": "Number of source votes that were correct, from attestations seen on gossip"
         },
         {
           "name": "avg_inclusion_distance",
           "type": "Nullable(Float32)",
           "description": "Average inclusion distance for attested slots. NULL if no attestations"
+        },
+        {
+          "name": "source_incorrect_count",
+          "type": "UInt32",
+          "description": "Number of source votes that were incorrect, from attestations seen on gossip"
         }
       ]
     },
@@ -3524,12 +3534,17 @@
         {
           "name": "source_correct_count",
           "type": "UInt32",
-          "description": "Number of source votes that were correct"
+          "description": "Number of source votes that were correct, from attestations seen on gossip"
         },
         {
           "name": "avg_inclusion_distance",
           "type": "Nullable(Float32)",
           "description": "Average inclusion distance for attested slots. NULL if no attestations"
+        },
+        {
+          "name": "source_incorrect_count",
+          "type": "UInt32",
+          "description": "Number of source votes that were incorrect, from attestations seen on gossip"
         }
       ]
     },
@@ -24983,7 +24998,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Custody probe results with aggregated column indices, ordered by the probed slot time. A probe usually runs hours after the slot it asks about",
+      "description": "Custody probe results per slot with aggregated column indices",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
