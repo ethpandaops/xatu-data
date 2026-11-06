@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T13:33:21Z",
+  "generated_at": "2026-11-06T22:37:05Z",
   "dataset": {
     "name": "MEV Relay",
     "description": "Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.",
@@ -25,7 +25,7 @@
       "networks": {
         "mainnet": {
           "from": "2024-09-13",
-          "to": "2026-11-04"
+          "to": "2026-11-05"
         },
         "holesky": {
           "from": "2024-09-13",
@@ -254,7 +254,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-11-04"
+          "to": "2026-11-05"
         },
         "holesky": {
           "from": "2024-09-16",
@@ -458,7 +458,7 @@
       "networks": {
         "mainnet": {
           "from": "2024-12-11",
-          "to": "2026-11-04"
+          "to": "2026-11-05"
         },
         "holesky": {
           "from": "2024-12-11",
