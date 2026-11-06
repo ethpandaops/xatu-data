@@ -29,6 +29,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_validator`](#dim_validator)
 - [`dim_validator_pubkey`](#dim_validator_pubkey)
 - [`dim_validator_status`](#dim_validator_status)
+- [`dim_xatu_node`](#dim_xatu_node)
 - [`fct_attestation_correctness`](#fct_attestation_correctness)
 - [`fct_attestation_correctness_by_validator`](#fct_attestation_correctness_by_validator)
 - [`fct_attestation_correctness_by_validator_canonical`](#fct_attestation_correctness_by_validator_canonical)
@@ -50,6 +51,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_attestation_reward_by_validator`](#fct_attestation_reward_by_validator)
 - [`fct_attestation_reward_by_validator_daily`](#fct_attestation_reward_by_validator_daily)
 - [`fct_attestation_reward_by_validator_weekly`](#fct_attestation_reward_by_validator_weekly)
+- [`fct_attestation_vote_by_block_root`](#fct_attestation_vote_by_block_root)
+- [`fct_attestation_vote_by_block_root_head`](#fct_attestation_vote_by_block_root_head)
 - [`fct_attestation_vote_correctness_by_client_daily`](#fct_attestation_vote_correctness_by_client_daily)
 - [`fct_attestation_vote_correctness_by_client_pair_daily`](#fct_attestation_vote_correctness_by_client_pair_daily)
 - [`fct_attestation_vote_correctness_by_entity_daily`](#fct_attestation_vote_correctness_by_entity_daily)
@@ -93,6 +96,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_block_graffiti_client_version_daily`](#fct_block_graffiti_client_version_daily)
 - [`fct_block_graffiti_client_version_hourly`](#fct_block_graffiti_client_version_hourly)
 - [`fct_block_graffiti_client_version_pair_daily`](#fct_block_graffiti_client_version_pair_daily)
+- [`fct_block_graffiti_head`](#fct_block_graffiti_head)
 - [`fct_block_head`](#fct_block_head)
 - [`fct_block_mev`](#fct_block_mev)
 - [`fct_block_mev_head`](#fct_block_mev_head)
@@ -128,6 +132,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_contract_storage_state_with_expiry_by_block_daily`](#fct_contract_storage_state_with_expiry_by_block_daily)
 - [`fct_contract_storage_state_with_expiry_by_block_hourly`](#fct_contract_storage_state_with_expiry_by_block_hourly)
 - [`fct_custody_probe_by_client_daily`](#fct_custody_probe_by_client_daily)
+- [`fct_custody_probe_by_slot_age_daily`](#fct_custody_probe_by_slot_age_daily)
+- [`fct_custody_probe_by_slot_age_hourly`](#fct_custody_probe_by_slot_age_hourly)
 - [`fct_data_column_availability_by_epoch`](#fct_data_column_availability_by_epoch)
 - [`fct_data_column_availability_by_slot`](#fct_data_column_availability_by_slot)
 - [`fct_data_column_availability_by_slot_blob`](#fct_data_column_availability_by_slot_blob)
@@ -156,6 +162,19 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_engine_new_payload_duration_chunked_50ms`](#fct_engine_new_payload_duration_chunked_50ms)
 - [`fct_engine_new_payload_duration_chunked_50ms_daily`](#fct_engine_new_payload_duration_chunked_50ms_daily)
 - [`fct_engine_new_payload_duration_chunked_50ms_hourly`](#fct_engine_new_payload_duration_chunked_50ms_hourly)
+- [`fct_engine_new_payload_duration_histogram_by_version_daily`](#fct_engine_new_payload_duration_histogram_by_version_daily)
+- [`fct_engine_new_payload_duration_histogram_daily`](#fct_engine_new_payload_duration_histogram_daily)
+- [`fct_engine_new_payload_duration_histogram_hourly`](#fct_engine_new_payload_duration_histogram_hourly)
+- [`fct_engine_new_payload_duration_percentile_window`](#fct_engine_new_payload_duration_percentile_window)
+- [`fct_engine_new_payload_gas_bucket_daily`](#fct_engine_new_payload_gas_bucket_daily)
+- [`fct_engine_new_payload_gas_bucket_hourly`](#fct_engine_new_payload_gas_bucket_hourly)
+- [`fct_engine_new_payload_gas_bucket_window`](#fct_engine_new_payload_gas_bucket_window)
+- [`fct_engine_new_payload_resource_share_daily`](#fct_engine_new_payload_resource_share_daily)
+- [`fct_engine_new_payload_resource_share_hourly`](#fct_engine_new_payload_resource_share_hourly)
+- [`fct_engine_new_payload_resource_share_window`](#fct_engine_new_payload_resource_share_window)
+- [`fct_engine_new_payload_throughput_histogram_daily`](#fct_engine_new_payload_throughput_histogram_daily)
+- [`fct_engine_new_payload_throughput_histogram_hourly`](#fct_engine_new_payload_throughput_histogram_hourly)
+- [`fct_engine_new_payload_throughput_histogram_window`](#fct_engine_new_payload_throughput_histogram_window)
 - [`fct_engine_new_payload_winrate_daily`](#fct_engine_new_payload_winrate_daily)
 - [`fct_engine_new_payload_winrate_hourly`](#fct_engine_new_payload_winrate_hourly)
 - [`fct_epoch_summary_canonical`](#fct_epoch_summary_canonical)
@@ -185,6 +204,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_missed_slot_rate_daily`](#fct_missed_slot_rate_daily)
 - [`fct_missed_slot_rate_hourly`](#fct_missed_slot_rate_hourly)
 - [`fct_node_active_last_24h`](#fct_node_active_last_24h)
+- [`fct_node_count_by_cl_client_version_daily`](#fct_node_count_by_cl_client_version_daily)
+- [`fct_node_count_by_cl_client_version_window`](#fct_node_count_by_cl_client_version_window)
 - [`fct_node_cpu_utilization_by_process`](#fct_node_cpu_utilization_by_process)
 - [`fct_node_disk_io_by_process`](#fct_node_disk_io_by_process)
 - [`fct_node_last_seen`](#fct_node_last_seen)
@@ -220,6 +241,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_reorg_daily`](#fct_reorg_daily)
 - [`fct_reorg_hourly`](#fct_reorg_hourly)
 - [`fct_rocketpool_validator`](#fct_rocketpool_validator)
+- [`fct_slot_summary`](#fct_slot_summary)
 - [`fct_storage_slot_state_by_address_daily`](#fct_storage_slot_state_by_address_daily)
 - [`fct_storage_slot_state_by_address_hourly`](#fct_storage_slot_state_by_address_hourly)
 - [`fct_storage_slot_state_by_block_daily`](#fct_storage_slot_state_by_block_daily)
@@ -266,14 +288,19 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_beacon_committee`](#int_beacon_committee)
 - [`int_beacon_committee_head`](#int_beacon_committee_head)
 - [`int_block_blob_count_canonical`](#int_block_blob_count_canonical)
+- [`int_block_call_type_gas`](#int_block_call_type_gas)
 - [`int_block_canonical`](#int_block_canonical)
+- [`int_block_contract_gas`](#int_block_contract_gas)
 - [`int_block_graffiti_release`](#int_block_graffiti_release)
 - [`int_block_mev_canonical`](#int_block_mev_canonical)
 - [`int_block_opcode_gas`](#int_block_opcode_gas)
+- [`int_block_opcode_resource_gas`](#int_block_opcode_resource_gas)
 - [`int_block_payload_ptc_vote_canonical`](#int_block_payload_ptc_vote_canonical)
 - [`int_block_proposer_canonical`](#int_block_proposer_canonical)
 - [`int_block_receipt_size`](#int_block_receipt_size)
 - [`int_block_resource_gas`](#int_block_resource_gas)
+- [`int_block_transaction_contract_gas`](#int_block_transaction_contract_gas)
+- [`int_block_transaction_summary`](#int_block_transaction_summary)
 - [`int_contract_creation`](#int_contract_creation)
 - [`int_contract_selfdestruct`](#int_contract_selfdestruct)
 - [`int_contract_storage_expiry_12m`](#int_contract_storage_expiry_12m)
@@ -295,6 +322,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_contract_storage_state_with_expiry_by_block`](#int_contract_storage_state_with_expiry_by_block)
 - [`int_custody_probe`](#int_custody_probe)
 - [`int_custody_probe_order_by_slot`](#int_custody_probe_order_by_slot)
+- [`int_data_column_gossip_by_slot`](#int_data_column_gossip_by_slot)
 - [`int_engine_get_blobs`](#int_engine_get_blobs)
 - [`int_engine_new_payload`](#int_engine_new_payload)
 - [`int_engine_new_payload_fastest_execution_by_node_class`](#int_engine_new_payload_fastest_execution_by_node_class)
@@ -1003,6 +1031,65 @@ echo """
 | **exit_epoch** | `Nullable(UInt64)` | *Epoch when exit is/was scheduled* |
 | **withdrawable_epoch** | `Nullable(UInt64)` | *Epoch when withdrawal becomes possible* |
 | **slashed** | `Bool` | *Whether the validator was slashed at this transition* |
+
+## dim_xatu_node
+
+Maps every Xatu node name to a stable node: hashed names that rotate on beacon node restarts are chained into one node. Count uniqExact(stable_node_id) to count Xatu nodes
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_xatu_node`
+- **sepolia**: `sepolia.dim_xatu_node`
+- **holesky**: `holesky.dim_xatu_node`
+- **hoodi**: `hoodi.dim_xatu_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_xatu_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_xatu_node_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **meta_client_name** | `String` | *Name of the Xatu node as reported, e.g. pub-asn-city/<user>/hashed-<id>. Join key for the by_node tables* |
+| **stable_node_id** | `String` | *The Xatu node this name belongs to: the meta_client_name of the first ID in its chain. Hashed IDs change when the beacon node\'s p2p key changes (every restart on nimbus without --netkey-file). IDs with the same username and consensus client chain when one starts in or after the hour the previous one was last seen. IDs active at the same time stay separate. Named IDs map to themselves* |
+| **username** | `String` | *Contributor username of the Xatu node* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *Consensus client of the Xatu node at its latest observation* |
+| **first_seen_date_time** | `DateTime` | *Start of the first hour this name reported a block* |
+| **last_seen_date_time** | `DateTime` | *Start of the latest hour this name reported a block* |
 
 ## fct_attestation_correctness
 
@@ -2355,6 +2442,124 @@ echo """
 | **total** | `Int64` | *head + target + source + inclusion_delay + inactivity in Gwei* |
 | **penalty** | `Int64` | *Sum of the negative components in Gwei* |
 | **penalized_epoch_count** | `UInt32` | *Epochs with any negative component* |
+
+## fct_attestation_vote_by_block_root
+
+Head votes per slot and voted block root, preferring finalized canonical attestations and falling back to real-time head data for slots not yet finalized
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_by_block_root`
+- **sepolia**: `sepolia.fct_attestation_vote_by_block_root`
+- **holesky**: `holesky.fct_attestation_vote_by_block_root`
+- **hoodi**: `hoodi.fct_attestation_vote_by_block_root`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_by_block_root FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_by_block_root_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot the attestations were for* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root the validators voted for as head, which can be a block from an earlier slot* |
+| **vote_count** | `UInt32` | *The number of validators that voted for this block root as head in this slot* |
+
+## fct_attestation_vote_by_block_root_head
+
+Head votes per slot and voted block root, from real-time gossip and beacon API attestations of the unfinalized chain
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_attestation_vote_by_block_root_head`
+- **sepolia**: `sepolia.fct_attestation_vote_by_block_root_head`
+- **holesky**: `holesky.fct_attestation_vote_by_block_root_head`
+- **hoodi**: `hoodi.fct_attestation_vote_by_block_root_head`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_attestation_vote_by_block_root_head FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_attestation_vote_by_block_root_head_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot the attestations were for* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The beacon block root the validators voted for as head, which can be a block from an earlier slot* |
+| **vote_count** | `UInt32` | *The number of validators that voted for this block root as head in this slot* |
 
 ## fct_attestation_vote_correctness_by_client_daily
 
@@ -5139,6 +5344,73 @@ echo """
 | **execution_release_status** | `LowCardinality(String)` | *How the execution client version was resolved, see the table comment for values* |
 | **block_count** | `UInt32` | *Number of canonical blocks with this consensus and execution client release pair* |
 
+## fct_block_graffiti_head
+
+Graffiti of every block of the unfinalized chain with the consensus and execution clients it names, parsed as fct_block_graffiti does. Forks may put several block roots at one slot
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_block_graffiti_head`
+- **sepolia**: `sepolia.fct_block_graffiti_head`
+- **holesky**: `holesky.fct_block_graffiti_head`
+- **hoodi**: `hoodi.fct_block_graffiti_head`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_block_graffiti_head FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_block_graffiti_head_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the block* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `String` | *The root of the beacon block, one of possibly several at the slot on the unfinalized chain* |
+| **proposer_index** | `UInt32` | *The validator index of the block proposer* |
+| **graffiti_text** | `String` | *The block graffiti decoded as UTF-8 with trailing null bytes removed, from the sentries, or from cannon for blocks the sentries recorded before they kept graffiti* |
+| **graffiti_format** | `LowCardinality(String)` | *Which graffiti format identified the clients, as in fct_block_graffiti: codes_full, codes_long, codes_short, codes_min, version_string, rocketpool, none or empty* |
+| **consensus_client** | `LowCardinality(String)` | *Consensus client named by the graffiti, e.g. lighthouse, or unknown* |
+| **consensus_client_version** | `LowCardinality(String)` | *Consensus client version from a version_string graffiti, empty when the graffiti carries none* |
+| **consensus_client_commit** | `LowCardinality(String)` | *Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none* |
+| **execution_client** | `LowCardinality(String)` | *Execution client named by the graffiti, e.g. geth, or unknown* |
+| **execution_client_commit** | `LowCardinality(String)` | *Execution client commit prefix carried by the graffiti, empty when the graffiti carries none* |
+| **entity** | `LowCardinality(String)` | *Staking entity of the proposer from dim_node, empty when the validator has none* |
+
 ## fct_block_head
 
 Block details for the unfinalized chain. Forks in the chain may cause multiple block roots for the same slot to be present
@@ -6623,30 +6895,37 @@ echo """
 
 ## fct_block_proposer_reward
 
-Consensus layer reward of each canonical block\'s proposer
+
 
 ### Availability
-Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
 
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_block_proposer_reward`
-- **sepolia**: `sepolia.fct_block_proposer_reward`
-- **holesky**: `holesky.fct_block_proposer_reward`
-- **hoodi**: `hoodi.fct_block_proposer_reward`
 
 ### Examples
 
 <details>
-<summary>Your Clickhouse</summary>
+<summary>Parquet file</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+> 
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
 
 ```bash
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_block_proposer_reward FINAL
+    FROM .fct_block_proposer_reward
+    WHERE
     LIMIT 10
     FORMAT Pretty
 """
@@ -6656,13 +6935,12 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 <details>
 <summary>EthPandaOps Clickhouse</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
 ```bash
 echo """
     SELECT
         *
-    FROM cluster('{refined}', mainnet.fct_block_proposer_reward_local) FINAL
+    FROM .fct_block_proposer_reward
+    WHERE
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -6672,18 +6950,6 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **slot** | `UInt32` | *The slot number* |
-| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
-| **epoch** | `UInt32` | *The epoch number containing the slot* |
-| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **block_root** | `String` | *The canonical block root* |
-| **proposer_index** | `UInt32` | *The validator index of the proposer* |
-| **total** | `UInt64` | *Total consensus layer proposer reward in Gwei* |
-| **attestations** | `UInt64` | *Reward for included attestations in Gwei* |
-| **sync_aggregate** | `UInt64` | *Reward for the included sync aggregate in Gwei* |
-| **proposer_slashings** | `UInt64` | *Reward for included proposer slashings in Gwei* |
-| **attester_slashings** | `UInt64` | *Reward for included attester slashings in Gwei* |
 
 ## fct_block_proposer_reward_by_validator_daily
 
@@ -7332,9 +7598,131 @@ echo """
 | **response_time_p50_ms** | `Nullable(Float64)` | *Median response time of successful probes in ms* |
 | **response_time_p90_ms** | `Nullable(Float64)` | *90th percentile response time of successful probes in ms* |
 
+## fct_custody_probe_by_slot_age_daily
+
+Data column custody probes per UTC day the probes ran, age of the probed slot and P2P peer client. Late age buckets show peers that stop custodying columns before retention ends
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_custody_probe_by_slot_age_daily`
+- **sepolia**: `sepolia.fct_custody_probe_by_slot_age_daily`
+- **holesky**: `holesky.fct_custody_probe_by_slot_age_daily`
+- **hoodi**: `hoodi.fct_custody_probe_by_slot_age_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_custody_probe_by_slot_age_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_custody_probe_by_slot_age_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day the probes ran* |
+| **slot_age_bucket** | `LowCardinality(String)` | *Age of the probed slot when the probe ran: 0-1d, 1-3d, 3-7d, 7-14d, 14-18d, or 18d+ (past the 4096-epoch retention of about 18.2 days)* |
+| **slot_age_min_days** | `UInt8` | *Start of the slot age bucket in days, for ordering the buckets* |
+| **client** | `LowCardinality(String)` | *Consensus client of the probed P2P peer, from its agent (erigon is caplin, unknown when the agent is empty)* |
+| **probe_count** | `UInt64` | *Number of column probes, one per column a probe asked for* |
+| **success_count** | `UInt64` | *Column probes the peer answered with the column* |
+| **missing_count** | `UInt64` | *Column probes the peer answered without the column* |
+| **failure_count** | `UInt64` | *Column probes that failed* |
+
+## fct_custody_probe_by_slot_age_hourly
+
+Data column custody probes per hour the probes ran, age of the probed slot and P2P peer client. Late age buckets show peers that stop custodying columns before retention ends
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_custody_probe_by_slot_age_hourly`
+- **sepolia**: `sepolia.fct_custody_probe_by_slot_age_hourly`
+- **holesky**: `holesky.fct_custody_probe_by_slot_age_hourly`
+- **hoodi**: `hoodi.fct_custody_probe_by_slot_age_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_custody_probe_by_slot_age_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_custody_probe_by_slot_age_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The hour the probes ran* |
+| **slot_age_bucket** | `LowCardinality(String)` | *Age of the probed slot when the probe ran: 0-1d, 1-3d, 3-7d, 7-14d, 14-18d, or 18d+ (past the 4096-epoch retention of about 18.2 days)* |
+| **slot_age_min_days** | `UInt8` | *Start of the slot age bucket in days, for ordering the buckets* |
+| **client** | `LowCardinality(String)` | *Consensus client of the probed P2P peer, from its agent (erigon is caplin, unknown when the agent is empty)* |
+| **probe_count** | `UInt64` | *Number of column probes, one per column a probe asked for* |
+| **success_count** | `UInt64` | *Column probes the peer answered with the column* |
+| **missing_count** | `UInt64` | *Column probes the peer answered without the column* |
+| **failure_count** | `UInt64` | *Column probes that failed* |
+
 ## fct_data_column_availability_by_epoch
 
-Data column availability by epoch and column index, rolled up from fct_data_column_availability_by_slot: almost all observations are gossipsub sightings, which always count as a success
+Custody probe results by epoch and column index, rolled up from fct_data_column_availability_by_slot. Only custody probes count. The last 19 days are recounted every hour
 
 ### Availability
 Data is partitioned by **toStartOfMonth(epoch_start_date_time)**.
@@ -7405,7 +7793,7 @@ echo """
 
 ## fct_data_column_availability_by_slot
 
-Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings
+Custody probe results by slot and column index. Only custody probes count towards success, failure, missing and availability. Gossipsub sightings are counted separately in gossipsub_count. Probes keep arriving for about 18 days after a slot, so the last 19 days are recounted every hour
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -7459,33 +7847,33 @@ echo """
 | **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
 | **epoch** | `UInt32` | *Epoch number containing the slot* |
 | **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
-| **wallclock_request_slot** | `UInt32` | *The wallclock slot when the request was sent* |
-| **wallclock_request_slot_start_date_time** | `DateTime` | *The start time for the slot when the request was sent* |
-| **wallclock_request_epoch** | `UInt32` | *The wallclock epoch when the request was sent* |
-| **wallclock_request_epoch_start_date_time** | `DateTime` | *The start time for the wallclock epoch when the request was sent* |
+| **wallclock_request_slot** | `UInt32` | *The slot the probes tested, the same as slot* |
+| **wallclock_request_slot_start_date_time** | `DateTime` | *The start time of the slot the probes tested, the same as slot_start_date_time* |
+| **wallclock_request_epoch** | `UInt32` | *The epoch of the slot the probes tested, the same as epoch* |
+| **wallclock_request_epoch_start_date_time** | `DateTime` | *The start time of the epoch the probes tested, the same as epoch_start_date_time* |
 | **column_index** | `UInt64` | *Column index being probed (0-127)* |
-| **beacon_block_root** | `Nullable(FixedString(66))` | *Beacon block root for this slot (from earliest observation, handles reorgs, NULL if unavailable)* |
-| **beacon_block_root_variants** | `UInt8` | *Number of unique block roots observed (>1 indicates reorg/fork)* |
-| **blob_count** | `UInt16` | *Number of blobs in the slot (max column_rows_count)* |
-| **success_count** | `UInt32` | *Count of successful probes* |
-| **failure_count** | `UInt32` | *Count of failed probes (result = failure)* |
-| **missing_count** | `UInt32` | *Count of missing probes (result = missing)* |
-| **probe_count** | `UInt32` | *Total count of probes* |
-| **availability_pct** | `Float64` | *Availability percentage (success / total * 100) rounded to 2 decimal places* |
+| **beacon_block_root** | `Nullable(FixedString(66))` | *Beacon block root from the earliest gossipsub sighting of the column, NULL when it was not gossiped* |
+| **beacon_block_root_variants** | `UInt8` | *Number of block roots in the gossipsub sightings (more than 1 means a fork), 0 when not gossiped* |
+| **blob_count** | `UInt16` | *Number of blobs in the slot, from the probes and the gossipsub sightings* |
+| **success_count** | `UInt32` | *Number of custody probes that returned the column* |
+| **failure_count** | `UInt32` | *Number of custody probes that failed (result = failure)* |
+| **missing_count** | `UInt32` | *Number of custody probes the peer answered without the column (result = missing)* |
+| **probe_count** | `UInt32` | *Number of custody probes of the column for this slot* |
+| **availability_pct** | `Float64` | *Share of custody probes that returned the column (success / probe_count * 100), rounded to 2 decimal places* |
 | **min_response_time_ms** | `UInt32` | *Minimum response time in milliseconds for successful probes only* |
 | **p50_response_time_ms** | `UInt32` | *Median (p50) response time in milliseconds for successful probes only* |
 | **p95_response_time_ms** | `UInt32` | *95th percentile response time in milliseconds for successful probes only* |
 | **p99_response_time_ms** | `UInt32` | *99th percentile response time in milliseconds for successful probes only* |
 | **max_response_time_ms** | `UInt32` | *Maximum response time in milliseconds for successful probes only* |
-| **unique_peer_count** | `UInt32` | *Count of unique peers probed* |
-| **unique_client_count** | `UInt32` | *Count of unique client names* |
-| **unique_implementation_count** | `UInt32` | *Count of unique client implementations* |
-| **custody_probe_count** | `UInt32` | *Count of observations from active RPC custody probes* |
-| **gossipsub_count** | `UInt32` | *Count of observations from passive gossipsub propagation* |
+| **unique_peer_count** | `UInt32` | *Number of distinct P2P peers probed* |
+| **unique_client_count** | `UInt32` | *Number of distinct Xatu nodes that sent the probes* |
+| **unique_implementation_count** | `UInt32` | *Number of distinct client implementations that sent the probes* |
+| **custody_probe_count** | `UInt32` | *Number of custody probes, the same as probe_count* |
+| **gossipsub_count** | `UInt32` | *Number of gossipsub sightings of the column, which do not count towards availability* |
 
 ## fct_data_column_availability_by_slot_blob
 
-Data column availability by slot and column index, repeated once per blob index of the slot. Probes and sightings are per column, so every blob of a slot carries the same counts. Sources as fct_data_column_availability_by_slot: almost all rows are gossipsub sightings, which always count as a success
+Custody probe results by slot and column index, repeated once per blob index of the slot. Probes are per column, so every blob of a slot carries the same counts. Recounted every 6 hours over the last 19 days
 
 ### Availability
 Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
@@ -7562,7 +7950,7 @@ echo """
 
 ## fct_data_column_availability_daily
 
-Data column availability by UTC day and column index, rolled up from fct_data_column_availability_by_epoch through its hours like fct_data_column_availability_hourly: almost all observations are gossipsub sightings, which always count as a success
+Custody probe results by UTC day and column index, rolled up from fct_data_column_availability_hourly. Only custody probes count. The last 19 days are recounted every hour
 
 ### Availability
 Data is partitioned by **toYYYYMM(date)**.
@@ -7631,7 +8019,7 @@ echo """
 
 ## fct_data_column_availability_hourly
 
-Data column availability by hour and column index, rolled up from fct_data_column_availability_by_epoch: almost all observations are gossipsub sightings, which always count as a success
+Custody probe results by hour and column index, rolled up from fct_data_column_availability_by_epoch. Only custody probes count. The last 19 days are recounted every hour
 
 ### Availability
 Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
@@ -9318,6 +9706,828 @@ echo """
 | **valid_count** | `UInt32` | *Number of VALID status observations in this chunk* |
 | **invalid_count** | `UInt32` | *Number of INVALID or INVALID_BLOCK_HASH status observations in this chunk* |
 
+## fct_engine_new_payload_duration_histogram_by_version_daily
+
+engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per UTC day, node class, execution client, execution client version and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_histogram_by_version_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_histogram_by_version_daily`
+- **holesky**: `holesky.fct_engine_new_payload_duration_histogram_by_version_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_histogram_by_version_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_histogram_by_version_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_histogram_by_version_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **node_class** | `LowCardinality(String)` | *Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC* |
+| **status** | `LowCardinality(String)` | *Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)* |
+| **bucket_index** | `UInt16` | *Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last* |
+| **bucket_lower_ms** | `UInt32` | *Lower bound of the bucket in milliseconds, inclusive* |
+| **bucket_upper_ms** | `UInt32` | *Upper bound of the bucket in milliseconds, exclusive* |
+| **observation_count** | `UInt32` | *Number of engine_newPayload calls whose duration falls in the bucket* |
+
+## fct_engine_new_payload_duration_histogram_daily
+
+engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per UTC day, node class, execution client and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_histogram_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_histogram_daily`
+- **holesky**: `holesky.fct_engine_new_payload_duration_histogram_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_histogram_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_histogram_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_histogram_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **node_class** | `LowCardinality(String)` | *Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **status** | `LowCardinality(String)` | *Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)* |
+| **bucket_index** | `UInt16` | *Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last* |
+| **bucket_lower_ms** | `UInt32` | *Lower bound of the bucket in milliseconds, inclusive* |
+| **bucket_upper_ms** | `UInt32` | *Upper bound of the bucket in milliseconds, exclusive* |
+| **observation_count** | `UInt32` | *Number of engine_newPayload calls whose duration falls in the bucket* |
+
+## fct_engine_new_payload_duration_histogram_hourly
+
+engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per hour, node class, execution client and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_histogram_hourly`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_histogram_hourly`
+- **holesky**: `holesky.fct_engine_new_payload_duration_histogram_hourly`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_histogram_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_histogram_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_histogram_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour* |
+| **node_class** | `LowCardinality(String)` | *Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **status** | `LowCardinality(String)` | *Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)* |
+| **bucket_index** | `UInt16` | *Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last* |
+| **bucket_lower_ms** | `UInt32` | *Lower bound of the bucket in milliseconds, inclusive* |
+| **bucket_upper_ms** | `UInt32` | *Upper bound of the bucket in milliseconds, exclusive* |
+| **observation_count** | `UInt32` | *Number of engine_newPayload calls whose duration falls in the bucket* |
+
+## fct_engine_new_payload_duration_percentile_window
+
+engine_newPayload duration P50 and P95 per window (1 hour to all history, aligned like Lab ranges), node class (or all Xatu nodes), execution client, build line and version (empty for all), and status, recomputed hourly
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_duration_percentile_window`
+- **sepolia**: `sepolia.fct_engine_new_payload_duration_percentile_window`
+- **holesky**: `holesky.fct_engine_new_payload_duration_percentile_window`
+- **hoodi**: `hoodi.fct_engine_new_payload_duration_percentile_window`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_duration_percentile_window FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_duration_percentile_window_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_grain** | `LowCardinality(String)` | *hour for windows ending at the last complete hour, day for windows of complete UTC days ending yesterday* |
+| **window_length** | `UInt16` | *Window length in hours (1, 6, 24, 168 or 744) or days (7, 14, 30, 60, 90, 180 or 365), 0 for all history* |
+| **window_start_date_time** | `DateTime` | *Start of the window, inclusive* |
+| **window_end_date_time** | `DateTime` | *End of the window, exclusive* |
+| **node_class** | `LowCardinality(String)` | *Node classification: eip7870-block-builder for reference nodes, empty for other Xatu nodes, all for every Xatu node together* |
+| **meta_execution_implementation** | `LowCardinality(String)` | *Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)* |
+| **meta_execution_build_line** | `LowCardinality(String)` | *Build line: the version without its trailing commit hash (e.g., 1.17.11-unstable), empty for all versions of the client together* |
+| **meta_execution_version** | `LowCardinality(String)` | *Full execution client version string from web3_clientVersion RPC, empty for all builds of the build line together* |
+| **status** | `LowCardinality(String)` | *Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)* |
+| **observation_count** | `UInt64` | *Number of engine_newPayload calls in the window, 0 for a key that left the window* |
+| **p50_duration_ms** | `Float32` | *Median engine_newPayload duration in milliseconds over the window, interpolated inside its log-scaled bucket (about 4% wide)* |
+| **p95_duration_ms** | `Float32` | *95th percentile engine_newPayload duration in milliseconds over the window, interpolated inside its log-scaled bucket (about 4% wide)* |
+
+## fct_engine_new_payload_gas_bucket_daily
+
+engine_newPayload timings of VALID payloads per UTC day, node scope, execution client and 5 Mgas block size bucket, as counts and sums from which a least-squares cost model and throughput can be computed exactly over any range
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_gas_bucket_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_gas_bucket_daily`
+- **holesky**: `holesky.fct_engine_new_payload_gas_bucket_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_gas_bucket_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_gas_bucket_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_gas_bucket_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **gas_bucket_mgas** | `UInt16` | *Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket* |
+| **block_count** | `UInt32` | *Number of blocks* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **gas_mgas_sq_sum** | `Float64` | *Sum of squared block gas used in Mgas* |
+| **avg_ms_sum** | `Float64` | *Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sq_sum** | `Float64` | *Sum over blocks of the squared median duration* |
+| **gas_p50_product_sum** | `Float64` | *Sum over blocks of Mgas times the median duration* |
+| **p95_ms_sum** | `Float64` | *Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p95_ms_sq_sum** | `Float64` | *Sum over blocks of the squared 95th percentile duration* |
+| **gas_p95_product_sum** | `Float64` | *Sum over blocks of Mgas times the 95th percentile duration* |
+
+## fct_engine_new_payload_gas_bucket_hourly
+
+engine_newPayload timings of VALID payloads per hour, node scope, execution client and 5 Mgas block size bucket, as counts and sums from which a least-squares cost model and throughput can be computed exactly over any range
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_gas_bucket_hourly`
+- **sepolia**: `sepolia.fct_engine_new_payload_gas_bucket_hourly`
+- **holesky**: `holesky.fct_engine_new_payload_gas_bucket_hourly`
+- **hoodi**: `hoodi.fct_engine_new_payload_gas_bucket_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_gas_bucket_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_gas_bucket_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **gas_bucket_mgas** | `UInt16` | *Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket* |
+| **block_count** | `UInt32` | *Number of blocks* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **gas_mgas_sq_sum** | `Float64` | *Sum of squared block gas used in Mgas* |
+| **avg_ms_sum** | `Float64` | *Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sq_sum** | `Float64` | *Sum over blocks of the squared median duration* |
+| **gas_p50_product_sum** | `Float64` | *Sum over blocks of Mgas times the median duration* |
+| **p95_ms_sum** | `Float64` | *Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p95_ms_sq_sum** | `Float64` | *Sum over blocks of the squared 95th percentile duration* |
+| **gas_p95_product_sum** | `Float64` | *Sum over blocks of Mgas times the 95th percentile duration* |
+
+## fct_engine_new_payload_gas_bucket_window
+
+engine_newPayload cost-model sums per 5 Mgas block size bucket summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_gas_bucket_hourly and _daily
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_gas_bucket_window`
+- **sepolia**: `sepolia.fct_engine_new_payload_gas_bucket_window`
+- **holesky**: `holesky.fct_engine_new_payload_gas_bucket_window`
+- **hoodi**: `hoodi.fct_engine_new_payload_gas_bucket_window`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_gas_bucket_window FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_gas_bucket_window_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_grain** | `LowCardinality(String)` | *hour for windows of hours, day for all history in complete UTC days ending yesterday* |
+| **window_length** | `UInt16` | *Window length in hours (24, 168 or 744), 0 for all history* |
+| **window_start_date_time** | `DateTime` | *Start of the window, inclusive* |
+| **window_end_date_time** | `DateTime` | *End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **gas_bucket_mgas** | `UInt16` | *Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket* |
+| **block_count** | `UInt32` | *Number of blocks* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **gas_mgas_sq_sum** | `Float64` | *Sum of squared block gas used in Mgas* |
+| **avg_ms_sum** | `Float64` | *Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p50_ms_sq_sum** | `Float64` | *Sum over blocks of the squared median duration* |
+| **gas_p50_product_sum** | `Float64` | *Sum over blocks of Mgas times the median duration* |
+| **p95_ms_sum** | `Float64` | *Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds* |
+| **p95_ms_sq_sum** | `Float64` | *Sum over blocks of the squared 95th percentile duration* |
+| **gas_p95_product_sum** | `Float64` | *Sum over blocks of Mgas times the 95th percentile duration* |
+
+## fct_engine_new_payload_resource_share_daily
+
+engine_newPayload throughput of VALID payloads of at least 10 Mgas per UTC day, node scope, execution client, gas resource and fixed 10% bucket of the share of block resource gas that resource took
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_resource_share_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_resource_share_daily`
+- **holesky**: `holesky.fct_engine_new_payload_resource_share_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_resource_share_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_resource_share_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_resource_share_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **resource** | `LowCardinality(String)` | *Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size* |
+| **share_bucket_pct** | `UInt8` | *Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)* |
+| **block_count** | `UInt32` | *Number of blocks of at least 10 Mgas in the bucket* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s* |
+
+## fct_engine_new_payload_resource_share_hourly
+
+engine_newPayload throughput of VALID payloads of at least 10 Mgas per hour, node scope, execution client, gas resource and fixed 10% bucket of the share of block resource gas that resource took
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_resource_share_hourly`
+- **sepolia**: `sepolia.fct_engine_new_payload_resource_share_hourly`
+- **holesky**: `holesky.fct_engine_new_payload_resource_share_hourly`
+- **hoodi**: `hoodi.fct_engine_new_payload_resource_share_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_resource_share_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_resource_share_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **resource** | `LowCardinality(String)` | *Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size* |
+| **share_bucket_pct** | `UInt8` | *Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)* |
+| **block_count** | `UInt32` | *Number of blocks of at least 10 Mgas in the bucket* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s* |
+
+## fct_engine_new_payload_resource_share_window
+
+engine_newPayload throughput sums per gas resource and 10% resource share bucket summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_resource_share_hourly and _daily
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_resource_share_window`
+- **sepolia**: `sepolia.fct_engine_new_payload_resource_share_window`
+- **holesky**: `holesky.fct_engine_new_payload_resource_share_window`
+- **hoodi**: `hoodi.fct_engine_new_payload_resource_share_window`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_resource_share_window FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_resource_share_window_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_grain** | `LowCardinality(String)` | *hour for windows of hours, day for all history in complete UTC days ending yesterday* |
+| **window_length** | `UInt16` | *Window length in hours (24, 168 or 744), 0 for all history* |
+| **window_start_date_time** | `DateTime` | *Start of the window, inclusive* |
+| **window_end_date_time** | `DateTime` | *End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **resource** | `LowCardinality(String)` | *Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size* |
+| **share_bucket_pct** | `UInt8` | *Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)* |
+| **block_count** | `UInt32` | *Number of blocks of at least 10 Mgas in the bucket* |
+| **gas_mgas_sum** | `Float64` | *Sum of block gas used in Mgas* |
+| **p50_ms_sum** | `Float64` | *Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s* |
+
+## fct_engine_new_payload_throughput_histogram_daily
+
+Per-block engine_newPayload throughput histogram (Mgas/s, buckets about 4% wide) of VALID payloads of at least 5 Mgas per UTC day, node scope and execution client
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_throughput_histogram_daily`
+- **sepolia**: `sepolia.fct_engine_new_payload_throughput_histogram_daily`
+- **holesky**: `holesky.fct_engine_new_payload_throughput_histogram_daily`
+- **hoodi**: `hoodi.fct_engine_new_payload_throughput_histogram_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_throughput_histogram_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_throughput_histogram_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **bucket_index** | `Int16` | *Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s* |
+| **bucket_lower_mgas_per_second** | `Float32` | *Lower bound of the bucket in Mgas/s, inclusive* |
+| **bucket_upper_mgas_per_second** | `Float32` | *Upper bound of the bucket in Mgas/s, exclusive* |
+| **block_count** | `UInt32` | *Number of blocks of at least 5 Mgas whose throughput falls in the bucket* |
+
+## fct_engine_new_payload_throughput_histogram_hourly
+
+Per-block engine_newPayload throughput histogram (Mgas/s, buckets about 4% wide) of VALID payloads of at least 5 Mgas per hour, node scope and execution client
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_throughput_histogram_hourly`
+- **sepolia**: `sepolia.fct_engine_new_payload_throughput_histogram_hourly`
+- **holesky**: `holesky.fct_engine_new_payload_throughput_histogram_hourly`
+- **hoodi**: `hoodi.fct_engine_new_payload_throughput_histogram_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_throughput_histogram_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_throughput_histogram_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **bucket_index** | `Int16` | *Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s* |
+| **bucket_lower_mgas_per_second** | `Float32` | *Lower bound of the bucket in Mgas/s, inclusive* |
+| **bucket_upper_mgas_per_second** | `Float32` | *Upper bound of the bucket in Mgas/s, exclusive* |
+| **block_count** | `UInt32` | *Number of blocks of at least 5 Mgas whose throughput falls in the bucket* |
+
+## fct_engine_new_payload_throughput_histogram_window
+
+engine_newPayload per-block throughput histogram buckets summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_throughput_histogram_hourly and _daily
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_engine_new_payload_throughput_histogram_window`
+- **sepolia**: `sepolia.fct_engine_new_payload_throughput_histogram_window`
+- **holesky**: `holesky.fct_engine_new_payload_throughput_histogram_window`
+- **hoodi**: `hoodi.fct_engine_new_payload_throughput_histogram_window`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_engine_new_payload_throughput_histogram_window FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_engine_new_payload_throughput_histogram_window_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_grain** | `LowCardinality(String)` | *hour for windows of hours, day for all history in complete UTC days ending yesterday* |
+| **window_length** | `UInt16` | *Window length in hours (24, 168 or 744), 0 for all history* |
+| **window_start_date_time** | `DateTime` | *Start of the window, inclusive* |
+| **window_end_date_time** | `DateTime` | *End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted* |
+| **node_scope** | `LowCardinality(String)` | *Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node* |
+| **client** | `LowCardinality(String)` | *Execution client, lowercased, with go-ethereum as geth* |
+| **bucket_index** | `Int32` | *Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s* |
+| **bucket_lower_mgas_per_second** | `Float32` | *Lower bound of the bucket in Mgas/s, inclusive* |
+| **bucket_upper_mgas_per_second** | `Float32` | *Upper bound of the bucket in Mgas/s, exclusive* |
+| **block_count** | `UInt32` | *Number of blocks of at least 5 Mgas whose throughput falls in the bucket* |
+
 ## fct_engine_new_payload_winrate_daily
 
 Daily execution client winrate based on fastest engine_newPayload duration per slot
@@ -10149,30 +11359,37 @@ echo """
 
 ## fct_execution_tps_daily
 
-Daily execution layer TPS statistics. Per-block TPS is the block\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the UTC day
+
 
 ### Availability
-Data is partitioned by **toStartOfMonth(day_start_date)**.
 
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_execution_tps_daily`
-- **sepolia**: `sepolia.fct_execution_tps_daily`
-- **holesky**: `holesky.fct_execution_tps_daily`
-- **hoodi**: `hoodi.fct_execution_tps_daily`
 
 ### Examples
 
 <details>
-<summary>Your Clickhouse</summary>
+<summary>Parquet file</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+> 
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
 
 ```bash
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_execution_tps_daily FINAL
+    FROM .fct_execution_tps_daily
+    WHERE
     LIMIT 10
     FORMAT Pretty
 """
@@ -10182,13 +11399,12 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 <details>
 <summary>EthPandaOps Clickhouse</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
 ```bash
 echo """
     SELECT
         *
-    FROM cluster('{refined}', mainnet.fct_execution_tps_daily_local) FINAL
+    FROM .fct_execution_tps_daily
+    WHERE
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10198,48 +11414,40 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **day_start_date** | `Date` | *Start of the day period* |
-| **block_count** | `UInt32` | *Number of blocks in this day* |
-| **total_transactions** | `UInt64` | *Total transactions in this day* |
-| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
-| **avg_tps** | `Float32` | *Unweighted mean of per-block TPS over the day\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the day* |
-| **min_tps** | `Float32` | *Minimum per-block TPS* |
-| **max_tps** | `Float32` | *Maximum per-block TPS* |
-| **p05_tps** | `Float32` | *5th percentile TPS* |
-| **p50_tps** | `Float32` | *50th percentile (median) TPS* |
-| **p95_tps** | `Float32` | *95th percentile TPS* |
-| **stddev_tps** | `Float32` | *Standard deviation of TPS* |
-| **upper_band_tps** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
-| **lower_band_tps** | `Float32` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
-| **moving_avg_tps** | `Float32` | *Moving average TPS (7-day window)* |
 
 ## fct_execution_tps_hourly
 
-Hourly execution layer TPS statistics. Per-block TPS is the block\'s transaction count divided by the seconds since the previous block. avg_tps, the percentiles and the bands are taken over blocks, and total_transactions / total_seconds is the TPS over the hour
+
 
 ### Availability
-Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
 
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_execution_tps_hourly`
-- **sepolia**: `sepolia.fct_execution_tps_hourly`
-- **holesky**: `holesky.fct_execution_tps_hourly`
-- **hoodi**: `hoodi.fct_execution_tps_hourly`
 
 ### Examples
 
 <details>
-<summary>Your Clickhouse</summary>
+<summary>Parquet file</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+> 
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
 
 ```bash
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_execution_tps_hourly FINAL
+    FROM .fct_execution_tps_hourly
+    WHERE
     LIMIT 10
     FORMAT Pretty
 """
@@ -10249,13 +11457,12 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 <details>
 <summary>EthPandaOps Clickhouse</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
 ```bash
 echo """
     SELECT
         *
-    FROM cluster('{refined}', mainnet.fct_execution_tps_hourly_local) FINAL
+    FROM .fct_execution_tps_hourly
+    WHERE
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -10265,21 +11472,6 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **hour_start_date_time** | `DateTime` | *Start of the hour period* |
-| **block_count** | `UInt32` | *Number of blocks in this hour* |
-| **total_transactions** | `UInt64` | *Total transactions in this hour* |
-| **total_seconds** | `UInt32` | *Total actual seconds covered by blocks (sum of block time gaps)* |
-| **avg_tps** | `Float32` | *Unweighted mean of per-block TPS over the hour\'s blocks. Short block gaps inflate it. total_transactions / total_seconds is the TPS over the hour* |
-| **min_tps** | `Float32` | *Minimum per-block TPS* |
-| **max_tps** | `Float32` | *Maximum per-block TPS* |
-| **p05_tps** | `Float32` | *5th percentile TPS* |
-| **p50_tps** | `Float32` | *50th percentile (median) TPS* |
-| **p95_tps** | `Float32` | *95th percentile TPS* |
-| **stddev_tps** | `Float32` | *Standard deviation of TPS* |
-| **upper_band_tps** | `Float32` | *Upper Bollinger band (avg + 2*stddev)* |
-| **lower_band_tps** | `Float32` | *Lower Bollinger band (avg - 2*stddev), can be negative during high volatility* |
-| **moving_avg_tps** | `Float32` | *Moving average TPS (6-hour window)* |
 
 ## fct_execution_transactions_daily
 
@@ -11194,6 +12386,122 @@ echo """
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the client* |
 | **meta_consensus_version** | `LowCardinality(String)` | *Ethereum consensus client version* |
 | **meta_consensus_implementation** | `LowCardinality(String)` | *Ethereum consensus client implementation* |
+
+## fct_node_count_by_cl_client_version_daily
+
+Xatu nodes per day, consensus client and consensus client version, from the heads each node saw
+
+### Availability
+Data is partitioned by **toStartOfYear(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_count_by_cl_client_version_daily`
+- **sepolia**: `sepolia.fct_node_count_by_cl_client_version_daily`
+- **holesky**: `holesky.fct_node_count_by_cl_client_version_daily`
+- **hoodi**: `hoodi.fct_node_count_by_cl_client_version_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_count_by_cl_client_version_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_node_count_by_cl_client_version_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *The UTC day* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *The consensus client the Xatu nodes ran* |
+| **meta_consensus_version** | `LowCardinality(String)` | *The consensus client version the Xatu nodes reported, as the client reports it* |
+| **node_count** | `UInt32` | *The number of distinct Xatu nodes whose last reported version that day was this one* |
+
+## fct_node_count_by_cl_client_version_window
+
+Distinct Xatu nodes per consensus client and version over the last 30, 90 and 365 complete UTC days and all history, recomputed hourly
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_node_count_by_cl_client_version_window`
+- **sepolia**: `sepolia.fct_node_count_by_cl_client_version_window`
+- **holesky**: `holesky.fct_node_count_by_cl_client_version_window`
+- **hoodi**: `hoodi.fct_node_count_by_cl_client_version_window`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_node_count_by_cl_client_version_window FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_node_count_by_cl_client_version_window_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **window_name** | `LowCardinality(String)` | *The window: 30d, 90d or 1y for the last 30, 90 or 365 complete UTC days, or all for all history* |
+| **window_start_date** | `Date` | *The first UTC day in the window* |
+| **window_end_date** | `Date` | *The last UTC day in the window, the last complete day* |
+| **meta_consensus_implementation** | `LowCardinality(String)` | *The consensus client the Xatu nodes ran* |
+| **meta_consensus_version** | `LowCardinality(String)` | *The consensus client version the Xatu nodes reported, as the client reports it* |
+| **node_count** | `UInt32` | *The number of distinct Xatu nodes that reported this version on any day of the window, 0 when none did* |
 
 ## fct_node_cpu_utilization_by_process
 
@@ -13412,6 +14720,74 @@ echo """
 | **pool_address** | `String` | *The minipool contract address (minipool) or the validator withdrawal credential address (megapool), lowercase 0x-prefixed* |
 | **created_date_time** | `DateTime` | *Wall clock time the backing minipool was created or the megapool deposit was made* |
 
+## fct_slot_summary
+
+One row per slot from fct_block_proposer: proposed, missed or orphaned, the proposer and entity, the block number, gas, transactions, blobs and the proposer clients from the graffiti. MEV relays, builder and value are in int_block_mev_canonical
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_slot_summary`
+- **sepolia**: `sepolia.fct_slot_summary`
+- **holesky**: `holesky.fct_slot_summary`
+- **hoodi**: `hoodi.fct_slot_summary`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_slot_summary FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_slot_summary_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **status** | `LowCardinality(String)` | *canonical when the block is on the finalized chain, missed when no block was proposed, orphaned when the head saw a block the chain did not keep (before the head data starts an orphaned slot shows as missed)* |
+| **block_root** | `Nullable(String)` | *The beacon block root, NULL for a missed slot* |
+| **proposer_validator_index** | `UInt32` | *The validator index of the proposer* |
+| **entity** | `Nullable(String)` | *The staking entity of the proposer, from its current dim_node mapping, NULL when unknown* |
+| **block_number** | `Nullable(UInt32)` | *The execution block number, NULL for a missed slot or a block without an execution payload* |
+| **gas_used** | `Nullable(UInt64)` | *Execution gas used by the block, NULL for a missed slot* |
+| **gas_limit** | `Nullable(UInt64)` | *Execution gas limit of the block, NULL for a missed slot* |
+| **transaction_count** | `Nullable(UInt32)` | *Number of transactions in the block, NULL for a missed slot* |
+| **blob_count** | `Nullable(UInt32)` | *Number of blobs in the block, NULL for a missed or orphaned slot* |
+| **consensus_client** | `Nullable(String)` | *Consensus client of the proposer, parsed from the block graffiti (unknown when the graffiti does not say), NULL for a missed or orphaned slot* |
+| **execution_client** | `Nullable(String)` | *Execution client of the proposer, parsed from the block graffiti (unknown when the graffiti does not say), NULL for a missed or orphaned slot* |
+
 ## fct_storage_slot_state_by_address_daily
 
 Storage slot state metrics per address aggregated by day
@@ -14898,30 +16274,37 @@ echo """
 
 ## fct_validator_effective_balance_by_credential_type_daily
 
-Histogram of active validators\' effective balance by withdrawal credential type, one snapshot per day
+
 
 ### Availability
-Data is partitioned by **toStartOfYear(day_start_date)**.
 
-Available in the following network-specific databases:
-
-- **mainnet**: `mainnet.fct_validator_effective_balance_by_credential_type_daily`
-- **sepolia**: `sepolia.fct_validator_effective_balance_by_credential_type_daily`
-- **holesky**: `holesky.fct_validator_effective_balance_by_credential_type_daily`
-- **hoodi**: `hoodi.fct_validator_effective_balance_by_credential_type_daily`
 
 ### Examples
 
 <details>
-<summary>Your Clickhouse</summary>
+<summary>Parquet file</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+> 
+```bash
+docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
+    SELECT
+        *
+    FROM url('', 'Parquet')
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>Your Clickhouse</summary>
 
 ```bash
 docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
     SELECT
         *
-    FROM mainnet.fct_validator_effective_balance_by_credential_type_daily FINAL
+    FROM .fct_validator_effective_balance_by_credential_type_daily
+    WHERE
     LIMIT 10
     FORMAT Pretty
 """
@@ -14931,13 +16314,12 @@ docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --
 <details>
 <summary>EthPandaOps Clickhouse</summary>
 
-> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
-
 ```bash
 echo """
     SELECT
         *
-    FROM cluster('{refined}', mainnet.fct_validator_effective_balance_by_credential_type_daily_local) FINAL
+    FROM .fct_validator_effective_balance_by_credential_type_daily
+    WHERE
     LIMIT 3
     FORMAT Pretty
 """ | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
@@ -14947,13 +16329,6 @@ echo """
 ### Columns
 | Name | Type | Description |
 |--------|------|-------------|
-| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
-| **day_start_date** | `Date` | *The day (UTC)* |
-| **epoch** | `UInt32` | *Epoch of the snapshot: the last epoch of the day, or the latest epoch for today* |
-| **epoch_start_date_time** | `DateTime` | *Wall clock time when the snapshot epoch started* |
-| **credential_type** | `LowCardinality(String)` | *Withdrawal credential prefix at the snapshot: 0x00, 0x01 or 0x02* |
-| **effective_balance_eth** | `UInt32` | *Effective balance in whole ETH (effective balance moves in 1 ETH steps)* |
-| **validator_count** | `UInt32` | *Active validators with this credential type and effective balance* |
 
 ## fct_validator_event
 
@@ -16237,6 +17612,63 @@ echo """
 | **block_root** | `String` | *The beacon block root hash* |
 | **blob_count** | `UInt32` | *The number of blobs in the block, from its execution payload blob gas before Gloas, its execution payload bid blob KZG commitments from Gloas, or its blob sidecars when neither is available* |
 
+## int_block_call_type_gas
+
+Internal calls per call type in a block, every call frame except the transaction root frames
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_call_type_gas`
+- **sepolia**: `sepolia.int_block_call_type_gas`
+- **holesky**: `holesky.int_block_call_type_gas`
+- **hoodi**: `hoodi.int_block_call_type_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_call_type_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_call_type_gas_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **call_type** | `LowCardinality(String)` | *The call opcode (CALL, DELEGATECALL, STATICCALL, CALLCODE, CREATE, CREATE2)* |
+| **call_count** | `UInt32` | *Number of internal call frames of this type in the block* |
+| **gas** | `UInt64` | *Gas used by those frames themselves, excluding their child frames* |
+
 ## int_block_canonical
 
 Block details for the finalized chain
@@ -16315,6 +17747,65 @@ echo """
 | **execution_payload_transactions_count** | `Nullable(UInt32)` | *The transaction count of the execution payload* |
 | **execution_payload_transactions_total_bytes** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload* |
 | **execution_payload_transactions_total_bytes_compressed** | `Nullable(UInt32)` | *The transaction total bytes of the execution payload when compressed using snappy* |
+
+## int_block_contract_gas
+
+Gas each contract used in a block, summed over every call frame that targeted it, root frames included. Contracts that used no gas are left out
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_contract_gas`
+- **sepolia**: `sepolia.int_block_contract_gas`
+- **holesky**: `holesky.int_block_contract_gas`
+- **hoodi**: `hoodi.int_block_contract_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_contract_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_contract_gas_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **target_address** | `String` | *The contract address (hex encoded with 0x prefix)* |
+| **call_types** | `Array(LowCardinality(String))` | *The call types used to call the contract in the block, a transaction calling it directly counts as CALL* |
+| **first_transaction_hash** | `FixedString(66)` | *The first transaction in the block that called the contract* |
+| **call_count** | `UInt32` | *Number of call frames that targeted the contract in the block* |
+| **gas** | `UInt64` | *Gas used by those frames themselves, excluding their child frames* |
 
 ## int_block_graffiti_release
 
@@ -16512,6 +18003,71 @@ echo """
 | **count** | `UInt64` | *Total execution count of this opcode across all transactions in the block* |
 | **gas** | `UInt64` | *Total gas consumed by this opcode across all transactions in the block* |
 | **error_count** | `UInt64` | *Number of times this opcode resulted in an error across all transactions* |
+| **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_block_opcode_resource_gas
+
+Per-opcode resource gas per block, summed over every transaction and call frame in the block
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_opcode_resource_gas`
+- **sepolia**: `sepolia.int_block_opcode_resource_gas`
+- **holesky**: `holesky.int_block_opcode_resource_gas`
+- **hoodi**: `hoodi.int_block_opcode_resource_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_opcode_resource_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_opcode_resource_gas_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **opcode** | `LowCardinality(String)` | *The EVM opcode name (e.g., SLOAD, ADD, CALL)* |
+| **count** | `UInt64` | *Number of times this opcode was executed in the block* |
+| **gas** | `UInt64` | *Total gas consumed by this opcode in the block* |
+| **gas_compute** | `UInt64` | *Gas attributed to pure computation* |
+| **gas_memory** | `UInt64` | *Gas attributed to memory expansion* |
+| **gas_address_access** | `UInt64` | *Gas attributed to cold address and storage access (EIP-2929)* |
+| **gas_state_growth** | `UInt64` | *Gas attributed to state growth (new storage slots, contract creation)* |
+| **gas_history** | `UInt64` | *Gas attributed to history and log data storage* |
+| **gas_bloom_topics** | `UInt64` | *Gas attributed to bloom filter topic indexing* |
+| **gas_block_size** | `UInt64` | *Gas attributed to block size (always 0 at opcode level)* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
 
 ## int_block_payload_ptc_vote_canonical
@@ -16764,6 +18320,130 @@ echo """
 | **gas_block_size** | `UInt64` | *Total block size gas across all transactions* |
 | **gas_refund** | `UInt64` | *Total gas refund across all transactions* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_block_transaction_contract_gas
+
+Gas each contract used within each transaction of a block, the flows from transactions to contracts. Contracts that used no gas in the transaction are left out
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_transaction_contract_gas`
+- **sepolia**: `sepolia.int_block_transaction_contract_gas`
+- **holesky**: `holesky.int_block_transaction_contract_gas`
+- **hoodi**: `hoodi.int_block_transaction_contract_gas`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_transaction_contract_gas FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_transaction_contract_gas_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **target_address** | `String` | *The contract address (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *Position of the transaction within the block* |
+| **call_count** | `UInt32` | *Number of call frames in the transaction that targeted the contract* |
+| **gas** | `UInt64` | *Gas used by those frames themselves, excluding their child frames* |
+
+## int_block_transaction_summary
+
+One row per transaction in a block with its call tree summarised: receipt and intrinsic gas from the root frame, and the frame count, deepest call and target from the whole tree
+
+### Availability
+Data is partitioned by **intDiv(block_number, 201600)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_block_transaction_summary`
+- **sepolia**: `sepolia.int_block_transaction_summary`
+- **holesky**: `holesky.int_block_transaction_summary`
+- **hoodi**: `hoodi.int_block_transaction_summary`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_block_transaction_summary FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_block_transaction_summary_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt64` | *The block number* |
+| **transaction_hash** | `FixedString(66)` | *The transaction hash (hex encoded with 0x prefix)* |
+| **transaction_index** | `UInt32` | *Position of the transaction within the block* |
+| **receipt_gas_used** | `Nullable(UInt64)` | *Gas used from the transaction receipt, the total gas the transaction used* |
+| **intrinsic_gas** | `Nullable(UInt64)` | *Intrinsic transaction cost (21000 plus calldata). Null for failed transactions* |
+| **gas_refund** | `UInt64` | *Gas refunded to the transaction, 0 for failed transactions* |
+| **evm_gas** | `UInt64` | *EVM execution gas of the whole call tree (the root frame cumulative gas)* |
+| **call_frame_count** | `UInt32` | *Number of call frames in the transaction, including the root frame* |
+| **max_depth** | `UInt32` | *Deepest call depth in the transaction (0 = root only)* |
+| **has_errors** | `Bool` | *Whether the root frame had an opcode that resulted in an error* |
+| **root_call_type** | `LowCardinality(String)` | *How the transaction started: CALL, CREATE, or the root frame call type* |
+| **target_address** | `Nullable(String)` | *The address the transaction called (hex encoded with 0x prefix), null for contract creation* |
 
 ## int_contract_creation
 
@@ -18057,6 +19737,68 @@ echo """
 | **meta_peer_geo_latitude** | `Nullable(Float64)` | *Latitude of the probed peer* |
 | **meta_peer_geo_autonomous_system_number** | `Nullable(UInt32)` | *Autonomous system number of the probed peer* |
 | **meta_peer_geo_autonomous_system_organization** | `Nullable(String)` | *Autonomous system organization of the probed peer* |
+
+## int_data_column_gossip_by_slot
+
+Gossipsub data column sidecar sightings per slot and column, from libp2p sentries, counting only sidecars whose block root a beacon node accepted
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_data_column_gossip_by_slot`
+- **sepolia**: `sepolia.int_data_column_gossip_by_slot`
+- **holesky**: `holesky.int_data_column_gossip_by_slot`
+- **hoodi**: `hoodi.int_data_column_gossip_by_slot`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_data_column_gossip_by_slot FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_data_column_gossip_by_slot_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **column_index** | `UInt64` | *Data column index (0-127)* |
+| **beacon_block_root** | `String` | *Beacon block root of the earliest gossipsub sighting of the column* |
+| **beacon_block_root_variants** | `UInt8` | *Number of block roots in the sightings (more than 1 means a fork)* |
+| **blob_count** | `UInt16` | *Number of blobs in the slot, the most KZG commitments a sighting carried* |
+| **gossipsub_count** | `UInt32` | *Number of gossipsub sightings of the column whose block root a beacon node accepted* |
 
 ## int_engine_get_blobs
 

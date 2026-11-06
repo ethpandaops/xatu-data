@@ -1,0 +1,28 @@
+CREATE TABLE mainnet.fct_block_graffiti_head_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `slot` UInt32 COMMENT 'The slot number of the block' CODEC(DoubleDelta, ZSTD(1)),
+    `slot_start_date_time` DateTime COMMENT 'The wall clock time when the slot started' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch` UInt32 COMMENT 'The epoch number containing the slot' CODEC(DoubleDelta, ZSTD(1)),
+    `epoch_start_date_time` DateTime COMMENT 'The wall clock time when the epoch started' CODEC(DoubleDelta, ZSTD(1)),
+    `block_root` String COMMENT 'The root of the beacon block, one of possibly several at the slot on the unfinalized chain' CODEC(ZSTD(1)),
+    `proposer_index` UInt32 COMMENT 'The validator index of the block proposer' CODEC(ZSTD(1)),
+    `graffiti_text` String COMMENT 'The block graffiti decoded as UTF-8 with trailing null bytes removed, from the sentries, or from cannon for blocks the sentries recorded before they kept graffiti' CODEC(ZSTD(1)),
+    `graffiti_format` LowCardinality(String) COMMENT 'Which graffiti format identified the clients, as in fct_block_graffiti: codes_full, codes_long, codes_short, codes_min, version_string, rocketpool, none or empty' CODEC(ZSTD(1)),
+    `consensus_client` LowCardinality(String) COMMENT 'Consensus client named by the graffiti, e.g. lighthouse, or unknown' CODEC(ZSTD(1)),
+    `consensus_client_version` LowCardinality(String) COMMENT 'Consensus client version from a version_string graffiti, empty when the graffiti carries none' CODEC(ZSTD(1)),
+    `consensus_client_commit` LowCardinality(String) COMMENT 'Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none' CODEC(ZSTD(1)),
+    `execution_client` LowCardinality(String) COMMENT 'Execution client named by the graffiti, e.g. geth, or unknown' CODEC(ZSTD(1)),
+    `execution_client_commit` LowCardinality(String) COMMENT 'Execution client commit prefix carried by the graffiti, empty when the graffiti carries none' CODEC(ZSTD(1)),
+    `entity` LowCardinality(String) COMMENT 'Staking entity of the proposer from dim_node, empty when the validator has none' CODEC(ZSTD(1)),
+    PROJECTION p_by_slot
+    (
+        SELECT *
+        ORDER BY slot
+    )
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/fct_block_graffiti_head_local', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(slot_start_date_time)
+ORDER BY (slot_start_date_time, block_root)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
+COMMENT 'Graffiti of every block of the unfinalized chain with the consensus and execution clients it names, parsed as fct_block_graffiti does. Forks may put several block roots at one slot'

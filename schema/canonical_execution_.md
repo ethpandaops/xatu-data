@@ -131,7 +131,7 @@ Contains canonical execution transaction data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26351000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 
@@ -333,7 +333,7 @@ Contains canonical execution logs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26346000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 
@@ -524,7 +524,7 @@ Contains canonical execution four byte count data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26351000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 
@@ -699,7 +699,7 @@ Contains canonical execution balance diff data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26347000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 
@@ -879,7 +879,7 @@ Contains canonical execution erc20 transfer data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26351000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 
@@ -1243,7 +1243,7 @@ Contains canonical execution nonce read data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26351000`
 - **holesky**: `0` to `4657000`
 - **sepolia**: `0` to `12065000`
 
@@ -1331,7 +1331,7 @@ Contains canonical execution storage diffs data.
 ### Availability
 Data is partitioned in chunks of **1000** on **block_number** for the following networks:
 
-- **mainnet**: `0` to `26344000`
+- **mainnet**: `0` to `26351000`
 - **holesky**: `0` to `4710000`
 - **sepolia**: `0` to `12065000`
 

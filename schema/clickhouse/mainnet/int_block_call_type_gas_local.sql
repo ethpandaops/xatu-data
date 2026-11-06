@@ -1,0 +1,13 @@
+CREATE TABLE mainnet.int_block_call_type_gas_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `block_number` UInt64 COMMENT 'The block number' CODEC(DoubleDelta, ZSTD(1)),
+    `call_type` LowCardinality(String) COMMENT 'The call opcode (CALL, DELEGATECALL, STATICCALL, CALLCODE, CREATE, CREATE2)',
+    `call_count` UInt32 COMMENT 'Number of internal call frames of this type in the block' CODEC(ZSTD(1)),
+    `gas` UInt64 COMMENT 'Gas used by those frames themselves, excluding their child frames' CODEC(ZSTD(1))
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_block_call_type_gas_local', '{replica}', updated_date_time)
+PARTITION BY intDiv(block_number, 201600)
+ORDER BY (block_number, call_type)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
+COMMENT 'Internal calls per call type in a block, every call frame except the transaction root frames'

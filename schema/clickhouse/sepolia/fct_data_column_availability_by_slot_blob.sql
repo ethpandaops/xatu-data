@@ -27,4 +27,4 @@ CREATE TABLE sepolia.fct_data_column_availability_by_slot_blob
     `unique_implementation_count` UInt32 COMMENT 'Count of unique client implementations' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'sepolia', 'fct_data_column_availability_by_slot_blob_local', cityHash64(slot_start_date_time, blob_index, column_index))
-COMMENT 'Data column availability by slot and column index, repeated once per blob index of the slot. Probes and sightings are per column, so every blob of a slot carries the same counts. Sources as fct_data_column_availability_by_slot: almost all rows are gossipsub sightings, which always count as a success'
+COMMENT 'Custody probe results by slot and column index, repeated once per blob index of the slot. Probes are per column, so every blob of a slot carries the same counts. Recounted every 6 hours over the last 19 days'

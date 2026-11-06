@@ -15,6 +15,8 @@ CREATE TABLE default.beacon_api_eth_v2_beacon_block
     `proposer_index` UInt32 COMMENT 'The index of the validator that proposed the beacon block',
     `eth1_data_block_hash` FixedString(66) COMMENT 'The block hash of the associated execution block',
     `eth1_data_deposit_root` FixedString(66) COMMENT 'The root of the deposit tree in the associated execution block',
+    `graffiti` Nullable(FixedString(66)) COMMENT 'The raw 32 byte graffiti from the beacon block body (hex encoded), NULL for rows written before it was recorded' CODEC(ZSTD(1)),
+    `graffiti_text` Nullable(String) COMMENT 'The graffiti decoded as UTF-8 with trailing null bytes removed and invalid sequences replaced, NULL for rows written before it was recorded' CODEC(ZSTD(1)),
     `execution_payload_block_hash` Nullable(FixedString(66)) COMMENT 'The block hash of the execution payload',
     `execution_payload_block_number` Nullable(UInt32) COMMENT 'The block number of the execution payload',
     `execution_payload_fee_recipient` Nullable(String) COMMENT 'The recipient of the fee for this execution payload',

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T23:06:30Z",
+  "generated_at": "2026-11-06T13:33:21Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -820,6 +820,72 @@
           "name": "slashed",
           "type": "Bool",
           "description": "Whether the validator was slashed at this transition"
+        }
+      ]
+    },
+    {
+      "name": "dim_xatu_node",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "meta_client_name",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Maps every Xatu node name to a stable node: hashed names that rotate on beacon node restarts are chained into one node. Count uniqExact(stable_node_id) to count Xatu nodes",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "meta_client_name",
+          "type": "String",
+          "description": "Name of the Xatu node as reported, e.g. pub-asn-city/<user>/hashed-<id>. Join key for the by_node tables"
+        },
+        {
+          "name": "stable_node_id",
+          "type": "String",
+          "description": "The Xatu node this name belongs to: the meta_client_name of the first ID in its chain. Hashed IDs change when the beacon node\\'s p2p key changes (every restart on nimbus without --netkey-file). IDs with the same username and consensus client chain when one starts in or after the hour the previous one was last seen. IDs active at the same time stay separate. Named IDs map to themselves"
+        },
+        {
+          "name": "username",
+          "type": "String",
+          "description": "Contributor username of the Xatu node"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the Xatu node at its latest observation"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime",
+          "description": "Start of the first hour this name reported a block"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime",
+          "description": "Start of the latest hour this name reported a block"
         }
       ]
     },
@@ -2771,6 +2837,138 @@
           "name": "penalized_epoch_count",
           "type": "UInt32",
           "description": "Epochs with any negative component"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_by_block_root",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Head votes per slot and voted block root, preferring finalized canonical attestations and falling back to real-time head data for slots not yet finalized",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot the attestations were for"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root the validators voted for as head, which can be a block from an earlier slot"
+        },
+        {
+          "name": "vote_count",
+          "type": "UInt32",
+          "description": "The number of validators that voted for this block root as head in this slot"
+        }
+      ]
+    },
+    {
+      "name": "fct_attestation_vote_by_block_root_head",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Head votes per slot and voted block root, from real-time gossip and beacon API attestations of the unfinalized chain",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot the attestations were for"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The beacon block root the validators voted for as head, which can be a block from an earlier slot"
+        },
+        {
+          "name": "vote_count",
+          "type": "UInt32",
+          "description": "The number of validators that voted for this block root as head in this slot"
         }
       ]
     },
@@ -6843,6 +7041,112 @@
       ]
     },
     {
+      "name": "fct_block_graffiti_head",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Graffiti of every block of the unfinalized chain with the consensus and execution clients it names, parsed as fct_block_graffiti does. Forks may put several block roots at one slot",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the block"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "String",
+          "description": "The root of the beacon block, one of possibly several at the slot on the unfinalized chain"
+        },
+        {
+          "name": "proposer_index",
+          "type": "UInt32",
+          "description": "The validator index of the block proposer"
+        },
+        {
+          "name": "graffiti_text",
+          "type": "String",
+          "description": "The block graffiti decoded as UTF-8 with trailing null bytes removed, from the sentries, or from cannon for blocks the sentries recorded before they kept graffiti"
+        },
+        {
+          "name": "graffiti_format",
+          "type": "LowCardinality(String)",
+          "description": "Which graffiti format identified the clients, as in fct_block_graffiti: codes_full, codes_long, codes_short, codes_min, version_string, rocketpool, none or empty"
+        },
+        {
+          "name": "consensus_client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client named by the graffiti, e.g. lighthouse, or unknown"
+        },
+        {
+          "name": "consensus_client_version",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client version from a version_string graffiti, empty when the graffiti carries none"
+        },
+        {
+          "name": "consensus_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client commit prefix carried by the graffiti, empty when the graffiti carries none"
+        },
+        {
+          "name": "execution_client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client named by the graffiti, e.g. geth, or unknown"
+        },
+        {
+          "name": "execution_client_commit",
+          "type": "LowCardinality(String)",
+          "description": "Execution client commit prefix carried by the graffiti, empty when the graffiti carries none"
+        },
+        {
+          "name": "entity",
+          "type": "LowCardinality(String)",
+          "description": "Staking entity of the proposer from dim_node, empty when the validator has none"
+        }
+      ]
+    },
+    {
       "name": "fct_block_head",
       "database": "cbt",
       "cbt_table": true,
@@ -9793,6 +10097,158 @@
       ]
     },
     {
+      "name": "fct_custody_probe_by_slot_age_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Data column custody probes per UTC day the probes ran, age of the probed slot and P2P peer client. Late age buckets show peers that stop custodying columns before retention ends",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day the probes ran"
+        },
+        {
+          "name": "slot_age_bucket",
+          "type": "LowCardinality(String)",
+          "description": "Age of the probed slot when the probe ran: 0-1d, 1-3d, 3-7d, 7-14d, 14-18d, or 18d+ (past the 4096-epoch retention of about 18.2 days)"
+        },
+        {
+          "name": "slot_age_min_days",
+          "type": "UInt8",
+          "description": "Start of the slot age bucket in days, for ordering the buckets"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the probed P2P peer, from its agent (erigon is caplin, unknown when the agent is empty)"
+        },
+        {
+          "name": "probe_count",
+          "type": "UInt64",
+          "description": "Number of column probes, one per column a probe asked for"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt64",
+          "description": "Column probes the peer answered with the column"
+        },
+        {
+          "name": "missing_count",
+          "type": "UInt64",
+          "description": "Column probes the peer answered without the column"
+        },
+        {
+          "name": "failure_count",
+          "type": "UInt64",
+          "description": "Column probes that failed"
+        }
+      ]
+    },
+    {
+      "name": "fct_custody_probe_by_slot_age_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Data column custody probes per hour the probes ran, age of the probed slot and P2P peer client. Late age buckets show peers that stop custodying columns before retention ends",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The hour the probes ran"
+        },
+        {
+          "name": "slot_age_bucket",
+          "type": "LowCardinality(String)",
+          "description": "Age of the probed slot when the probe ran: 0-1d, 1-3d, 3-7d, 7-14d, 14-18d, or 18d+ (past the 4096-epoch retention of about 18.2 days)"
+        },
+        {
+          "name": "slot_age_min_days",
+          "type": "UInt8",
+          "description": "Start of the slot age bucket in days, for ordering the buckets"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the probed P2P peer, from its agent (erigon is caplin, unknown when the agent is empty)"
+        },
+        {
+          "name": "probe_count",
+          "type": "UInt64",
+          "description": "Number of column probes, one per column a probe asked for"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt64",
+          "description": "Column probes the peer answered with the column"
+        },
+        {
+          "name": "missing_count",
+          "type": "UInt64",
+          "description": "Column probes the peer answered without the column"
+        },
+        {
+          "name": "failure_count",
+          "type": "UInt64",
+          "description": "Column probes that failed"
+        }
+      ]
+    },
+    {
       "name": "fct_data_column_availability_by_epoch",
       "database": "cbt",
       "cbt_table": true,
@@ -9817,7 +10273,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by epoch and column index, rolled up from fct_data_column_availability_by_slot: almost all observations are gossipsub sightings, which always count as a success",
+      "description": "Custody probe results by epoch and column index, rolled up from fct_data_column_availability_by_slot. Only custody probes count. The last 19 days are recounted every hour",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -9943,7 +10399,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by slot and column index, from custody probe results and gossipsub data column sidecar sightings. A gossipsub sighting always counts as a success. A custody probe only counts if it was recorded before the slot was processed, and probes usually arrive hours later, so almost all rows are gossipsub sightings",
+      "description": "Custody probe results by slot and column index. Only custody probes count towards success, failure, missing and availability. Gossipsub sightings are counted separately in gossipsub_count. Probes keep arriving for about 18 days after a slot, so the last 19 days are recounted every hour",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -9975,22 +10431,22 @@
         {
           "name": "wallclock_request_slot",
           "type": "UInt32",
-          "description": "The wallclock slot when the request was sent"
+          "description": "The slot the probes tested, the same as slot"
         },
         {
           "name": "wallclock_request_slot_start_date_time",
           "type": "DateTime",
-          "description": "The start time for the slot when the request was sent"
+          "description": "The start time of the slot the probes tested, the same as slot_start_date_time"
         },
         {
           "name": "wallclock_request_epoch",
           "type": "UInt32",
-          "description": "The wallclock epoch when the request was sent"
+          "description": "The epoch of the slot the probes tested, the same as epoch"
         },
         {
           "name": "wallclock_request_epoch_start_date_time",
           "type": "DateTime",
-          "description": "The start time for the wallclock epoch when the request was sent"
+          "description": "The start time of the epoch the probes tested, the same as epoch_start_date_time"
         },
         {
           "name": "column_index",
@@ -10000,42 +10456,42 @@
         {
           "name": "beacon_block_root",
           "type": "Nullable(FixedString(66))",
-          "description": "Beacon block root for this slot (from earliest observation, handles reorgs, NULL if unavailable)"
+          "description": "Beacon block root from the earliest gossipsub sighting of the column, NULL when it was not gossiped"
         },
         {
           "name": "beacon_block_root_variants",
           "type": "UInt8",
-          "description": "Number of unique block roots observed (>1 indicates reorg/fork)"
+          "description": "Number of block roots in the gossipsub sightings (more than 1 means a fork), 0 when not gossiped"
         },
         {
           "name": "blob_count",
           "type": "UInt16",
-          "description": "Number of blobs in the slot (max column_rows_count)"
+          "description": "Number of blobs in the slot, from the probes and the gossipsub sightings"
         },
         {
           "name": "success_count",
           "type": "UInt32",
-          "description": "Count of successful probes"
+          "description": "Number of custody probes that returned the column"
         },
         {
           "name": "failure_count",
           "type": "UInt32",
-          "description": "Count of failed probes (result = failure)"
+          "description": "Number of custody probes that failed (result = failure)"
         },
         {
           "name": "missing_count",
           "type": "UInt32",
-          "description": "Count of missing probes (result = missing)"
+          "description": "Number of custody probes the peer answered without the column (result = missing)"
         },
         {
           "name": "probe_count",
           "type": "UInt32",
-          "description": "Total count of probes"
+          "description": "Number of custody probes of the column for this slot"
         },
         {
           "name": "availability_pct",
           "type": "Float64",
-          "description": "Availability percentage (success / total * 100) rounded to 2 decimal places"
+          "description": "Share of custody probes that returned the column (success / probe_count * 100), rounded to 2 decimal places"
         },
         {
           "name": "min_response_time_ms",
@@ -10065,27 +10521,27 @@
         {
           "name": "unique_peer_count",
           "type": "UInt32",
-          "description": "Count of unique peers probed"
+          "description": "Number of distinct P2P peers probed"
         },
         {
           "name": "unique_client_count",
           "type": "UInt32",
-          "description": "Count of unique client names"
+          "description": "Number of distinct Xatu nodes that sent the probes"
         },
         {
           "name": "unique_implementation_count",
           "type": "UInt32",
-          "description": "Count of unique client implementations"
+          "description": "Number of distinct client implementations that sent the probes"
         },
         {
           "name": "custody_probe_count",
           "type": "UInt32",
-          "description": "Count of observations from active RPC custody probes"
+          "description": "Number of custody probes, the same as probe_count"
         },
         {
           "name": "gossipsub_count",
           "type": "UInt32",
-          "description": "Count of observations from passive gossipsub propagation"
+          "description": "Number of gossipsub sightings of the column, which do not count towards availability"
         }
       ]
     },
@@ -10114,7 +10570,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by slot and column index, repeated once per blob index of the slot. Probes and sightings are per column, so every blob of a slot carries the same counts. Sources as fct_data_column_availability_by_slot: almost all rows are gossipsub sightings, which always count as a success",
+      "description": "Custody probe results by slot and column index, repeated once per blob index of the slot. Probes are per column, so every blob of a slot carries the same counts. Recounted every 6 hours over the last 19 days",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -10270,7 +10726,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by UTC day and column index, rolled up from fct_data_column_availability_by_epoch through its hours like fct_data_column_availability_hourly: almost all observations are gossipsub sightings, which always count as a success",
+      "description": "Custody probe results by UTC day and column index, rolled up from fct_data_column_availability_hourly. Only custody probes count. The last 19 days are recounted every hour",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -10386,7 +10842,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Data column availability by hour and column index, rolled up from fct_data_column_availability_by_epoch: almost all observations are gossipsub sightings, which always count as a success",
+      "description": "Custody probe results by hour and column index, rolled up from fct_data_column_availability_by_epoch. Only custody probes count. The last 19 days are recounted every hour",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -13311,6 +13767,1139 @@
       ]
     },
     {
+      "name": "fct_engine_new_payload_duration_histogram_by_version_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per UTC day, node class, execution client, execution client version and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)"
+        },
+        {
+          "name": "bucket_index",
+          "type": "UInt16",
+          "description": "Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last"
+        },
+        {
+          "name": "bucket_lower_ms",
+          "type": "UInt32",
+          "description": "Lower bound of the bucket in milliseconds, inclusive"
+        },
+        {
+          "name": "bucket_upper_ms",
+          "type": "UInt32",
+          "description": "Upper bound of the bucket in milliseconds, exclusive"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_newPayload calls whose duration falls in the bucket"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_duration_histogram_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per UTC day, node class, execution client and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)"
+        },
+        {
+          "name": "bucket_index",
+          "type": "UInt16",
+          "description": "Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last"
+        },
+        {
+          "name": "bucket_lower_ms",
+          "type": "UInt32",
+          "description": "Lower bound of the bucket in milliseconds, inclusive"
+        },
+        {
+          "name": "bucket_upper_ms",
+          "type": "UInt32",
+          "description": "Upper bound of the bucket in milliseconds, exclusive"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_newPayload calls whose duration falls in the bucket"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_duration_histogram_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload duration histogram with log-scaled buckets, 1ms wide below 25ms and about 4% wide above, per hour, node class, execution client and status, from int_engine_new_payload. Summed over any range it gives the range percentiles within one bucket",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification (eip7870-block-builder for reference nodes, empty for other Xatu nodes)"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)"
+        },
+        {
+          "name": "bucket_index",
+          "type": "UInt16",
+          "description": "Duration bucket: 0 to 24 are 1ms wide, from 25 each bucket is about 4% wider than the last"
+        },
+        {
+          "name": "bucket_lower_ms",
+          "type": "UInt32",
+          "description": "Lower bound of the bucket in milliseconds, inclusive"
+        },
+        {
+          "name": "bucket_upper_ms",
+          "type": "UInt32",
+          "description": "Upper bound of the bucket in milliseconds, exclusive"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt32",
+          "description": "Number of engine_newPayload calls whose duration falls in the bucket"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_duration_percentile_window",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "window_grain",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload duration P50 and P95 per window (1 hour to all history, aligned like Lab ranges), node class (or all Xatu nodes), execution client, build line and version (empty for all), and status, recomputed hourly",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "window_grain",
+          "type": "LowCardinality(String)",
+          "description": "hour for windows ending at the last complete hour, day for windows of complete UTC days ending yesterday"
+        },
+        {
+          "name": "window_length",
+          "type": "UInt16",
+          "description": "Window length in hours (1, 6, 24, 168 or 744) or days (7, 14, 30, 60, 90, 180 or 365), 0 for all history"
+        },
+        {
+          "name": "window_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the window, inclusive"
+        },
+        {
+          "name": "window_end_date_time",
+          "type": "DateTime",
+          "description": "End of the window, exclusive"
+        },
+        {
+          "name": "node_class",
+          "type": "LowCardinality(String)",
+          "description": "Node classification: eip7870-block-builder for reference nodes, empty for other Xatu nodes, all for every Xatu node together"
+        },
+        {
+          "name": "meta_execution_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client implementation name (e.g., Geth, Nethermind, Besu, Reth)"
+        },
+        {
+          "name": "meta_execution_build_line",
+          "type": "LowCardinality(String)",
+          "description": "Build line: the version without its trailing commit hash (e.g., 1.17.11-unstable), empty for all versions of the client together"
+        },
+        {
+          "name": "meta_execution_version",
+          "type": "LowCardinality(String)",
+          "description": "Full execution client version string from web3_clientVersion RPC, empty for all builds of the build line together"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "Engine API response status (VALID, INVALID, SYNCING, ACCEPTED, INVALID_BLOCK_HASH, ERROR)"
+        },
+        {
+          "name": "observation_count",
+          "type": "UInt64",
+          "description": "Number of engine_newPayload calls in the window, 0 for a key that left the window"
+        },
+        {
+          "name": "p50_duration_ms",
+          "type": "Float32",
+          "description": "Median engine_newPayload duration in milliseconds over the window, interpolated inside its log-scaled bucket (about 4% wide)"
+        },
+        {
+          "name": "p95_duration_ms",
+          "type": "Float32",
+          "description": "95th percentile engine_newPayload duration in milliseconds over the window, interpolated inside its log-scaled bucket (about 4% wide)"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_gas_bucket_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload timings of VALID payloads per UTC day, node scope, execution client and 5 Mgas block size bucket, as counts and sums from which a least-squares cost model and throughput can be computed exactly over any range",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "gas_bucket_mgas",
+          "type": "UInt16",
+          "description": "Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "gas_mgas_sq_sum",
+          "type": "Float64",
+          "description": "Sum of squared block gas used in Mgas"
+        },
+        {
+          "name": "avg_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared median duration"
+        },
+        {
+          "name": "gas_p50_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the median duration"
+        },
+        {
+          "name": "p95_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p95_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared 95th percentile duration"
+        },
+        {
+          "name": "gas_p95_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the 95th percentile duration"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_gas_bucket_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload timings of VALID payloads per hour, node scope, execution client and 5 Mgas block size bucket, as counts and sums from which a least-squares cost model and throughput can be computed exactly over any range",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "gas_bucket_mgas",
+          "type": "UInt16",
+          "description": "Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "gas_mgas_sq_sum",
+          "type": "Float64",
+          "description": "Sum of squared block gas used in Mgas"
+        },
+        {
+          "name": "avg_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared median duration"
+        },
+        {
+          "name": "gas_p50_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the median duration"
+        },
+        {
+          "name": "p95_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p95_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared 95th percentile duration"
+        },
+        {
+          "name": "gas_p95_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the 95th percentile duration"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_gas_bucket_window",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "window_grain",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload cost-model sums per 5 Mgas block size bucket summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_gas_bucket_hourly and _daily",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "window_grain",
+          "type": "LowCardinality(String)",
+          "description": "hour for windows of hours, day for all history in complete UTC days ending yesterday"
+        },
+        {
+          "name": "window_length",
+          "type": "UInt16",
+          "description": "Window length in hours (24, 168 or 744), 0 for all history"
+        },
+        {
+          "name": "window_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the window, inclusive"
+        },
+        {
+          "name": "window_end_date_time",
+          "type": "DateTime",
+          "description": "End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "gas_bucket_mgas",
+          "type": "UInt16",
+          "description": "Block size bucket, the lower bound in Mgas of a 5 Mgas wide bucket"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "gas_mgas_sq_sum",
+          "type": "Float64",
+          "description": "Sum of squared block gas used in Mgas"
+        },
+        {
+          "name": "avg_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the mean engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p50_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared median duration"
+        },
+        {
+          "name": "gas_p50_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the median duration"
+        },
+        {
+          "name": "p95_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the 95th percentile engine_newPayload duration across Xatu nodes, in milliseconds"
+        },
+        {
+          "name": "p95_ms_sq_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the squared 95th percentile duration"
+        },
+        {
+          "name": "gas_p95_product_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of Mgas times the 95th percentile duration"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_resource_share_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload throughput of VALID payloads of at least 10 Mgas per UTC day, node scope, execution client, gas resource and fixed 10% bucket of the share of block resource gas that resource took",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "resource",
+          "type": "LowCardinality(String)",
+          "description": "Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size"
+        },
+        {
+          "name": "share_bucket_pct",
+          "type": "UInt8",
+          "description": "Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 10 Mgas in the bucket"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_resource_share_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload throughput of VALID payloads of at least 10 Mgas per hour, node scope, execution client, gas resource and fixed 10% bucket of the share of block resource gas that resource took",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "resource",
+          "type": "LowCardinality(String)",
+          "description": "Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size"
+        },
+        {
+          "name": "share_bucket_pct",
+          "type": "UInt8",
+          "description": "Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 10 Mgas in the bucket"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_resource_share_window",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "window_grain",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload throughput sums per gas resource and 10% resource share bucket summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_resource_share_hourly and _daily",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "window_grain",
+          "type": "LowCardinality(String)",
+          "description": "hour for windows of hours, day for all history in complete UTC days ending yesterday"
+        },
+        {
+          "name": "window_length",
+          "type": "UInt16",
+          "description": "Window length in hours (24, 168 or 744), 0 for all history"
+        },
+        {
+          "name": "window_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the window, inclusive"
+        },
+        {
+          "name": "window_end_date_time",
+          "type": "DateTime",
+          "description": "End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "resource",
+          "type": "LowCardinality(String)",
+          "description": "Gas resource: compute, memory, address_access, state_growth, history, bloom_topics or block_size"
+        },
+        {
+          "name": "share_bucket_pct",
+          "type": "UInt8",
+          "description": "Share of the block resource gas this resource took, the lower bound of a 10 percentage point bucket (0 to 90)"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 10 Mgas in the bucket"
+        },
+        {
+          "name": "gas_mgas_sum",
+          "type": "Float64",
+          "description": "Sum of block gas used in Mgas"
+        },
+        {
+          "name": "p50_ms_sum",
+          "type": "Float64",
+          "description": "Sum over blocks of the median engine_newPayload duration across Xatu nodes, in milliseconds. gas_mgas_sum over p50_ms_sum times 1000 is the throughput in Mgas/s"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_throughput_histogram_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Per-block engine_newPayload throughput histogram (Mgas/s, buckets about 4% wide) of VALID payloads of at least 5 Mgas per UTC day, node scope and execution client",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "bucket_index",
+          "type": "Int16",
+          "description": "Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s"
+        },
+        {
+          "name": "bucket_lower_mgas_per_second",
+          "type": "Float32",
+          "description": "Lower bound of the bucket in Mgas/s, inclusive"
+        },
+        {
+          "name": "bucket_upper_mgas_per_second",
+          "type": "Float32",
+          "description": "Upper bound of the bucket in Mgas/s, exclusive"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 5 Mgas whose throughput falls in the bucket"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_throughput_histogram_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Per-block engine_newPayload throughput histogram (Mgas/s, buckets about 4% wide) of VALID payloads of at least 5 Mgas per hour, node scope and execution client",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "bucket_index",
+          "type": "Int16",
+          "description": "Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s"
+        },
+        {
+          "name": "bucket_lower_mgas_per_second",
+          "type": "Float32",
+          "description": "Lower bound of the bucket in Mgas/s, inclusive"
+        },
+        {
+          "name": "bucket_upper_mgas_per_second",
+          "type": "Float32",
+          "description": "Upper bound of the bucket in Mgas/s, exclusive"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 5 Mgas whose throughput falls in the bucket"
+        }
+      ]
+    },
+    {
+      "name": "fct_engine_new_payload_throughput_histogram_window",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "window_grain",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "engine_newPayload per-block throughput histogram buckets summed over the last 24, 168 and 744 hours and all history, recomputed hourly from fct_engine_new_payload_throughput_histogram_hourly and _daily",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "window_grain",
+          "type": "LowCardinality(String)",
+          "description": "hour for windows of hours, day for all history in complete UTC days ending yesterday"
+        },
+        {
+          "name": "window_length",
+          "type": "UInt16",
+          "description": "Window length in hours (24, 168 or 744), 0 for all history"
+        },
+        {
+          "name": "window_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the window, inclusive"
+        },
+        {
+          "name": "window_end_date_time",
+          "type": "DateTime",
+          "description": "End of the window, exclusive. Hour windows end at the last complete hour, or for resource share at the last hour its hourly table has counted"
+        },
+        {
+          "name": "node_scope",
+          "type": "LowCardinality(String)",
+          "description": "Which Xatu nodes the timings come from: reference for reference nodes (node_class eip7870-block-builder), all for every Xatu node"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client, lowercased, with go-ethereum as geth"
+        },
+        {
+          "name": "bucket_index",
+          "type": "Int32",
+          "description": "Throughput bucket k, covering 1.04^k to 1.04^(k+1) Mgas/s"
+        },
+        {
+          "name": "bucket_lower_mgas_per_second",
+          "type": "Float32",
+          "description": "Lower bound of the bucket in Mgas/s, inclusive"
+        },
+        {
+          "name": "bucket_upper_mgas_per_second",
+          "type": "Float32",
+          "description": "Upper bound of the bucket in Mgas/s, exclusive"
+        },
+        {
+          "name": "block_count",
+          "type": "UInt32",
+          "description": "Number of blocks of at least 5 Mgas whose throughput falls in the bucket"
+        }
+      ]
+    },
+    {
       "name": "fct_engine_new_payload_winrate_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -16051,6 +17640,128 @@
           "name": "meta_consensus_implementation",
           "type": "LowCardinality(String)",
           "description": "Ethereum consensus client implementation"
+        }
+      ]
+    },
+    {
+      "name": "fct_node_count_by_cl_client_version_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Xatu nodes per day, consensus client and consensus client version, from the heads each node saw",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "The UTC day"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "The consensus client the Xatu nodes ran"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "The consensus client version the Xatu nodes reported, as the client reports it"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "The number of distinct Xatu nodes whose last reported version that day was this one"
+        }
+      ]
+    },
+    {
+      "name": "fct_node_count_by_cl_client_version_window",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "window_name",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Distinct Xatu nodes per consensus client and version over the last 30, 90 and 365 complete UTC days and all history, recomputed hourly",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "window_name",
+          "type": "LowCardinality(String)",
+          "description": "The window: 30d, 90d or 1y for the last 30, 90 or 365 complete UTC days, or all for all history"
+        },
+        {
+          "name": "window_start_date",
+          "type": "Date",
+          "description": "The first UTC day in the window"
+        },
+        {
+          "name": "window_end_date",
+          "type": "Date",
+          "description": "The last UTC day in the window, the last complete day"
+        },
+        {
+          "name": "meta_consensus_implementation",
+          "type": "LowCardinality(String)",
+          "description": "The consensus client the Xatu nodes ran"
+        },
+        {
+          "name": "meta_consensus_version",
+          "type": "LowCardinality(String)",
+          "description": "The consensus client version the Xatu nodes reported, as the client reports it"
+        },
+        {
+          "name": "node_count",
+          "type": "UInt32",
+          "description": "The number of distinct Xatu nodes that reported this version on any day of the window, 0 when none did"
         }
       ]
     },
@@ -19121,6 +20832,117 @@
           "name": "created_date_time",
           "type": "DateTime",
           "description": "Wall clock time the backing minipool was created or the megapool deposit was made"
+        }
+      ]
+    },
+    {
+      "name": "fct_slot_summary",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per slot from fct_block_proposer: proposed, missed or orphaned, the proposer and entity, the block number, gas, transactions, blobs and the proposer clients from the graffiti. MEV relays, builder and value are in int_block_mev_canonical",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "status",
+          "type": "LowCardinality(String)",
+          "description": "canonical when the block is on the finalized chain, missed when no block was proposed, orphaned when the head saw a block the chain did not keep (before the head data starts an orphaned slot shows as missed)"
+        },
+        {
+          "name": "block_root",
+          "type": "Nullable(String)",
+          "description": "The beacon block root, NULL for a missed slot"
+        },
+        {
+          "name": "proposer_validator_index",
+          "type": "UInt32",
+          "description": "The validator index of the proposer"
+        },
+        {
+          "name": "entity",
+          "type": "Nullable(String)",
+          "description": "The staking entity of the proposer, from its current dim_node mapping, NULL when unknown"
+        },
+        {
+          "name": "block_number",
+          "type": "Nullable(UInt32)",
+          "description": "The execution block number, NULL for a missed slot or a block without an execution payload"
+        },
+        {
+          "name": "gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Execution gas used by the block, NULL for a missed slot"
+        },
+        {
+          "name": "gas_limit",
+          "type": "Nullable(UInt64)",
+          "description": "Execution gas limit of the block, NULL for a missed slot"
+        },
+        {
+          "name": "transaction_count",
+          "type": "Nullable(UInt32)",
+          "description": "Number of transactions in the block, NULL for a missed slot"
+        },
+        {
+          "name": "blob_count",
+          "type": "Nullable(UInt32)",
+          "description": "Number of blobs in the block, NULL for a missed or orphaned slot"
+        },
+        {
+          "name": "consensus_client",
+          "type": "Nullable(String)",
+          "description": "Consensus client of the proposer, parsed from the block graffiti (unknown when the graffiti does not say), NULL for a missed or orphaned slot"
+        },
+        {
+          "name": "execution_client",
+          "type": "Nullable(String)",
+          "description": "Execution client of the proposer, parsed from the block graffiti (unknown when the graffiti does not say), NULL for a missed or orphaned slot"
         }
       ]
     },
@@ -22716,6 +24538,62 @@
       ]
     },
     {
+      "name": "int_block_call_type_gas",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "block_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Internal calls per call type in a block, every call frame except the transaction root frames",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "call_type",
+          "type": "LowCardinality(String)",
+          "description": "The call opcode (CALL, DELEGATECALL, STATICCALL, CALLCODE, CREATE, CREATE2)"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "Number of internal call frames of this type in the block"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "Gas used by those frames themselves, excluding their child frames"
+        }
+      ]
+    },
+    {
       "name": "int_block_canonical",
       "database": "cbt",
       "cbt_table": true,
@@ -22878,6 +24756,72 @@
           "name": "execution_payload_transactions_total_bytes_compressed",
           "type": "Nullable(UInt32)",
           "description": "The transaction total bytes of the execution payload when compressed using snappy"
+        }
+      ]
+    },
+    {
+      "name": "int_block_contract_gas",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "block_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gas each contract used in a block, summed over every call frame that targeted it, root frames included. Contracts that used no gas are left out",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "target_address",
+          "type": "String",
+          "description": "The contract address (hex encoded with 0x prefix)"
+        },
+        {
+          "name": "call_types",
+          "type": "Array(LowCardinality(String))",
+          "description": "The call types used to call the contract in the block, a transaction calling it directly counts as CALL"
+        },
+        {
+          "name": "first_transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The first transaction in the block that called the contract"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "Number of call frames that targeted the contract in the block"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "Gas used by those frames themselves, excluding their child frames"
         }
       ]
     },
@@ -23176,6 +25120,102 @@
           "name": "error_count",
           "type": "UInt64",
           "description": "Number of times this opcode resulted in an error across all transactions"
+        },
+        {
+          "name": "meta_network_name",
+          "type": "LowCardinality(String)",
+          "description": "The name of the network"
+        }
+      ]
+    },
+    {
+      "name": "int_block_opcode_resource_gas",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "block_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Per-opcode resource gas per block, summed over every transaction and call frame in the block",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "opcode",
+          "type": "LowCardinality(String)",
+          "description": "The EVM opcode name (e.g., SLOAD, ADD, CALL)"
+        },
+        {
+          "name": "count",
+          "type": "UInt64",
+          "description": "Number of times this opcode was executed in the block"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "Total gas consumed by this opcode in the block"
+        },
+        {
+          "name": "gas_compute",
+          "type": "UInt64",
+          "description": "Gas attributed to pure computation"
+        },
+        {
+          "name": "gas_memory",
+          "type": "UInt64",
+          "description": "Gas attributed to memory expansion"
+        },
+        {
+          "name": "gas_address_access",
+          "type": "UInt64",
+          "description": "Gas attributed to cold address and storage access (EIP-2929)"
+        },
+        {
+          "name": "gas_state_growth",
+          "type": "UInt64",
+          "description": "Gas attributed to state growth (new storage slots, contract creation)"
+        },
+        {
+          "name": "gas_history",
+          "type": "UInt64",
+          "description": "Gas attributed to history and log data storage"
+        },
+        {
+          "name": "gas_bloom_topics",
+          "type": "UInt64",
+          "description": "Gas attributed to bloom filter topic indexing"
+        },
+        {
+          "name": "gas_block_size",
+          "type": "UInt64",
+          "description": "Gas attributed to block size (always 0 at opcode level)"
         },
         {
           "name": "meta_network_name",
@@ -23520,6 +25560,168 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "The name of the network"
+        }
+      ]
+    },
+    {
+      "name": "int_block_transaction_contract_gas",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "block_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gas each contract used within each transaction of a block, the flows from transactions to contracts. Contracts that used no gas in the transaction are left out",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash (hex encoded with 0x prefix)"
+        },
+        {
+          "name": "target_address",
+          "type": "String",
+          "description": "The contract address (hex encoded with 0x prefix)"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt32",
+          "description": "Position of the transaction within the block"
+        },
+        {
+          "name": "call_count",
+          "type": "UInt32",
+          "description": "Number of call frames in the transaction that targeted the contract"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "Gas used by those frames themselves, excluding their child frames"
+        }
+      ]
+    },
+    {
+      "name": "int_block_transaction_summary",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "block_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per transaction in a block with its call tree summarised: receipt and intrinsic gas from the root frame, and the frame count, deepest call and target from the whole tree",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt64",
+          "description": "The block number"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash (hex encoded with 0x prefix)"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt32",
+          "description": "Position of the transaction within the block"
+        },
+        {
+          "name": "receipt_gas_used",
+          "type": "Nullable(UInt64)",
+          "description": "Gas used from the transaction receipt, the total gas the transaction used"
+        },
+        {
+          "name": "intrinsic_gas",
+          "type": "Nullable(UInt64)",
+          "description": "Intrinsic transaction cost (21000 plus calldata). Null for failed transactions"
+        },
+        {
+          "name": "gas_refund",
+          "type": "UInt64",
+          "description": "Gas refunded to the transaction, 0 for failed transactions"
+        },
+        {
+          "name": "evm_gas",
+          "type": "UInt64",
+          "description": "EVM execution gas of the whole call tree (the root frame cumulative gas)"
+        },
+        {
+          "name": "call_frame_count",
+          "type": "UInt32",
+          "description": "Number of call frames in the transaction, including the root frame"
+        },
+        {
+          "name": "max_depth",
+          "type": "UInt32",
+          "description": "Deepest call depth in the transaction (0 = root only)"
+        },
+        {
+          "name": "has_errors",
+          "type": "Bool",
+          "description": "Whether the root frame had an opcode that resulted in an error"
+        },
+        {
+          "name": "root_call_type",
+          "type": "LowCardinality(String)",
+          "description": "How the transaction started: CALL, CREATE, or the root frame call type"
+        },
+        {
+          "name": "target_address",
+          "type": "Nullable(String)",
+          "description": "The address the transaction called (hex encoded with 0x prefix), null for contract creation"
         }
       ]
     },
@@ -25176,6 +27378,87 @@
           "name": "meta_peer_geo_autonomous_system_organization",
           "type": "Nullable(String)",
           "description": "Autonomous system organization of the probed peer"
+        }
+      ]
+    },
+    {
+      "name": "int_data_column_gossip_by_slot",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Gossipsub data column sidecar sightings per slot and column, from libp2p sentries, counting only sidecars whose block root a beacon node accepted",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt64",
+          "description": "Data column index (0-127)"
+        },
+        {
+          "name": "beacon_block_root",
+          "type": "String",
+          "description": "Beacon block root of the earliest gossipsub sighting of the column"
+        },
+        {
+          "name": "beacon_block_root_variants",
+          "type": "UInt8",
+          "description": "Number of block roots in the sightings (more than 1 means a fork)"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt16",
+          "description": "Number of blobs in the slot, the most KZG commitments a sighting carried"
+        },
+        {
+          "name": "gossipsub_count",
+          "type": "UInt32",
+          "description": "Number of gossipsub sightings of the column whose block root a beacon node accepted"
         }
       ]
     },

@@ -19,4 +19,4 @@ CREATE TABLE hoodi.fct_data_column_availability_daily
     `max_blob_count` UInt16 COMMENT 'Maximum blob count observed in this day' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'hoodi', 'fct_data_column_availability_daily_local', cityHash64(date, column_index))
-COMMENT 'Data column availability by UTC day and column index, rolled up from fct_data_column_availability_by_epoch through its hours like fct_data_column_availability_hourly: almost all observations are gossipsub sightings, which always count as a success'
+COMMENT 'Custody probe results by UTC day and column index, rolled up from fct_data_column_availability_hourly. Only custody probes count. The last 19 days are recounted every hour'
