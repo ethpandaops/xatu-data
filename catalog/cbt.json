@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T21:19:52Z",
+  "generated_at": "2026-11-08T12:33:27Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -12,6 +12,67 @@
     "additional_info": "CBT tables are organized by network-specific databases. To query these tables, you must target the correct database for your network:\n- `mainnet.table_name` for Mainnet data\n- `sepolia.table_name` for Sepolia data\n- `holesky.table_name` for Holesky data\n- `hoodi.table_name` for Hoodi data\n\nUnlike other Xatu datasets, CBT tables do not use `meta_network_name` for filtering. The network is determined by the database you query.\n\nCBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixed with `fct_`), and intermediate tables (prefixed with `int_`)."
   },
   "tables": [
+    {
+      "name": "dim_asn",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "autonomous_system_number",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Autonomous systems our consensus peers were on, residential and hosting, with organisation, provider and network type as of the last day they had peers.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 when unknown"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation on the last day it had peers"
+        },
+        {
+          "name": "provider",
+          "type": "LowCardinality(String)",
+          "description": "Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix, empty when unknown"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs)"
+        },
+        {
+          "name": "last_seen_date",
+          "type": "Date",
+          "description": "Last day our consensus peers were on the autonomous system"
+        }
+      ]
+    },
     {
       "name": "dim_block_blob_submitter",
       "database": "cbt",
@@ -10001,6 +10062,102 @@
       ]
     },
     {
+      "name": "fct_custody_probe_by_asn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily data column custody probes by the probed peer autonomous system (its latest location in the day), residential and hosting. Residential autonomous systems with under 3 probed peers in the day roll into autonomous system 0 (other). Crawlers and probes are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 when unknown and for residential autonomous systems with under 3 probed peers in the day (other)"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 probed peers in the day"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers probed in the day"
+        },
+        {
+          "name": "probe_count",
+          "type": "UInt32",
+          "description": "Custody probes"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt32",
+          "description": "Probes the peer answered with the column"
+        },
+        {
+          "name": "missing_count",
+          "type": "UInt32",
+          "description": "Probes the peer answered without the column"
+        },
+        {
+          "name": "failure_count",
+          "type": "UInt32",
+          "description": "Probes that errored or timed out"
+        },
+        {
+          "name": "missing_peer_count",
+          "type": "UInt32",
+          "description": "Peers with at least one missing probe"
+        },
+        {
+          "name": "response_time_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median response time of successful probes in ms, NULL without any"
+        },
+        {
+          "name": "response_time_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile response time of successful probes in ms, NULL without any"
+        }
+      ]
+    },
+    {
       "name": "fct_custody_probe_by_client_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -10093,6 +10250,102 @@
           "name": "response_time_p90_ms",
           "type": "Nullable(Float64)",
           "description": "90th percentile response time of successful probes in ms"
+        }
+      ]
+    },
+    {
+      "name": "fct_custody_probe_by_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily data column custody probes by the probed peer country (its latest location in the day). Crawlers and probes are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers probed in the day"
+        },
+        {
+          "name": "probe_count",
+          "type": "UInt32",
+          "description": "Custody probes"
+        },
+        {
+          "name": "success_count",
+          "type": "UInt32",
+          "description": "Probes the peer answered with the column"
+        },
+        {
+          "name": "missing_count",
+          "type": "UInt32",
+          "description": "Probes the peer answered without the column"
+        },
+        {
+          "name": "failure_count",
+          "type": "UInt32",
+          "description": "Probes that errored or timed out"
+        },
+        {
+          "name": "missing_peer_count",
+          "type": "UInt32",
+          "description": "Peers with at least one missing probe"
+        },
+        {
+          "name": "response_time_p50_ms",
+          "type": "Nullable(Float64)",
+          "description": "Median response time of successful probes in ms, NULL without any"
+        },
+        {
+          "name": "response_time_p90_ms",
+          "type": "Nullable(Float64)",
+          "description": "90th percentile response time of successful probes in ms, NULL without any"
         }
       ]
     },
@@ -19387,6 +19640,540 @@
       ]
     },
     {
+      "name": "fct_peer_concentration_cl_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily concentration of consensus peers our libp2p sentries or our discovery crawler saw: countries and autonomous systems, the largest systems, the fewest countries and systems holding a third and half of the peers, and peers per continent. Shares are of peers with a known country or system. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
+        },
+        {
+          "name": "located_peer_count",
+          "type": "UInt32",
+          "description": "Peers with a known autonomous system, the population of hosting_peer_count"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "ipv6_peer_count",
+          "type": "UInt32",
+          "description": "Peers that advertise a global IPv6 address, in an identify listen address or their ENR record"
+        },
+        {
+          "name": "country_count",
+          "type": "UInt32",
+          "description": "Countries with peers"
+        },
+        {
+          "name": "third_country_count",
+          "type": "UInt32",
+          "description": "Fewest countries that hold a third of the peers with a known country"
+        },
+        {
+          "name": "half_country_count",
+          "type": "UInt32",
+          "description": "Fewest countries that hold half of the peers with a known country"
+        },
+        {
+          "name": "autonomous_system_count",
+          "type": "UInt32",
+          "description": "Autonomous systems with peers, counting each residential system folded into autonomous system 0 (other) on its own"
+        },
+        {
+          "name": "top_1_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the largest autonomous system"
+        },
+        {
+          "name": "top_5_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the 5 largest autonomous systems"
+        },
+        {
+          "name": "top_10_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the 10 largest autonomous systems"
+        },
+        {
+          "name": "third_asn_count",
+          "type": "UInt32",
+          "description": "Fewest autonomous systems that hold a third of the peers with a known autonomous system"
+        },
+        {
+          "name": "half_asn_count",
+          "type": "UInt32",
+          "description": "Fewest autonomous systems that hold half of the peers with a known autonomous system"
+        },
+        {
+          "name": "africa_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Africa (AF)"
+        },
+        {
+          "name": "antarctica_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Antarctica (AN)"
+        },
+        {
+          "name": "asia_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Asia (AS)"
+        },
+        {
+          "name": "europe_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Europe (EU)"
+        },
+        {
+          "name": "north_america_peer_count",
+          "type": "UInt32",
+          "description": "Peers in North America (NA)"
+        },
+        {
+          "name": "oceania_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Oceania (OC)"
+        },
+        {
+          "name": "south_america_peer_count",
+          "type": "UInt32",
+          "description": "Peers in South America (SA)"
+        },
+        {
+          "name": "unknown_continent_peer_count",
+          "type": "UInt32",
+          "description": "Peers not geolocated to a continent"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_concentration_el_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily concentration of execution nodes: countries and autonomous systems, the largest systems, the fewest countries and systems holding a third and half of the nodes, and nodes per continent. Shares are of nodes with a known country or system. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Execution nodes"
+        },
+        {
+          "name": "located_peer_count",
+          "type": "UInt32",
+          "description": "Peers with a known autonomous system, the population of hosting_peer_count"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "ipv6_peer_count",
+          "type": "UInt32",
+          "description": "Nodes whose record advertises an IPv6 address"
+        },
+        {
+          "name": "country_count",
+          "type": "UInt32",
+          "description": "Countries with peers"
+        },
+        {
+          "name": "third_country_count",
+          "type": "UInt32",
+          "description": "Fewest countries that hold a third of the peers with a known country"
+        },
+        {
+          "name": "half_country_count",
+          "type": "UInt32",
+          "description": "Fewest countries that hold half of the peers with a known country"
+        },
+        {
+          "name": "autonomous_system_count",
+          "type": "UInt32",
+          "description": "Autonomous systems with nodes, counting each residential system folded into autonomous system 0 (other) on its own"
+        },
+        {
+          "name": "top_1_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the largest autonomous system"
+        },
+        {
+          "name": "top_5_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the 5 largest autonomous systems"
+        },
+        {
+          "name": "top_10_asn_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the 10 largest autonomous systems"
+        },
+        {
+          "name": "third_asn_count",
+          "type": "UInt32",
+          "description": "Fewest autonomous systems that hold a third of the peers with a known autonomous system"
+        },
+        {
+          "name": "half_asn_count",
+          "type": "UInt32",
+          "description": "Fewest autonomous systems that hold half of the peers with a known autonomous system"
+        },
+        {
+          "name": "africa_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Africa (AF)"
+        },
+        {
+          "name": "antarctica_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Antarctica (AN)"
+        },
+        {
+          "name": "asia_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Asia (AS)"
+        },
+        {
+          "name": "europe_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Europe (EU)"
+        },
+        {
+          "name": "north_america_peer_count",
+          "type": "UInt32",
+          "description": "Peers in North America (NA)"
+        },
+        {
+          "name": "oceania_peer_count",
+          "type": "UInt32",
+          "description": "Peers in Oceania (OC)"
+        },
+        {
+          "name": "south_america_peer_count",
+          "type": "UInt32",
+          "description": "Peers in South America (SA)"
+        },
+        {
+          "name": "unknown_continent_peer_count",
+          "type": "UInt32",
+          "description": "Peers not geolocated to a continent"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_asn_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by autonomous system and country, residential and hosting, from our libp2p sentries and our discovery crawler, with reachability and custody counts. Not crossed with city or client. Residential (network type other or unknown) autonomous system and country cells under 3 peers roll into autonomous system 0 (other) within the country. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 for unknown and for residential autonomous systems with under 3 peers in the country"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 peers in the country"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
+        },
+        {
+          "name": "sentry_peer_count",
+          "type": "UInt32",
+          "description": "Peers our libp2p sentries were connected to"
+        },
+        {
+          "name": "enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers our discovery crawler dialled from their ENR"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "inbound_only_peer_count",
+          "type": "UInt32",
+          "description": "Peers that only connected to our sentries and were never dialled"
+        },
+        {
+          "name": "quic_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC or advertising a QUIC listen address"
+        },
+        {
+          "name": "custody_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose custody group count is known from a metadata response or their ENR"
+        },
+        {
+          "name": "custody_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 4 or fewer groups (the minimum)"
+        },
+        {
+          "name": "custody_5_8_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 5 to 8 groups"
+        },
+        {
+          "name": "custody_9_127_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 9 to 127 groups"
+        },
+        {
+          "name": "custody_128_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying all 128 groups (supernodes)"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_asn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by autonomous system, residential and hosting, from our libp2p sentries and our discovery crawler, with reachability and custody counts. Residential autonomous systems under 3 peers in the day roll into autonomous system 0 (other), which keeps how many systems it holds. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 for unknown and for residential autonomous systems with under 3 peers in the day"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 peers in the day"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
+        },
+        {
+          "name": "sentry_peer_count",
+          "type": "UInt32",
+          "description": "Peers our libp2p sentries were connected to"
+        },
+        {
+          "name": "enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers our discovery crawler dialled from their ENR"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "inbound_only_peer_count",
+          "type": "UInt32",
+          "description": "Peers that only connected to our sentries and were never dialled"
+        },
+        {
+          "name": "quic_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC or advertising a QUIC listen address"
+        },
+        {
+          "name": "custody_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose custody group count is known from a metadata response or their ENR"
+        },
+        {
+          "name": "custody_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 4 or fewer groups (the minimum)"
+        },
+        {
+          "name": "custody_5_8_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 5 to 8 groups"
+        },
+        {
+          "name": "custody_9_127_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 9 to 127 groups"
+        },
+        {
+          "name": "custody_128_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying all 128 groups (supernodes)"
+        },
+        {
+          "name": "autonomous_system_count",
+          "type": "UInt32",
+          "description": "Autonomous systems in the row: 1, the number of residential systems folded into autonomous system 0 (other), each with 1 or 2 peers, or 0 for unknown"
+        }
+      ]
+    },
+    {
       "name": "fct_peer_count_by_cl_client_asn_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -19449,6 +20236,72 @@
           "name": "peer_count",
           "type": "UInt32",
           "description": "Peers"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_cl_client_city_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by country, city, network type and client, residential and hosting, from our libp2p sentries and our discovery crawler. Not crossed with autonomous system or version. Residential (network type other or unknown) city and client cells under 3 peers roll into city other within the country. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "city",
+          "type": "LowCardinality(String)",
+          "description": "City of the address, unknown when not geolocated to a city, other for residential city and client cells with under 3 peers"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
         }
       ]
     },
@@ -19659,7 +20512,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.",
+      "description": "Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery on the network genesis and its current fork. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -19711,6 +20564,188 @@
       ]
     },
     {
+      "name": "fct_peer_count_by_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by country, from our libp2p sentries and our discovery crawler, with reachability, hosting and custody counts. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
+        },
+        {
+          "name": "sentry_peer_count",
+          "type": "UInt32",
+          "description": "Peers our libp2p sentries were connected to"
+        },
+        {
+          "name": "enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers our discovery crawler dialled from their ENR"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "inbound_only_peer_count",
+          "type": "UInt32",
+          "description": "Peers that only connected to our sentries and were never dialled"
+        },
+        {
+          "name": "quic_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC or advertising a QUIC listen address"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "custody_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose custody group count is known from a metadata response or their ENR"
+        },
+        {
+          "name": "custody_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 4 or fewer groups (the minimum)"
+        },
+        {
+          "name": "custody_5_8_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 5 to 8 groups"
+        },
+        {
+          "name": "custody_9_127_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 9 to 127 groups"
+        },
+        {
+          "name": "custody_128_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying all 128 groups (supernodes)"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_el_asn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution nodes by autonomous system, all clients together. Residential autonomous systems under 3 nodes roll into autonomous system 0 (other), which keeps how many systems it holds. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address, 0 for unknown and for residential autonomous systems under 3 peers (other)"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems under 3 peers"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Execution nodes"
+        },
+        {
+          "name": "autonomous_system_count",
+          "type": "UInt32",
+          "description": "Autonomous systems in the row: 1, the number of residential systems folded into autonomous system 0 (other), each with 1 or 2 peers, or 0 for unknown"
+        }
+      ]
+    },
+    {
       "name": "fct_peer_count_by_el_client_asn_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -19735,7 +20770,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Autonomous systems under 3 nodes roll into an other bucket per network type.",
+      "description": "Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). Autonomous systems under 3 nodes roll into an other bucket per network type.",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -19801,7 +20836,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.",
+      "description": "Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -19867,7 +20902,7 @@
       },
       "tags": [],
       "excluded_columns": [],
-      "description": "Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
+      "description": "Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states",
       "engine": "ReplicatedReplacingMergeTree",
       "should_use_final": true,
       "columns": [
@@ -19900,6 +20935,188 @@
           "name": "peer_count",
           "type": "UInt32",
           "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_el_country_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution nodes by country, all clients together. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, unknown when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name, Unknown when not geolocated"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Execution nodes"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_count_by_source_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer totals by source: peers our libp2p sentries and our discovery crawler saw, and how many both saw, with reachability, hosting and custody counts. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Consensus peers our libp2p sentries or our discovery crawler saw in the day"
+        },
+        {
+          "name": "sentry_peer_count",
+          "type": "UInt32",
+          "description": "Peers our libp2p sentries were connected to"
+        },
+        {
+          "name": "enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers our discovery crawler dialled from their ENR"
+        },
+        {
+          "name": "sentry_and_enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers both sources saw"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "inbound_only_peer_count",
+          "type": "UInt32",
+          "description": "Peers that only connected to our sentries and were never dialled"
+        },
+        {
+          "name": "quic_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC or advertising a QUIC listen address"
+        },
+        {
+          "name": "ipv6_peer_count",
+          "type": "UInt32",
+          "description": "Peers that advertise a global IPv6 address, in an identify listen address or their ENR record"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "located_peer_count",
+          "type": "UInt32",
+          "description": "Peers with a known autonomous system, the population of hosting_peer_count"
+        },
+        {
+          "name": "custody_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose custody group count is known from a metadata response or their ENR"
+        },
+        {
+          "name": "custody_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 4 or fewer groups (the minimum)"
+        },
+        {
+          "name": "custody_5_8_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 5 to 8 groups"
+        },
+        {
+          "name": "custody_9_127_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying 9 to 127 groups"
+        },
+        {
+          "name": "custody_128_peer_count",
+          "type": "UInt32",
+          "description": "Peers custodying all 128 groups (supernodes)"
         }
       ]
     },
@@ -20042,6 +21259,72 @@
           "name": "node_count",
           "type": "UInt32",
           "description": "Nodes"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_hosting_by_el_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily execution nodes by client, without versions, with hosting and IPv6 counts. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Execution client from the node devp2p name: geth, nethermind, besu, erigon, reth, ethrex, nimbusel, ethereumjs or trin-execution, other for every other name"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Execution nodes"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "located_peer_count",
+          "type": "UInt32",
+          "description": "Peers with a known autonomous system, the population of hosting_peer_count"
+        },
+        {
+          "name": "ipv6_peer_count",
+          "type": "UInt32",
+          "description": "Nodes whose record advertises an IPv6 address"
         }
       ]
     },
@@ -20260,6 +21543,193 @@
           "name": "client_peer_count",
           "type": "UInt32",
           "description": "All peers of the client in the day"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_reachability_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer reachability by client: peers our libp2p sentries dialled or that only connected in, QUIC, and ENR address mismatches.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw in the day"
+        },
+        {
+          "name": "dialled_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries dialled (outbound connections), so publicly reachable"
+        },
+        {
+          "name": "inbound_only_peer_count",
+          "type": "UInt32",
+          "description": "Peers that only connected to our sentries and were never dialled"
+        },
+        {
+          "name": "quic_connected_peer_count",
+          "type": "UInt32",
+          "description": "Peers connected to over QUIC"
+        },
+        {
+          "name": "quic_listen_peer_count",
+          "type": "UInt32",
+          "description": "Peers advertising a QUIC listen address in identify"
+        },
+        {
+          "name": "enr_peer_count",
+          "type": "UInt32",
+          "description": "Peers our discovery crawler also dialled from their ENR"
+        },
+        {
+          "name": "enr_ip_mismatch_peer_count",
+          "type": "UInt32",
+          "description": "Of those, peers whose ENR advertises another address than the one our sentries connected to"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_sync_status_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer sync status by client, from status exchanges with our libp2p sentries: head and finalized lag against the sentry, fork digest, and block history served (earliest available slot).",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw in the day"
+        },
+        {
+          "name": "status_peer_count",
+          "type": "UInt32",
+          "description": "Peers that exchanged status with our sentries, the population of the head, finalized and fork digest buckets"
+        },
+        {
+          "name": "head_lag_0_1_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose head trailed our sentries by at most 1 slot (median over the day)"
+        },
+        {
+          "name": "head_lag_2_32_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose head trailed our sentries by 2 to 32 slots"
+        },
+        {
+          "name": "head_lag_over_32_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose head trailed our sentries by more than 32 slots (syncing or stuck)"
+        },
+        {
+          "name": "finalized_lag_over_1_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose finalized checkpoint trailed our sentries by more than 1 epoch (median over the day)"
+        },
+        {
+          "name": "other_fork_digest_peer_count",
+          "type": "UInt32",
+          "description": "Peers whose latest status carried another fork digest than the most common one among all peers that day"
+        },
+        {
+          "name": "history_known_peer_count",
+          "type": "UInt32",
+          "description": "Peers that sent an earliest available slot (status v2), the population of the history buckets"
+        },
+        {
+          "name": "history_full_peer_count",
+          "type": "UInt32",
+          "description": "Peers serving blocks from genesis (earliest available slot 0)"
+        },
+        {
+          "name": "history_over_min_peer_count",
+          "type": "UInt32",
+          "description": "Peers serving more than a day beyond the spec minimum of 33024 epochs of blocks, short of genesis"
+        },
+        {
+          "name": "history_min_peer_count",
+          "type": "UInt32",
+          "description": "Peers serving the spec minimum of 33024 epochs of blocks, give or take a day"
+        },
+        {
+          "name": "history_under_min_peer_count",
+          "type": "UInt32",
+          "description": "Peers serving more than a day less than the spec minimum of 33024 epochs of blocks"
         }
       ]
     },
@@ -28205,6 +29675,378 @@
           "name": "storage_trienode_bytes",
           "type": "UInt64",
           "description": "Cumulative total bytes used by storage trie nodes"
+        }
+      ]
+    },
+    {
+      "name": "int_peer_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per consensus peer per day, from our libp2p sentries (heartbeats, identify, metadata and status exchanges) and the discovery crawler (ENRs). Sentry values win over ENR values. Crawlers, probes, light clients and our own sentries are excluded. Holds no addresses. Residential peers are country-only: city and autonomous system are kept for hosting peers only.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Hash of the peer ID and network, the key shared by the libp2p tables"
+        },
+        {
+          "name": "peer_id",
+          "type": "String",
+          "description": "libp2p peer ID, empty when the peer was only seen before peer IDs were recorded (April 2026)"
+        },
+        {
+          "name": "seen_by_sentry",
+          "type": "Bool",
+          "description": "Our libp2p sentries were connected to the peer in the day. False on both sources means the peer was dropped from the day on a recount"
+        },
+        {
+          "name": "seen_by_enr",
+          "type": "Bool",
+          "description": "Our discovery crawler dialled the peer from its ENR in the day"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent, else its ENR name (erigon reported as caplin), unknown when neither names one, other for unparseable names"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Version the agent states (semver with any pre-release suffix), empty when it states none"
+        },
+        {
+          "name": "agent_version",
+          "type": "String",
+          "description": "Version field of the agent as reported, for Caplin its platform field"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, empty when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, empty when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name of the address, empty when not geolocated"
+        },
+        {
+          "name": "city",
+          "type": "LowCardinality(String)",
+          "description": "City of the address for hosting peers, empty for residential peers (network_type other or unknown) and when not geolocated to a city"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address for hosting peers, 0 for residential peers and when unknown"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation of the address for hosting peers, empty for residential peers and when unknown"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "provider",
+          "type": "LowCardinality(String)",
+          "description": "Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix. Empty for residential peers and when unknown"
+        },
+        {
+          "name": "ipv6",
+          "type": "Bool",
+          "description": "The peer advertises a global IPv6 address, in an identify listen address or its ENR record, or we connected to it over IPv6"
+        },
+        {
+          "name": "dialled",
+          "type": "Bool",
+          "description": "Our sentries dialled the peer (an outbound connection), so it is publicly reachable"
+        },
+        {
+          "name": "inbound",
+          "type": "Bool",
+          "description": "The peer connected to our sentries (an inbound connection)"
+        },
+        {
+          "name": "quic_connected",
+          "type": "Bool",
+          "description": "Connected to over QUIC"
+        },
+        {
+          "name": "quic_listen",
+          "type": "Bool",
+          "description": "Advertises a QUIC listen address in identify"
+        },
+        {
+          "name": "enr_ip_mismatch",
+          "type": "Nullable(Bool)",
+          "description": "The address in the peer ENR differs from the one our sentries connected to, NULL unless both are known"
+        },
+        {
+          "name": "custody_group_count",
+          "type": "Nullable(UInt8)",
+          "description": "Custody group count from the peer metadata responses, else from its ENR, NULL when unknown"
+        },
+        {
+          "name": "latency_ms",
+          "type": "Nullable(UInt32)",
+          "description": "Median heartbeat latency to our sentries in ms, NULL without heartbeat latencies"
+        },
+        {
+          "name": "status_count",
+          "type": "UInt32",
+          "description": "Status exchanges with our sentries in the day"
+        },
+        {
+          "name": "fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest of the peer latest status, else of its ENR, empty when neither is known"
+        },
+        {
+          "name": "head_lag_slots",
+          "type": "Nullable(Int32)",
+          "description": "Median of the slots the peer head trailed the head of the sentry it exchanged status with, NULL without status exchanges"
+        },
+        {
+          "name": "finalized_lag_epochs",
+          "type": "Nullable(Int32)",
+          "description": "Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges"
+        },
+        {
+          "name": "earliest_available_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)"
+        },
+        {
+          "name": "served_history_slots",
+          "type": "Nullable(UInt32)",
+          "description": "Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)"
+        }
+      ]
+    },
+    {
+      "name": "int_peer_daily_order_by_peer_id",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "peer_id",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "int_peer_daily ordered by peer ID, for reading one peer across days. One row per consensus peer per day, from our libp2p sentries (heartbeats, identify, metadata and status exchanges) and the discovery crawler (ENRs). Holds no addresses. Residential peers are country-only: city and autonomous system are kept for hosting peers only.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Hash of the peer ID and network, the key shared by the libp2p tables"
+        },
+        {
+          "name": "peer_id",
+          "type": "String",
+          "description": "libp2p peer ID, empty when the peer was only seen before peer IDs were recorded (April 2026)"
+        },
+        {
+          "name": "seen_by_sentry",
+          "type": "Bool",
+          "description": "Our libp2p sentries were connected to the peer in the day. False on both sources means the peer was dropped from the day on a recount"
+        },
+        {
+          "name": "seen_by_enr",
+          "type": "Bool",
+          "description": "Our discovery crawler dialled the peer from its ENR in the day"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent, else its ENR name (erigon reported as caplin), unknown when neither names one, other for unparseable names"
+        },
+        {
+          "name": "version",
+          "type": "LowCardinality(String)",
+          "description": "Version the agent states (semver with any pre-release suffix), empty when it states none"
+        },
+        {
+          "name": "agent_version",
+          "type": "String",
+          "description": "Version field of the agent as reported, for Caplin its platform field"
+        },
+        {
+          "name": "continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the address, empty when not geolocated"
+        },
+        {
+          "name": "country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the address, empty when not geolocated"
+        },
+        {
+          "name": "country",
+          "type": "LowCardinality(String)",
+          "description": "Country name of the address, empty when not geolocated"
+        },
+        {
+          "name": "city",
+          "type": "LowCardinality(String)",
+          "description": "City of the address for hosting peers, empty for residential peers (network_type other or unknown) and when not geolocated to a city"
+        },
+        {
+          "name": "autonomous_system_number",
+          "type": "UInt32",
+          "description": "Autonomous system number of the address for hosting peers, 0 for residential peers and when unknown"
+        },
+        {
+          "name": "autonomous_system_organization",
+          "type": "LowCardinality(String)",
+          "description": "Autonomous system organisation of the address for hosting peers, empty for residential peers and when unknown"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated"
+        },
+        {
+          "name": "provider",
+          "type": "LowCardinality(String)",
+          "description": "Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix. Empty for residential peers and when unknown"
+        },
+        {
+          "name": "ipv6",
+          "type": "Bool",
+          "description": "The peer advertises a global IPv6 address, in an identify listen address or its ENR record, or we connected to it over IPv6"
+        },
+        {
+          "name": "dialled",
+          "type": "Bool",
+          "description": "Our sentries dialled the peer (an outbound connection), so it is publicly reachable"
+        },
+        {
+          "name": "inbound",
+          "type": "Bool",
+          "description": "The peer connected to our sentries (an inbound connection)"
+        },
+        {
+          "name": "quic_connected",
+          "type": "Bool",
+          "description": "Connected to over QUIC"
+        },
+        {
+          "name": "quic_listen",
+          "type": "Bool",
+          "description": "Advertises a QUIC listen address in identify"
+        },
+        {
+          "name": "enr_ip_mismatch",
+          "type": "Nullable(Bool)",
+          "description": "The address in the peer ENR differs from the one our sentries connected to, NULL unless both are known"
+        },
+        {
+          "name": "custody_group_count",
+          "type": "Nullable(UInt8)",
+          "description": "Custody group count from the peer metadata responses, else from its ENR, NULL when unknown"
+        },
+        {
+          "name": "latency_ms",
+          "type": "Nullable(UInt32)",
+          "description": "Median heartbeat latency to our sentries in ms, NULL without heartbeat latencies"
+        },
+        {
+          "name": "status_count",
+          "type": "UInt32",
+          "description": "Status exchanges with our sentries in the day"
+        },
+        {
+          "name": "fork_digest",
+          "type": "LowCardinality(String)",
+          "description": "Fork digest of the peer latest status, else of its ENR, empty when neither is known"
+        },
+        {
+          "name": "head_lag_slots",
+          "type": "Nullable(Int32)",
+          "description": "Median of the slots the peer head trailed the head of the sentry it exchanged status with, NULL without status exchanges"
+        },
+        {
+          "name": "finalized_lag_epochs",
+          "type": "Nullable(Int32)",
+          "description": "Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges"
+        },
+        {
+          "name": "earliest_available_slot",
+          "type": "Nullable(UInt32)",
+          "description": "Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)"
+        },
+        {
+          "name": "served_history_slots",
+          "type": "Nullable(UInt32)",
+          "description": "Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)"
         }
       ]
     },

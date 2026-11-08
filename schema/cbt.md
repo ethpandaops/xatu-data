@@ -18,6 +18,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 ## Tables
 
 <!-- schema_toc_start -->
+- [`dim_asn`](#dim_asn)
 - [`dim_block_blob_submitter`](#dim_block_blob_submitter)
 - [`dim_client_commit`](#dim_client_commit)
 - [`dim_client_release`](#dim_client_release)
@@ -131,7 +132,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_contract_storage_state_with_expiry_by_address_hourly`](#fct_contract_storage_state_with_expiry_by_address_hourly)
 - [`fct_contract_storage_state_with_expiry_by_block_daily`](#fct_contract_storage_state_with_expiry_by_block_daily)
 - [`fct_contract_storage_state_with_expiry_by_block_hourly`](#fct_contract_storage_state_with_expiry_by_block_hourly)
+- [`fct_custody_probe_by_asn_daily`](#fct_custody_probe_by_asn_daily)
 - [`fct_custody_probe_by_client_daily`](#fct_custody_probe_by_client_daily)
+- [`fct_custody_probe_by_country_daily`](#fct_custody_probe_by_country_daily)
 - [`fct_custody_probe_by_slot_age_daily`](#fct_custody_probe_by_slot_age_daily)
 - [`fct_custody_probe_by_slot_age_hourly`](#fct_custody_probe_by_slot_age_hourly)
 - [`fct_data_column_availability_by_epoch`](#fct_data_column_availability_by_epoch)
@@ -222,18 +225,30 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_payload_attestation_first_seen_chunked_50ms`](#fct_payload_attestation_first_seen_chunked_50ms)
 - [`fct_payload_bid_highest_value_by_builder_chunked_50ms`](#fct_payload_bid_highest_value_by_builder_chunked_50ms)
 - [`fct_payload_bid_highest_value_chunked_50ms`](#fct_payload_bid_highest_value_chunked_50ms)
+- [`fct_peer_concentration_cl_daily`](#fct_peer_concentration_cl_daily)
+- [`fct_peer_concentration_el_daily`](#fct_peer_concentration_el_daily)
+- [`fct_peer_count_by_asn_country_daily`](#fct_peer_count_by_asn_country_daily)
+- [`fct_peer_count_by_asn_daily`](#fct_peer_count_by_asn_daily)
 - [`fct_peer_count_by_cl_client_asn_daily`](#fct_peer_count_by_cl_client_asn_daily)
+- [`fct_peer_count_by_cl_client_city_daily`](#fct_peer_count_by_cl_client_city_daily)
 - [`fct_peer_count_by_cl_client_country_daily`](#fct_peer_count_by_cl_client_country_daily)
 - [`fct_peer_count_by_cl_client_daily`](#fct_peer_count_by_cl_client_daily)
 - [`fct_peer_count_by_client_pair_daily`](#fct_peer_count_by_client_pair_daily)
+- [`fct_peer_count_by_country_daily`](#fct_peer_count_by_country_daily)
+- [`fct_peer_count_by_el_asn_daily`](#fct_peer_count_by_el_asn_daily)
 - [`fct_peer_count_by_el_client_asn_daily`](#fct_peer_count_by_el_client_asn_daily)
 - [`fct_peer_count_by_el_client_country_daily`](#fct_peer_count_by_el_client_country_daily)
 - [`fct_peer_count_by_el_client_daily`](#fct_peer_count_by_el_client_daily)
+- [`fct_peer_count_by_el_country_daily`](#fct_peer_count_by_el_country_daily)
+- [`fct_peer_count_by_source_daily`](#fct_peer_count_by_source_daily)
 - [`fct_peer_fork_readiness_by_cl_client_daily`](#fct_peer_fork_readiness_by_cl_client_daily)
 - [`fct_peer_fork_readiness_by_el_client_daily`](#fct_peer_fork_readiness_by_el_client_daily)
+- [`fct_peer_hosting_by_el_client_daily`](#fct_peer_hosting_by_el_client_daily)
 - [`fct_peer_partial_message_support_by_client_daily`](#fct_peer_partial_message_support_by_client_daily)
 - [`fct_peer_partial_message_support_by_client_hourly`](#fct_peer_partial_message_support_by_client_hourly)
 - [`fct_peer_protocol_by_cl_client_daily`](#fct_peer_protocol_by_cl_client_daily)
+- [`fct_peer_reachability_by_cl_client_daily`](#fct_peer_reachability_by_cl_client_daily)
+- [`fct_peer_sync_status_by_cl_client_daily`](#fct_peer_sync_status_by_cl_client_daily)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_prepared_block_by_node_daily`](#fct_prepared_block_by_node_daily)
 - [`fct_proposer_reward_daily`](#fct_proposer_reward_daily)
@@ -329,6 +344,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_engine_new_payload_opcode_gram_hourly`](#int_engine_new_payload_opcode_gram_hourly)
 - [`int_execution_block_by_date`](#int_execution_block_by_date)
 - [`int_execution_state_size_by_block`](#int_execution_state_size_by_block)
+- [`int_peer_daily`](#int_peer_daily)
+- [`int_peer_daily_order_by_peer_id`](#int_peer_daily_order_by_peer_id)
 - [`int_rocketpool_megapool`](#int_rocketpool_megapool)
 - [`int_rocketpool_minipool`](#int_rocketpool_minipool)
 - [`int_rocketpool_node_event`](#int_rocketpool_node_event)
@@ -366,6 +383,64 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
+## dim_asn
+
+Autonomous systems our consensus peers were on, residential and hosting, with organisation, provider and network type as of the last day they had peers.
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_asn`
+- **sepolia**: `sepolia.dim_asn`
+- **holesky**: `holesky.dim_asn`
+- **hoodi**: `hoodi.dim_asn`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_asn FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_asn_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 when unknown* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation on the last day it had peers* |
+| **provider** | `LowCardinality(String)` | *Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix, empty when unknown* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs)* |
+| **last_seen_date** | `Date` | *Last day our consensus peers were on the autonomous system* |
+
 ## dim_block_blob_submitter
 
 Blob transaction to submitter name mapping.
@@ -7533,6 +7608,71 @@ echo """
 | **effective_bytes** | `Int64` | *Total effective bytes at end of hour (with expiry applied)* |
 | **active_contracts** | `Int64` | *Count of contracts with active_slots > 0 at end of hour* |
 
+## fct_custody_probe_by_asn_daily
+
+Daily data column custody probes by the probed peer autonomous system (its latest location in the day), residential and hosting. Residential autonomous systems with under 3 probed peers in the day roll into autonomous system 0 (other). Crawlers and probes are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_custody_probe_by_asn_daily`
+- **sepolia**: `sepolia.fct_custody_probe_by_asn_daily`
+- **holesky**: `holesky.fct_custody_probe_by_asn_daily`
+- **hoodi**: `hoodi.fct_custody_probe_by_asn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_custody_probe_by_asn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_custody_probe_by_asn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 when unknown and for residential autonomous systems with under 3 probed peers in the day (other)* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 probed peers in the day* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Peers probed in the day* |
+| **probe_count** | `UInt32` | *Custody probes* |
+| **success_count** | `UInt32` | *Probes the peer answered with the column* |
+| **missing_count** | `UInt32` | *Probes the peer answered without the column* |
+| **failure_count** | `UInt32` | *Probes that errored or timed out* |
+| **missing_peer_count** | `UInt32` | *Peers with at least one missing probe* |
+| **response_time_p50_ms** | `Nullable(Float64)` | *Median response time of successful probes in ms, NULL without any* |
+| **response_time_p90_ms** | `Nullable(Float64)` | *90th percentile response time of successful probes in ms, NULL without any* |
+
 ## fct_custody_probe_by_client_daily
 
 Daily data column custody probe outcomes by the probed peer client and release (its latest agent in the day), from int_custody_probe. How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
@@ -7597,6 +7737,71 @@ echo """
 | **missing_peer_count** | `UInt32` | *Peers with at least one missing probe* |
 | **response_time_p50_ms** | `Nullable(Float64)` | *Median response time of successful probes in ms* |
 | **response_time_p90_ms** | `Nullable(Float64)` | *90th percentile response time of successful probes in ms* |
+
+## fct_custody_probe_by_country_daily
+
+Daily data column custody probes by the probed peer country (its latest location in the day). Crawlers and probes are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_custody_probe_by_country_daily`
+- **sepolia**: `sepolia.fct_custody_probe_by_country_daily`
+- **holesky**: `holesky.fct_custody_probe_by_country_daily`
+- **hoodi**: `hoodi.fct_custody_probe_by_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_custody_probe_by_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_custody_probe_by_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, unknown when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Peers probed in the day* |
+| **probe_count** | `UInt32` | *Custody probes* |
+| **success_count** | `UInt32` | *Probes the peer answered with the column* |
+| **missing_count** | `UInt32` | *Probes the peer answered without the column* |
+| **failure_count** | `UInt32` | *Probes that errored or timed out* |
+| **missing_peer_count** | `UInt32` | *Peers with at least one missing probe* |
+| **response_time_p50_ms** | `Nullable(Float64)` | *Median response time of successful probes in ms, NULL without any* |
+| **response_time_p90_ms** | `Nullable(Float64)` | *90th percentile response time of successful probes in ms, NULL without any* |
 
 ## fct_custody_probe_by_slot_age_daily
 
@@ -13560,6 +13765,296 @@ echo """
 | **builder_index** | `UInt64` | *Validator index of the builder leading this chunk* |
 | **value** | `UInt128` | *The best bid value across all builders in this chunk, in wei* |
 
+## fct_peer_concentration_cl_daily
+
+Daily concentration of consensus peers our libp2p sentries or our discovery crawler saw: countries and autonomous systems, the largest systems, the fewest countries and systems holding a third and half of the peers, and peers per continent. Shares are of peers with a known country or system. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_concentration_cl_daily`
+- **sepolia**: `sepolia.fct_peer_concentration_cl_daily`
+- **holesky**: `holesky.fct_peer_concentration_cl_daily`
+- **hoodi**: `hoodi.fct_peer_concentration_cl_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_concentration_cl_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_concentration_cl_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
+| **located_peer_count** | `UInt32` | *Peers with a known autonomous system, the population of hosting_peer_count* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+| **ipv6_peer_count** | `UInt32` | *Peers that advertise a global IPv6 address, in an identify listen address or their ENR record* |
+| **country_count** | `UInt32` | *Countries with peers* |
+| **third_country_count** | `UInt32` | *Fewest countries that hold a third of the peers with a known country* |
+| **half_country_count** | `UInt32` | *Fewest countries that hold half of the peers with a known country* |
+| **autonomous_system_count** | `UInt32` | *Autonomous systems with peers, counting each residential system folded into autonomous system 0 (other) on its own* |
+| **top_1_asn_peer_count** | `UInt32` | *Peers in the largest autonomous system* |
+| **top_5_asn_peer_count** | `UInt32` | *Peers in the 5 largest autonomous systems* |
+| **top_10_asn_peer_count** | `UInt32` | *Peers in the 10 largest autonomous systems* |
+| **third_asn_count** | `UInt32` | *Fewest autonomous systems that hold a third of the peers with a known autonomous system* |
+| **half_asn_count** | `UInt32` | *Fewest autonomous systems that hold half of the peers with a known autonomous system* |
+| **africa_peer_count** | `UInt32` | *Peers in Africa (AF)* |
+| **antarctica_peer_count** | `UInt32` | *Peers in Antarctica (AN)* |
+| **asia_peer_count** | `UInt32` | *Peers in Asia (AS)* |
+| **europe_peer_count** | `UInt32` | *Peers in Europe (EU)* |
+| **north_america_peer_count** | `UInt32` | *Peers in North America (NA)* |
+| **oceania_peer_count** | `UInt32` | *Peers in Oceania (OC)* |
+| **south_america_peer_count** | `UInt32` | *Peers in South America (SA)* |
+| **unknown_continent_peer_count** | `UInt32` | *Peers not geolocated to a continent* |
+
+## fct_peer_concentration_el_daily
+
+Daily concentration of execution nodes: countries and autonomous systems, the largest systems, the fewest countries and systems holding a third and half of the nodes, and nodes per continent. Shares are of nodes with a known country or system. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_concentration_el_daily`
+- **sepolia**: `sepolia.fct_peer_concentration_el_daily`
+- **holesky**: `holesky.fct_peer_concentration_el_daily`
+- **hoodi**: `hoodi.fct_peer_concentration_el_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_concentration_el_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_concentration_el_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_count** | `UInt32` | *Execution nodes* |
+| **located_peer_count** | `UInt32` | *Peers with a known autonomous system, the population of hosting_peer_count* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+| **ipv6_peer_count** | `UInt32` | *Nodes whose record advertises an IPv6 address* |
+| **country_count** | `UInt32` | *Countries with peers* |
+| **third_country_count** | `UInt32` | *Fewest countries that hold a third of the peers with a known country* |
+| **half_country_count** | `UInt32` | *Fewest countries that hold half of the peers with a known country* |
+| **autonomous_system_count** | `UInt32` | *Autonomous systems with nodes, counting each residential system folded into autonomous system 0 (other) on its own* |
+| **top_1_asn_peer_count** | `UInt32` | *Peers in the largest autonomous system* |
+| **top_5_asn_peer_count** | `UInt32` | *Peers in the 5 largest autonomous systems* |
+| **top_10_asn_peer_count** | `UInt32` | *Peers in the 10 largest autonomous systems* |
+| **third_asn_count** | `UInt32` | *Fewest autonomous systems that hold a third of the peers with a known autonomous system* |
+| **half_asn_count** | `UInt32` | *Fewest autonomous systems that hold half of the peers with a known autonomous system* |
+| **africa_peer_count** | `UInt32` | *Peers in Africa (AF)* |
+| **antarctica_peer_count** | `UInt32` | *Peers in Antarctica (AN)* |
+| **asia_peer_count** | `UInt32` | *Peers in Asia (AS)* |
+| **europe_peer_count** | `UInt32` | *Peers in Europe (EU)* |
+| **north_america_peer_count** | `UInt32` | *Peers in North America (NA)* |
+| **oceania_peer_count** | `UInt32` | *Peers in Oceania (OC)* |
+| **south_america_peer_count** | `UInt32` | *Peers in South America (SA)* |
+| **unknown_continent_peer_count** | `UInt32` | *Peers not geolocated to a continent* |
+
+## fct_peer_count_by_asn_country_daily
+
+Daily consensus peers by autonomous system and country, residential and hosting, from our libp2p sentries and our discovery crawler, with reachability and custody counts. Not crossed with city or client. Residential (network type other or unknown) autonomous system and country cells under 3 peers roll into autonomous system 0 (other) within the country. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_asn_country_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_asn_country_daily`
+- **holesky**: `holesky.fct_peer_count_by_asn_country_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_asn_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_asn_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_asn_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 for unknown and for residential autonomous systems with under 3 peers in the country* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 peers in the country* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, unknown when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
+| **sentry_peer_count** | `UInt32` | *Peers our libp2p sentries were connected to* |
+| **enr_peer_count** | `UInt32` | *Peers our discovery crawler dialled from their ENR* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **inbound_only_peer_count** | `UInt32` | *Peers that only connected to our sentries and were never dialled* |
+| **quic_peer_count** | `UInt32` | *Peers connected to over QUIC or advertising a QUIC listen address* |
+| **custody_known_peer_count** | `UInt32` | *Peers whose custody group count is known from a metadata response or their ENR* |
+| **custody_4_peer_count** | `UInt32` | *Peers custodying 4 or fewer groups (the minimum)* |
+| **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
+| **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
+| **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
+
+## fct_peer_count_by_asn_daily
+
+Daily consensus peers by autonomous system, residential and hosting, from our libp2p sentries and our discovery crawler, with reachability and custody counts. Residential autonomous systems under 3 peers in the day roll into autonomous system 0 (other), which keeps how many systems it holds. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_asn_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_asn_daily`
+- **holesky**: `holesky.fct_peer_count_by_asn_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_asn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_asn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_asn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 for unknown and for residential autonomous systems with under 3 peers in the day* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems with under 3 peers in the day* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
+| **sentry_peer_count** | `UInt32` | *Peers our libp2p sentries were connected to* |
+| **enr_peer_count** | `UInt32` | *Peers our discovery crawler dialled from their ENR* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **inbound_only_peer_count** | `UInt32` | *Peers that only connected to our sentries and were never dialled* |
+| **quic_peer_count** | `UInt32` | *Peers connected to over QUIC or advertising a QUIC listen address* |
+| **custody_known_peer_count** | `UInt32` | *Peers whose custody group count is known from a metadata response or their ENR* |
+| **custody_4_peer_count** | `UInt32` | *Peers custodying 4 or fewer groups (the minimum)* |
+| **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
+| **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
+| **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
+| **autonomous_system_count** | `UInt32` | *Autonomous systems in the row: 1, the number of residential systems folded into autonomous system 0 (other), each with 1 or 2 peers, or 0 for unknown* |
+
 ## fct_peer_count_by_cl_client_asn_daily
 
 Daily consensus peer census by client and autonomous system. Consensus peers our libp2p sentries saw in the day (heartbeats and identify exchanges), one count per peer with its latest agent and address. Crawlers, probes, light clients and our own sentries are excluded. Autonomous systems under 3 peers roll into an other bucket per network type.
@@ -13618,6 +14113,65 @@ echo """
 | **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, other when the AS has under 3 peers, unknown when not geolocated* |
 | **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
 | **peer_count** | `UInt32` | *Peers* |
+
+## fct_peer_count_by_cl_client_city_daily
+
+Daily consensus peers by country, city, network type and client, residential and hosting, from our libp2p sentries and our discovery crawler. Not crossed with autonomous system or version. Residential (network type other or unknown) city and client cells under 3 peers roll into city other within the country. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_cl_client_city_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_cl_client_city_daily`
+- **holesky**: `holesky.fct_peer_count_by_cl_client_city_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_cl_client_city_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_cl_client_city_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_cl_client_city_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, unknown when not geolocated* |
+| **city** | `LowCardinality(String)` | *City of the address, unknown when not geolocated to a city, other for residential city and client cells with under 3 peers* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
 
 ## fct_peer_count_by_cl_client_country_daily
 
@@ -13749,7 +14303,7 @@ echo """
 
 ## fct_peer_count_by_client_pair_daily
 
-Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.
+Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery on the network genesis and its current fork. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -13808,9 +14362,137 @@ echo """
 | **matched_ip_count** | `UInt32` | *Addresses in the day with both, the match rate is matched_ip_count / cl_ip_count* |
 | **paired_ip_count** | `UInt32` | *Matched addresses with exactly one client per layer, the sum of ip_count over the day* |
 
+## fct_peer_count_by_country_daily
+
+Daily consensus peers by country, from our libp2p sentries and our discovery crawler, with reachability, hosting and custody counts. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_country_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_country_daily`
+- **holesky**: `holesky.fct_peer_count_by_country_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, unknown when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
+| **sentry_peer_count** | `UInt32` | *Peers our libp2p sentries were connected to* |
+| **enr_peer_count** | `UInt32` | *Peers our discovery crawler dialled from their ENR* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **inbound_only_peer_count** | `UInt32` | *Peers that only connected to our sentries and were never dialled* |
+| **quic_peer_count** | `UInt32` | *Peers connected to over QUIC or advertising a QUIC listen address* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+| **custody_known_peer_count** | `UInt32` | *Peers whose custody group count is known from a metadata response or their ENR* |
+| **custody_4_peer_count** | `UInt32` | *Peers custodying 4 or fewer groups (the minimum)* |
+| **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
+| **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
+| **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
+
+## fct_peer_count_by_el_asn_daily
+
+Daily execution nodes by autonomous system, all clients together. Residential autonomous systems under 3 nodes roll into autonomous system 0 (other), which keeps how many systems it holds. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_el_asn_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_el_asn_daily`
+- **holesky**: `holesky.fct_peer_count_by_el_asn_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_el_asn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_el_asn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_el_asn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address, 0 for unknown and for residential autonomous systems under 3 peers (other)* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation, unknown when not geolocated, other for residential autonomous systems under 3 peers* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Execution nodes* |
+| **autonomous_system_count** | `UInt32` | *Autonomous systems in the row: 1, the number of residential systems folded into autonomous system 0 (other), each with 1 or 2 peers, or 0 for unknown* |
+
 ## fct_peer_count_by_el_client_asn_daily
 
-Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Autonomous systems under 3 nodes roll into an other bucket per network type.
+Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). Autonomous systems under 3 nodes roll into an other bucket per network type.
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -13869,7 +14551,7 @@ echo """
 
 ## fct_peer_count_by_el_client_country_daily
 
-Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.
+Daily execution node census by client and country. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). Countries under 3 nodes roll into their continent other bucket, and continents still under 3 into a global other bucket.
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -13928,7 +14610,7 @@ echo """
 
 ## fct_peer_count_by_el_client_daily
 
-Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
+Daily execution node census by client and release. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states
 
 ### Availability
 Data is partitioned by **toStartOfMonth(day_start_date)**.
@@ -13983,6 +14665,134 @@ echo """
 | **version** | `LowCardinality(String)` | *Release version from dim_client_release when the commit or version resolved (for commit_untagged the release the commit builds on), else the version the agent reports, empty when it reports none* |
 | **release_status** | `LowCardinality(String)` | *How the version was resolved: commit_match (a release tag commit agreeing with any stated version), commit_untagged (a default or release branch commit, version is the release it builds on, else the stated version), commit_mismatch (the commit resolves to another release than the stated version, version is the commit release), commit_ambiguous, commit_unmatched (a custom or fork build, the stated version is kept), commit_zero, version_match, version_unmatched or none. Rows whose commit does not resolve keep the version the agent states* |
 | **peer_count** | `UInt32` | *Nodes* |
+
+## fct_peer_count_by_el_country_daily
+
+Daily execution nodes by country, all clients together. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_el_country_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_el_country_daily`
+- **holesky**: `holesky.fct_peer_count_by_el_country_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_el_country_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_el_country_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_el_country_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, unknown when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, unknown when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name, Unknown when not geolocated* |
+| **peer_count** | `UInt32` | *Execution nodes* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+
+## fct_peer_count_by_source_daily
+
+Daily consensus peer totals by source: peers our libp2p sentries and our discovery crawler saw, and how many both saw, with reachability, hosting and custody counts. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_count_by_source_daily`
+- **sepolia**: `sepolia.fct_peer_count_by_source_daily`
+- **holesky**: `holesky.fct_peer_count_by_source_daily`
+- **hoodi**: `hoodi.fct_peer_count_by_source_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_count_by_source_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_count_by_source_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_count** | `UInt32` | *Consensus peers our libp2p sentries or our discovery crawler saw in the day* |
+| **sentry_peer_count** | `UInt32` | *Peers our libp2p sentries were connected to* |
+| **enr_peer_count** | `UInt32` | *Peers our discovery crawler dialled from their ENR* |
+| **sentry_and_enr_peer_count** | `UInt32` | *Peers both sources saw* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **inbound_only_peer_count** | `UInt32` | *Peers that only connected to our sentries and were never dialled* |
+| **quic_peer_count** | `UInt32` | *Peers connected to over QUIC or advertising a QUIC listen address* |
+| **ipv6_peer_count** | `UInt32` | *Peers that advertise a global IPv6 address, in an identify listen address or their ENR record* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+| **located_peer_count** | `UInt32` | *Peers with a known autonomous system, the population of hosting_peer_count* |
+| **custody_known_peer_count** | `UInt32` | *Peers whose custody group count is known from a metadata response or their ENR* |
+| **custody_4_peer_count** | `UInt32` | *Peers custodying 4 or fewer groups (the minimum)* |
+| **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
+| **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
+| **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
 
 ## fct_peer_fork_readiness_by_cl_client_daily
 
@@ -14103,6 +14913,65 @@ echo """
 | **fork_id_hash** | `LowCardinality(String)` | *Fork id hash, the CRC32 of the genesis and passed forks* |
 | **fork_id_next** | `LowCardinality(String)` | *Next fork block number or timestamp, empty when none* |
 | **node_count** | `UInt32` | *Nodes* |
+
+## fct_peer_hosting_by_el_client_daily
+
+Daily execution nodes by client, without versions, with hosting and IPv6 counts. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_hosting_by_el_client_daily`
+- **sepolia**: `sepolia.fct_peer_hosting_by_el_client_daily`
+- **holesky**: `holesky.fct_peer_hosting_by_el_client_daily`
+- **hoodi**: `hoodi.fct_peer_hosting_by_el_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_hosting_by_el_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_hosting_by_el_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Execution client from the node devp2p name: geth, nethermind, besu, erigon, reth, ethrex, nimbusel, ethereumjs or trin-execution, other for every other name* |
+| **peer_count** | `UInt32` | *Execution nodes* |
+| **hosting_peer_count** | `UInt32` | *Peers on a cloud or hosting provider network* |
+| **located_peer_count** | `UInt32` | *Peers with a known autonomous system, the population of hosting_peer_count* |
+| **ipv6_peer_count** | `UInt32` | *Nodes whose record advertises an IPv6 address* |
 
 ## fct_peer_partial_message_support_by_client_daily
 
@@ -14284,6 +15153,135 @@ echo """
 | **protocol** | `LowCardinality(String)` | *libp2p protocol ID, e.g. /meshsub/1.3.0 or /eth2/beacon_chain/req/status/2/ssz_snappy* |
 | **peer_count** | `UInt32` | *Peers supporting the protocol* |
 | **client_peer_count** | `UInt32` | *All peers of the client in the day* |
+
+## fct_peer_reachability_by_cl_client_daily
+
+Daily consensus peer reachability by client: peers our libp2p sentries dialled or that only connected in, QUIC, and ENR address mismatches.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_reachability_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_reachability_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_reachability_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_reachability_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_reachability_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_reachability_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent* |
+| **peer_count** | `UInt32` | *Peers our sentries saw in the day* |
+| **dialled_peer_count** | `UInt32` | *Peers our sentries dialled (outbound connections), so publicly reachable* |
+| **inbound_only_peer_count** | `UInt32` | *Peers that only connected to our sentries and were never dialled* |
+| **quic_connected_peer_count** | `UInt32` | *Peers connected to over QUIC* |
+| **quic_listen_peer_count** | `UInt32` | *Peers advertising a QUIC listen address in identify* |
+| **enr_peer_count** | `UInt32` | *Peers our discovery crawler also dialled from their ENR* |
+| **enr_ip_mismatch_peer_count** | `UInt32` | *Of those, peers whose ENR advertises another address than the one our sentries connected to* |
+
+## fct_peer_sync_status_by_cl_client_daily
+
+Daily consensus peer sync status by client, from status exchanges with our libp2p sentries: head and finalized lag against the sentry, fork digest, and block history served (earliest available slot).
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_sync_status_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_sync_status_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_sync_status_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_sync_status_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_sync_status_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_sync_status_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent* |
+| **peer_count** | `UInt32` | *Peers our sentries saw in the day* |
+| **status_peer_count** | `UInt32` | *Peers that exchanged status with our sentries, the population of the head, finalized and fork digest buckets* |
+| **head_lag_0_1_peer_count** | `UInt32` | *Peers whose head trailed our sentries by at most 1 slot (median over the day)* |
+| **head_lag_2_32_peer_count** | `UInt32` | *Peers whose head trailed our sentries by 2 to 32 slots* |
+| **head_lag_over_32_peer_count** | `UInt32` | *Peers whose head trailed our sentries by more than 32 slots (syncing or stuck)* |
+| **finalized_lag_over_1_peer_count** | `UInt32` | *Peers whose finalized checkpoint trailed our sentries by more than 1 epoch (median over the day)* |
+| **other_fork_digest_peer_count** | `UInt32` | *Peers whose latest status carried another fork digest than the most common one among all peers that day* |
+| **history_known_peer_count** | `UInt32` | *Peers that sent an earliest available slot (status v2), the population of the history buckets* |
+| **history_full_peer_count** | `UInt32` | *Peers serving blocks from genesis (earliest available slot 0)* |
+| **history_over_min_peer_count** | `UInt32` | *Peers serving more than a day beyond the spec minimum of 33024 epochs of blocks, short of genesis* |
+| **history_min_peer_count** | `UInt32` | *Peers serving the spec minimum of 33024 epochs of blocks, give or take a day* |
+| **history_under_min_peer_count** | `UInt32` | *Peers serving more than a day less than the spec minimum of 33024 epochs of blocks* |
 
 ## fct_prepared_block
 
@@ -20223,6 +21221,172 @@ echo """
 | **storage_bytes** | `UInt64` | *Cumulative total bytes used by storage data* |
 | **storage_trienodes** | `UInt64` | *Cumulative number of trie nodes in the storage trie* |
 | **storage_trienode_bytes** | `UInt64` | *Cumulative total bytes used by storage trie nodes* |
+
+## int_peer_daily
+
+One row per consensus peer per day, from our libp2p sentries (heartbeats, identify, metadata and status exchanges) and the discovery crawler (ENRs). Sentry values win over ENR values. Crawlers, probes, light clients and our own sentries are excluded. Holds no addresses. Residential peers are country-only: city and autonomous system are kept for hosting peers only.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_peer_daily`
+- **sepolia**: `sepolia.int_peer_daily`
+- **holesky**: `holesky.int_peer_daily`
+- **hoodi**: `hoodi.int_peer_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_peer_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_peer_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_id_unique_key** | `Int64` | *Hash of the peer ID and network, the key shared by the libp2p tables* |
+| **peer_id** | `String` | *libp2p peer ID, empty when the peer was only seen before peer IDs were recorded (April 2026)* |
+| **seen_by_sentry** | `Bool` | *Our libp2p sentries were connected to the peer in the day. False on both sources means the peer was dropped from the day on a recount* |
+| **seen_by_enr** | `Bool` | *Our discovery crawler dialled the peer from its ENR in the day* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent, else its ENR name (erigon reported as caplin), unknown when neither names one, other for unparseable names* |
+| **version** | `LowCardinality(String)` | *Version the agent states (semver with any pre-release suffix), empty when it states none* |
+| **agent_version** | `String` | *Version field of the agent as reported, for Caplin its platform field* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, empty when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, empty when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name of the address, empty when not geolocated* |
+| **city** | `LowCardinality(String)` | *City of the address for hosting peers, empty for residential peers (network_type other or unknown) and when not geolocated to a city* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address for hosting peers, 0 for residential peers and when unknown* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation of the address for hosting peers, empty for residential peers and when unknown* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **provider** | `LowCardinality(String)` | *Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix. Empty for residential peers and when unknown* |
+| **ipv6** | `Bool` | *The peer advertises a global IPv6 address, in an identify listen address or its ENR record, or we connected to it over IPv6* |
+| **dialled** | `Bool` | *Our sentries dialled the peer (an outbound connection), so it is publicly reachable* |
+| **inbound** | `Bool` | *The peer connected to our sentries (an inbound connection)* |
+| **quic_connected** | `Bool` | *Connected to over QUIC* |
+| **quic_listen** | `Bool` | *Advertises a QUIC listen address in identify* |
+| **enr_ip_mismatch** | `Nullable(Bool)` | *The address in the peer ENR differs from the one our sentries connected to, NULL unless both are known* |
+| **custody_group_count** | `Nullable(UInt8)` | *Custody group count from the peer metadata responses, else from its ENR, NULL when unknown* |
+| **latency_ms** | `Nullable(UInt32)` | *Median heartbeat latency to our sentries in ms, NULL without heartbeat latencies* |
+| **status_count** | `UInt32` | *Status exchanges with our sentries in the day* |
+| **fork_digest** | `LowCardinality(String)` | *Fork digest of the peer latest status, else of its ENR, empty when neither is known* |
+| **head_lag_slots** | `Nullable(Int32)` | *Median of the slots the peer head trailed the head of the sentry it exchanged status with, NULL without status exchanges* |
+| **finalized_lag_epochs** | `Nullable(Int32)` | *Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges* |
+| **earliest_available_slot** | `Nullable(UInt32)` | *Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)* |
+| **served_history_slots** | `Nullable(UInt32)` | *Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)* |
+
+## int_peer_daily_order_by_peer_id
+
+int_peer_daily ordered by peer ID, for reading one peer across days. One row per consensus peer per day, from our libp2p sentries (heartbeats, identify, metadata and status exchanges) and the discovery crawler (ENRs). Holds no addresses. Residential peers are country-only: city and autonomous system are kept for hosting peers only.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_peer_daily_order_by_peer_id`
+- **sepolia**: `sepolia.int_peer_daily_order_by_peer_id`
+- **holesky**: `holesky.int_peer_daily_order_by_peer_id`
+- **hoodi**: `hoodi.int_peer_daily_order_by_peer_id`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_peer_daily_order_by_peer_id FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_peer_daily_order_by_peer_id_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_id_unique_key** | `Int64` | *Hash of the peer ID and network, the key shared by the libp2p tables* |
+| **peer_id** | `String` | *libp2p peer ID, empty when the peer was only seen before peer IDs were recorded (April 2026)* |
+| **seen_by_sentry** | `Bool` | *Our libp2p sentries were connected to the peer in the day. False on both sources means the peer was dropped from the day on a recount* |
+| **seen_by_enr** | `Bool` | *Our discovery crawler dialled the peer from its ENR in the day* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent, else its ENR name (erigon reported as caplin), unknown when neither names one, other for unparseable names* |
+| **version** | `LowCardinality(String)` | *Version the agent states (semver with any pre-release suffix), empty when it states none* |
+| **agent_version** | `String` | *Version field of the agent as reported, for Caplin its platform field* |
+| **continent_code** | `LowCardinality(String)` | *Continent code of the address, empty when not geolocated* |
+| **country_code** | `LowCardinality(String)` | *Country code of the address, empty when not geolocated* |
+| **country** | `LowCardinality(String)` | *Country name of the address, empty when not geolocated* |
+| **city** | `LowCardinality(String)` | *City of the address for hosting peers, empty for residential peers (network_type other or unknown) and when not geolocated to a city* |
+| **autonomous_system_number** | `UInt32` | *Autonomous system number of the address for hosting peers, 0 for residential peers and when unknown* |
+| **autonomous_system_organization** | `LowCardinality(String)` | *Autonomous system organisation of the address for hosting peers, empty for residential peers and when unknown* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated* |
+| **provider** | `LowCardinality(String)` | *Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix. Empty for residential peers and when unknown* |
+| **ipv6** | `Bool` | *The peer advertises a global IPv6 address, in an identify listen address or its ENR record, or we connected to it over IPv6* |
+| **dialled** | `Bool` | *Our sentries dialled the peer (an outbound connection), so it is publicly reachable* |
+| **inbound** | `Bool` | *The peer connected to our sentries (an inbound connection)* |
+| **quic_connected** | `Bool` | *Connected to over QUIC* |
+| **quic_listen** | `Bool` | *Advertises a QUIC listen address in identify* |
+| **enr_ip_mismatch** | `Nullable(Bool)` | *The address in the peer ENR differs from the one our sentries connected to, NULL unless both are known* |
+| **custody_group_count** | `Nullable(UInt8)` | *Custody group count from the peer metadata responses, else from its ENR, NULL when unknown* |
+| **latency_ms** | `Nullable(UInt32)` | *Median heartbeat latency to our sentries in ms, NULL without heartbeat latencies* |
+| **status_count** | `UInt32` | *Status exchanges with our sentries in the day* |
+| **fork_digest** | `LowCardinality(String)` | *Fork digest of the peer latest status, else of its ENR, empty when neither is known* |
+| **head_lag_slots** | `Nullable(Int32)` | *Median of the slots the peer head trailed the head of the sentry it exchanged status with, NULL without status exchanges* |
+| **finalized_lag_epochs** | `Nullable(Int32)` | *Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges* |
+| **earliest_available_slot** | `Nullable(UInt32)` | *Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)* |
+| **served_history_slots** | `Nullable(UInt32)` | *Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)* |
 
 ## int_rocketpool_megapool
 

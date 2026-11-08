@@ -1,0 +1,40 @@
+CREATE TABLE sepolia.int_peer_daily_order_by_peer_id_local
+(
+    `updated_date_time` DateTime COMMENT 'Timestamp when the record was last updated' CODEC(DoubleDelta, ZSTD(1)),
+    `day_start_date` Date COMMENT 'Start of the day period' CODEC(DoubleDelta, ZSTD(1)),
+    `peer_id_unique_key` Int64 COMMENT 'Hash of the peer ID and network, the key shared by the libp2p tables' CODEC(ZSTD(1)),
+    `peer_id` String COMMENT 'libp2p peer ID, empty when the peer was only seen before peer IDs were recorded (April 2026)' CODEC(ZSTD(1)),
+    `seen_by_sentry` Bool COMMENT 'Our libp2p sentries were connected to the peer in the day. False on both sources means the peer was dropped from the day on a recount' CODEC(ZSTD(1)),
+    `seen_by_enr` Bool COMMENT 'Our discovery crawler dialled the peer from its ENR in the day' CODEC(ZSTD(1)),
+    `client` LowCardinality(String) COMMENT 'Consensus client from the peer agent, else its ENR name (erigon reported as caplin), unknown when neither names one, other for unparseable names' CODEC(ZSTD(1)),
+    `version` LowCardinality(String) COMMENT 'Version the agent states (semver with any pre-release suffix), empty when it states none' CODEC(ZSTD(1)),
+    `agent_version` String COMMENT 'Version field of the agent as reported, for Caplin its platform field' CODEC(ZSTD(1)),
+    `continent_code` LowCardinality(String) COMMENT 'Continent code of the address, empty when not geolocated' CODEC(ZSTD(1)),
+    `country_code` LowCardinality(String) COMMENT 'Country code of the address, empty when not geolocated' CODEC(ZSTD(1)),
+    `country` LowCardinality(String) COMMENT 'Country name of the address, empty when not geolocated' CODEC(ZSTD(1)),
+    `city` LowCardinality(String) COMMENT 'City of the address for hosting peers, empty for residential peers (network_type other or unknown) and when not geolocated to a city' CODEC(ZSTD(1)),
+    `autonomous_system_number` UInt32 COMMENT 'Autonomous system number of the address for hosting peers, 0 for residential peers and when unknown' CODEC(ZSTD(1)),
+    `autonomous_system_organization` LowCardinality(String) COMMENT 'Autonomous system organisation of the address for hosting peers, empty for residential peers and when unknown' CODEC(ZSTD(1)),
+    `network_type` LowCardinality(String) COMMENT 'hosting for cloud and hosting providers (known ASNs and organisation names), other for the rest (mostly residential and business ISPs), unknown when not geolocated' CODEC(ZSTD(1)),
+    `provider` LowCardinality(String) COMMENT 'Network operator: one name for providers that span several autonomous systems or organisation names (Amazon, Google, Microsoft, Alibaba, Oracle, OVHcloud, Hetzner, Contabo, Akamai, Tencent), else the organisation without its legal suffix. Empty for residential peers and when unknown' CODEC(ZSTD(1)),
+    `ipv6` Bool COMMENT 'The peer advertises a global IPv6 address, in an identify listen address or its ENR record, or we connected to it over IPv6' CODEC(ZSTD(1)),
+    `dialled` Bool COMMENT 'Our sentries dialled the peer (an outbound connection), so it is publicly reachable' CODEC(ZSTD(1)),
+    `inbound` Bool COMMENT 'The peer connected to our sentries (an inbound connection)' CODEC(ZSTD(1)),
+    `quic_connected` Bool COMMENT 'Connected to over QUIC' CODEC(ZSTD(1)),
+    `quic_listen` Bool COMMENT 'Advertises a QUIC listen address in identify' CODEC(ZSTD(1)),
+    `enr_ip_mismatch` Nullable(Bool) COMMENT 'The address in the peer ENR differs from the one our sentries connected to, NULL unless both are known' CODEC(ZSTD(1)),
+    `custody_group_count` Nullable(UInt8) COMMENT 'Custody group count from the peer metadata responses, else from its ENR, NULL when unknown' CODEC(ZSTD(1)),
+    `latency_ms` Nullable(UInt32) COMMENT 'Median heartbeat latency to our sentries in ms, NULL without heartbeat latencies' CODEC(ZSTD(1)),
+    `status_count` UInt32 COMMENT 'Status exchanges with our sentries in the day' CODEC(ZSTD(1)),
+    `fork_digest` LowCardinality(String) COMMENT 'Fork digest of the peer latest status, else of its ENR, empty when neither is known' CODEC(ZSTD(1)),
+    `head_lag_slots` Nullable(Int32) COMMENT 'Median of the slots the peer head trailed the head of the sentry it exchanged status with, NULL without status exchanges' CODEC(ZSTD(1)),
+    `finalized_lag_epochs` Nullable(Int32) COMMENT 'Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges' CODEC(ZSTD(1)),
+    `earliest_available_slot` Nullable(UInt32) COMMENT 'Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)' CODEC(ZSTD(1)),
+    `served_history_slots` Nullable(UInt32) COMMENT 'Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)' CODEC(ZSTD(1)),
+    INDEX idx_peer_id peer_id TYPE bloom_filter(0.01) GRANULARITY 1
+)
+ENGINE = ReplicatedReplacingMergeTree('/clickhouse/{installation}/{cluster}/tables/{shard}/mainnet/int_peer_daily_order_by_peer_id_local', '{replica}', updated_date_time)
+PARTITION BY toStartOfMonth(day_start_date)
+ORDER BY (peer_id, day_start_date, peer_id_unique_key)
+SETTINGS deduplicate_merge_projection_mode = 'rebuild', index_granularity = 8192
+COMMENT 'int_peer_daily ordered by peer ID, for reading one peer across days. One row per consensus peer per day, from our libp2p sentries (heartbeats, identify, metadata and status exchanges) and the discovery crawler (ENRs). Holds no addresses. Residential peers are country-only: city and autonomous system are kept for hosting peers only.'

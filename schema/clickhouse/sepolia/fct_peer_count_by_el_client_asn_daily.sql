@@ -9,4 +9,4 @@ CREATE TABLE sepolia.fct_peer_count_by_el_client_asn_daily
     `peer_count` UInt32 COMMENT 'Nodes' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'sepolia', 'fct_peer_count_by_el_client_asn_daily_local', cityHash64(day_start_date, client, network_type, autonomous_system_organization, autonomous_system_number))
-COMMENT 'Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis (the most common one that day, which excludes other chains). Autonomous systems under 3 nodes roll into an other bucket per network type.'
+COMMENT 'Daily execution node census by client and autonomous system. Execution nodes our discovery crawler found in the day, one count per node with its latest record, on the network genesis and its current fork (a fork ID hash at least 10% of the nodes of the day share whose next fork has not passed, which excludes other chains and stale forks). Autonomous systems under 3 nodes roll into an other bucket per network type.'

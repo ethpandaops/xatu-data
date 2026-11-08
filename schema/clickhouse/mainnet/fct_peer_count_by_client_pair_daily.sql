@@ -11,4 +11,4 @@ CREATE TABLE mainnet.fct_peer_count_by_client_pair_daily
     `paired_ip_count` UInt32 COMMENT 'Matched addresses with exactly one client per layer, the sum of ip_count over the day' CODEC(ZSTD(1))
 )
 ENGINE = Distributed('{cluster}', 'mainnet', 'fct_peer_count_by_client_pair_daily_local', cityHash64(day_start_date, consensus_client, execution_client))
-COMMENT 'Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.'
+COMMENT 'Daily consensus and execution client pairs from nodes sharing an IPv4 address: consensus peers from libp2p and ENRs, execution nodes from discovery on the network genesis and its current fork. Only addresses with exactly one consensus and one execution client form a pair. No address is stored.'
