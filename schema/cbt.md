@@ -225,6 +225,9 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_payload_attestation_first_seen_chunked_50ms`](#fct_payload_attestation_first_seen_chunked_50ms)
 - [`fct_payload_bid_highest_value_by_builder_chunked_50ms`](#fct_payload_bid_highest_value_by_builder_chunked_50ms)
 - [`fct_payload_bid_highest_value_chunked_50ms`](#fct_payload_bid_highest_value_chunked_50ms)
+- [`fct_peer_attnet_count_by_cl_client_daily`](#fct_peer_attnet_count_by_cl_client_daily)
+- [`fct_peer_churn_by_cl_client_daily`](#fct_peer_churn_by_cl_client_daily)
+- [`fct_peer_churn_daily`](#fct_peer_churn_daily)
 - [`fct_peer_concentration_cl_daily`](#fct_peer_concentration_cl_daily)
 - [`fct_peer_concentration_el_daily`](#fct_peer_concentration_el_daily)
 - [`fct_peer_count_by_asn_country_daily`](#fct_peer_count_by_asn_country_daily)
@@ -248,6 +251,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_peer_partial_message_support_by_client_hourly`](#fct_peer_partial_message_support_by_client_hourly)
 - [`fct_peer_protocol_by_cl_client_daily`](#fct_peer_protocol_by_cl_client_daily)
 - [`fct_peer_reachability_by_cl_client_daily`](#fct_peer_reachability_by_cl_client_daily)
+- [`fct_peer_subnet_coverage_daily`](#fct_peer_subnet_coverage_daily)
+- [`fct_peer_subnet_daily`](#fct_peer_subnet_daily)
 - [`fct_peer_sync_status_by_cl_client_daily`](#fct_peer_sync_status_by_cl_client_daily)
 - [`fct_prepared_block`](#fct_prepared_block)
 - [`fct_prepared_block_by_node_daily`](#fct_prepared_block_by_node_daily)
@@ -346,6 +351,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_execution_state_size_by_block`](#int_execution_state_size_by_block)
 - [`int_peer_daily`](#int_peer_daily)
 - [`int_peer_daily_order_by_peer_id`](#int_peer_daily_order_by_peer_id)
+- [`int_peer_subnet_daily`](#int_peer_subnet_daily)
 - [`int_rocketpool_megapool`](#int_rocketpool_megapool)
 - [`int_rocketpool_minipool`](#int_rocketpool_minipool)
 - [`int_rocketpool_node_event`](#int_rocketpool_node_event)
@@ -13765,6 +13771,196 @@ echo """
 | **builder_index** | `UInt64` | *Validator index of the builder leading this chunk* |
 | **value** | `UInt128` | *The best bid value across all builders in this chunk, in wei* |
 
+## fct_peer_attnet_count_by_cl_client_daily
+
+Daily consensus peers by client and by how many attestation and sync subnets they last advertised in a metadata response to our libp2p sentries. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_attnet_count_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_attnet_count_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_attnet_count_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_attnet_count_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_attnet_count_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_attnet_count_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent* |
+| **peer_count** | `UInt32` | *Peers that answered our sentries metadata requests in the day* |
+| **attnets_0_peer_count** | `UInt32` | *Peers on no attestation subnet* |
+| **attnets_1_2_peer_count** | `UInt32` | *Peers on 1 or 2 attestation subnets (2 is the long-lived default)* |
+| **attnets_3_63_peer_count** | `UInt32` | *Peers on 3 to 63 attestation subnets* |
+| **attnets_64_peer_count** | `UInt32` | *Peers on all 64 attestation subnets* |
+| **syncnets_any_peer_count** | `UInt32` | *Peers on at least one sync committee subnet* |
+| **syncnets_4_peer_count** | `UInt32` | *Peers on all 4 sync committee subnets* |
+
+## fct_peer_churn_by_cl_client_daily
+
+Daily consensus peer churn by client, from the peers our libp2p sentries saw: peers kept from the previous day, new peers, returning peers and departed peers, and how many of the last 30 days each peer was seen on. A peer is its peer ID, so clients that rotate their ID on restart show as churn. Rows are written once the day is complete. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_churn_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_churn_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_churn_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_churn_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_churn_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_churn_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent. Departed peers count under their client the previous day* |
+| **peer_count** | `UInt32` | *Peers our sentries saw in the day. Equals continuing_peer_count + new_peer_count + returning_peer_count* |
+| **continuing_peer_count** | `UInt32` | *Peers our sentries also saw the previous day* |
+| **new_peer_count** | `UInt32` | *Peers our sentries had not seen in the previous 29 days* |
+| **returning_peer_count** | `UInt32` | *Peers our sentries had not seen the previous day but had seen in the 28 days before it* |
+| **departed_peer_count** | `UInt32` | *Peers our sentries saw the previous day but not in this day* |
+| **seen_2_7_days_peer_count** | `UInt32` | *Peers in the day seen on 2 to 7 of the 30 days ending on it. With new_peer_count (seen on 1) and the two counts below, sums to peer_count* |
+| **seen_8_29_days_peer_count** | `UInt32` | *Peers in the day seen on 8 to 29 of the 30 days ending on it* |
+| **seen_30_days_peer_count** | `UInt32` | *Peers in the day seen on all 30 days ending on it* |
+| **history_days** | `UInt8` | *How many of the previous 29 days hold sentry peers. Under 29, new_peer_count is overstated and the seen-days counts understated, as at the start of the data* |
+
+## fct_peer_churn_daily
+
+Daily consensus peer churn by network type, from the peers our libp2p sentries saw: peers kept from the previous day, new peers, returning peers and departed peers, and how many of the last 30 days each peer was seen on. A peer is its peer ID, so clients that rotate their ID on restart show as churn. Rows are written once the day is complete. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_churn_daily`
+- **sepolia**: `sepolia.fct_peer_churn_daily`
+- **holesky**: `holesky.fct_peer_churn_daily`
+- **hoodi**: `hoodi.fct_peer_churn_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_churn_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_churn_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **network_type** | `LowCardinality(String)` | *hosting for cloud and hosting providers, other for the rest (mostly residential and business ISPs), unknown when not geolocated. Departed peers count under their network type the previous day* |
+| **peer_count** | `UInt32` | *Peers our sentries saw in the day. Equals continuing_peer_count + new_peer_count + returning_peer_count* |
+| **continuing_peer_count** | `UInt32` | *Peers our sentries also saw the previous day* |
+| **new_peer_count** | `UInt32` | *Peers our sentries had not seen in the previous 29 days* |
+| **returning_peer_count** | `UInt32` | *Peers our sentries had not seen the previous day but had seen in the 28 days before it* |
+| **departed_peer_count** | `UInt32` | *Peers our sentries saw the previous day but not in this day* |
+| **seen_2_7_days_peer_count** | `UInt32` | *Peers in the day seen on 2 to 7 of the 30 days ending on it. With new_peer_count (seen on 1) and the two counts below, sums to peer_count* |
+| **seen_8_29_days_peer_count** | `UInt32` | *Peers in the day seen on 8 to 29 of the 30 days ending on it* |
+| **seen_30_days_peer_count** | `UInt32` | *Peers in the day seen on all 30 days ending on it* |
+| **history_days** | `UInt8` | *How many of the previous 29 days hold sentry peers. Under 29, new_peer_count is overstated and the seen-days counts understated, as at the start of the data* |
+
 ## fct_peer_concentration_cl_daily
 
 Daily concentration of consensus peers our libp2p sentries or our discovery crawler saw: countries and autonomous systems, the largest systems, the fewest countries and systems holding a third and half of the peers, and peers per continent. Shares are of peers with a known country or system. Crawlers, probes, light clients and our own sentries are excluded.
@@ -15215,6 +15411,126 @@ echo """
 | **quic_listen_peer_count** | `UInt32` | *Peers advertising a QUIC listen address in identify* |
 | **enr_peer_count** | `UInt32` | *Peers our discovery crawler also dialled from their ENR* |
 | **enr_ip_mismatch_peer_count** | `UInt32` | *Of those, peers whose ENR advertises another address than the one our sentries connected to* |
+
+## fct_peer_subnet_coverage_daily
+
+Daily spread of consensus peers over the 64 attestation and 4 sync subnets they advertise, one row a day: the thinnest, median and thickest attestation subnet, the thinnest without peers on all 64, and the thinnest and thickest sync subnet. Peers as in fct_peer_subnet_daily.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_subnet_coverage_daily`
+- **sepolia**: `sepolia.fct_peer_subnet_coverage_daily`
+- **holesky**: `holesky.fct_peer_subnet_coverage_daily`
+- **hoodi**: `hoodi.fct_peer_subnet_coverage_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_subnet_coverage_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_subnet_coverage_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **attnets_64_peer_count** | `UInt32` | *Peers on all 64 attestation subnets* |
+| **min_attestation_subnet_peer_count** | `UInt32` | *Peers on the thinnest attestation subnet* |
+| **min_attestation_subnet_id** | `UInt8` | *The thinnest attestation subnet, the lowest index on a tie* |
+| **median_attestation_subnet_peer_count** | `UInt32` | *Median peers per attestation subnet (the lower of the middle two)* |
+| **max_attestation_subnet_peer_count** | `UInt32` | *Peers on the thickest attestation subnet* |
+| **min_attestation_subnet_partial_peer_count** | `UInt32` | *Fewest peers any attestation subnet has without the peers on all 64* |
+| **min_sync_subnet_peer_count** | `UInt32` | *Peers on the thinnest sync committee subnet* |
+| **max_sync_subnet_peer_count** | `UInt32` | *Peers on the thickest sync committee subnet* |
+
+## fct_peer_subnet_daily
+
+Daily consensus peers by the attestation and sync subnets they last advertised in a metadata response to our libp2p sentries, 68 rows a day. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_subnet_daily`
+- **sepolia**: `sepolia.fct_peer_subnet_daily`
+- **holesky**: `holesky.fct_peer_subnet_daily`
+- **hoodi**: `hoodi.fct_peer_subnet_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_subnet_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_subnet_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **subnet_type** | `LowCardinality(String)` | *attestation (64 subnets) or sync (4 sync committee subnets)* |
+| **subnet_id** | `UInt8` | *Subnet index, 0 to 63 for attestation and 0 to 3 for sync* |
+| **peer_count** | `UInt32` | *Peers that last advertised the subnet in the day* |
+| **all_subnets_peer_count** | `UInt32` | *Of those, peers on every subnet of the type, the same on every row of the type* |
 
 ## fct_peer_sync_status_by_cl_client_daily
 
@@ -21387,6 +21703,64 @@ echo """
 | **finalized_lag_epochs** | `Nullable(Int32)` | *Median of the epochs the peer finalized checkpoint trailed that of the sentry it exchanged status with, NULL without status exchanges* |
 | **earliest_available_slot** | `Nullable(UInt32)` | *Earliest slot the peer serves blocks from in its latest status (0 for full history), NULL when it sent none (status v1)* |
 | **served_history_slots** | `Nullable(UInt32)` | *Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)* |
+
+## int_peer_subnet_daily
+
+One row per consensus peer per day with the attestation and sync subnets it last advertised in a metadata response to our libp2p sentries. Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_peer_subnet_daily`
+- **sepolia**: `sepolia.int_peer_subnet_daily`
+- **holesky**: `holesky.int_peer_subnet_daily`
+- **hoodi**: `hoodi.int_peer_subnet_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_peer_subnet_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_peer_subnet_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **peer_id_unique_key** | `Int64` | *Hash of the peer ID and network, the key shared by the libp2p tables* |
+| **attnets** | `UInt64` | *Attestation subnets the peer last advertised in the day: bit i is subnet i* |
+| **syncnets** | `UInt8` | *Sync committee subnets the peer last advertised in the day: bit i is subnet i* |
+| **response_count** | `UInt32` | *Metadata responses the peer sent our sentries in the day. 0 means the peer was dropped from the day on a recount* |
 
 ## int_rocketpool_megapool
 

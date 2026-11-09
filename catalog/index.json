@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T21:35:15Z",
+  "generated_at": "2026-11-09T14:48:33Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -404,6 +404,9 @@
         "fct_payload_attestation_first_seen_chunked_50ms",
         "fct_payload_bid_highest_value_by_builder_chunked_50ms",
         "fct_payload_bid_highest_value_chunked_50ms",
+        "fct_peer_attnet_count_by_cl_client_daily",
+        "fct_peer_churn_by_cl_client_daily",
+        "fct_peer_churn_daily",
         "fct_peer_concentration_cl_daily",
         "fct_peer_concentration_el_daily",
         "fct_peer_count_by_asn_country_daily",
@@ -427,6 +430,8 @@
         "fct_peer_partial_message_support_by_client_hourly",
         "fct_peer_protocol_by_cl_client_daily",
         "fct_peer_reachability_by_cl_client_daily",
+        "fct_peer_subnet_coverage_daily",
+        "fct_peer_subnet_daily",
         "fct_peer_sync_status_by_cl_client_daily",
         "fct_prepared_block",
         "fct_prepared_block_by_node_daily",
@@ -525,6 +530,7 @@
         "int_execution_state_size_by_block",
         "int_peer_daily",
         "int_peer_daily_order_by_peer_id",
+        "int_peer_subnet_daily",
         "int_rocketpool_megapool",
         "int_rocketpool_minipool",
         "int_rocketpool_node_event",

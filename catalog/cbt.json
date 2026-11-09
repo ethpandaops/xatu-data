@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-08T21:35:15Z",
+  "generated_at": "2026-11-09T14:48:33Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -19640,6 +19640,269 @@
       ]
     },
     {
+      "name": "fct_peer_attnet_count_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by client and by how many attestation and sync subnets they last advertised in a metadata response to our libp2p sentries. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers that answered our sentries metadata requests in the day"
+        },
+        {
+          "name": "attnets_0_peer_count",
+          "type": "UInt32",
+          "description": "Peers on no attestation subnet"
+        },
+        {
+          "name": "attnets_1_2_peer_count",
+          "type": "UInt32",
+          "description": "Peers on 1 or 2 attestation subnets (2 is the long-lived default)"
+        },
+        {
+          "name": "attnets_3_63_peer_count",
+          "type": "UInt32",
+          "description": "Peers on 3 to 63 attestation subnets"
+        },
+        {
+          "name": "attnets_64_peer_count",
+          "type": "UInt32",
+          "description": "Peers on all 64 attestation subnets"
+        },
+        {
+          "name": "syncnets_any_peer_count",
+          "type": "UInt32",
+          "description": "Peers on at least one sync committee subnet"
+        },
+        {
+          "name": "syncnets_4_peer_count",
+          "type": "UInt32",
+          "description": "Peers on all 4 sync committee subnets"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_churn_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer churn by client, from the peers our libp2p sentries saw: peers kept from the previous day, new peers, returning peers and departed peers, and how many of the last 30 days each peer was seen on. A peer is its peer ID, so clients that rotate their ID on restart show as churn. Rows are written once the day is complete. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client from the peer agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was never seen, other for every other agent. Departed peers count under their client the previous day"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw in the day. Equals continuing_peer_count + new_peer_count + returning_peer_count"
+        },
+        {
+          "name": "continuing_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries also saw the previous day"
+        },
+        {
+          "name": "new_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries had not seen in the previous 29 days"
+        },
+        {
+          "name": "returning_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries had not seen the previous day but had seen in the 28 days before it"
+        },
+        {
+          "name": "departed_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw the previous day but not in this day"
+        },
+        {
+          "name": "seen_2_7_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on 2 to 7 of the 30 days ending on it. With new_peer_count (seen on 1) and the two counts below, sums to peer_count"
+        },
+        {
+          "name": "seen_8_29_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on 8 to 29 of the 30 days ending on it"
+        },
+        {
+          "name": "seen_30_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on all 30 days ending on it"
+        },
+        {
+          "name": "history_days",
+          "type": "UInt8",
+          "description": "How many of the previous 29 days hold sentry peers. Under 29, new_peer_count is overstated and the seen-days counts understated, as at the start of the data"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_churn_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peer churn by network type, from the peers our libp2p sentries saw: peers kept from the previous day, new peers, returning peers and departed peers, and how many of the last 30 days each peer was seen on. A peer is its peer ID, so clients that rotate their ID on restart show as churn. Rows are written once the day is complete. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "network_type",
+          "type": "LowCardinality(String)",
+          "description": "hosting for cloud and hosting providers, other for the rest (mostly residential and business ISPs), unknown when not geolocated. Departed peers count under their network type the previous day"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw in the day. Equals continuing_peer_count + new_peer_count + returning_peer_count"
+        },
+        {
+          "name": "continuing_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries also saw the previous day"
+        },
+        {
+          "name": "new_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries had not seen in the previous 29 days"
+        },
+        {
+          "name": "returning_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries had not seen the previous day but had seen in the 28 days before it"
+        },
+        {
+          "name": "departed_peer_count",
+          "type": "UInt32",
+          "description": "Peers our sentries saw the previous day but not in this day"
+        },
+        {
+          "name": "seen_2_7_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on 2 to 7 of the 30 days ending on it. With new_peer_count (seen on 1) and the two counts below, sums to peer_count"
+        },
+        {
+          "name": "seen_8_29_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on 8 to 29 of the 30 days ending on it"
+        },
+        {
+          "name": "seen_30_days_peer_count",
+          "type": "UInt32",
+          "description": "Peers in the day seen on all 30 days ending on it"
+        },
+        {
+          "name": "history_days",
+          "type": "UInt8",
+          "description": "How many of the previous 29 days hold sentry peers. Under 29, new_peer_count is overstated and the seen-days counts understated, as at the start of the data"
+        }
+      ]
+    },
+    {
       "name": "fct_peer_concentration_cl_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -21624,6 +21887,148 @@
           "name": "enr_ip_mismatch_peer_count",
           "type": "UInt32",
           "description": "Of those, peers whose ENR advertises another address than the one our sentries connected to"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_subnet_coverage_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily spread of consensus peers over the 64 attestation and 4 sync subnets they advertise, one row a day: the thinnest, median and thickest attestation subnet, the thinnest without peers on all 64, and the thinnest and thickest sync subnet. Peers as in fct_peer_subnet_daily.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "attnets_64_peer_count",
+          "type": "UInt32",
+          "description": "Peers on all 64 attestation subnets"
+        },
+        {
+          "name": "min_attestation_subnet_peer_count",
+          "type": "UInt32",
+          "description": "Peers on the thinnest attestation subnet"
+        },
+        {
+          "name": "min_attestation_subnet_id",
+          "type": "UInt8",
+          "description": "The thinnest attestation subnet, the lowest index on a tie"
+        },
+        {
+          "name": "median_attestation_subnet_peer_count",
+          "type": "UInt32",
+          "description": "Median peers per attestation subnet (the lower of the middle two)"
+        },
+        {
+          "name": "max_attestation_subnet_peer_count",
+          "type": "UInt32",
+          "description": "Peers on the thickest attestation subnet"
+        },
+        {
+          "name": "min_attestation_subnet_partial_peer_count",
+          "type": "UInt32",
+          "description": "Fewest peers any attestation subnet has without the peers on all 64"
+        },
+        {
+          "name": "min_sync_subnet_peer_count",
+          "type": "UInt32",
+          "description": "Peers on the thinnest sync committee subnet"
+        },
+        {
+          "name": "max_sync_subnet_peer_count",
+          "type": "UInt32",
+          "description": "Peers on the thickest sync committee subnet"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_subnet_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by the attestation and sync subnets they last advertised in a metadata response to our libp2p sentries, 68 rows a day. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "subnet_type",
+          "type": "LowCardinality(String)",
+          "description": "attestation (64 subnets) or sync (4 sync committee subnets)"
+        },
+        {
+          "name": "subnet_id",
+          "type": "UInt8",
+          "description": "Subnet index, 0 to 63 for attestation and 0 to 3 for sync"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Peers that last advertised the subnet in the day"
+        },
+        {
+          "name": "all_subnets_peer_count",
+          "type": "UInt32",
+          "description": "Of those, peers on every subnet of the type, the same on every row of the type"
         }
       ]
     },
@@ -30047,6 +30452,67 @@
           "name": "served_history_slots",
           "type": "Nullable(UInt32)",
           "description": "Slots of block history the peer serves at its latest status: the head of the sentry it exchanged status with minus earliest_available_slot. The spec minimum is 1056768 slots (33024 epochs)"
+        }
+      ]
+    },
+    {
+      "name": "int_peer_subnet_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per consensus peer per day with the attestation and sync subnets it last advertised in a metadata response to our libp2p sentries. Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Hash of the peer ID and network, the key shared by the libp2p tables"
+        },
+        {
+          "name": "attnets",
+          "type": "UInt64",
+          "description": "Attestation subnets the peer last advertised in the day: bit i is subnet i"
+        },
+        {
+          "name": "syncnets",
+          "type": "UInt8",
+          "description": "Sync committee subnets the peer last advertised in the day: bit i is subnet i"
+        },
+        {
+          "name": "response_count",
+          "type": "UInt32",
+          "description": "Metadata responses the peer sent our sentries in the day. 0 means the peer was dropped from the day on a recount"
         }
       ]
     },
