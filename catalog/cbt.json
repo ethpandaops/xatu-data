@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T01:05:20Z",
+  "generated_at": "2026-11-10T14:04:28Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -496,6 +496,62 @@
           "name": "source",
           "type": "String",
           "description": "The source entity of the node"
+        }
+      ]
+    },
+    {
+      "name": "dim_peer_node",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "peer_id_unique_key",
+        "type": "integer",
+        "interval": "1000"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Consensus peers in int_peer_daily with a peer ID, with their discv5 node ID and the order their node ID assigns custody groups in.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "peer_id_unique_key",
+          "type": "Int64",
+          "description": "Hash of the peer ID and network, the key shared by the libp2p tables"
+        },
+        {
+          "name": "peer_id",
+          "type": "String",
+          "description": "libp2p peer ID"
+        },
+        {
+          "name": "node_id",
+          "type": "String",
+          "description": "discv5 node ID (hex, the keccak256 of the uncompressed secp256k1 public key in the peer ID), empty when the peer ID holds another key type"
+        },
+        {
+          "name": "custody_group_order",
+          "type": "Array(UInt8)",
+          "description": "All 128 custody groups in the order the node ID assigns them (get_custody_groups): a peer with custody group count n custodies the first n, and group g is data column g. Empty without a node ID"
         }
       ]
     },
@@ -21380,6 +21436,173 @@
           "name": "custody_128_peer_count",
           "type": "UInt32",
           "description": "Peers custodying all 128 groups (supernodes)"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_custody_by_column_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily consensus peers by the data columns they custody, 128 rows a day: a peer with custody group count n custodies the first n groups its node ID assigns. Peers our libp2p sentries or discovery crawler saw with a known custody group count and peer ID (all peers from April 2026). Crawlers, probes, light clients and our own sentries are excluded.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "column_index",
+          "type": "UInt8",
+          "description": "Data column index, 0 to 127"
+        },
+        {
+          "name": "custodian_peer_count",
+          "type": "UInt32",
+          "description": "Peers that custody the column, from their custody group count and node ID"
+        },
+        {
+          "name": "supernode_peer_count",
+          "type": "UInt32",
+          "description": "Of those, peers custodying all 128 groups (supernodes), the same for every column"
+        },
+        {
+          "name": "hosting_peer_count",
+          "type": "UInt32",
+          "description": "Of those, peers on a cloud or hosting provider network"
+        },
+        {
+          "name": "country_count",
+          "type": "UInt16",
+          "description": "Countries the custodians are in"
+        },
+        {
+          "name": "largest_country_peer_count",
+          "type": "UInt32",
+          "description": "Custodians in the country with the most of them"
+        },
+        {
+          "name": "hosting_autonomous_system_count",
+          "type": "UInt16",
+          "description": "Hosting autonomous systems the custodians are on. Residential peers have no autonomous system here"
+        },
+        {
+          "name": "largest_autonomous_system_peer_count",
+          "type": "UInt32",
+          "description": "Custodians on the hosting autonomous system with the most of them"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_custody_coverage_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily spread of consensus peers over the 128 data columns they custody, one row a day: the thinnest, median and thickest column, and the thinnest once supernodes or its largest hosting autonomous system are taken away. Peers as in fct_peer_custody_by_column_daily.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "custody_peer_count",
+          "type": "UInt32",
+          "description": "Peers counted: those with a known custody group count and node ID"
+        },
+        {
+          "name": "supernode_peer_count",
+          "type": "UInt32",
+          "description": "Of those, peers custodying all 128 groups (supernodes)"
+        },
+        {
+          "name": "min_column_custodian_peer_count",
+          "type": "UInt32",
+          "description": "Custodians of the thinnest column"
+        },
+        {
+          "name": "min_column_index",
+          "type": "UInt8",
+          "description": "The thinnest column, the lowest index on a tie"
+        },
+        {
+          "name": "median_column_custodian_peer_count",
+          "type": "UInt32",
+          "description": "Median custodians per column (the lower of the middle two)"
+        },
+        {
+          "name": "max_column_custodian_peer_count",
+          "type": "UInt32",
+          "description": "Custodians of the thickest column"
+        },
+        {
+          "name": "min_column_non_supernode_peer_count",
+          "type": "UInt32",
+          "description": "Custodians of the thinnest column without supernodes"
+        },
+        {
+          "name": "min_column_without_largest_autonomous_system_peer_count",
+          "type": "UInt32",
+          "description": "Fewest custodians any column keeps once its largest hosting autonomous system is taken away"
+        },
+        {
+          "name": "min_column_country_count",
+          "type": "UInt16",
+          "description": "Fewest countries any column is custodied in"
         }
       ]
     },

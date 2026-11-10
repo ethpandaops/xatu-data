@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T01:05:20Z",
+  "generated_at": "2026-11-10T14:04:28Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -204,6 +204,7 @@
         "dim_contract_owner",
         "dim_function_signature",
         "dim_node",
+        "dim_peer_node",
         "dim_rocketpool_node",
         "dim_token_contract",
         "dim_validator",
@@ -423,6 +424,8 @@
         "fct_peer_count_by_el_client_daily",
         "fct_peer_count_by_el_country_daily",
         "fct_peer_count_by_source_daily",
+        "fct_peer_custody_by_column_daily",
+        "fct_peer_custody_coverage_daily",
         "fct_peer_fork_readiness_by_cl_client_daily",
         "fct_peer_fork_readiness_by_el_client_daily",
         "fct_peer_hosting_by_el_client_daily",

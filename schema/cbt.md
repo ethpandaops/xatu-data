@@ -25,6 +25,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`dim_contract_owner`](#dim_contract_owner)
 - [`dim_function_signature`](#dim_function_signature)
 - [`dim_node`](#dim_node)
+- [`dim_peer_node`](#dim_peer_node)
 - [`dim_rocketpool_node`](#dim_rocketpool_node)
 - [`dim_token_contract`](#dim_token_contract)
 - [`dim_validator`](#dim_validator)
@@ -244,6 +245,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_peer_count_by_el_client_daily`](#fct_peer_count_by_el_client_daily)
 - [`fct_peer_count_by_el_country_daily`](#fct_peer_count_by_el_country_daily)
 - [`fct_peer_count_by_source_daily`](#fct_peer_count_by_source_daily)
+- [`fct_peer_custody_by_column_daily`](#fct_peer_custody_by_column_daily)
+- [`fct_peer_custody_coverage_daily`](#fct_peer_custody_coverage_daily)
 - [`fct_peer_fork_readiness_by_cl_client_daily`](#fct_peer_fork_readiness_by_cl_client_daily)
 - [`fct_peer_fork_readiness_by_el_client_daily`](#fct_peer_fork_readiness_by_el_client_daily)
 - [`fct_peer_hosting_by_el_client_daily`](#fct_peer_hosting_by_el_client_daily)
@@ -806,6 +809,63 @@ echo """
 | **tags** | `Array(String)` | *Tags associated with the node* |
 | **attributes** | `Map(String, String)` | *Additional attributes of the node* |
 | **source** | `String` | *The source entity of the node* |
+
+## dim_peer_node
+
+Consensus peers in int_peer_daily with a peer ID, with their discv5 node ID and the order their node ID assigns custody groups in.
+
+### Availability
+This table has no partitioning.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.dim_peer_node`
+- **sepolia**: `sepolia.dim_peer_node`
+- **holesky**: `holesky.dim_peer_node`
+- **hoodi**: `hoodi.dim_peer_node`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.dim_peer_node FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.dim_peer_node_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **peer_id_unique_key** | `Int64` | *Hash of the peer ID and network, the key shared by the libp2p tables* |
+| **peer_id** | `String` | *libp2p peer ID* |
+| **node_id** | `String` | *discv5 node ID (hex, the keccak256 of the uncompressed secp256k1 public key in the peer ID), empty when the peer ID holds another key type* |
+| **custody_group_order** | `Array(UInt8)` | *All 128 custody groups in the order the node ID assigns them (get_custody_groups): a peer with custody group count n custodies the first n, and group g is data column g. Empty without a node ID* |
 
 ## dim_rocketpool_node
 
@@ -14989,6 +15049,131 @@ echo """
 | **custody_5_8_peer_count** | `UInt32` | *Peers custodying 5 to 8 groups* |
 | **custody_9_127_peer_count** | `UInt32` | *Peers custodying 9 to 127 groups* |
 | **custody_128_peer_count** | `UInt32` | *Peers custodying all 128 groups (supernodes)* |
+
+## fct_peer_custody_by_column_daily
+
+Daily consensus peers by the data columns they custody, 128 rows a day: a peer with custody group count n custodies the first n groups its node ID assigns. Peers our libp2p sentries or discovery crawler saw with a known custody group count and peer ID (all peers from April 2026). Crawlers, probes, light clients and our own sentries are excluded.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_custody_by_column_daily`
+- **sepolia**: `sepolia.fct_peer_custody_by_column_daily`
+- **holesky**: `holesky.fct_peer_custody_by_column_daily`
+- **hoodi**: `hoodi.fct_peer_custody_by_column_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_custody_by_column_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_custody_by_column_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **column_index** | `UInt8` | *Data column index, 0 to 127* |
+| **custodian_peer_count** | `UInt32` | *Peers that custody the column, from their custody group count and node ID* |
+| **supernode_peer_count** | `UInt32` | *Of those, peers custodying all 128 groups (supernodes), the same for every column* |
+| **hosting_peer_count** | `UInt32` | *Of those, peers on a cloud or hosting provider network* |
+| **country_count** | `UInt16` | *Countries the custodians are in* |
+| **largest_country_peer_count** | `UInt32` | *Custodians in the country with the most of them* |
+| **hosting_autonomous_system_count** | `UInt16` | *Hosting autonomous systems the custodians are on. Residential peers have no autonomous system here* |
+| **largest_autonomous_system_peer_count** | `UInt32` | *Custodians on the hosting autonomous system with the most of them* |
+
+## fct_peer_custody_coverage_daily
+
+Daily spread of consensus peers over the 128 data columns they custody, one row a day: the thinnest, median and thickest column, and the thinnest once supernodes or its largest hosting autonomous system are taken away. Peers as in fct_peer_custody_by_column_daily.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_custody_coverage_daily`
+- **sepolia**: `sepolia.fct_peer_custody_coverage_daily`
+- **holesky**: `holesky.fct_peer_custody_coverage_daily`
+- **hoodi**: `hoodi.fct_peer_custody_coverage_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_custody_coverage_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_custody_coverage_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **custody_peer_count** | `UInt32` | *Peers counted: those with a known custody group count and node ID* |
+| **supernode_peer_count** | `UInt32` | *Of those, peers custodying all 128 groups (supernodes)* |
+| **min_column_custodian_peer_count** | `UInt32` | *Custodians of the thinnest column* |
+| **min_column_index** | `UInt8` | *The thinnest column, the lowest index on a tie* |
+| **median_column_custodian_peer_count** | `UInt32` | *Median custodians per column (the lower of the middle two)* |
+| **max_column_custodian_peer_count** | `UInt32` | *Custodians of the thickest column* |
+| **min_column_non_supernode_peer_count** | `UInt32` | *Custodians of the thinnest column without supernodes* |
+| **min_column_without_largest_autonomous_system_peer_count** | `UInt32` | *Fewest custodians any column keeps once its largest hosting autonomous system is taken away* |
+| **min_column_country_count** | `UInt16` | *Fewest countries any column is custodied in* |
 
 ## fct_peer_fork_readiness_by_cl_client_daily
 
