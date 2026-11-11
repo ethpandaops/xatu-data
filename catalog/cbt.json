@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T22:46:31Z",
+  "generated_at": "2026-11-11T13:19:49Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -21749,6 +21749,133 @@
       ]
     },
     {
+      "name": "fct_peer_goodbye_by_cl_client_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily libp2p Goodbye messages our sentries received from remote peers, by the consensus client of the peer and the reason code it gave for disconnecting. Rows are written once the day is complete. The first day of data and a day after a whole day without goodbyes are left out, as they are partial.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "client",
+          "type": "LowCardinality(String)",
+          "description": "Consensus client of the remote peer from its agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was not known, other for every other agent (libp2p tools, crawlers)"
+        },
+        {
+          "name": "code",
+          "type": "UInt64",
+          "description": "Goodbye reason code the remote peer sent: 1 client shutdown, 2 irrelevant network, 3 fault/error, 128 unable to verify network, 129 too many peers, 250 peer score too low, 251 banned. Other codes are client specific"
+        },
+        {
+          "name": "reason",
+          "type": "LowCardinality(String)",
+          "description": "Reason text our sentries give the code, such as client has too many peers. Codes they do not know read as unknown goodbye value of N received"
+        },
+        {
+          "name": "goodbye_count",
+          "type": "UInt32",
+          "description": "Goodbye messages with the code our sentries received from the client in the day. A peer that says goodbye to several sentries counts once for each"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Unique remote peers of the client that sent the code in the day. A peer that sent several codes counts under each"
+        }
+      ]
+    },
+    {
+      "name": "fct_peer_goodbye_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily libp2p Goodbye messages our sentries received from remote peers, by the reason code the peer gave for disconnecting. Rows are written once the day is complete. The first day of data and a day after a whole day without goodbyes are left out, as they are partial.",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period"
+        },
+        {
+          "name": "code",
+          "type": "UInt64",
+          "description": "Goodbye reason code the remote peer sent: 1 client shutdown, 2 irrelevant network, 3 fault/error, 128 unable to verify network, 129 too many peers, 250 peer score too low, 251 banned. Other codes are client specific"
+        },
+        {
+          "name": "reason",
+          "type": "LowCardinality(String)",
+          "description": "Reason text our sentries give the code, such as client has too many peers. Codes they do not know read as unknown goodbye value of N received"
+        },
+        {
+          "name": "goodbye_count",
+          "type": "UInt32",
+          "description": "Goodbye messages with the code our sentries received in the day. A peer that says goodbye to several sentries counts once for each"
+        },
+        {
+          "name": "peer_count",
+          "type": "UInt32",
+          "description": "Unique remote peers that sent the code in the day. A peer that sent several codes counts under each"
+        }
+      ]
+    },
+    {
       "name": "fct_peer_hosting_by_el_client_daily",
       "database": "cbt",
       "cbt_table": true,
@@ -24154,6 +24281,1175 @@
           "name": "active_slots",
           "type": "Int64",
           "description": "Cumulative active storage slots owned by contracts of this standard at end of day"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_blob_announcement_by_el_client_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly blob transaction announcements received by mimicry clients, per announcing peer execution client",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period, bucketed by announcement receive time"
+        },
+        {
+          "name": "peer_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client of the announcing peers"
+        },
+        {
+          "name": "announcement_count",
+          "type": "UInt64",
+          "description": "Blob transaction announcements received from peers running this client"
+        },
+        {
+          "name": "hash_count",
+          "type": "UInt64",
+          "description": "Distinct blob transaction hashes announced by peers running this client"
+        },
+        {
+          "name": "unique_sentries",
+          "type": "UInt64",
+          "description": "Distinct mimicry clients that received announcements from this client"
+        },
+        {
+          "name": "first_announcer_hash_count",
+          "type": "UInt64",
+          "description": "Blob transaction hashes whose earliest announcement this hour came from a peer running this client"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_inclusion",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "slot_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per transaction included in a canonical beacon block execution payload. Carries no mempool or relay context so it can cover the full post-Merge history",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "slot",
+          "type": "UInt32",
+          "description": "The slot number of the beacon block containing the transaction"
+        },
+        {
+          "name": "slot_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the slot started"
+        },
+        {
+          "name": "epoch",
+          "type": "UInt32",
+          "description": "The epoch number containing the slot"
+        },
+        {
+          "name": "epoch_start_date_time",
+          "type": "DateTime",
+          "description": "The wall clock time when the epoch started"
+        },
+        {
+          "name": "block_root",
+          "type": "FixedString(66)",
+          "description": "The beacon block root hash"
+        },
+        {
+          "name": "block_version",
+          "type": "LowCardinality(String)",
+          "description": "The beacon block version"
+        },
+        {
+          "name": "block_number",
+          "type": "Nullable(UInt64)",
+          "description": "The execution block number, null when the block is not yet present in fct_block"
+        },
+        {
+          "name": "position",
+          "type": "UInt32",
+          "description": "The position of the transaction in the execution payload"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the transaction recipient, null for contract creation"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the sender account at the time of the transaction"
+        },
+        {
+          "name": "type",
+          "type": "UInt8",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the transaction in wei"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) the user has set for the transaction in wei"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the transaction in wei"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "The size of the transaction data in bytes"
+        },
+        {
+          "name": "call_data_size",
+          "type": "UInt32",
+          "description": "The size of the call data of the transaction in bytes"
+        },
+        {
+          "name": "blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The maximum gas provided for the blob transaction execution"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max blob fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "blob_hashes",
+          "type": "Array(String)",
+          "description": "The hashes of the blob commitments for blob transactions"
+        },
+        {
+          "name": "is_cancel_shape",
+          "type": "Bool",
+          "description": "Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_inclusion_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily counts of transactions included in canonical blocks, split by build path and transaction type",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, bucketed by inclusion slot time"
+        },
+        {
+          "name": "included_count",
+          "type": "UInt64",
+          "description": "Number of transactions included in canonical blocks this day"
+        },
+        {
+          "name": "relay_delivered_count",
+          "type": "UInt64",
+          "description": "Included transactions whose block matched a known relay payload-delivered record"
+        },
+        {
+          "name": "unknown_build_count",
+          "type": "UInt64",
+          "description": "Included transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built"
+        },
+        {
+          "name": "type0_count",
+          "type": "UInt64",
+          "description": "Included legacy type 0 transactions"
+        },
+        {
+          "name": "type1_count",
+          "type": "UInt64",
+          "description": "Included access list type 1 transactions"
+        },
+        {
+          "name": "type2_count",
+          "type": "UInt64",
+          "description": "Included dynamic fee type 2 transactions"
+        },
+        {
+          "name": "type3_count",
+          "type": "UInt64",
+          "description": "Included blob type 3 transactions"
+        },
+        {
+          "name": "type4_count",
+          "type": "UInt64",
+          "description": "Included set code type 4 transactions"
+        },
+        {
+          "name": "type_other_count",
+          "type": "UInt64",
+          "description": "Included transactions of any other type"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt64",
+          "description": "Total blob commitments across included transactions this day"
+        },
+        {
+          "name": "contract_creation_count",
+          "type": "UInt64",
+          "description": "Included transactions with no recipient address"
+        },
+        {
+          "name": "cancel_shape_count",
+          "type": "UInt64",
+          "description": "Included transactions that are self-transfers of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "unique_senders",
+          "type": "UInt64",
+          "description": "Distinct sender addresses across included transactions this day"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_inclusion_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly counts of transactions included in canonical blocks, split by build path and transaction type",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period, bucketed by inclusion slot time"
+        },
+        {
+          "name": "included_count",
+          "type": "UInt64",
+          "description": "Number of transactions included in canonical blocks this hour"
+        },
+        {
+          "name": "relay_delivered_count",
+          "type": "UInt64",
+          "description": "Included transactions whose block matched a known relay payload-delivered record"
+        },
+        {
+          "name": "unknown_build_count",
+          "type": "UInt64",
+          "description": "Included transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built"
+        },
+        {
+          "name": "type0_count",
+          "type": "UInt64",
+          "description": "Included legacy type 0 transactions"
+        },
+        {
+          "name": "type1_count",
+          "type": "UInt64",
+          "description": "Included access list type 1 transactions"
+        },
+        {
+          "name": "type2_count",
+          "type": "UInt64",
+          "description": "Included dynamic fee type 2 transactions"
+        },
+        {
+          "name": "type3_count",
+          "type": "UInt64",
+          "description": "Included blob type 3 transactions"
+        },
+        {
+          "name": "type4_count",
+          "type": "UInt64",
+          "description": "Included set code type 4 transactions"
+        },
+        {
+          "name": "type_other_count",
+          "type": "UInt64",
+          "description": "Included transactions of any other type"
+        },
+        {
+          "name": "blob_count",
+          "type": "UInt64",
+          "description": "Total blob commitments across included transactions this hour"
+        },
+        {
+          "name": "contract_creation_count",
+          "type": "UInt64",
+          "description": "Included transactions with no recipient address"
+        },
+        {
+          "name": "cancel_shape_count",
+          "type": "UInt64",
+          "description": "Included transactions that are self-transfers of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "unique_senders",
+          "type": "UInt64",
+          "description": "Distinct sender addresses across included transactions this hour"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_mempool_outcome_7d",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "first_seen_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One immutable row per transaction hash observed in the public mempool, stating its fixed-horizon outcome within 7 days of first sighting. An observation episode starts when a hash is sighted with no sightings in the preceding 7 days. A hash re-sighted after more than 7 days of silence starts a new episode and a new row",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest sighting of the transaction within its observation episode, the anchor of the 7 day horizon"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the transaction recipient, null for contract creation"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the sender account at the time of the transaction"
+        },
+        {
+          "name": "type",
+          "type": "Nullable(UInt8)",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the transaction in wei"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) the user has set for the transaction in wei"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the transaction in wei"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "The size of the transaction data in bytes"
+        },
+        {
+          "name": "call_data_size",
+          "type": "UInt32",
+          "description": "The size of the call data of the transaction in bytes"
+        },
+        {
+          "name": "blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The maximum gas provided for the blob transaction execution"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max blob fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "blob_hashes",
+          "type": "Array(String)",
+          "description": "The hashes of the blob commitments for blob transactions"
+        },
+        {
+          "name": "is_cancel_shape",
+          "type": "Bool",
+          "description": "Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Latest sighting of the transaction within the 7 day horizon"
+        },
+        {
+          "name": "sighting_count",
+          "type": "UInt32",
+          "description": "Number of sightings within the 7 day horizon across all sentries"
+        },
+        {
+          "name": "peak_hourly_unique_sentries",
+          "type": "UInt32",
+          "description": "Peak number of distinct sentries sighting the transaction within any single hour of the horizon"
+        },
+        {
+          "name": "outcome",
+          "type": "LowCardinality(String)",
+          "description": "Outcome within 7 days of first sighting: included, nonce_consumed (a different transaction with the same from and nonce was included) or unincluded. The statement is fixed to the horizon and remains true even if the transaction is included later"
+        },
+        {
+          "name": "resolution_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the outcome was determined: the inclusion slot start for included, the winner inclusion slot start for nonce_consumed, or first_seen_date_time plus 7 days for unincluded"
+        },
+        {
+          "name": "included_slot",
+          "type": "Nullable(UInt32)",
+          "description": "The slot of the beacon block that included the transaction, when outcome is included"
+        },
+        {
+          "name": "included_slot_start_date_time",
+          "type": "Nullable(DateTime)",
+          "description": "The wall clock time when the inclusion slot started, when outcome is included"
+        },
+        {
+          "name": "included_block_root",
+          "type": "Nullable(FixedString(66))",
+          "description": "The beacon block root of the including block, when outcome is included"
+        },
+        {
+          "name": "included_position",
+          "type": "Nullable(UInt32)",
+          "description": "The position of the transaction in the execution payload, when outcome is included"
+        },
+        {
+          "name": "wait_ms",
+          "type": "Nullable(Int64)",
+          "description": "Milliseconds from first sighting to the inclusion slot start, when outcome is included. Negative when the transaction was first sighted after its inclusion slot started"
+        },
+        {
+          "name": "included_via_known_relay",
+          "type": "Nullable(Bool)",
+          "description": "Whether the including block matched a known relay payload-delivered record, when outcome is included. False is not proof the block was locally built"
+        },
+        {
+          "name": "winner_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The hash of the transaction that consumed the nonce, when outcome is nonce_consumed"
+        },
+        {
+          "name": "winner_slot_start_date_time",
+          "type": "Nullable(DateTime)",
+          "description": "The wall clock time when the winner inclusion slot started, when outcome is nonce_consumed"
+        },
+        {
+          "name": "observed_after_nonce_consumed",
+          "type": "Bool",
+          "description": "Whether the transaction was first sighted after its nonce had already been consumed by another transaction"
+        },
+        {
+          "name": "in_mempool_at_deadline",
+          "type": "Bool",
+          "description": "Whether a sighting occurred in the final hour before the 7 day deadline. Sensor evidence of continued circulation, only meaningful when outcome is unincluded"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_mempool_outcome_daily",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "day_start_date",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Daily cohort outcomes for transactions first sighted in the public mempool, resolved at the fixed 7 day horizon",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "day_start_date",
+          "type": "Date",
+          "description": "Start of the day period, bucketed by first sighting time. Rows are complete once the 7 day horizon for the day has been processed and never change afterwards"
+        },
+        {
+          "name": "observed_count",
+          "type": "UInt64",
+          "description": "Transactions first sighted in the public mempool this day"
+        },
+        {
+          "name": "included_count",
+          "type": "UInt64",
+          "description": "Observed transactions included within 7 days of first sighting"
+        },
+        {
+          "name": "nonce_consumed_count",
+          "type": "UInt64",
+          "description": "Observed transactions whose nonce was consumed by a different transaction within 7 days"
+        },
+        {
+          "name": "unincluded_count",
+          "type": "UInt64",
+          "description": "Observed transactions with no inclusion of their nonce within 7 days"
+        },
+        {
+          "name": "included_relay_delivered_count",
+          "type": "UInt64",
+          "description": "Included observed transactions whose block matched a known relay payload-delivered record"
+        },
+        {
+          "name": "included_unknown_build_count",
+          "type": "UInt64",
+          "description": "Included observed transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built"
+        },
+        {
+          "name": "in_mempool_at_deadline_count",
+          "type": "UInt64",
+          "description": "Unincluded transactions with a sighting in the final hour before the 7 day deadline"
+        },
+        {
+          "name": "cancel_shape_count",
+          "type": "UInt64",
+          "description": "Observed transactions that are self-transfers of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "observed_after_nonce_consumed_count",
+          "type": "UInt64",
+          "description": "Observed transactions first sighted after their nonce had already been consumed"
+        },
+        {
+          "name": "wait_ms_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_ms_p90",
+          "type": "Nullable(Float64)",
+          "description": "p90 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_ms_p99",
+          "type": "Nullable(Float64)",
+          "description": "p99 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_sample_count",
+          "type": "UInt64",
+          "description": "Number of included transactions contributing to the wait quantiles"
+        },
+        {
+          "name": "negative_wait_count",
+          "type": "UInt64",
+          "description": "Included transactions first sighted after their inclusion slot started, excluded from the wait quantiles"
+        },
+        {
+          "name": "blob_observed_count",
+          "type": "UInt64",
+          "description": "Observed blob type 3 transactions first sighted this day"
+        },
+        {
+          "name": "blob_wait_ms_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_ms_p90",
+          "type": "Nullable(Float64)",
+          "description": "p90 wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_ms_p99",
+          "type": "Nullable(Float64)",
+          "description": "p99 wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_sample_count",
+          "type": "UInt64",
+          "description": "Number of included blob transactions contributing to the blob wait quantiles"
+        },
+        {
+          "name": "nonce_group_count",
+          "type": "UInt64",
+          "description": "Distinct from and nonce pairs across transactions first sighted this day"
+        },
+        {
+          "name": "multi_attempt_nonce_group_count",
+          "type": "UInt64",
+          "description": "Nonce groups with at least two observed attempts, anchored to this day by their earliest attempt sighting"
+        },
+        {
+          "name": "replaced_attempt_count",
+          "type": "UInt64",
+          "description": "Non-winning attempts across multi-attempt nonce groups anchored to this day"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_mempool_outcome_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly cohort outcomes for transactions first sighted in the public mempool, resolved at the fixed 7 day horizon",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period, bucketed by first sighting time. Rows are complete once the 7 day horizon for the hour has been processed and never change afterwards"
+        },
+        {
+          "name": "observed_count",
+          "type": "UInt64",
+          "description": "Transactions first sighted in the public mempool this hour"
+        },
+        {
+          "name": "included_count",
+          "type": "UInt64",
+          "description": "Observed transactions included within 7 days of first sighting"
+        },
+        {
+          "name": "nonce_consumed_count",
+          "type": "UInt64",
+          "description": "Observed transactions whose nonce was consumed by a different transaction within 7 days"
+        },
+        {
+          "name": "unincluded_count",
+          "type": "UInt64",
+          "description": "Observed transactions with no inclusion of their nonce within 7 days"
+        },
+        {
+          "name": "included_relay_delivered_count",
+          "type": "UInt64",
+          "description": "Included observed transactions whose block matched a known relay payload-delivered record"
+        },
+        {
+          "name": "included_unknown_build_count",
+          "type": "UInt64",
+          "description": "Included observed transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built"
+        },
+        {
+          "name": "in_mempool_at_deadline_count",
+          "type": "UInt64",
+          "description": "Unincluded transactions with a sighting in the final hour before the 7 day deadline"
+        },
+        {
+          "name": "cancel_shape_count",
+          "type": "UInt64",
+          "description": "Observed transactions that are self-transfers of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "observed_after_nonce_consumed_count",
+          "type": "UInt64",
+          "description": "Observed transactions first sighted after their nonce had already been consumed"
+        },
+        {
+          "name": "wait_ms_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_ms_p90",
+          "type": "Nullable(Float64)",
+          "description": "p90 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_ms_p99",
+          "type": "Nullable(Float64)",
+          "description": "p99 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits"
+        },
+        {
+          "name": "wait_sample_count",
+          "type": "UInt64",
+          "description": "Number of included transactions contributing to the wait quantiles"
+        },
+        {
+          "name": "negative_wait_count",
+          "type": "UInt64",
+          "description": "Included transactions first sighted after their inclusion slot started, excluded from the wait quantiles"
+        },
+        {
+          "name": "blob_observed_count",
+          "type": "UInt64",
+          "description": "Observed blob type 3 transactions first sighted this hour"
+        },
+        {
+          "name": "blob_wait_ms_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_ms_p90",
+          "type": "Nullable(Float64)",
+          "description": "p90 wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_ms_p99",
+          "type": "Nullable(Float64)",
+          "description": "p99 wait milliseconds over included blob transactions with non-negative waits"
+        },
+        {
+          "name": "blob_wait_sample_count",
+          "type": "UInt64",
+          "description": "Number of included blob transactions contributing to the blob wait quantiles"
+        },
+        {
+          "name": "nonce_group_count",
+          "type": "UInt64",
+          "description": "Distinct from and nonce pairs across transactions first sighted this hour"
+        },
+        {
+          "name": "multi_attempt_nonce_group_count",
+          "type": "UInt64",
+          "description": "Nonce groups with at least two observed attempts, anchored to this hour by their earliest attempt sighting"
+        },
+        {
+          "name": "replaced_attempt_count",
+          "type": "UInt64",
+          "description": "Non-winning attempts across multi-attempt nonce groups anchored to this hour"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_mempool_removal_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "Hourly counts of transactions that left Xatu sentry txpools without being included, by removal reason. replaced and nonce_consumed are reliable, while dropped is churn-heavy",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "Start of the hour period, bucketed by removal detection time"
+        },
+        {
+          "name": "reason",
+          "type": "LowCardinality(String)",
+          "description": "Removal reason: replaced, nonce_consumed or dropped. dropped means the hash left at least one sentry pool and is usually seen again later"
+        },
+        {
+          "name": "hash_count",
+          "type": "UInt64",
+          "description": "Distinct transaction hashes removed for this reason this hour"
+        },
+        {
+          "name": "pending_hash_count",
+          "type": "UInt64",
+          "description": "Hashes removed from at least one sentry pending pool"
+        },
+        {
+          "name": "queued_hash_count",
+          "type": "UInt64",
+          "description": "Hashes removed from at least one sentry queued pool"
+        },
+        {
+          "name": "hash_sentry_count",
+          "type": "UInt64",
+          "description": "Distinct hash and sentry pairs, repeat detections by one sentry counted once"
+        },
+        {
+          "name": "detection_count",
+          "type": "UInt64",
+          "description": "Raw removal detections including repeats"
+        },
+        {
+          "name": "blob_hash_count",
+          "type": "UInt64",
+          "description": "Blob type 3 hashes removed for this reason"
+        },
+        {
+          "name": "with_replacement_count",
+          "type": "UInt64",
+          "description": "Hashes with a known replacing transaction"
+        },
+        {
+          "name": "replacement_tip_cap_ratio_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median replacing tip cap divided by the replaced tip cap, over replaced hashes with a non-zero tip cap"
+        },
+        {
+          "name": "replacement_fee_cap_ratio_p50",
+          "type": "Nullable(Float64)",
+          "description": "Median replacing max fee cap divided by the replaced max fee cap, over replaced hashes with a non-zero fee cap"
+        }
+      ]
+    },
+    {
+      "name": "fct_transaction_replacement",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "group_first_seen_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per publicly observed attempt in nonce groups with at least two attempts, emitted when the group resolves. A nonce group is all transactions sharing a from address and nonce whose first sightings fall within 7 days of the group anchor",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "group_first_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest sighting of any attempt in the nonce group, the anchor of the group window"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the attempts"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce the attempts compete for"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash of this attempt"
+        },
+        {
+          "name": "attempt_index",
+          "type": "UInt16",
+          "description": "The 1-based rank of this attempt within the group, ordered by first sighting with ties broken by hash"
+        },
+        {
+          "name": "group_attempt_count",
+          "type": "UInt16",
+          "description": "Total number of publicly observed attempts in the group window"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest sighting of this attempt"
+        },
+        {
+          "name": "previous_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The hash of the attempt immediately before this one in the group, null for the first attempt"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the attempt recipient, null for contract creation"
+        },
+        {
+          "name": "type",
+          "type": "Nullable(UInt8)",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the attempt in wei"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) of the attempt in wei"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee of the attempt in wei"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the attempt in wei"
+        },
+        {
+          "name": "gas_tip_cap_delta",
+          "type": "Nullable(Int128)",
+          "description": "This attempt gas_tip_cap minus the previous attempt gas_tip_cap, null for the first attempt or when either side is null"
+        },
+        {
+          "name": "gas_fee_cap_delta",
+          "type": "Nullable(Int128)",
+          "description": "This attempt gas_fee_cap minus the previous attempt gas_fee_cap, null for the first attempt or when either side is null"
+        },
+        {
+          "name": "is_cancel_shape",
+          "type": "Bool",
+          "description": "Whether the attempt is a self-transfer of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "is_winner",
+          "type": "Bool",
+          "description": "Whether this attempt is the one that was included on chain"
+        },
+        {
+          "name": "group_outcome",
+          "type": "LowCardinality(String)",
+          "description": "Outcome of the nonce group within 7 days of the group anchor: included or unincluded"
+        },
+        {
+          "name": "winner_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The hash of the included attempt, null when the group resolved unincluded"
+        },
+        {
+          "name": "resolution_date_time",
+          "type": "DateTime64(3)",
+          "description": "When the group resolved: the winner inclusion slot start, or the group anchor plus 7 days when unincluded"
+        },
+        {
+          "name": "observed_after_resolution",
+          "type": "Bool",
+          "description": "Whether this attempt was first sighted after the group had already resolved"
         }
       ]
     },
@@ -32578,6 +33874,112 @@
       ]
     },
     {
+      "name": "int_transaction_blob_announcement_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per blob transaction hash per hour in which mimicry clients received an announcement of it from an execution layer peer",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The start of the hour bucket the announcements fall in"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The blob transaction hash"
+        },
+        {
+          "name": "first_announced_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest announcement received this hour across mimicry clients"
+        },
+        {
+          "name": "last_announced_date_time",
+          "type": "DateTime64(3)",
+          "description": "Latest announcement received this hour across mimicry clients"
+        },
+        {
+          "name": "announcement_count",
+          "type": "UInt32",
+          "description": "Peer announcements received this hour, roughly the number of announcing peers summed over mimicry clients"
+        },
+        {
+          "name": "unique_sentries",
+          "type": "UInt32",
+          "description": "Distinct mimicry clients that received an announcement this hour"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "Announced transaction size in bytes, including blobs"
+        },
+        {
+          "name": "peer_implementations",
+          "type": "Array(String)",
+          "description": "Distinct execution clients of the announcing peers, sorted"
+        },
+        {
+          "name": "first_peer_implementation",
+          "type": "LowCardinality(String)",
+          "description": "Execution client of the peer whose announcement arrived first"
+        },
+        {
+          "name": "first_peer_version",
+          "type": "LowCardinality(String)",
+          "description": "Client version of the peer whose announcement arrived first"
+        },
+        {
+          "name": "first_sentry_name",
+          "type": "LowCardinality(String)",
+          "description": "Mimicry client that received the first announcement"
+        },
+        {
+          "name": "first_sentry_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the mimicry client that received the first announcement"
+        },
+        {
+          "name": "first_sentry_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the mimicry client that received the first announcement"
+        },
+        {
+          "name": "first_sentry_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the mimicry client that received the first announcement"
+        }
+      ]
+    },
+    {
       "name": "int_transaction_call_frame",
       "database": "cbt",
       "cbt_table": true,
@@ -32922,6 +34324,323 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "The name of the network"
+        }
+      ]
+    },
+    {
+      "name": "int_transaction_mempool_observation_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per transaction hash per hour in which it was sighted in the public mempool by at least one sentry. Rows summarise the sightings within that hour only. A transaction sighted across multiple hours has multiple rows",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The start of the hour bucket the sightings fall in"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest sighting of the transaction by any sentry within this hour"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Latest sighting of the transaction by any sentry within this hour"
+        },
+        {
+          "name": "sighting_count",
+          "type": "UInt32",
+          "description": "Number of sightings of the transaction within this hour across all sentries"
+        },
+        {
+          "name": "unique_sentries",
+          "type": "UInt32",
+          "description": "Number of distinct sentries that sighted the transaction within this hour"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the transaction recipient, null for contract creation"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the sender account at the time of the transaction"
+        },
+        {
+          "name": "type",
+          "type": "Nullable(UInt8)",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_price",
+          "type": "UInt128",
+          "description": "The gas price of the transaction in wei"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The priority fee (tip) the user has set for the transaction in wei"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "value",
+          "type": "UInt128",
+          "description": "The value transferred with the transaction in wei"
+        },
+        {
+          "name": "size",
+          "type": "UInt32",
+          "description": "The size of the transaction data in bytes"
+        },
+        {
+          "name": "call_data_size",
+          "type": "UInt32",
+          "description": "The size of the call data of the transaction in bytes"
+        },
+        {
+          "name": "blob_gas",
+          "type": "Nullable(UInt64)",
+          "description": "The maximum gas provided for the blob transaction execution"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max blob fee the user has set for the transaction in wei"
+        },
+        {
+          "name": "blob_hashes",
+          "type": "Array(String)",
+          "description": "The hashes of the blob commitments for blob transactions"
+        },
+        {
+          "name": "is_cancel_shape",
+          "type": "Bool",
+          "description": "Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern"
+        },
+        {
+          "name": "first_sentry_name",
+          "type": "LowCardinality(String)",
+          "description": "Name of the sentry with the earliest sighting this hour, ties broken by sentry name"
+        },
+        {
+          "name": "first_sentry_geo_city",
+          "type": "LowCardinality(String)",
+          "description": "City of the first-sighting sentry"
+        },
+        {
+          "name": "first_sentry_geo_country",
+          "type": "LowCardinality(String)",
+          "description": "Country of the first-sighting sentry"
+        },
+        {
+          "name": "first_sentry_geo_country_code",
+          "type": "LowCardinality(String)",
+          "description": "Country code of the first-sighting sentry"
+        },
+        {
+          "name": "first_sentry_geo_continent_code",
+          "type": "LowCardinality(String)",
+          "description": "Continent code of the first-sighting sentry"
+        }
+      ]
+    },
+    {
+      "name": "int_transaction_mempool_removal_hourly",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "hour_start_date_time",
+        "type": "datetime",
+        "interval": "daily"
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "One row per transaction hash, removal reason and hour in which Xatu sentries saw it leave their txpool without being included. Repeat detections by one sentry collapse into one row. A dropped row means the hash left at least one sentry pool, which is usually churn rather than eviction",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "hour_start_date_time",
+          "type": "DateTime",
+          "description": "The start of the hour bucket the removal detections fall in"
+        },
+        {
+          "name": "hash",
+          "type": "FixedString(66)",
+          "description": "The transaction hash"
+        },
+        {
+          "name": "reason",
+          "type": "LowCardinality(String)",
+          "description": "Why the transaction left the pool: replaced (a same-nonce transaction took its place), nonce_consumed (the sender nonce moved past it) or dropped (it left at least one sentry pool for any other reason, usually churn while it still circulates elsewhere)"
+        },
+        {
+          "name": "first_detected_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest removal detection this hour across sentries"
+        },
+        {
+          "name": "last_detected_date_time",
+          "type": "DateTime64(3)",
+          "description": "Latest removal detection this hour across sentries"
+        },
+        {
+          "name": "first_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Earliest txpool_content snapshot that held the transaction, across the detecting sentries"
+        },
+        {
+          "name": "last_seen_date_time",
+          "type": "DateTime64(3)",
+          "description": "Latest txpool_content snapshot that held the transaction, across the detecting sentries"
+        },
+        {
+          "name": "detection_count",
+          "type": "UInt32",
+          "description": "Number of removal detections this hour, including repeat detections by the same sentry"
+        },
+        {
+          "name": "sentry_count",
+          "type": "UInt32",
+          "description": "Distinct sentries that detected the removal this hour"
+        },
+        {
+          "name": "pending_sentry_count",
+          "type": "UInt32",
+          "description": "Distinct sentries that detected the removal from their pending pool"
+        },
+        {
+          "name": "queued_sentry_count",
+          "type": "UInt32",
+          "description": "Distinct sentries that detected the removal from their queued pool"
+        },
+        {
+          "name": "from",
+          "type": "FixedString(42)",
+          "description": "The address of the account that sent the transaction"
+        },
+        {
+          "name": "to",
+          "type": "Nullable(FixedString(42))",
+          "description": "The address of the transaction recipient, null for contract creation"
+        },
+        {
+          "name": "nonce",
+          "type": "UInt64",
+          "description": "The nonce of the transaction"
+        },
+        {
+          "name": "type",
+          "type": "UInt8",
+          "description": "The type of the transaction"
+        },
+        {
+          "name": "gas",
+          "type": "UInt64",
+          "description": "The maximum gas provided for the transaction execution"
+        },
+        {
+          "name": "gas_tip_cap",
+          "type": "UInt128",
+          "description": "The priority fee (tip) cap of the transaction in wei"
+        },
+        {
+          "name": "gas_fee_cap",
+          "type": "UInt128",
+          "description": "The max fee cap of the transaction in wei"
+        },
+        {
+          "name": "blob_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max blob fee cap of the transaction in wei, null for non-blob transactions"
+        },
+        {
+          "name": "replacement_hash",
+          "type": "Nullable(FixedString(66))",
+          "description": "The hash of the transaction that replaced it, from the earliest replaced detection this hour"
+        },
+        {
+          "name": "replacement_gas_tip_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The tip cap of the replacing transaction in wei"
+        },
+        {
+          "name": "replacement_gas_fee_cap",
+          "type": "Nullable(UInt128)",
+          "description": "The max fee cap of the replacing transaction in wei"
+        },
+        {
+          "name": "max_account_nonce",
+          "type": "Nullable(UInt64)",
+          "description": "Highest sender nonce at the latest block reported by a detecting sentry, null when only replaced detections exist"
         }
       ]
     },

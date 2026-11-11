@@ -1,4 +1,4 @@
-generated_at: "2026-11-10T22:42:07Z"
+generated_at: "2026-11-11T13:14:53Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: glamsterdam-devnet-8
@@ -7,7 +7,7 @@ networks:
     fork: gloas
     xatu_branch: master
     database: glamsterdam-devnet-8
-    tables_total: 151
+    tables_total: 154
     new_tables: []
 forks:
   - name: gloas

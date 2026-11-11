@@ -249,6 +249,8 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_peer_custody_coverage_daily`](#fct_peer_custody_coverage_daily)
 - [`fct_peer_fork_readiness_by_cl_client_daily`](#fct_peer_fork_readiness_by_cl_client_daily)
 - [`fct_peer_fork_readiness_by_el_client_daily`](#fct_peer_fork_readiness_by_el_client_daily)
+- [`fct_peer_goodbye_by_cl_client_daily`](#fct_peer_goodbye_by_cl_client_daily)
+- [`fct_peer_goodbye_daily`](#fct_peer_goodbye_daily)
 - [`fct_peer_hosting_by_el_client_daily`](#fct_peer_hosting_by_el_client_daily)
 - [`fct_peer_partial_message_support_by_client_daily`](#fct_peer_partial_message_support_by_client_daily)
 - [`fct_peer_partial_message_support_by_client_hourly`](#fct_peer_partial_message_support_by_client_hourly)
@@ -283,6 +285,15 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`fct_sync_committee_reward_by_validator_daily`](#fct_sync_committee_reward_by_validator_daily)
 - [`fct_sync_committee_reward_by_validator_weekly`](#fct_sync_committee_reward_by_validator_weekly)
 - [`fct_token_contract_storage_state_by_block_daily`](#fct_token_contract_storage_state_by_block_daily)
+- [`fct_transaction_blob_announcement_by_el_client_hourly`](#fct_transaction_blob_announcement_by_el_client_hourly)
+- [`fct_transaction_inclusion`](#fct_transaction_inclusion)
+- [`fct_transaction_inclusion_daily`](#fct_transaction_inclusion_daily)
+- [`fct_transaction_inclusion_hourly`](#fct_transaction_inclusion_hourly)
+- [`fct_transaction_mempool_outcome_7d`](#fct_transaction_mempool_outcome_7d)
+- [`fct_transaction_mempool_outcome_daily`](#fct_transaction_mempool_outcome_daily)
+- [`fct_transaction_mempool_outcome_hourly`](#fct_transaction_mempool_outcome_hourly)
+- [`fct_transaction_mempool_removal_hourly`](#fct_transaction_mempool_removal_hourly)
+- [`fct_transaction_replacement`](#fct_transaction_replacement)
 - [`fct_validator_balance`](#fct_validator_balance)
 - [`fct_validator_balance_daily`](#fct_validator_balance_daily)
 - [`fct_validator_balance_hourly`](#fct_validator_balance_hourly)
@@ -383,9 +394,12 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_storage_slot_state_with_expiry_by_address`](#int_storage_slot_state_with_expiry_by_address)
 - [`int_storage_slot_state_with_expiry_by_block`](#int_storage_slot_state_with_expiry_by_block)
 - [`int_token_contract_storage_state_by_block`](#int_token_contract_storage_state_by_block)
+- [`int_transaction_blob_announcement_hourly`](#int_transaction_blob_announcement_hourly)
 - [`int_transaction_call_frame`](#int_transaction_call_frame)
 - [`int_transaction_call_frame_opcode_gas`](#int_transaction_call_frame_opcode_gas)
 - [`int_transaction_call_frame_opcode_resource_gas`](#int_transaction_call_frame_opcode_resource_gas)
+- [`int_transaction_mempool_observation_hourly`](#int_transaction_mempool_observation_hourly)
+- [`int_transaction_mempool_removal_hourly`](#int_transaction_mempool_removal_hourly)
 - [`int_transaction_opcode_gas`](#int_transaction_opcode_gas)
 - [`int_transaction_receipt_size`](#int_transaction_receipt_size)
 - [`int_transaction_resource_gas`](#int_transaction_resource_gas)
@@ -15295,6 +15309,123 @@ echo """
 | **fork_id_next** | `LowCardinality(String)` | *Next fork block number or timestamp, empty when none* |
 | **node_count** | `UInt32` | *Nodes* |
 
+## fct_peer_goodbye_by_cl_client_daily
+
+Daily libp2p Goodbye messages our sentries received from remote peers, by the consensus client of the peer and the reason code it gave for disconnecting. Rows are written once the day is complete. The first day of data and a day after a whole day without goodbyes are left out, as they are partial.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_goodbye_by_cl_client_daily`
+- **sepolia**: `sepolia.fct_peer_goodbye_by_cl_client_daily`
+- **holesky**: `holesky.fct_peer_goodbye_by_cl_client_daily`
+- **hoodi**: `hoodi.fct_peer_goodbye_by_cl_client_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_goodbye_by_cl_client_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_goodbye_by_cl_client_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **client** | `LowCardinality(String)` | *Consensus client of the remote peer from its agent: lighthouse, lodestar, nimbus, prysm, teku, grandine, caplin (erigon), silver or ethlambda, unknown when the agent was not known, other for every other agent (libp2p tools, crawlers)* |
+| **code** | `UInt64` | *Goodbye reason code the remote peer sent: 1 client shutdown, 2 irrelevant network, 3 fault/error, 128 unable to verify network, 129 too many peers, 250 peer score too low, 251 banned. Other codes are client specific* |
+| **reason** | `LowCardinality(String)` | *Reason text our sentries give the code, such as client has too many peers. Codes they do not know read as unknown goodbye value of N received* |
+| **goodbye_count** | `UInt32` | *Goodbye messages with the code our sentries received from the client in the day. A peer that says goodbye to several sentries counts once for each* |
+| **peer_count** | `UInt32` | *Unique remote peers of the client that sent the code in the day. A peer that sent several codes counts under each* |
+
+## fct_peer_goodbye_daily
+
+Daily libp2p Goodbye messages our sentries received from remote peers, by the reason code the peer gave for disconnecting. Rows are written once the day is complete. The first day of data and a day after a whole day without goodbyes are left out, as they are partial.
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_peer_goodbye_daily`
+- **sepolia**: `sepolia.fct_peer_goodbye_daily`
+- **holesky**: `holesky.fct_peer_goodbye_daily`
+- **hoodi**: `hoodi.fct_peer_goodbye_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_peer_goodbye_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_peer_goodbye_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period* |
+| **code** | `UInt64` | *Goodbye reason code the remote peer sent: 1 client shutdown, 2 irrelevant network, 3 fault/error, 128 unable to verify network, 129 too many peers, 250 peer score too low, 251 banned. Other codes are client specific* |
+| **reason** | `LowCardinality(String)` | *Reason text our sentries give the code, such as client has too many peers. Codes they do not know read as unknown goodbye value of N received* |
+| **goodbye_count** | `UInt32` | *Goodbye messages with the code our sentries received in the day. A peer that says goodbye to several sentries counts once for each* |
+| **peer_count** | `UInt32` | *Unique remote peers that sent the code in the day. A peer that sent several codes counts under each* |
+
 ## fct_peer_hosting_by_el_client_daily
 
 Daily execution nodes by client, without versions, with hosting and IPv6 counts. Execution nodes our discovery crawler found in the day on the network genesis and its current fork, one count per node with its latest record.
@@ -17333,6 +17464,652 @@ echo """
 | **day_start_date** | `Date` | *Start of the day period* |
 | **token_standard** | `LowCardinality(String)` | *Token standard: erc20 or erc721* |
 | **active_slots** | `Int64` | *Cumulative active storage slots owned by contracts of this standard at end of day* |
+
+## fct_transaction_blob_announcement_by_el_client_hourly
+
+Hourly blob transaction announcements received by mimicry clients, per announcing peer execution client
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_blob_announcement_by_el_client_hourly`
+- **sepolia**: `sepolia.fct_transaction_blob_announcement_by_el_client_hourly`
+- **holesky**: `holesky.fct_transaction_blob_announcement_by_el_client_hourly`
+- **hoodi**: `hoodi.fct_transaction_blob_announcement_by_el_client_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_blob_announcement_by_el_client_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_blob_announcement_by_el_client_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period, bucketed by announcement receive time* |
+| **peer_implementation** | `LowCardinality(String)` | *Execution client of the announcing peers* |
+| **announcement_count** | `UInt64` | *Blob transaction announcements received from peers running this client* |
+| **hash_count** | `UInt64` | *Distinct blob transaction hashes announced by peers running this client* |
+| **unique_sentries** | `UInt64` | *Distinct mimicry clients that received announcements from this client* |
+| **first_announcer_hash_count** | `UInt64` | *Blob transaction hashes whose earliest announcement this hour came from a peer running this client* |
+
+## fct_transaction_inclusion
+
+One row per transaction included in a canonical beacon block execution payload. Carries no mempool or relay context so it can cover the full post-Merge history
+
+### Availability
+Data is partitioned by **toStartOfMonth(slot_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_inclusion`
+- **sepolia**: `sepolia.fct_transaction_inclusion`
+- **holesky**: `holesky.fct_transaction_inclusion`
+- **hoodi**: `hoodi.fct_transaction_inclusion`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_inclusion FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_inclusion_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **slot** | `UInt32` | *The slot number of the beacon block containing the transaction* |
+| **slot_start_date_time** | `DateTime` | *The wall clock time when the slot started* |
+| **epoch** | `UInt32` | *The epoch number containing the slot* |
+| **epoch_start_date_time** | `DateTime` | *The wall clock time when the epoch started* |
+| **block_root** | `FixedString(66)` | *The beacon block root hash* |
+| **block_version** | `LowCardinality(String)` | *The beacon block version* |
+| **block_number** | `Nullable(UInt64)` | *The execution block number, null when the block is not yet present in fct_block* |
+| **position** | `UInt32` | *The position of the transaction in the execution payload* |
+| **hash** | `FixedString(66)` | *The transaction hash* |
+| **from** | `FixedString(42)` | *The address of the account that sent the transaction* |
+| **to** | `Nullable(FixedString(42))` | *The address of the transaction recipient, null for contract creation* |
+| **nonce** | `UInt64` | *The nonce of the sender account at the time of the transaction* |
+| **type** | `UInt8` | *The type of the transaction* |
+| **gas** | `UInt64` | *The maximum gas provided for the transaction execution* |
+| **gas_price** | `UInt128` | *The gas price of the transaction in wei* |
+| **gas_tip_cap** | `Nullable(UInt128)` | *The priority fee (tip) the user has set for the transaction in wei* |
+| **gas_fee_cap** | `Nullable(UInt128)` | *The max fee the user has set for the transaction in wei* |
+| **value** | `UInt128` | *The value transferred with the transaction in wei* |
+| **size** | `UInt32` | *The size of the transaction data in bytes* |
+| **call_data_size** | `UInt32` | *The size of the call data of the transaction in bytes* |
+| **blob_gas** | `Nullable(UInt64)` | *The maximum gas provided for the blob transaction execution* |
+| **blob_gas_fee_cap** | `Nullable(UInt128)` | *The max blob fee the user has set for the transaction in wei* |
+| **blob_hashes** | `Array(String)` | *The hashes of the blob commitments for blob transactions* |
+| **is_cancel_shape** | `Bool` | *Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern* |
+
+## fct_transaction_inclusion_daily
+
+Daily counts of transactions included in canonical blocks, split by build path and transaction type
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_inclusion_daily`
+- **sepolia**: `sepolia.fct_transaction_inclusion_daily`
+- **holesky**: `holesky.fct_transaction_inclusion_daily`
+- **hoodi**: `hoodi.fct_transaction_inclusion_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_inclusion_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_inclusion_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, bucketed by inclusion slot time* |
+| **included_count** | `UInt64` | *Number of transactions included in canonical blocks this day* |
+| **relay_delivered_count** | `UInt64` | *Included transactions whose block matched a known relay payload-delivered record* |
+| **unknown_build_count** | `UInt64` | *Included transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built* |
+| **type0_count** | `UInt64` | *Included legacy type 0 transactions* |
+| **type1_count** | `UInt64` | *Included access list type 1 transactions* |
+| **type2_count** | `UInt64` | *Included dynamic fee type 2 transactions* |
+| **type3_count** | `UInt64` | *Included blob type 3 transactions* |
+| **type4_count** | `UInt64` | *Included set code type 4 transactions* |
+| **type_other_count** | `UInt64` | *Included transactions of any other type* |
+| **blob_count** | `UInt64` | *Total blob commitments across included transactions this day* |
+| **contract_creation_count** | `UInt64` | *Included transactions with no recipient address* |
+| **cancel_shape_count** | `UInt64` | *Included transactions that are self-transfers of zero value, the common wallet cancellation pattern* |
+| **unique_senders** | `UInt64` | *Distinct sender addresses across included transactions this day* |
+
+## fct_transaction_inclusion_hourly
+
+Hourly counts of transactions included in canonical blocks, split by build path and transaction type
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_inclusion_hourly`
+- **sepolia**: `sepolia.fct_transaction_inclusion_hourly`
+- **holesky**: `holesky.fct_transaction_inclusion_hourly`
+- **hoodi**: `hoodi.fct_transaction_inclusion_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_inclusion_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_inclusion_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period, bucketed by inclusion slot time* |
+| **included_count** | `UInt64` | *Number of transactions included in canonical blocks this hour* |
+| **relay_delivered_count** | `UInt64` | *Included transactions whose block matched a known relay payload-delivered record* |
+| **unknown_build_count** | `UInt64` | *Included transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built* |
+| **type0_count** | `UInt64` | *Included legacy type 0 transactions* |
+| **type1_count** | `UInt64` | *Included access list type 1 transactions* |
+| **type2_count** | `UInt64` | *Included dynamic fee type 2 transactions* |
+| **type3_count** | `UInt64` | *Included blob type 3 transactions* |
+| **type4_count** | `UInt64` | *Included set code type 4 transactions* |
+| **type_other_count** | `UInt64` | *Included transactions of any other type* |
+| **blob_count** | `UInt64` | *Total blob commitments across included transactions this hour* |
+| **contract_creation_count** | `UInt64` | *Included transactions with no recipient address* |
+| **cancel_shape_count** | `UInt64` | *Included transactions that are self-transfers of zero value, the common wallet cancellation pattern* |
+| **unique_senders** | `UInt64` | *Distinct sender addresses across included transactions this hour* |
+
+## fct_transaction_mempool_outcome_7d
+
+One immutable row per transaction hash observed in the public mempool, stating its fixed-horizon outcome within 7 days of first sighting. An observation episode starts when a hash is sighted with no sightings in the preceding 7 days. A hash re-sighted after more than 7 days of silence starts a new episode and a new row
+
+### Availability
+Data is partitioned by **toStartOfMonth(first_seen_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_mempool_outcome_7d`
+- **sepolia**: `sepolia.fct_transaction_mempool_outcome_7d`
+- **holesky**: `holesky.fct_transaction_mempool_outcome_7d`
+- **hoodi**: `hoodi.fct_transaction_mempool_outcome_7d`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_mempool_outcome_7d FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_mempool_outcome_7d_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **first_seen_date_time** | `DateTime64(3)` | *Earliest sighting of the transaction within its observation episode, the anchor of the 7 day horizon* |
+| **hash** | `FixedString(66)` | *The transaction hash* |
+| **from** | `FixedString(42)` | *The address of the account that sent the transaction* |
+| **to** | `Nullable(FixedString(42))` | *The address of the transaction recipient, null for contract creation* |
+| **nonce** | `UInt64` | *The nonce of the sender account at the time of the transaction* |
+| **type** | `Nullable(UInt8)` | *The type of the transaction* |
+| **gas** | `UInt64` | *The maximum gas provided for the transaction execution* |
+| **gas_price** | `UInt128` | *The gas price of the transaction in wei* |
+| **gas_tip_cap** | `Nullable(UInt128)` | *The priority fee (tip) the user has set for the transaction in wei* |
+| **gas_fee_cap** | `Nullable(UInt128)` | *The max fee the user has set for the transaction in wei* |
+| **value** | `UInt128` | *The value transferred with the transaction in wei* |
+| **size** | `UInt32` | *The size of the transaction data in bytes* |
+| **call_data_size** | `UInt32` | *The size of the call data of the transaction in bytes* |
+| **blob_gas** | `Nullable(UInt64)` | *The maximum gas provided for the blob transaction execution* |
+| **blob_gas_fee_cap** | `Nullable(UInt128)` | *The max blob fee the user has set for the transaction in wei* |
+| **blob_hashes** | `Array(String)` | *The hashes of the blob commitments for blob transactions* |
+| **is_cancel_shape** | `Bool` | *Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern* |
+| **last_seen_date_time** | `DateTime64(3)` | *Latest sighting of the transaction within the 7 day horizon* |
+| **sighting_count** | `UInt32` | *Number of sightings within the 7 day horizon across all sentries* |
+| **peak_hourly_unique_sentries** | `UInt32` | *Peak number of distinct sentries sighting the transaction within any single hour of the horizon* |
+| **outcome** | `LowCardinality(String)` | *Outcome within 7 days of first sighting: included, nonce_consumed (a different transaction with the same from and nonce was included) or unincluded. The statement is fixed to the horizon and remains true even if the transaction is included later* |
+| **resolution_date_time** | `DateTime64(3)` | *When the outcome was determined: the inclusion slot start for included, the winner inclusion slot start for nonce_consumed, or first_seen_date_time plus 7 days for unincluded* |
+| **included_slot** | `Nullable(UInt32)` | *The slot of the beacon block that included the transaction, when outcome is included* |
+| **included_slot_start_date_time** | `Nullable(DateTime)` | *The wall clock time when the inclusion slot started, when outcome is included* |
+| **included_block_root** | `Nullable(FixedString(66))` | *The beacon block root of the including block, when outcome is included* |
+| **included_position** | `Nullable(UInt32)` | *The position of the transaction in the execution payload, when outcome is included* |
+| **wait_ms** | `Nullable(Int64)` | *Milliseconds from first sighting to the inclusion slot start, when outcome is included. Negative when the transaction was first sighted after its inclusion slot started* |
+| **included_via_known_relay** | `Nullable(Bool)` | *Whether the including block matched a known relay payload-delivered record, when outcome is included. False is not proof the block was locally built* |
+| **winner_hash** | `Nullable(FixedString(66))` | *The hash of the transaction that consumed the nonce, when outcome is nonce_consumed* |
+| **winner_slot_start_date_time** | `Nullable(DateTime)` | *The wall clock time when the winner inclusion slot started, when outcome is nonce_consumed* |
+| **observed_after_nonce_consumed** | `Bool` | *Whether the transaction was first sighted after its nonce had already been consumed by another transaction* |
+| **in_mempool_at_deadline** | `Bool` | *Whether a sighting occurred in the final hour before the 7 day deadline. Sensor evidence of continued circulation, only meaningful when outcome is unincluded* |
+
+## fct_transaction_mempool_outcome_daily
+
+Daily cohort outcomes for transactions first sighted in the public mempool, resolved at the fixed 7 day horizon
+
+### Availability
+Data is partitioned by **toStartOfMonth(day_start_date)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_mempool_outcome_daily`
+- **sepolia**: `sepolia.fct_transaction_mempool_outcome_daily`
+- **holesky**: `holesky.fct_transaction_mempool_outcome_daily`
+- **hoodi**: `hoodi.fct_transaction_mempool_outcome_daily`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_mempool_outcome_daily FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_mempool_outcome_daily_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **day_start_date** | `Date` | *Start of the day period, bucketed by first sighting time. Rows are complete once the 7 day horizon for the day has been processed and never change afterwards* |
+| **observed_count** | `UInt64` | *Transactions first sighted in the public mempool this day* |
+| **included_count** | `UInt64` | *Observed transactions included within 7 days of first sighting* |
+| **nonce_consumed_count** | `UInt64` | *Observed transactions whose nonce was consumed by a different transaction within 7 days* |
+| **unincluded_count** | `UInt64` | *Observed transactions with no inclusion of their nonce within 7 days* |
+| **included_relay_delivered_count** | `UInt64` | *Included observed transactions whose block matched a known relay payload-delivered record* |
+| **included_unknown_build_count** | `UInt64` | *Included observed transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built* |
+| **in_mempool_at_deadline_count** | `UInt64` | *Unincluded transactions with a sighting in the final hour before the 7 day deadline* |
+| **cancel_shape_count** | `UInt64` | *Observed transactions that are self-transfers of zero value, the common wallet cancellation pattern* |
+| **observed_after_nonce_consumed_count** | `UInt64` | *Observed transactions first sighted after their nonce had already been consumed* |
+| **wait_ms_p50** | `Nullable(Float64)` | *Median milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_ms_p90** | `Nullable(Float64)` | *p90 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_ms_p99** | `Nullable(Float64)` | *p99 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_sample_count** | `UInt64` | *Number of included transactions contributing to the wait quantiles* |
+| **negative_wait_count** | `UInt64` | *Included transactions first sighted after their inclusion slot started, excluded from the wait quantiles* |
+| **blob_observed_count** | `UInt64` | *Observed blob type 3 transactions first sighted this day* |
+| **blob_wait_ms_p50** | `Nullable(Float64)` | *Median wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_ms_p90** | `Nullable(Float64)` | *p90 wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_ms_p99** | `Nullable(Float64)` | *p99 wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_sample_count** | `UInt64` | *Number of included blob transactions contributing to the blob wait quantiles* |
+| **nonce_group_count** | `UInt64` | *Distinct from and nonce pairs across transactions first sighted this day* |
+| **multi_attempt_nonce_group_count** | `UInt64` | *Nonce groups with at least two observed attempts, anchored to this day by their earliest attempt sighting* |
+| **replaced_attempt_count** | `UInt64` | *Non-winning attempts across multi-attempt nonce groups anchored to this day* |
+
+## fct_transaction_mempool_outcome_hourly
+
+Hourly cohort outcomes for transactions first sighted in the public mempool, resolved at the fixed 7 day horizon
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_mempool_outcome_hourly`
+- **sepolia**: `sepolia.fct_transaction_mempool_outcome_hourly`
+- **holesky**: `holesky.fct_transaction_mempool_outcome_hourly`
+- **hoodi**: `hoodi.fct_transaction_mempool_outcome_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_mempool_outcome_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_mempool_outcome_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period, bucketed by first sighting time. Rows are complete once the 7 day horizon for the hour has been processed and never change afterwards* |
+| **observed_count** | `UInt64` | *Transactions first sighted in the public mempool this hour* |
+| **included_count** | `UInt64` | *Observed transactions included within 7 days of first sighting* |
+| **nonce_consumed_count** | `UInt64` | *Observed transactions whose nonce was consumed by a different transaction within 7 days* |
+| **unincluded_count** | `UInt64` | *Observed transactions with no inclusion of their nonce within 7 days* |
+| **included_relay_delivered_count** | `UInt64` | *Included observed transactions whose block matched a known relay payload-delivered record* |
+| **included_unknown_build_count** | `UInt64` | *Included observed transactions whose block matched no known relay payload-delivered record. Not proof the block was locally built* |
+| **in_mempool_at_deadline_count** | `UInt64` | *Unincluded transactions with a sighting in the final hour before the 7 day deadline* |
+| **cancel_shape_count** | `UInt64` | *Observed transactions that are self-transfers of zero value, the common wallet cancellation pattern* |
+| **observed_after_nonce_consumed_count** | `UInt64` | *Observed transactions first sighted after their nonce had already been consumed* |
+| **wait_ms_p50** | `Nullable(Float64)` | *Median milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_ms_p90** | `Nullable(Float64)` | *p90 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_ms_p99** | `Nullable(Float64)` | *p99 milliseconds from first sighting to inclusion slot start, over included transactions with non-negative waits* |
+| **wait_sample_count** | `UInt64` | *Number of included transactions contributing to the wait quantiles* |
+| **negative_wait_count** | `UInt64` | *Included transactions first sighted after their inclusion slot started, excluded from the wait quantiles* |
+| **blob_observed_count** | `UInt64` | *Observed blob type 3 transactions first sighted this hour* |
+| **blob_wait_ms_p50** | `Nullable(Float64)` | *Median wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_ms_p90** | `Nullable(Float64)` | *p90 wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_ms_p99** | `Nullable(Float64)` | *p99 wait milliseconds over included blob transactions with non-negative waits* |
+| **blob_wait_sample_count** | `UInt64` | *Number of included blob transactions contributing to the blob wait quantiles* |
+| **nonce_group_count** | `UInt64` | *Distinct from and nonce pairs across transactions first sighted this hour* |
+| **multi_attempt_nonce_group_count** | `UInt64` | *Nonce groups with at least two observed attempts, anchored to this hour by their earliest attempt sighting* |
+| **replaced_attempt_count** | `UInt64` | *Non-winning attempts across multi-attempt nonce groups anchored to this hour* |
+
+## fct_transaction_mempool_removal_hourly
+
+Hourly counts of transactions that left Xatu sentry txpools without being included, by removal reason. replaced and nonce_consumed are reliable, while dropped is churn-heavy
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_mempool_removal_hourly`
+- **sepolia**: `sepolia.fct_transaction_mempool_removal_hourly`
+- **holesky**: `holesky.fct_transaction_mempool_removal_hourly`
+- **hoodi**: `hoodi.fct_transaction_mempool_removal_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_mempool_removal_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_mempool_removal_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *Start of the hour period, bucketed by removal detection time* |
+| **reason** | `LowCardinality(String)` | *Removal reason: replaced, nonce_consumed or dropped. dropped means the hash left at least one sentry pool and is usually seen again later* |
+| **hash_count** | `UInt64` | *Distinct transaction hashes removed for this reason this hour* |
+| **pending_hash_count** | `UInt64` | *Hashes removed from at least one sentry pending pool* |
+| **queued_hash_count** | `UInt64` | *Hashes removed from at least one sentry queued pool* |
+| **hash_sentry_count** | `UInt64` | *Distinct hash and sentry pairs, repeat detections by one sentry counted once* |
+| **detection_count** | `UInt64` | *Raw removal detections including repeats* |
+| **blob_hash_count** | `UInt64` | *Blob type 3 hashes removed for this reason* |
+| **with_replacement_count** | `UInt64` | *Hashes with a known replacing transaction* |
+| **replacement_tip_cap_ratio_p50** | `Nullable(Float64)` | *Median replacing tip cap divided by the replaced tip cap, over replaced hashes with a non-zero tip cap* |
+| **replacement_fee_cap_ratio_p50** | `Nullable(Float64)` | *Median replacing max fee cap divided by the replaced max fee cap, over replaced hashes with a non-zero fee cap* |
+
+## fct_transaction_replacement
+
+One row per publicly observed attempt in nonce groups with at least two attempts, emitted when the group resolves. A nonce group is all transactions sharing a from address and nonce whose first sightings fall within 7 days of the group anchor
+
+### Availability
+Data is partitioned by **toStartOfMonth(group_first_seen_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.fct_transaction_replacement`
+- **sepolia**: `sepolia.fct_transaction_replacement`
+- **holesky**: `holesky.fct_transaction_replacement`
+- **hoodi**: `hoodi.fct_transaction_replacement`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.fct_transaction_replacement FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.fct_transaction_replacement_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **group_first_seen_date_time** | `DateTime64(3)` | *Earliest sighting of any attempt in the nonce group, the anchor of the group window* |
+| **from** | `FixedString(42)` | *The address of the account that sent the attempts* |
+| **nonce** | `UInt64` | *The nonce the attempts compete for* |
+| **hash** | `FixedString(66)` | *The transaction hash of this attempt* |
+| **attempt_index** | `UInt16` | *The 1-based rank of this attempt within the group, ordered by first sighting with ties broken by hash* |
+| **group_attempt_count** | `UInt16` | *Total number of publicly observed attempts in the group window* |
+| **first_seen_date_time** | `DateTime64(3)` | *Earliest sighting of this attempt* |
+| **previous_hash** | `Nullable(FixedString(66))` | *The hash of the attempt immediately before this one in the group, null for the first attempt* |
+| **to** | `Nullable(FixedString(42))` | *The address of the attempt recipient, null for contract creation* |
+| **type** | `Nullable(UInt8)` | *The type of the transaction* |
+| **gas_price** | `UInt128` | *The gas price of the attempt in wei* |
+| **gas_tip_cap** | `Nullable(UInt128)` | *The priority fee (tip) of the attempt in wei* |
+| **gas_fee_cap** | `Nullable(UInt128)` | *The max fee of the attempt in wei* |
+| **value** | `UInt128` | *The value transferred with the attempt in wei* |
+| **gas_tip_cap_delta** | `Nullable(Int128)` | *This attempt gas_tip_cap minus the previous attempt gas_tip_cap, null for the first attempt or when either side is null* |
+| **gas_fee_cap_delta** | `Nullable(Int128)` | *This attempt gas_fee_cap minus the previous attempt gas_fee_cap, null for the first attempt or when either side is null* |
+| **is_cancel_shape** | `Bool` | *Whether the attempt is a self-transfer of zero value, the common wallet cancellation pattern* |
+| **is_winner** | `Bool` | *Whether this attempt is the one that was included on chain* |
+| **group_outcome** | `LowCardinality(String)` | *Outcome of the nonce group within 7 days of the group anchor: included or unincluded* |
+| **winner_hash** | `Nullable(FixedString(66))` | *The hash of the included attempt, null when the group resolved unincluded* |
+| **resolution_date_time** | `DateTime64(3)` | *When the group resolved: the winner inclusion slot start, or the group anchor plus 7 days when unincluded* |
+| **observed_after_resolution** | `Bool` | *Whether this attempt was first sighted after the group had already resolved* |
 
 ## fct_validator_balance
 
@@ -23597,6 +24374,73 @@ echo """
 | **slots_delta** | `Int32` | *Change in active slots owned by contracts of this standard at this block* |
 | **active_slots** | `Int64` | *Cumulative active storage slots owned by contracts of this standard at this block* |
 
+## int_transaction_blob_announcement_hourly
+
+One row per blob transaction hash per hour in which mimicry clients received an announcement of it from an execution layer peer
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_blob_announcement_hourly`
+- **sepolia**: `sepolia.int_transaction_blob_announcement_hourly`
+- **holesky**: `holesky.int_transaction_blob_announcement_hourly`
+- **hoodi**: `hoodi.int_transaction_blob_announcement_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_blob_announcement_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_transaction_blob_announcement_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour bucket the announcements fall in* |
+| **hash** | `FixedString(66)` | *The blob transaction hash* |
+| **first_announced_date_time** | `DateTime64(3)` | *Earliest announcement received this hour across mimicry clients* |
+| **last_announced_date_time** | `DateTime64(3)` | *Latest announcement received this hour across mimicry clients* |
+| **announcement_count** | `UInt32` | *Peer announcements received this hour, roughly the number of announcing peers summed over mimicry clients* |
+| **unique_sentries** | `UInt32` | *Distinct mimicry clients that received an announcement this hour* |
+| **size** | `UInt32` | *Announced transaction size in bytes, including blobs* |
+| **peer_implementations** | `Array(String)` | *Distinct execution clients of the announcing peers, sorted* |
+| **first_peer_implementation** | `LowCardinality(String)` | *Execution client of the peer whose announcement arrived first* |
+| **first_peer_version** | `LowCardinality(String)` | *Client version of the peer whose announcement arrived first* |
+| **first_sentry_name** | `LowCardinality(String)` | *Mimicry client that received the first announcement* |
+| **first_sentry_geo_city** | `LowCardinality(String)` | *City of the mimicry client that received the first announcement* |
+| **first_sentry_geo_country_code** | `LowCardinality(String)` | *Country code of the mimicry client that received the first announcement* |
+| **first_sentry_geo_continent_code** | `LowCardinality(String)` | *Continent code of the mimicry client that received the first announcement* |
+
 ## int_transaction_call_frame
 
 Aggregated call frame activity per transaction for call tree analysis
@@ -23803,6 +24647,161 @@ echo """
 | **gas_bloom_topics** | `UInt64` | *Gas attributed to bloom filter topic indexing* |
 | **gas_block_size** | `UInt64` | *Gas attributed to block size (always 0 at opcode level)* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_transaction_mempool_observation_hourly
+
+One row per transaction hash per hour in which it was sighted in the public mempool by at least one sentry. Rows summarise the sightings within that hour only. A transaction sighted across multiple hours has multiple rows
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_mempool_observation_hourly`
+- **sepolia**: `sepolia.int_transaction_mempool_observation_hourly`
+- **holesky**: `holesky.int_transaction_mempool_observation_hourly`
+- **hoodi**: `hoodi.int_transaction_mempool_observation_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_mempool_observation_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_transaction_mempool_observation_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour bucket the sightings fall in* |
+| **hash** | `FixedString(66)` | *The transaction hash* |
+| **first_seen_date_time** | `DateTime64(3)` | *Earliest sighting of the transaction by any sentry within this hour* |
+| **last_seen_date_time** | `DateTime64(3)` | *Latest sighting of the transaction by any sentry within this hour* |
+| **sighting_count** | `UInt32` | *Number of sightings of the transaction within this hour across all sentries* |
+| **unique_sentries** | `UInt32` | *Number of distinct sentries that sighted the transaction within this hour* |
+| **from** | `FixedString(42)` | *The address of the account that sent the transaction* |
+| **to** | `Nullable(FixedString(42))` | *The address of the transaction recipient, null for contract creation* |
+| **nonce** | `UInt64` | *The nonce of the sender account at the time of the transaction* |
+| **type** | `Nullable(UInt8)` | *The type of the transaction* |
+| **gas** | `UInt64` | *The maximum gas provided for the transaction execution* |
+| **gas_price** | `UInt128` | *The gas price of the transaction in wei* |
+| **gas_tip_cap** | `Nullable(UInt128)` | *The priority fee (tip) the user has set for the transaction in wei* |
+| **gas_fee_cap** | `Nullable(UInt128)` | *The max fee the user has set for the transaction in wei* |
+| **value** | `UInt128` | *The value transferred with the transaction in wei* |
+| **size** | `UInt32` | *The size of the transaction data in bytes* |
+| **call_data_size** | `UInt32` | *The size of the call data of the transaction in bytes* |
+| **blob_gas** | `Nullable(UInt64)` | *The maximum gas provided for the blob transaction execution* |
+| **blob_gas_fee_cap** | `Nullable(UInt128)` | *The max blob fee the user has set for the transaction in wei* |
+| **blob_hashes** | `Array(String)` | *The hashes of the blob commitments for blob transactions* |
+| **is_cancel_shape** | `Bool` | *Whether the transaction is a self-transfer of zero value, the common wallet cancellation pattern* |
+| **first_sentry_name** | `LowCardinality(String)` | *Name of the sentry with the earliest sighting this hour, ties broken by sentry name* |
+| **first_sentry_geo_city** | `LowCardinality(String)` | *City of the first-sighting sentry* |
+| **first_sentry_geo_country** | `LowCardinality(String)` | *Country of the first-sighting sentry* |
+| **first_sentry_geo_country_code** | `LowCardinality(String)` | *Country code of the first-sighting sentry* |
+| **first_sentry_geo_continent_code** | `LowCardinality(String)` | *Continent code of the first-sighting sentry* |
+
+## int_transaction_mempool_removal_hourly
+
+One row per transaction hash, removal reason and hour in which Xatu sentries saw it leave their txpool without being included. Repeat detections by one sentry collapse into one row. A dropped row means the hash left at least one sentry pool, which is usually churn rather than eviction
+
+### Availability
+Data is partitioned by **toStartOfMonth(hour_start_date_time)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_transaction_mempool_removal_hourly`
+- **sepolia**: `sepolia.int_transaction_mempool_removal_hourly`
+- **holesky**: `holesky.int_transaction_mempool_removal_hourly`
+- **hoodi**: `hoodi.int_transaction_mempool_removal_hourly`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_transaction_mempool_removal_hourly FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_transaction_mempool_removal_hourly_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **hour_start_date_time** | `DateTime` | *The start of the hour bucket the removal detections fall in* |
+| **hash** | `FixedString(66)` | *The transaction hash* |
+| **reason** | `LowCardinality(String)` | *Why the transaction left the pool: replaced (a same-nonce transaction took its place), nonce_consumed (the sender nonce moved past it) or dropped (it left at least one sentry pool for any other reason, usually churn while it still circulates elsewhere)* |
+| **first_detected_date_time** | `DateTime64(3)` | *Earliest removal detection this hour across sentries* |
+| **last_detected_date_time** | `DateTime64(3)` | *Latest removal detection this hour across sentries* |
+| **first_seen_date_time** | `DateTime64(3)` | *Earliest txpool_content snapshot that held the transaction, across the detecting sentries* |
+| **last_seen_date_time** | `DateTime64(3)` | *Latest txpool_content snapshot that held the transaction, across the detecting sentries* |
+| **detection_count** | `UInt32` | *Number of removal detections this hour, including repeat detections by the same sentry* |
+| **sentry_count** | `UInt32` | *Distinct sentries that detected the removal this hour* |
+| **pending_sentry_count** | `UInt32` | *Distinct sentries that detected the removal from their pending pool* |
+| **queued_sentry_count** | `UInt32` | *Distinct sentries that detected the removal from their queued pool* |
+| **from** | `FixedString(42)` | *The address of the account that sent the transaction* |
+| **to** | `Nullable(FixedString(42))` | *The address of the transaction recipient, null for contract creation* |
+| **nonce** | `UInt64` | *The nonce of the transaction* |
+| **type** | `UInt8` | *The type of the transaction* |
+| **gas** | `UInt64` | *The maximum gas provided for the transaction execution* |
+| **gas_tip_cap** | `UInt128` | *The priority fee (tip) cap of the transaction in wei* |
+| **gas_fee_cap** | `UInt128` | *The max fee cap of the transaction in wei* |
+| **blob_gas_fee_cap** | `Nullable(UInt128)` | *The max blob fee cap of the transaction in wei, null for non-blob transactions* |
+| **replacement_hash** | `Nullable(FixedString(66))` | *The hash of the transaction that replaced it, from the earliest replaced detection this hour* |
+| **replacement_gas_tip_cap** | `Nullable(UInt128)` | *The tip cap of the replacing transaction in wei* |
+| **replacement_gas_fee_cap** | `Nullable(UInt128)` | *The max fee cap of the replacing transaction in wei* |
+| **max_account_nonce** | `Nullable(UInt64)` | *Highest sender nonce at the latest block reported by a detecting sentry, null when only replaced detections exist* |
 
 ## int_transaction_opcode_gas
 
