@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T14:22:41Z",
+  "generated_at": "2026-11-17T01:23:35Z",
   "dataset": {
     "name": "Canonical Beacon",
     "description": "Events derived from the finalized beacon chain. This data is only derived by a single instance, are deduped, and are more complete and reliable than the beacon_api_ tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -597,7 +597,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-28",
@@ -690,7 +690,7 @@
       "networks": {
         "mainnet": {
           "from": "2022-09-06",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -873,7 +873,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1059,7 +1059,7 @@
       "networks": {
         "mainnet": {
           "from": "2023-04-12",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1265,7 +1265,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1481,7 +1481,7 @@
       "networks": {
         "mainnet": {
           "from": "2020-12-01",
-          "to": "2026-11-14"
+          "to": "2026-11-15"
         },
         "holesky": {
           "from": "2023-09-23",
@@ -1579,7 +1579,7 @@
       "networks": {
         "mainnet": {
           "from": "0",
-          "to": "2408600"
+          "to": "2408650"
         },
         "holesky": {
           "from": "0",
