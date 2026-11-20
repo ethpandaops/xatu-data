@@ -1,6 +1,14 @@
-generated_at: "2026-11-20T00:03:14Z"
+generated_at: "2026-11-20T14:38:17Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
+  - name: bogota-devnet-2
+    repository: ethpandaops/bogota-devnets
+    dora: https://dora.bogota-devnet-2.ethpandaops.io
+    fork: gloas
+    xatu_branch: master
+    database: bogota-devnet-2
+    tables_total: 154
+    new_tables: []
   - name: glamsterdam-devnet-8
     repository: ethpandaops/glamsterdam-devnets
     dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
@@ -9,12 +17,24 @@ networks:
     database: glamsterdam-devnet-8
     tables_total: 154
     new_tables: []
+  - name: heze-devnet-2
+    repository: ethpandaops/heze-devnets
+    dora: https://dora.heze-devnet-2.ethpandaops.io
+    fork: heze
+    xatu_branch: null
+    database: heze-devnet-2
+    tables_total: 154
+    new_tables: []
 forks:
   - name: gloas
     display_name: Glamsterdam
     slug: glamsterdam
     xatu_branch: master
     networks:
+      - name: bogota-devnet-2
+        repository: ethpandaops/bogota-devnets
+        dora: https://dora.bogota-devnet-2.ethpandaops.io
+        new_table_count: 0
       - name: glamsterdam-devnet-8
         repository: ethpandaops/glamsterdam-devnets
         dora: https://dora.glamsterdam-devnet-8.ethpandaops.io
@@ -45,3 +65,14 @@ forks:
       - libp2p_gossipsub_execution_payload_envelope
       - libp2p_gossipsub_payload_attestation_message
       - libp2p_gossipsub_proposer_preferences
+  - name: heze
+    display_name: heze
+    slug: heze
+    xatu_branch: null
+    networks:
+      - name: heze-devnet-2
+        repository: ethpandaops/heze-devnets
+        dora: https://dora.heze-devnet-2.ethpandaops.io
+        new_table_count: 0
+    tables: []
+    merged_tables: []

@@ -20,11 +20,14 @@ Each upgrade has a dedicated page with the full table schemas and query examples
 
 | Upgrade | CL fork | Xatu branch | Devnet-only tables | In main catalog | Active devnets |
 |---------|---------|-------------|--------------------|-----------------|----------------|
-| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`master`](https://github.com/ethpandaops/xatu/tree/master) | 0 | 24 | `glamsterdam-devnet-8` |
+| **[Glamsterdam](/data/xatu/forks/glamsterdam)** | `gloas` | [`master`](https://github.com/ethpandaops/xatu/tree/master) | 0 | 24 | `bogota-devnet-2`, `glamsterdam-devnet-8` |
+| **[heze](/data/xatu/forks/heze)** | `heze` | - | 0 | 0 | `heze-devnet-2` |
 
 ## Active devnets
 
 | Network | Upgrade | Fork-specific tables | Source |
 |---------|---------|----------------------|--------|
+| `bogota-devnet-2` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/bogota-devnets](https://github.com/ethpandaops/bogota-devnets) |
 | `glamsterdam-devnet-8` | [Glamsterdam](/data/xatu/forks/glamsterdam) (`gloas`) | 0 | [ethpandaops/glamsterdam-devnets](https://github.com/ethpandaops/glamsterdam-devnets) |
+| `heze-devnet-2` | [heze](/data/xatu/forks/heze) (`heze`) | 0 | [ethpandaops/heze-devnets](https://github.com/ethpandaops/heze-devnets) |
 
