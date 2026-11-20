@@ -1,4 +1,4 @@
-generated_at: "2026-11-19T14:56:48Z"
+generated_at: "2026-11-20T00:03:14Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: glamsterdam-devnet-8

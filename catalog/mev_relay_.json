@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T15:00:55Z",
+  "generated_at": "2026-11-20T00:06:48Z",
   "dataset": {
     "name": "MEV Relay",
     "description": "Events derived from MEV relays. Data is scraped from multiple MEV Relays by multiple instances.",

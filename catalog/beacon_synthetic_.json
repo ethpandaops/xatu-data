@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-19T15:00:55Z",
+  "generated_at": "2026-11-20T00:06:48Z",
   "dataset": {
     "name": "Beacon Synthetic",
     "description": "Events synthesized from the internals of instrumented beacon nodes, such as fork choice payload status changes and builder payment settlement. Each instance records its own view, so the same event usually appears once per instance.",
