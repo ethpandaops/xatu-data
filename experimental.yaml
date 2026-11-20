@@ -1,4 +1,4 @@
-generated_at: "2026-11-20T14:38:17Z"
+generated_at: "2026-11-20T23:31:59Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bogota-devnet-2
