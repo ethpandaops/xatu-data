@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T16:51:28Z",
+  "generated_at": "2026-11-24T03:38:54Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -29,6 +29,16 @@
       "fork": "heze",
       "xatu_branch": null,
       "database": "heze-devnet-2",
+      "tables_total": 154,
+      "new_tables": []
+    },
+    {
+      "name": "pq-devnet-0",
+      "repository": "ethpandaops/pq-devnets",
+      "dora": "https://dora.pq-devnet-0.ethpandaops.io",
+      "fork": "pq",
+      "xatu_branch": null,
+      "database": "pq-devnet-0",
       "tables_total": 154,
       "new_tables": []
     }
@@ -91,6 +101,22 @@
           "name": "heze-devnet-2",
           "repository": "ethpandaops/heze-devnets",
           "dora": "https://dora.heze-devnet-2.ethpandaops.io",
+          "new_table_count": 0
+        }
+      ],
+      "tables": [],
+      "merged_tables": []
+    },
+    {
+      "name": "pq",
+      "display_name": "pq",
+      "slug": "pq",
+      "xatu_branch": null,
+      "networks": [
+        {
+          "name": "pq-devnet-0",
+          "repository": "ethpandaops/pq-devnets",
+          "dora": "https://dora.pq-devnet-0.ethpandaops.io",
           "new_table_count": 0
         }
       ],
