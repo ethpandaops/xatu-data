@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T03:38:54Z",
+  "generated_at": "2026-11-24T16:44:38Z",
   "clickhouse_endpoint": "https://clickhouse.xatu.ethpandaops.io",
   "networks": [
     {
@@ -9,6 +9,16 @@
       "fork": "gloas",
       "xatu_branch": "master",
       "database": "bogota-devnet-2",
+      "tables_total": 154,
+      "new_tables": []
+    },
+    {
+      "name": "daisugi-devnet-0",
+      "repository": "ethpandaops/daisugi-devnets",
+      "dora": "https://dora.daisugi-devnet-0.ethpandaops.io",
+      "fork": "daisugi",
+      "xatu_branch": null,
+      "database": "daisugi-devnet-0",
       "tables_total": 154,
       "new_tables": []
     },
@@ -44,6 +54,22 @@
     }
   ],
   "forks": [
+    {
+      "name": "daisugi",
+      "display_name": "daisugi",
+      "slug": "daisugi",
+      "xatu_branch": null,
+      "networks": [
+        {
+          "name": "daisugi-devnet-0",
+          "repository": "ethpandaops/daisugi-devnets",
+          "dora": "https://dora.daisugi-devnet-0.ethpandaops.io",
+          "new_table_count": 0
+        }
+      ],
+      "tables": [],
+      "merged_tables": []
+    },
     {
       "name": "gloas",
       "display_name": "Glamsterdam",

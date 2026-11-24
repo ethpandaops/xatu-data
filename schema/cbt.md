@@ -403,6 +403,7 @@ CBT tables include dimension tables (prefixed with `dim_`), fact tables (prefixe
 - [`int_transaction_opcode_gas`](#int_transaction_opcode_gas)
 - [`int_transaction_receipt_size`](#int_transaction_receipt_size)
 - [`int_transaction_resource_gas`](#int_transaction_resource_gas)
+- [`int_watchlist_eth_outflow`](#int_watchlist_eth_outflow)
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -24990,5 +24991,66 @@ echo """
 | **gas_block_size** | `UInt64` | *Total block size gas (from intrinsic calldata)* |
 | **gas_refund** | `UInt64` | *Gas refund from SSTORE operations* |
 | **meta_network_name** | `LowCardinality(String)` | *The name of the network* |
+
+## int_watchlist_eth_outflow
+
+ETH sent out of a fixed list of addresses, ordered by recipient
+
+### Availability
+Data is partitioned by **intDiv(block_number, 5000000)**.
+
+Available in the following network-specific databases:
+
+- **mainnet**: `mainnet.int_watchlist_eth_outflow`
+- **sepolia**: `sepolia.int_watchlist_eth_outflow`
+- **holesky**: `holesky.int_watchlist_eth_outflow`
+- **hoodi**: `hoodi.int_watchlist_eth_outflow`
+
+### Examples
+
+<details>
+<summary>Your Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+docker run --rm -it --net host clickhouse/clickhouse-server clickhouse client --query="""
+    SELECT
+        *
+    FROM mainnet.int_watchlist_eth_outflow FINAL
+    LIMIT 10
+    FORMAT Pretty
+"""
+```
+</details>
+
+<details>
+<summary>EthPandaOps Clickhouse</summary>
+
+> **Note:** [`FINAL`](https://clickhouse.com/docs/en/sql-reference/statements/select/from#final-modifier) should be used when querying this table
+
+```bash
+echo """
+    SELECT
+        *
+    FROM cluster('{refined}', mainnet.int_watchlist_eth_outflow_local) FINAL
+    LIMIT 3
+    FORMAT Pretty
+""" | curl "https://clickhouse-raw.xatu.ethpandaops.io" -u "$CLICKHOUSE_USER:$CLICKHOUSE_PASSWORD" --data-binary @-
+```
+</details>
+
+### Columns
+| Name | Type | Description |
+|--------|------|-------------|
+| **updated_date_time** | `DateTime` | *Timestamp when the record was last updated* |
+| **block_number** | `UInt32` | *Execution block number of the transfer* |
+| **transaction_index** | `UInt32` | *Position of the transaction in the block* |
+| **transaction_hash** | `FixedString(66)` | *Execution transaction hash of the transfer* |
+| **internal_index** | `UInt32` | *Position of the trace frame within the transaction* |
+| **trace_address** | `String` | *Trace address of the frame within the call tree* |
+| **from_address** | `LowCardinality(String)` | *Watched address that sent the ETH, lowercase 0x-prefixed* |
+| **to_address** | `String` | *Address that received the ETH, lowercase 0x-prefixed* |
+| **value** | `UInt256` | *ETH sent in wei* |
 
 <!-- schema_end -->

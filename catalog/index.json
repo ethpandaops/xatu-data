@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T03:43:02Z",
+  "generated_at": "2026-11-24T16:48:46Z",
   "datasets": [
     {
       "name": "Beacon API Event Stream",
@@ -581,7 +581,8 @@
         "int_transaction_mempool_removal_hourly",
         "int_transaction_opcode_gas",
         "int_transaction_receipt_size",
-        "int_transaction_resource_gas"
+        "int_transaction_resource_gas",
+        "int_watchlist_eth_outflow"
       ]
     }
   ]

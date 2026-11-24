@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-24T03:43:02Z",
+  "generated_at": "2026-11-24T16:48:46Z",
   "dataset": {
     "name": "CBT (ClickHouse Build Tools)",
     "description": "Pre-aggregated analytical tables for common blockchain queries. These tables are transformation tables similar to DBT, powered by [xatu-cbt](https://github.com/ethpandaops/xatu-cbt) using [ClickHouse Build Tools (CBT)](https://github.com/ethpandaops/cbt).",
@@ -34894,6 +34894,82 @@
           "name": "meta_network_name",
           "type": "LowCardinality(String)",
           "description": "The name of the network"
+        }
+      ]
+    },
+    {
+      "name": "int_watchlist_eth_outflow",
+      "database": "cbt",
+      "cbt_table": true,
+      "partitioning": {
+        "column": "to_address",
+        "type": "none",
+        "interval": ""
+      },
+      "networks": {
+        "mainnet": {
+          "available": true
+        },
+        "sepolia": {
+          "available": true
+        },
+        "holesky": {
+          "available": true
+        },
+        "hoodi": {
+          "available": true
+        }
+      },
+      "tags": [],
+      "excluded_columns": [],
+      "description": "ETH sent out of a fixed list of addresses, ordered by recipient",
+      "engine": "ReplicatedReplacingMergeTree",
+      "should_use_final": true,
+      "columns": [
+        {
+          "name": "updated_date_time",
+          "type": "DateTime",
+          "description": "Timestamp when the record was last updated"
+        },
+        {
+          "name": "block_number",
+          "type": "UInt32",
+          "description": "Execution block number of the transfer"
+        },
+        {
+          "name": "transaction_index",
+          "type": "UInt32",
+          "description": "Position of the transaction in the block"
+        },
+        {
+          "name": "transaction_hash",
+          "type": "FixedString(66)",
+          "description": "Execution transaction hash of the transfer"
+        },
+        {
+          "name": "internal_index",
+          "type": "UInt32",
+          "description": "Position of the trace frame within the transaction"
+        },
+        {
+          "name": "trace_address",
+          "type": "String",
+          "description": "Trace address of the frame within the call tree"
+        },
+        {
+          "name": "from_address",
+          "type": "LowCardinality(String)",
+          "description": "Watched address that sent the ETH, lowercase 0x-prefixed"
+        },
+        {
+          "name": "to_address",
+          "type": "String",
+          "description": "Address that received the ETH, lowercase 0x-prefixed"
+        },
+        {
+          "name": "value",
+          "type": "UInt256",
+          "description": "ETH sent in wei"
         }
       ]
     }
