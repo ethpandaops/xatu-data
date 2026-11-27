@@ -103,6 +103,7 @@ Events without sharding keys:
 - [`libp2p_rpc_data_column_custody_probe`](#libp2p_rpc_data_column_custody_probe)
 - [`libp2p_identify`](#libp2p_identify)
 - [`libp2p_synthetic_heartbeat`](#libp2p_synthetic_heartbeat)
+- [`libp2p_gossipsub_inclusion_list`](#libp2p_gossipsub_inclusion_list) 🧪 *Pre-release (heze)*
 <!-- schema_toc_end -->
 
 <!-- schema_start -->
@@ -113,9 +114,9 @@ Table for libp2p gossipsub beacon attestation data.
 ### Availability
 Data is partitioned **hourly** on **slot_start_date_time** for the following networks:
 
-- **mainnet**: `2024-05-01` to `2026-11-24`
+- **mainnet**: `2024-05-01` to `2026-11-25`
 - **holesky**: `2024-05-01` to `2025-10-26`
-- **sepolia**: `2024-05-01` to `2026-11-24`
+- **sepolia**: `2024-05-01` to `2026-11-25`
 
 ### Examples
 
@@ -127,7 +128,7 @@ Data is partitioned **hourly** on **slot_start_date_time** for the following net
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2026/11/24/0.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_beacon_attestation/2026/11/25/0.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -664,7 +665,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_bid/2026/11/19.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_bid/2026/11/20.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -775,7 +776,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_envelope/2026/11/19.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_execution_payload_envelope/2026/11/20.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -881,7 +882,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_payload_attestation_message/2026/11/19.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_payload_attestation_message/2026/11/20.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -988,7 +989,7 @@ Data is partitioned **daily** on **slot_start_date_time** for the following netw
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_proposer_preferences/2026/11/19.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_gossipsub_proposer_preferences/2026/11/20.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -3049,7 +3050,7 @@ Data is partitioned **daily** on **event_date_time** for the following networks:
 docker run --rm -it clickhouse/clickhouse-server clickhouse local --query --query="""
     SELECT
         *
-    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/11/19.parquet', 'Parquet')
+    FROM url('https://data.ethpandaops.io/xatu/mainnet/databases/default/libp2p_identify/2026/11/20.parquet', 'Parquet')
     LIMIT 10
     FORMAT Pretty
 """
@@ -3248,5 +3249,16 @@ echo """
 | **meta_client_geo_autonomous_system_number** | `Nullable(UInt32)` | *ASN of the client* |
 | **meta_client_geo_autonomous_system_organization** | `Nullable(String)` | *AS organization of the client* |
 | **meta_network_name** | `LowCardinality(String)` | *Ethereum network name* |
+
+## libp2p_gossipsub_inclusion_list
+
+Signed inclusion lists (EIP-7805 FOCIL) received on the inclusion_list gossipsub topic
+
+> 🧪 **Pre-release** — introduced by the **heze** upgrade (`heze`). Not yet merged to xatu master and not available on production networks. See the [heze page](/data/xatu/forks/heze/) for the full schema and query examples.
+
+### Availability
+Available in the following devnet databases:
+
+- **heze-devnet-2**: `heze-devnet-2`.`libp2p_gossipsub_inclusion_list`
 
 <!-- schema_end -->

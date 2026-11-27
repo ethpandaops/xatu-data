@@ -1,4 +1,4 @@
-generated_at: "2026-11-26T16:03:20Z"
+generated_at: "2026-11-27T01:18:41Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bogota-devnet-2
@@ -31,8 +31,9 @@ networks:
     fork: heze
     xatu_branch: null
     database: heze-devnet-2
-    tables_total: 154
-    new_tables: []
+    tables_total: 155
+    new_tables:
+      - libp2p_gossipsub_inclusion_list
   - name: pq-devnet-0
     repository: ethpandaops/pq-devnets
     dora: https://dora.pq-devnet-0.ethpandaops.io
@@ -100,8 +101,17 @@ forks:
       - name: heze-devnet-2
         repository: ethpandaops/heze-devnets
         dora: https://dora.heze-devnet-2.ethpandaops.io
-        new_table_count: 0
-    tables: []
+        new_table_count: 1
+    tables:
+      - name: libp2p_gossipsub_inclusion_list
+        networks:
+          - heze-devnet-2
+        description: Signed inclusion lists (EIP-7805 FOCIL) received on the inclusion_list gossipsub topic
+        sorting_key: slot_start_date_time, meta_network_name, meta_client_name, peer_id_unique_key, message_id
+        partitioning:
+          type: datetime
+          column: slot_start_date_time
+          interval: monthly
     merged_tables: []
   - name: pq
     display_name: pq
