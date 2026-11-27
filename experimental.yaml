@@ -1,4 +1,4 @@
-generated_at: "2026-11-27T01:18:41Z"
+generated_at: "2026-11-27T15:51:57Z"
 clickhouse_endpoint: https://clickhouse.xatu.ethpandaops.io
 networks:
   - name: bogota-devnet-2
@@ -34,12 +34,12 @@ networks:
     tables_total: 155
     new_tables:
       - libp2p_gossipsub_inclusion_list
-  - name: pq-devnet-0
+  - name: pq-devnet-1
     repository: ethpandaops/pq-devnets
-    dora: https://dora.pq-devnet-0.ethpandaops.io
+    dora: https://dora.pq-devnet-1.ethpandaops.io
     fork: pq
     xatu_branch: null
-    database: pq-devnet-0
+    database: pq-devnet-1
     tables_total: 154
     new_tables: []
 forks:
@@ -118,9 +118,9 @@ forks:
     slug: pq
     xatu_branch: null
     networks:
-      - name: pq-devnet-0
+      - name: pq-devnet-1
         repository: ethpandaops/pq-devnets
-        dora: https://dora.pq-devnet-0.ethpandaops.io
+        dora: https://dora.pq-devnet-1.ethpandaops.io
         new_table_count: 0
     tables: []
     merged_tables: []
