@@ -1,0 +1,849 @@
+table_groups:
+  daily:
+    - name: beacon_api_eth_v1_events_block
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_chain_reorg
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_finalized_checkpoint
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_head
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_voluntary_exit
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_proposer_duty
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_validator_attestation_data
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v2_beacon_block
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v3_validator_block
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: canonical_beacon_block
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: canonical_beacon_blob_sidecar
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2024-03-13"
+        - name: holesky
+          start_date: "2024-02-07"
+        - name: sepolia
+          start_date: "2024-01-30"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: canonical_beacon_proposer_duty
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: canonical_beacon_elaborated_attestation
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: libp2p_gossipsub_beacon_block
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+      redacted_columns:
+        meta_client_peer_id: "CAST('REDACTED' AS String)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: mev_relay_bid_trace
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2023-04-24"
+        - name: holesky
+          start_date: "2024-02-20"
+        - name: sepolia
+          start_date: "2024-02-20"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: mev_relay_proposer_payload_delivered
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2023-04-24"
+        - name: holesky
+          start_date: "2024-02-20"
+        - name: sepolia
+          start_date: "2024-02-20"
+      partition:
+        column: slot_start_date_time
+        type: daily
+      lag_days: 0
+    
+    - name: mev_relay_validator_registration
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2023-04-24"
+        - name: holesky
+          start_date: "2024-02-20"
+        - name: sepolia
+          start_date: "2024-02-20"
+      partition:
+        column: request_start_date_time
+        type: daily
+      lag_days: 0
+  
+  hourly:
+    - name: beacon_api_eth_v1_events_attestation
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_blob_sidecar
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2024-03-13"
+        - name: holesky
+          start_date: "2024-02-07"
+        - name: sepolia
+          start_date: "2024-01-30"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_events_contribution_and_proof
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: contribution_slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: beacon_api_eth_v1_beacon_committee
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: canonical_beacon_committee
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+    
+    - name: libp2p_gossipsub_beacon_attestation
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2020-12-01"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_peer_id: "CAST('REDACTED' AS String)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: libp2p_gossipsub_blob_sidecar
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2024-03-13"
+        - name: holesky
+          start_date: "2024-02-07"
+        - name: sepolia
+          start_date: "2024-01-30"
+      partition:
+        column: slot_start_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_peer_id: "CAST('REDACTED' AS String)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+    
+    - name: mempool_transaction
+      database: default
+      networks:
+        - name: mainnet
+          start_date: "2023-08-02"
+        - name: holesky
+          start_date: "2023-12-24"
+        - name: sepolia
+          start_date: "2023-12-24"
+      partition:
+        column: event_date_time
+        type: hourly
+      lag_hours: 0
+      redacted_columns:
+        meta_client_ip: "CAST('0.0.0.0' AS IPv6)"
+        meta_client_geo_longitude: "CAST(0 AS Float64)"
+        meta_client_geo_latitude: "CAST(0 AS Float64)"
+        meta_client_geo_city: "CAST('' AS String)"
+        meta_client_geo_country: "CAST('' AS String)"
+        meta_client_geo_country_code: "CAST('' AS String)"
+        meta_client_geo_continent_code: "CAST('' AS String)"
+  
+  chunked:
+    - name: canonical_execution_block
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_transaction
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_address_appearances
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_balance_diffs
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_balance_reads
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_contracts
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_erc20_transfers
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_erc721_transfers
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_four_byte_counts
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_logs
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_native_transfers
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_nonce_diffs
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_nonce_reads
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_storage_diffs
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_storage_reads
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_execution_traces
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 21010000
+        - name: holesky
+          start_index: 2100000
+        - name: sepolia
+          start_index: 6000000
+      partition:
+        column: block_number
+        type: integer
+        chunk_size: 1000
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_attester_slashing
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768  # ~9 days of slots
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_bls_to_execution_change
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_deposit
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_proposer_slashing
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_voluntary_exit
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_withdrawal
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 6600000
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_block_execution_transaction
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 4700000
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: inclusion_slot
+        type: integer
+        chunk_size: 32768
+      lag_interval: 0
+    
+    - name: canonical_beacon_validators
+      database: default
+      networks:
+        - name: mainnet
+          start_index: 0
+        - name: holesky
+          start_index: 0
+        - name: sepolia
+          start_index: 0
+      partition:
+        column: validator_index
+        type: integer
+        chunk_size: 10000
+      lag_interval: 0
