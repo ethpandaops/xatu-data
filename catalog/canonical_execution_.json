@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T15:56:45Z",
+  "generated_at": "2026-11-28T00:57:35Z",
   "dataset": {
     "name": "Canonical Execution",
     "description": "Data extracted from the execution layer. This data is only derived by a single instance, are deduped, and are more complete and reliable than the execution_layer_p2p tables. These tables can be reliably JOINed on to hydrate other tables with information",
@@ -1407,7 +1407,7 @@
         },
         "sepolia": {
           "from": "0",
-          "to": "12213000"
+          "to": "12220000"
         }
       },
       "tags": [
